@@ -1,0 +1,83 @@
+#External
+SkXXX
+bmh_SkXXX
+CL
+C
+Visual_Studio
+##
+
+#Topic Bookmaker
+
+How to use the Bookmaker utility.
+
+Get the fiddle command line interface tool.
+
+#Code
+$ go get go.skia.org/infra/fiddle/go/fiddlecli
+##
+
+Build Bookmaker.
+
+#Code
+$ ninja -C out/dir bookmaker
+##
+
+Generate an starter Bookmaker file from an existing include.
+This writes SkXXX.bmh in the current directory, which is
+out/dir/obj/ from an IDE.
+
+#Code
+$ ./out/dir/bookmaker -t -i include/core/SkXXX.h
+##
+
+Copy SkXXX.bmh to docs.
+Use your favorite editor to fill out docs/SkXXX.bmh.
+
+Generate fiddle.json from all examples, including the ones you just wrote.
+Error checking is syntatic: starting keywords are closed, keywords have the
+correct parents.
+If you run Bookmaker inside Visual_Studio, you can click on errors and it
+will take you to the source line in question.
+
+#Code
+$ ./out/dir/bookmaker -e fiddle.json -b docs
+##
+
+Once complete, run fiddlecli to generate the example hashes.
+Errors are contained by the output but aren't reported yet.
+
+#Code
+$ $GOPATH/bin/fiddlecli --input fiddle.json --output fiddleout.json
+##
+
+Generate bmh_SkXXX.md from SkXXX.bmh and fiddleout.json.
+Error checking includes: undefined references, fiddle compiler errors,
+missing or mismatched printf output.
+Again, you can click on any errors inside Visual_Studio.
+
+#Code
+$ ./out/dir/bookmaker -r site/user/api -b docs -f fiddleout.json
+##
+
+The original include may have changed since you started creating the markdown.
+Check to see if it is up to date.
+This reports if a method no longer exists or its parameters have changed.
+
+#Code
+$ ./out/dir/bookmaker -x -b docs/SkXXX.bmh -i include/core/SkXXX.h
+##
+
+Generate an updated include header.
+This writes the updated SkXXX.h to the current directory.
+
+#Code
+$ ./out/dir/bookmaker -p -b docs -i include/core/SkXXX.h
+##
+
+#Subtopic Bugs
+
+Bookmaker bugs are tracked #A here # bug.skia.org/6898 ##.
+
+##
+
+#Topic Bookmaker ##
