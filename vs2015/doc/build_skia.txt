@@ -1,0 +1,52 @@
+1.download and install git
+2.download and install python
+3.download depot_tools
+	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+4.download skia to particular version
+	git clone https://skia.googlesource.com/skia.git
+	cd skia
+	git checkout -b new_branch hash
+		note: new_branch is your new branch name; hash is the version your want to use;
+		example:
+			new_branch	: skia_20170825-045247
+			hash 		: dfcb14a34920244924eeb6ff874c10d7387246f5
+5.set python path and depot_tools path
+	use start_vs2015.bat 
+		@set depot_tools_path=C:\google\depot_tools
+		@set python_path=C:\Python27
+		@set PATH=%PATH%;%depot_tools_path%;%python_path%;
+6.download skia dependents
+	run start_vs2015.bat
+	cd skia
+	python tools/git-sync-deps
+
+7.ninja build
+	bin\gn gen ninja/x64_Static_Debug --args="is_debug=true skia_use_egl=true skia_use_angle=true" --ide=vs --sln=skia
+	need ninja.exe
+		need add C:\google\depot_tools to PATH environment variable.
+	need python
+		need add C:\Python27 to PATH environment variable.
+	need to fix following ninja build errors:
+		ninja build error:
+		1.FAILED: gen/angle2/id/commit.h
+			solution :  1. Follow the file "vs2015\doc\skia\third_party\angle2\BUILD.gn" modify "third_party\angle2\BUILD.gn"; 2. regenerate ninja skia;
+		2.FAILED: “id/commit.h”: No such file or directory
+			solution : 1. Copy "third_party\externals\angle2\src\commit.h" to "third_party\externals\angle2\src\common\id\commit.h"
+		3.FAILED: “EGL/egl.h”: No such file or directory
+			solution : 
+				Modify gpu.ninja 	: include_dirs add -I../../third_party/externals/angle2/include
+				Modify gpu.vcxproj 	: <AdditionalIncludeDirectories> add ../../third_party/externals/angle2/include
+		4.FAILED: createplatformgltestcontext_egl.cpp(225): warning C4312: 
+			solution :
+				Modify gpu_tool_utils.ninja  cflags add /wd4312
+				Modify gpu_tool_utils.vcxproj  <DisableSpecificWarnings> add 4312
+		5.FAILED: fatal error LNK1181: “EGL.obj”
+			solution : 
+				Modify SampleApp.ninja 
+					defines add -DDEFAULT_TO_ANGLE
+					libs = FontSub.lib Ole32.lib OleAut32.lib User32.lib libEGL.dll.lib OpenGL32.lib kernel32.lib gdi32.lib
+	
+	
+				
+				
+				
