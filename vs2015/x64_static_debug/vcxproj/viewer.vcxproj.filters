@@ -1,0 +1,1341 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tools\viewer">
+      <UniqueIdentifier>{3D0CDE21-A849-3976-FD6C-BBDDED85F4EF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{0E9715BA-57B3-F23F-1EED-56699DC72D4B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\viewer\sk_app">
+      <UniqueIdentifier>{A882CFCE-DFC1-4C8C-9BB8-B9CE8D2303FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\viewer\sk_app\win">
+      <UniqueIdentifier>{813BA281-75B1-3130-D45E-1674DFACD424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{59b88644-5a8f-4183-8af3-b8577b76383a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gm">
+      <UniqueIdentifier>{ab4364e8-cd89-4519-88c6-b6806367e36b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="experimental">
+      <UniqueIdentifier>{07ebfac2-b6eb-4dd6-b113-12e9d5da4fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samplecode">
+      <UniqueIdentifier>{02f754bc-1e8c-4a11-abd6-b4b4f24c427e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{fcb4620c-2f6c-4f62-b295-b69a17105cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{ed652dde-c9aa-46f1-bc6f-9ced02e9d223}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/viewer/GMSlide.cpp">
+      <Filter>tools\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/ImageSlide.cpp">
+      <Filter>tools\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/SKPSlide.cpp">
+      <Filter>tools\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/SampleSlide.cpp">
+      <Filter>tools\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/Viewer.cpp">
+      <Filter>tools\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/CommandSet.cpp">
+      <Filter>tools\viewer\sk_app</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/GLWindowContext.cpp">
+      <Filter>tools\viewer\sk_app</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/Window.cpp">
+      <Filter>tools\viewer\sk_app</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/win/GLWindowContext_win.cpp">
+      <Filter>tools\viewer\sk_app\win</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/win/RasterWindowContext_win.cpp">
+      <Filter>tools\viewer\sk_app\win</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/win/Window_win.cpp">
+      <Filter>tools\viewer\sk_app\win</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/win/main_win.cpp">
+      <Filter>tools\viewer\sk_app\win</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/viewer/sk_app/win/ANGLEWindowContext_win.cpp">
+      <Filter>tools\viewer\sk_app\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlagsConfig.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aaa.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aaclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aarectmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aaxfermodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\addarc.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\all_bitmap_configs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\alpha_image.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\alphagradients.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\animatedGif.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\animatedimageblurs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\anisotropic.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\annotated_text.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\arcofzorro.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\arcto.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\arithmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\badpaint.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\beziereffects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\beziers.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigblurs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigmatrix.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigrrectaaeffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigtileimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapcopy.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapfilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmappremul.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmaprect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmaprecttest.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmaptiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bleed.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blend.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurcircles.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurcircles2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurignorexform.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurimagevmask.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurquickreject.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurredclippedcircle.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurroundrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurtextsmallradii.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bmpfilterqualityrepeat.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug5252.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug6643.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug6783.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug530095.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug615686.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\cgm.c">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\cgms.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\circles.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\circulararcs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\circularclips.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clip_error.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clip_strokerect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clipdrawdraw.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clippedbitmapshaders.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\color4f.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\coloremoji.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\coloremoji_blendmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorfilteralpha8.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorfilterimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorfilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colormatrix.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorspacexform.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorwheel.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip_blur_tiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip3.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip4.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\composeshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\concavepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\conicpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\constcolorprocessor.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convex_all_line_paths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convexpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convexpolyclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convexpolyeffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\copyTo4444.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\crbug_691386.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\croppedrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\crosscontextimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\cubicpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dashcircle.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dashcubics.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dashing.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\deferredtextureimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\degeneratesegments.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dftext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\discard.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\displacement.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\distantclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\downsamplebitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\draw_bitmap_rect_skbug4374.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawable.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawatlas.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawatlascolor.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawbitmaprect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawlooper.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawminibitmaprect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawregion.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawregionmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dropshadowimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dstreadshuffle.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\emboss.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\emptypath.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode-alpha-jpeg.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode-platform.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode-srgb.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\extractbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fadefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fatpathfill.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filltypes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filltypespersp.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterbug.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterfastbounds.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterindiabox.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontcache.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontmgr.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontscaler.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontscalerdistortable.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gamma.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gammaencodedpremul.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gammatext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gamut.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\getpostextpath.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\giantbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\glyph_pos.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\glyph_pos_align.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gm.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradient_matrix.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradientDirtyLaundry.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradients.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradients_2pt_conical.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradients_no_texture.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\grayscalejpg.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hairlines.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hairmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hardstop_gradients.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\highcontrastfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hittestpath.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hsl.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\image.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\image_pict.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\image_shader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagealphathreshold.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblur.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblur2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblurclampmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblurrepeatmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblurtiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersbase.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersclipped.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilterscropexpand.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilterscropped.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersgraph.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersscaled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersstroked.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilterstransformed.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefromyuvtextures.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagemagnifier.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagemakewithfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagemasksubset.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageresizetiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagescalealigned.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagesource.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagesource2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\internal_links.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\inversepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\largeglyphblur.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lattice.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lcdblendmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lcdoverlap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lcdtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lighting.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\linepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\localmatriximagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\localmatriximageshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lumafilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\makecolorspace.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\manypaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\matrixconvolution.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\matriximagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\megalooper.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\mipmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\mixedtextblobs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\modecolorfilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\morphology.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\multipicturedraw.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\nested.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\ninepatchstretch.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\nonclosedpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\occludedrrectblur.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\offsetimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\ovals.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\overdrawcolorfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\OverStroke.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\patch.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\path_stroke_with_zero_length.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathcontourstart.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\patheffects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathfill.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathinterior.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathmaskcache.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathopsinverse.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathopsskpclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathreverse.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pdf_never_embed.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\perlinnoise.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\perspshaders.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\picture.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureimagegenerator.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureshadercache.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureshadertile.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pixelsnap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\plus.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\points.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\poly2poly.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\polygons.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\quadpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\radial_gradient_precision.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\readpixels.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\recordopts.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rectangletexture.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\repeated_bitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\resizeimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\reveal.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\roundrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rrectclipdrawpaint.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\samplerstress.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\savelayer.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\scaledstrokes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadertext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadertext2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadertext3.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadows.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadowutils.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shallowgradient.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shapes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shapes_as_paths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\showmiplevels.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\simpleaaclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\simple_magnification.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\simplerect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug_257.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug_4868.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug_5321.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug1719.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\smallarc.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\smallimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\smallpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\spritebitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\srcmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\srgb.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tosrgb_colorfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stlouisarch.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stringart.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stroke_rect_shader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokedlines.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokefill.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokerect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokerects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stroketext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\subsetshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\surface.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tablecolorfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tallstretchedbitmaps.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\testgradient.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\texdata.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblob.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobblockreordering.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobcolortrans.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobgeometrychange.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textbloblooper.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobmixedsizes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobrandomfont.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobtransforms.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobuseaftergpufree.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\texteffects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\texturedomaineffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\thinconcavepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\thinrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\thinstrokedrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tiledscaledbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tileimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tilemodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tilemodes_scaled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tinybitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\transparency.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\typeface.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\variedtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\vertices.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\verttext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\verttext2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\verylargebitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\windowrectangles.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodeimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodes2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodes3.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xform_image_gen.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\yuvtorgbeffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\experimental\SkSetPoly3To3.cpp">
+      <Filter>experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\experimental\SkSetPoly3To3_A.cpp">
+      <Filter>experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\experimental\SkSetPoly3To3_D.cpp">
+      <Filter>experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\ClockFaceView.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\GMSampleView.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\OverView.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\PerlinPatch.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\Sample2PtRadial.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAAClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAAGeometry.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAARectModes.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAARects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAll.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAndroidShadows.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAnimatedText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAnimBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleArc.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleAtlas.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleBigBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleBigGradient.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleBitmapRect.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleCCPRGeometry.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleCamera.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleChart.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleChineseFling.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleCircle.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleClipDrawMatch.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleClock.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleCode.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleColorFilter.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleComplexClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleConcavePaths.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleDegenerateTwoPtRadials.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleDither.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleEffects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleEmboss.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleFatBits.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleFillType.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleFilter2.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleFilterFuzz.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleFilterQuality.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleFontScalerTest.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleFuzz.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleGradients.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleHairCurves.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleHairline.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleHairModes.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleHT.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleIdentityScale.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleLayerMask.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleLayers.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleLCD.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleLines.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleManyRects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleMeasure.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleMegaStroke.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePatch.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePath.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePathText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePathClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePathEffects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePathFinder.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePathFuzz.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePathOverstroke.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePdfFileViewer.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePoints.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SamplePolyToPoly.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleQuadStroker.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleRectanizer.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleRegion.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleRepeatTile.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleShaders.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleShaderText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleShadowColor.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleShadowReference.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleShadowUtils.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleShip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleSlides.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleStringArt.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleStrokePath.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleStrokeRect.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleSubpixelTranslate.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleSVGFile.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleSVGPong.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleTextAlpha.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleTextBox.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleTextOnPath.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleTextureDomain.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleTiling.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleUnpremul.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleVertices.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleWritePixels.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleXfer.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\SampleXfermodesBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samplecode\vertexdump.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkThreadedBMPDevice.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\core\SkThreadedBMPDevice.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

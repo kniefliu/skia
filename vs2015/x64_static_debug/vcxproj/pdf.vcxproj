@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GN|x64">
+      <Configuration>GN</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FDAD75F4-488B-89F2-B50B-9574BF467655}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>pdf</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>../../../vs2015/x64_static_debug/</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../include/c;../../../include/codec;../../../include/config;../../../include/core;../../../include/effects;../../../include/encode;../../../include/gpu;../../../include/gpu/gl;../../../include/pathops;../../../include/ports;../../../include/svg;../../../include/utils;../../../include/utils/mac;../../../include/private;../../../src/c;../../../src/codec;../../../src/core;../../../src/effects;../../../src/fonts;../../../src/image;../../../src/images;../../../src/lazy;../../../src/opts;../../../src/pathops;../../../src/pdf;../../../src/ports;../../../src/sfnt;../../../src/shaders;../../../src/shaders/gradients;../../../src/sksl;../../../src/utils;../../../src/utils/win;../../../src/xml;../../../third_party/gif;../../../src/gpu;../../../third_party/externals/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244;4267;4800;4291;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;SK_GAMMA_APPLY_TO_A8;SK_ANGLE;SK_ENABLE_DISCRETE_GPU;GR_TEST_UTILS=1;SKIA_IMPLEMENTATION=1;SK_SUPPORT_PDF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../src/pdf/SkBitmapKey.h" />
+    <ClInclude Include="../../../src/pdf/SkDeflate.h" />
+    <ClInclude Include="../../../src/pdf/SkJpegInfo.h" />
+    <ClInclude Include="../../../src/pdf/SkKeyedImage.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFBitmap.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFCanon.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFConvertType1FontStream.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFDevice.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFDocument.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFFont.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFFormXObject.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFGradientShader.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFGraphicState.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFMakeCIDGlyphWidthsArray.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFMakeToUnicodeCmap.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFMetadata.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFResourceDict.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFShader.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFTypes.h" />
+    <ClInclude Include="../../../src/pdf/SkPDFUtils.h" />
+    <ClInclude Include="../../../src/pdf/SkScopeExit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/pdf/SkDeflate.cpp" />
+    <ClCompile Include="../../../src/pdf/SkJpegInfo.cpp" />
+    <ClCompile Include="../../../src/pdf/SkKeyedImage.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFBitmap.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFCanon.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFConvertType1FontStream.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFDevice.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFDocument.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFFont.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFFormXObject.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFGradientShader.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFGraphicState.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFMakeCIDGlyphWidthsArray.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFMakeToUnicodeCmap.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFMetadata.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFResourceDict.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFShader.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFTypes.cpp" />
+    <ClCompile Include="../../../src/pdf/SkPDFUtils.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

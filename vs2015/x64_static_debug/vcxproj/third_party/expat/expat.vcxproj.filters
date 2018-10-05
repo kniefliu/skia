@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="..\..\third_party\externals\expat\lib">
+      <UniqueIdentifier>{E60765B5-1AE8-A082-A4EF-3D93AD830788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\expat">
+      <UniqueIdentifier>{CD810C69-5314-E16D-BE5F-6FBA4FABD76C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals">
+      <UniqueIdentifier>{AA2D7338-93F3-927B-CA6F-5DA0C10A5E77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party">
+      <UniqueIdentifier>{F88318E6-F850-6A80-FDF6-B1A366449460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{A8A4AA46-5437-4AB8-6540-F14ED994B38E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/expat/lib/xmlparse.c">
+      <Filter>..\..\third_party\externals\expat\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/expat/lib/xmlrole.c">
+      <Filter>..\..\third_party\externals\expat\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/expat/lib/xmltok.c">
+      <Filter>..\..\third_party\externals\expat\lib</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

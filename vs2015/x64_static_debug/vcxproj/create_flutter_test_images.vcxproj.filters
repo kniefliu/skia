@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tools">
+      <UniqueIdentifier>{0E9715BA-57B3-F23F-1EED-56699DC72D4B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{ca0cf07b-f13e-49a7-9da4-edd9219bedd2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/create_flutter_test_images.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

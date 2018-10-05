@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GN|x64">
+      <Configuration>GN</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{41E222D0-B57F-66CE-E57E-A2A90653F71F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>spirv-tools</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>../../../../../vs2015/x64_static_debug/</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/spirv-tools/include;../../../../../third_party/externals/spirv-tools/source;../../../../../vs2015/x64_static_debug/spirv-tools;../../../../../third_party/externals/spirv-headers/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/assembly_grammar.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/binary.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/diagnostic.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/disassemble.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/enum_string_mapping.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/ext_inst.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/extensions.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/libspirv.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/message.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/name_mapper.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opcode.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/operand.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/aggressive_dead_code_elim_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/basic_block.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='GN|x64'">$(IntDir)basic_block_opt.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/block_merge_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/build_module.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/compact_ids_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/dead_branch_elim_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/def_use_manager.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/eliminate_dead_constant_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/flatten_decoration_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/fold_spec_constant_op_and_composite_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/freeze_spec_constant_value_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/function.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='GN|x64'">$(IntDir)function_opt.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/inline_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/insert_extract_elim.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/instruction.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='GN|x64'">$(IntDir)instruction_opt.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/ir_loader.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_access_chain_convert_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_single_block_elim_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_single_store_elim_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_ssa_elim_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/module.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/optimizer.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/pass_manager.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/set_spec_constant_default_value_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/strip_debug_info_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/type_manager.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/types.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/unify_const_pass.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/parsed_operand.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/print.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/software_version.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/spirv_endian.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/spirv_target_env.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/spirv_validator_options.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/table.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/text.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/text_handler.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/util/parse_number.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/util/string_utils.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/basic_block.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/construct.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/function.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/instruction.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/validation_state.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_capability.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_cfg.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_datarules.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_decorations.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_id.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_instruction.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_layout.cpp" />
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_type_unique.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

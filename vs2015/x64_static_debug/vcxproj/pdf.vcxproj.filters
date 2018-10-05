@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="src\pdf">
+      <UniqueIdentifier>{9F3CE234-37FA-73F4-54FA-0DABF36F9DB3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C5D85D62-2D1F-BBD0-3190-3BB2E70B1772}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../src/pdf/SkBitmapKey.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkDeflate.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkDeflate.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkJpegInfo.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkJpegInfo.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkKeyedImage.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkKeyedImage.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFBitmap.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFBitmap.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFCanon.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFCanon.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFConvertType1FontStream.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFConvertType1FontStream.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFDevice.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFDevice.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFDocument.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFDocument.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFFont.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFFont.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFFormXObject.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFFormXObject.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFGradientShader.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFGradientShader.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFGraphicState.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFGraphicState.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFMakeCIDGlyphWidthsArray.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFMakeCIDGlyphWidthsArray.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFMakeToUnicodeCmap.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFMakeToUnicodeCmap.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFMetadata.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFMetadata.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFResourceDict.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFResourceDict.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFShader.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFShader.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFTypes.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFTypes.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/pdf/SkPDFUtils.cpp">
+      <Filter>src\pdf</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/pdf/SkPDFUtils.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/pdf/SkScopeExit.h">
+      <Filter>src\pdf</Filter>
+    </ClInclude>
+</ItemGroup>
+</Project>

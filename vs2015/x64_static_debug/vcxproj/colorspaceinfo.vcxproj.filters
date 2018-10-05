@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tools">
+      <UniqueIdentifier>{0E9715BA-57B3-F23F-1EED-56699DC72D4B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{2b445950-ab9d-46d9-b5d0-60d129d0f884}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/colorspaceinfo.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlagsConfig.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

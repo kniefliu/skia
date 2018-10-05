@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GN|x64">
+      <Configuration>GN</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B8E95163-6C87-932A-5EEC-594BA4CF2493}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>viewer</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>../../../vs2015/x64_static_debug/</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../include/private;../../../src/c;../../../src/codec;../../../src/core;../../../src/effects;../../../src/fonts;../../../src/image;../../../src/images;../../../src/lazy;../../../src/opts;../../../src/pathops;../../../src/pdf;../../../src/ports;../../../src/sfnt;../../../src/shaders;../../../src/shaders/gradients;../../../src/sksl;../../../src/utils;../../../src/utils/win;../../../src/xml;../../../third_party/gif;../../../src/gpu;../../../tools/flags;../../../gm;../../../tools/gpu;../../../samplecode;../../../include/android;../../../include/c;../../../include/codec;../../../include/config;../../../include/core;../../../include/effects;../../../include/encode;../../../include/gpu;../../../include/gpu/gl;../../../include/pathops;../../../include/ports;../../../include/svg;../../../include/utils;../../../include/utils/mac;../../../tools;../../../tools/debugger;../../../tools/timer;../../../tools/trace;../../../third_party/externals/jsoncpp/include;../../../include/views;../../../third_party/externals/imgui;../../../third_party/externals/angle2/include;../../../experimental/svg/model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244;4267;4800;4291;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;SK_GAMMA_APPLY_TO_A8;SK_ANGLE;SK_ENABLE_DISCRETE_GPU;GR_TEST_UTILS=1;SK_ENABLE_SPIRV_VALIDATION;SK_HAS_JPEG_LIBRARY;SK_SUPPORT_PDF;SK_HAS_PNG_LIBRARY;SK_HAS_WEBP_LIBRARY;SK_XML;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>CONSOLE</SubSystem>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='GN|x64'">skia.lib;views.lib;xml.lib;imgui.lib;jsoncpp.lib;tool_utils.lib;experimental_svg_model.lib;gpu_tool_utils.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='GN|x64'">$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/viewer/GMSlide.cpp" />
+    <ClCompile Include="../../../tools/viewer/ImageSlide.cpp" />
+    <ClCompile Include="../../../tools/viewer/SKPSlide.cpp" />
+    <ClCompile Include="../../../tools/viewer/SampleSlide.cpp" />
+    <ClCompile Include="../../../tools/viewer/Viewer.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/CommandSet.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/GLWindowContext.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/Window.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/win/GLWindowContext_win.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/win/RasterWindowContext_win.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/win/Window_win.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/win/main_win.cpp" />
+    <ClCompile Include="../../../tools/viewer/sk_app/win/ANGLEWindowContext_win.cpp" />
+    <ClCompile Include="..\..\..\experimental\SkSetPoly3To3.cpp" />
+    <ClCompile Include="..\..\..\experimental\SkSetPoly3To3_A.cpp" />
+    <ClCompile Include="..\..\..\experimental\SkSetPoly3To3_D.cpp" />
+    <ClCompile Include="..\..\..\gm\aaa.cpp" />
+    <ClCompile Include="..\..\..\gm\aaclip.cpp" />
+    <ClCompile Include="..\..\..\gm\aarectmodes.cpp" />
+    <ClCompile Include="..\..\..\gm\aaxfermodes.cpp" />
+    <ClCompile Include="..\..\..\gm\addarc.cpp" />
+    <ClCompile Include="..\..\..\gm\all_bitmap_configs.cpp" />
+    <ClCompile Include="..\..\..\gm\alphagradients.cpp" />
+    <ClCompile Include="..\..\..\gm\alpha_image.cpp" />
+    <ClCompile Include="..\..\..\gm\animatedGif.cpp" />
+    <ClCompile Include="..\..\..\gm\animatedimageblurs.cpp" />
+    <ClCompile Include="..\..\..\gm\anisotropic.cpp" />
+    <ClCompile Include="..\..\..\gm\annotated_text.cpp" />
+    <ClCompile Include="..\..\..\gm\arcofzorro.cpp" />
+    <ClCompile Include="..\..\..\gm\arcto.cpp" />
+    <ClCompile Include="..\..\..\gm\arithmode.cpp" />
+    <ClCompile Include="..\..\..\gm\badpaint.cpp" />
+    <ClCompile Include="..\..\..\gm\beziereffects.cpp" />
+    <ClCompile Include="..\..\..\gm\beziers.cpp" />
+    <ClCompile Include="..\..\..\gm\bigblurs.cpp" />
+    <ClCompile Include="..\..\..\gm\bigmatrix.cpp" />
+    <ClCompile Include="..\..\..\gm\bigrect.cpp" />
+    <ClCompile Include="..\..\..\gm\bigrrectaaeffect.cpp" />
+    <ClCompile Include="..\..\..\gm\bigtext.cpp" />
+    <ClCompile Include="..\..\..\gm\bigtileimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmapcopy.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmapfilters.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmapimage.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmappremul.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmaprect.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmaprecttest.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmapshader.cpp" />
+    <ClCompile Include="..\..\..\gm\bitmaptiled.cpp" />
+    <ClCompile Include="..\..\..\gm\bleed.cpp" />
+    <ClCompile Include="..\..\..\gm\blend.cpp" />
+    <ClCompile Include="..\..\..\gm\blurcircles.cpp" />
+    <ClCompile Include="..\..\..\gm\blurcircles2.cpp" />
+    <ClCompile Include="..\..\..\gm\blurignorexform.cpp" />
+    <ClCompile Include="..\..\..\gm\blurimagevmask.cpp" />
+    <ClCompile Include="..\..\..\gm\blurquickreject.cpp" />
+    <ClCompile Include="..\..\..\gm\blurrect.cpp" />
+    <ClCompile Include="..\..\..\gm\blurredclippedcircle.cpp" />
+    <ClCompile Include="..\..\..\gm\blurroundrect.cpp" />
+    <ClCompile Include="..\..\..\gm\blurs.cpp" />
+    <ClCompile Include="..\..\..\gm\blurtextsmallradii.cpp" />
+    <ClCompile Include="..\..\..\gm\bmpfilterqualityrepeat.cpp" />
+    <ClCompile Include="..\..\..\gm\bug5252.cpp" />
+    <ClCompile Include="..\..\..\gm\bug530095.cpp" />
+    <ClCompile Include="..\..\..\gm\bug615686.cpp" />
+    <ClCompile Include="..\..\..\gm\bug6643.cpp" />
+    <ClCompile Include="..\..\..\gm\bug6783.cpp" />
+    <ClCompile Include="..\..\..\gm\cgm.c" />
+    <ClCompile Include="..\..\..\gm\cgms.cpp" />
+    <ClCompile Include="..\..\..\gm\circles.cpp" />
+    <ClCompile Include="..\..\..\gm\circulararcs.cpp" />
+    <ClCompile Include="..\..\..\gm\circularclips.cpp" />
+    <ClCompile Include="..\..\..\gm\clipdrawdraw.cpp" />
+    <ClCompile Include="..\..\..\gm\clippedbitmapshaders.cpp" />
+    <ClCompile Include="..\..\..\gm\clip_error.cpp" />
+    <ClCompile Include="..\..\..\gm\clip_strokerect.cpp" />
+    <ClCompile Include="..\..\..\gm\color4f.cpp" />
+    <ClCompile Include="..\..\..\gm\coloremoji.cpp" />
+    <ClCompile Include="..\..\..\gm\coloremoji_blendmodes.cpp" />
+    <ClCompile Include="..\..\..\gm\colorfilteralpha8.cpp" />
+    <ClCompile Include="..\..\..\gm\colorfilterimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\colorfilters.cpp" />
+    <ClCompile Include="..\..\..\gm\colormatrix.cpp" />
+    <ClCompile Include="..\..\..\gm\colorspacexform.cpp" />
+    <ClCompile Include="..\..\..\gm\colorwheel.cpp" />
+    <ClCompile Include="..\..\..\gm\complexclip.cpp" />
+    <ClCompile Include="..\..\..\gm\complexclip2.cpp" />
+    <ClCompile Include="..\..\..\gm\complexclip3.cpp" />
+    <ClCompile Include="..\..\..\gm\complexclip4.cpp" />
+    <ClCompile Include="..\..\..\gm\complexclip_blur_tiled.cpp" />
+    <ClCompile Include="..\..\..\gm\composeshader.cpp" />
+    <ClCompile Include="..\..\..\gm\concavepaths.cpp" />
+    <ClCompile Include="..\..\..\gm\conicpaths.cpp" />
+    <ClCompile Include="..\..\..\gm\constcolorprocessor.cpp" />
+    <ClCompile Include="..\..\..\gm\convexpaths.cpp" />
+    <ClCompile Include="..\..\..\gm\convexpolyclip.cpp" />
+    <ClCompile Include="..\..\..\gm\convexpolyeffect.cpp" />
+    <ClCompile Include="..\..\..\gm\convex_all_line_paths.cpp" />
+    <ClCompile Include="..\..\..\gm\copyTo4444.cpp" />
+    <ClCompile Include="..\..\..\gm\crbug_691386.cpp" />
+    <ClCompile Include="..\..\..\gm\croppedrects.cpp" />
+    <ClCompile Include="..\..\..\gm\crosscontextimage.cpp" />
+    <ClCompile Include="..\..\..\gm\cubicpaths.cpp" />
+    <ClCompile Include="..\..\..\gm\dashcircle.cpp" />
+    <ClCompile Include="..\..\..\gm\dashcubics.cpp" />
+    <ClCompile Include="..\..\..\gm\dashing.cpp" />
+    <ClCompile Include="..\..\..\gm\deferredtextureimage.cpp" />
+    <ClCompile Include="..\..\..\gm\degeneratesegments.cpp" />
+    <ClCompile Include="..\..\..\gm\dftext.cpp" />
+    <ClCompile Include="..\..\..\gm\discard.cpp" />
+    <ClCompile Include="..\..\..\gm\displacement.cpp" />
+    <ClCompile Include="..\..\..\gm\distantclip.cpp" />
+    <ClCompile Include="..\..\..\gm\downsamplebitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\drawable.cpp" />
+    <ClCompile Include="..\..\..\gm\drawatlas.cpp" />
+    <ClCompile Include="..\..\..\gm\drawatlascolor.cpp" />
+    <ClCompile Include="..\..\..\gm\drawbitmaprect.cpp" />
+    <ClCompile Include="..\..\..\gm\drawfilter.cpp" />
+    <ClCompile Include="..\..\..\gm\drawlooper.cpp" />
+    <ClCompile Include="..\..\..\gm\drawminibitmaprect.cpp" />
+    <ClCompile Include="..\..\..\gm\drawregion.cpp" />
+    <ClCompile Include="..\..\..\gm\drawregionmodes.cpp" />
+    <ClCompile Include="..\..\..\gm\draw_bitmap_rect_skbug4374.cpp" />
+    <ClCompile Include="..\..\..\gm\dropshadowimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\drrect.cpp" />
+    <ClCompile Include="..\..\..\gm\dstreadshuffle.cpp" />
+    <ClCompile Include="..\..\..\gm\emboss.cpp" />
+    <ClCompile Include="..\..\..\gm\emptypath.cpp" />
+    <ClCompile Include="..\..\..\gm\encode-alpha-jpeg.cpp" />
+    <ClCompile Include="..\..\..\gm\encode-platform.cpp" />
+    <ClCompile Include="..\..\..\gm\encode-srgb.cpp" />
+    <ClCompile Include="..\..\..\gm\encode.cpp" />
+    <ClCompile Include="..\..\..\gm\extractbitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\fadefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\fatpathfill.cpp" />
+    <ClCompile Include="..\..\..\gm\filltypes.cpp" />
+    <ClCompile Include="..\..\..\gm\filltypespersp.cpp" />
+    <ClCompile Include="..\..\..\gm\filterbitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\filterbug.cpp" />
+    <ClCompile Include="..\..\..\gm\filterfastbounds.cpp" />
+    <ClCompile Include="..\..\..\gm\filterindiabox.cpp" />
+    <ClCompile Include="..\..\..\gm\fontcache.cpp" />
+    <ClCompile Include="..\..\..\gm\fontmgr.cpp" />
+    <ClCompile Include="..\..\..\gm\fontscaler.cpp" />
+    <ClCompile Include="..\..\..\gm\fontscalerdistortable.cpp" />
+    <ClCompile Include="..\..\..\gm\gamma.cpp" />
+    <ClCompile Include="..\..\..\gm\gammaencodedpremul.cpp" />
+    <ClCompile Include="..\..\..\gm\gammatext.cpp" />
+    <ClCompile Include="..\..\..\gm\gamut.cpp" />
+    <ClCompile Include="..\..\..\gm\getpostextpath.cpp" />
+    <ClCompile Include="..\..\..\gm\giantbitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\glyph_pos.cpp" />
+    <ClCompile Include="..\..\..\gm\glyph_pos_align.cpp" />
+    <ClCompile Include="..\..\..\gm\gm.cpp" />
+    <ClCompile Include="..\..\..\gm\gradientDirtyLaundry.cpp" />
+    <ClCompile Include="..\..\..\gm\gradients.cpp" />
+    <ClCompile Include="..\..\..\gm\gradients_2pt_conical.cpp" />
+    <ClCompile Include="..\..\..\gm\gradients_no_texture.cpp" />
+    <ClCompile Include="..\..\..\gm\gradient_matrix.cpp" />
+    <ClCompile Include="..\..\..\gm\gradtext.cpp" />
+    <ClCompile Include="..\..\..\gm\grayscalejpg.cpp" />
+    <ClCompile Include="..\..\..\gm\hairlines.cpp" />
+    <ClCompile Include="..\..\..\gm\hairmodes.cpp" />
+    <ClCompile Include="..\..\..\gm\hardstop_gradients.cpp" />
+    <ClCompile Include="..\..\..\gm\highcontrastfilter.cpp" />
+    <ClCompile Include="..\..\..\gm\hittestpath.cpp" />
+    <ClCompile Include="..\..\..\gm\hsl.cpp" />
+    <ClCompile Include="..\..\..\gm\image.cpp" />
+    <ClCompile Include="..\..\..\gm\imagealphathreshold.cpp" />
+    <ClCompile Include="..\..\..\gm\imageblur.cpp" />
+    <ClCompile Include="..\..\..\gm\imageblur2.cpp" />
+    <ClCompile Include="..\..\..\gm\imageblurclampmode.cpp" />
+    <ClCompile Include="..\..\..\gm\imageblurrepeatmode.cpp" />
+    <ClCompile Include="..\..\..\gm\imageblurtiled.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefilters.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefiltersbase.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefiltersclipped.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefilterscropexpand.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefilterscropped.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefiltersgraph.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefiltersscaled.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefiltersstroked.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefilterstransformed.cpp" />
+    <ClCompile Include="..\..\..\gm\imagefromyuvtextures.cpp" />
+    <ClCompile Include="..\..\..\gm\imagemagnifier.cpp" />
+    <ClCompile Include="..\..\..\gm\imagemakewithfilter.cpp" />
+    <ClCompile Include="..\..\..\gm\imagemasksubset.cpp" />
+    <ClCompile Include="..\..\..\gm\imageresizetiled.cpp" />
+    <ClCompile Include="..\..\..\gm\imagescalealigned.cpp" />
+    <ClCompile Include="..\..\..\gm\imagesource.cpp" />
+    <ClCompile Include="..\..\..\gm\imagesource2.cpp" />
+    <ClCompile Include="..\..\..\gm\image_pict.cpp" />
+    <ClCompile Include="..\..\..\gm\image_shader.cpp" />
+    <ClCompile Include="..\..\..\gm\internal_links.cpp" />
+    <ClCompile Include="..\..\..\gm\inversepaths.cpp" />
+    <ClCompile Include="..\..\..\gm\largeglyphblur.cpp" />
+    <ClCompile Include="..\..\..\gm\lattice.cpp" />
+    <ClCompile Include="..\..\..\gm\lcdblendmodes.cpp" />
+    <ClCompile Include="..\..\..\gm\lcdoverlap.cpp" />
+    <ClCompile Include="..\..\..\gm\lcdtext.cpp" />
+    <ClCompile Include="..\..\..\gm\lighting.cpp" />
+    <ClCompile Include="..\..\..\gm\linepaths.cpp" />
+    <ClCompile Include="..\..\..\gm\localmatriximagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\localmatriximageshader.cpp" />
+    <ClCompile Include="..\..\..\gm\lumafilter.cpp" />
+    <ClCompile Include="..\..\..\gm\makecolorspace.cpp" />
+    <ClCompile Include="..\..\..\gm\manypaths.cpp" />
+    <ClCompile Include="..\..\..\gm\matrixconvolution.cpp" />
+    <ClCompile Include="..\..\..\gm\matriximagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\megalooper.cpp" />
+    <ClCompile Include="..\..\..\gm\mipmap.cpp" />
+    <ClCompile Include="..\..\..\gm\mixedtextblobs.cpp" />
+    <ClCompile Include="..\..\..\gm\modecolorfilters.cpp" />
+    <ClCompile Include="..\..\..\gm\morphology.cpp" />
+    <ClCompile Include="..\..\..\gm\multipicturedraw.cpp" />
+    <ClCompile Include="..\..\..\gm\nested.cpp" />
+    <ClCompile Include="..\..\..\gm\ninepatchstretch.cpp" />
+    <ClCompile Include="..\..\..\gm\nonclosedpaths.cpp" />
+    <ClCompile Include="..\..\..\gm\occludedrrectblur.cpp" />
+    <ClCompile Include="..\..\..\gm\offsetimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\ovals.cpp" />
+    <ClCompile Include="..\..\..\gm\overdrawcolorfilter.cpp" />
+    <ClCompile Include="..\..\..\gm\OverStroke.cpp" />
+    <ClCompile Include="..\..\..\gm\patch.cpp" />
+    <ClCompile Include="..\..\..\gm\pathcontourstart.cpp" />
+    <ClCompile Include="..\..\..\gm\patheffects.cpp" />
+    <ClCompile Include="..\..\..\gm\pathfill.cpp" />
+    <ClCompile Include="..\..\..\gm\pathinterior.cpp" />
+    <ClCompile Include="..\..\..\gm\pathmaskcache.cpp" />
+    <ClCompile Include="..\..\..\gm\pathopsinverse.cpp" />
+    <ClCompile Include="..\..\..\gm\pathopsskpclip.cpp" />
+    <ClCompile Include="..\..\..\gm\pathreverse.cpp" />
+    <ClCompile Include="..\..\..\gm\path_stroke_with_zero_length.cpp" />
+    <ClCompile Include="..\..\..\gm\pdf_never_embed.cpp" />
+    <ClCompile Include="..\..\..\gm\perlinnoise.cpp" />
+    <ClCompile Include="..\..\..\gm\perspshaders.cpp" />
+    <ClCompile Include="..\..\..\gm\picture.cpp" />
+    <ClCompile Include="..\..\..\gm\pictureimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\pictureimagegenerator.cpp" />
+    <ClCompile Include="..\..\..\gm\pictureshader.cpp" />
+    <ClCompile Include="..\..\..\gm\pictureshadercache.cpp" />
+    <ClCompile Include="..\..\..\gm\pictureshadertile.cpp" />
+    <ClCompile Include="..\..\..\gm\pixelsnap.cpp" />
+    <ClCompile Include="..\..\..\gm\plus.cpp" />
+    <ClCompile Include="..\..\..\gm\points.cpp" />
+    <ClCompile Include="..\..\..\gm\poly2poly.cpp" />
+    <ClCompile Include="..\..\..\gm\polygons.cpp" />
+    <ClCompile Include="..\..\..\gm\quadpaths.cpp" />
+    <ClCompile Include="..\..\..\gm\radial_gradient_precision.cpp" />
+    <ClCompile Include="..\..\..\gm\readpixels.cpp" />
+    <ClCompile Include="..\..\..\gm\recordopts.cpp" />
+    <ClCompile Include="..\..\..\gm\rectangletexture.cpp" />
+    <ClCompile Include="..\..\..\gm\rects.cpp" />
+    <ClCompile Include="..\..\..\gm\repeated_bitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\resizeimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\reveal.cpp" />
+    <ClCompile Include="..\..\..\gm\roundrects.cpp" />
+    <ClCompile Include="..\..\..\gm\rrect.cpp" />
+    <ClCompile Include="..\..\..\gm\rrectclipdrawpaint.cpp" />
+    <ClCompile Include="..\..\..\gm\rrects.cpp" />
+    <ClCompile Include="..\..\..\gm\samplerstress.cpp" />
+    <ClCompile Include="..\..\..\gm\savelayer.cpp" />
+    <ClCompile Include="..\..\..\gm\scaledstrokes.cpp" />
+    <ClCompile Include="..\..\..\gm\shadertext.cpp" />
+    <ClCompile Include="..\..\..\gm\shadertext2.cpp" />
+    <ClCompile Include="..\..\..\gm\shadertext3.cpp" />
+    <ClCompile Include="..\..\..\gm\shadows.cpp" />
+    <ClCompile Include="..\..\..\gm\shadowutils.cpp" />
+    <ClCompile Include="..\..\..\gm\shallowgradient.cpp" />
+    <ClCompile Include="..\..\..\gm\shapes.cpp" />
+    <ClCompile Include="..\..\..\gm\shapes_as_paths.cpp" />
+    <ClCompile Include="..\..\..\gm\showmiplevels.cpp" />
+    <ClCompile Include="..\..\..\gm\simpleaaclip.cpp" />
+    <ClCompile Include="..\..\..\gm\simplerect.cpp" />
+    <ClCompile Include="..\..\..\gm\simple_magnification.cpp" />
+    <ClCompile Include="..\..\..\gm\skbug1719.cpp" />
+    <ClCompile Include="..\..\..\gm\skbug_257.cpp" />
+    <ClCompile Include="..\..\..\gm\skbug_4868.cpp" />
+    <ClCompile Include="..\..\..\gm\skbug_5321.cpp" />
+    <ClCompile Include="..\..\..\gm\smallarc.cpp" />
+    <ClCompile Include="..\..\..\gm\smallimage.cpp" />
+    <ClCompile Include="..\..\..\gm\smallpaths.cpp" />
+    <ClCompile Include="..\..\..\gm\spritebitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\srcmode.cpp" />
+    <ClCompile Include="..\..\..\gm\srgb.cpp" />
+    <ClCompile Include="..\..\..\gm\stlouisarch.cpp" />
+    <ClCompile Include="..\..\..\gm\stringart.cpp" />
+    <ClCompile Include="..\..\..\gm\strokedlines.cpp" />
+    <ClCompile Include="..\..\..\gm\strokefill.cpp" />
+    <ClCompile Include="..\..\..\gm\strokerect.cpp" />
+    <ClCompile Include="..\..\..\gm\strokerects.cpp" />
+    <ClCompile Include="..\..\..\gm\strokes.cpp" />
+    <ClCompile Include="..\..\..\gm\stroketext.cpp" />
+    <ClCompile Include="..\..\..\gm\stroke_rect_shader.cpp" />
+    <ClCompile Include="..\..\..\gm\subsetshader.cpp" />
+    <ClCompile Include="..\..\..\gm\surface.cpp" />
+    <ClCompile Include="..\..\..\gm\tablecolorfilter.cpp" />
+    <ClCompile Include="..\..\..\gm\tallstretchedbitmaps.cpp" />
+    <ClCompile Include="..\..\..\gm\testgradient.cpp" />
+    <ClCompile Include="..\..\..\gm\texdata.cpp" />
+    <ClCompile Include="..\..\..\gm\textblob.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobblockreordering.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobcolortrans.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobgeometrychange.cpp" />
+    <ClCompile Include="..\..\..\gm\textbloblooper.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobmixedsizes.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobrandomfont.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobshader.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobtransforms.cpp" />
+    <ClCompile Include="..\..\..\gm\textblobuseaftergpufree.cpp" />
+    <ClCompile Include="..\..\..\gm\texteffects.cpp" />
+    <ClCompile Include="..\..\..\gm\texturedomaineffect.cpp" />
+    <ClCompile Include="..\..\..\gm\thinconcavepaths.cpp" />
+    <ClCompile Include="..\..\..\gm\thinrects.cpp" />
+    <ClCompile Include="..\..\..\gm\thinstrokedrects.cpp" />
+    <ClCompile Include="..\..\..\gm\tiledscaledbitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\tileimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\tilemodes.cpp" />
+    <ClCompile Include="..\..\..\gm\tilemodes_scaled.cpp" />
+    <ClCompile Include="..\..\..\gm\tinybitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\tosrgb_colorfilter.cpp" />
+    <ClCompile Include="..\..\..\gm\transparency.cpp" />
+    <ClCompile Include="..\..\..\gm\typeface.cpp" />
+    <ClCompile Include="..\..\..\gm\variedtext.cpp" />
+    <ClCompile Include="..\..\..\gm\vertices.cpp" />
+    <ClCompile Include="..\..\..\gm\verttext.cpp" />
+    <ClCompile Include="..\..\..\gm\verttext2.cpp" />
+    <ClCompile Include="..\..\..\gm\verylargebitmap.cpp" />
+    <ClCompile Include="..\..\..\gm\windowrectangles.cpp" />
+    <ClCompile Include="..\..\..\gm\xfermodeimagefilter.cpp" />
+    <ClCompile Include="..\..\..\gm\xfermodes.cpp" />
+    <ClCompile Include="..\..\..\gm\xfermodes2.cpp" />
+    <ClCompile Include="..\..\..\gm\xfermodes3.cpp" />
+    <ClCompile Include="..\..\..\gm\xform_image_gen.cpp" />
+    <ClCompile Include="..\..\..\gm\yuvtorgbeffect.cpp" />
+    <ClCompile Include="..\..\..\samplecode\ClockFaceView.cpp" />
+    <ClCompile Include="..\..\..\samplecode\GMSampleView.cpp" />
+    <ClCompile Include="..\..\..\samplecode\OverView.cpp" />
+    <ClCompile Include="..\..\..\samplecode\PerlinPatch.cpp" />
+    <ClCompile Include="..\..\..\samplecode\Sample2PtRadial.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAAClip.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAAGeometry.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAARectModes.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAARects.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAll.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAndroidShadows.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAnimatedText.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAnimBlur.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleArc.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleAtlas.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleBigBlur.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleBigGradient.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleBitmapRect.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleBlur.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleCamera.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleCCPRGeometry.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleChart.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleChineseFling.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleCircle.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleClip.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleClipDrawMatch.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleClock.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleCode.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleColorFilter.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleComplexClip.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleConcavePaths.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleDegenerateTwoPtRadials.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleDither.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleEffects.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleEmboss.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleFatBits.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleFillType.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleFilter2.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleFilterFuzz.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleFilterQuality.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleFontScalerTest.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleFuzz.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleGradients.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleHairCurves.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleHairline.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleHairModes.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleHT.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleIdentityScale.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleLayerMask.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleLayers.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleLCD.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleLines.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleManyRects.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleMeasure.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleMegaStroke.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePatch.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePath.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePathClip.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePathEffects.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePathFinder.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePathFuzz.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePathOverstroke.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePathText.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePdfFileViewer.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePoints.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SamplePolyToPoly.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleQuadStroker.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleRectanizer.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleRegion.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleRepeatTile.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleShaders.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleShaderText.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleShadowColor.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleShadowReference.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleShadowUtils.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleShip.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleSlides.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleStringArt.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleStrokePath.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleStrokeRect.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleSubpixelTranslate.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleSVGFile.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleSVGPong.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleText.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleTextAlpha.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleTextBox.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleTextOnPath.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleTextureDomain.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleTiling.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleUnpremul.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleVertices.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleWritePixels.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleXfer.cpp" />
+    <ClCompile Include="..\..\..\samplecode\SampleXfermodesBlur.cpp" />
+    <ClCompile Include="..\..\..\samplecode\vertexdump.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkThreadedBMPDevice.cpp" />
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp" />
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlags.cpp" />
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlagsConfig.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\core\SkThreadedBMPDevice.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

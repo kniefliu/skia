@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tools\skdiff">
+      <UniqueIdentifier>{C7343760-D359-35FE-2693-7466B8F0221B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{0E9715BA-57B3-F23F-1EED-56699DC72D4B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{69cb5354-d9bd-4176-bb29-b062ed5bd31c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/skdiff/skdiff.cpp">
+      <Filter>tools\skdiff</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skdiff/skdiff_html.cpp">
+      <Filter>tools\skdiff</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skdiff/skdiff_main.cpp">
+      <Filter>tools\skdiff</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skdiff/skdiff_utils.cpp">
+      <Filter>tools\skdiff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlagsConfig.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

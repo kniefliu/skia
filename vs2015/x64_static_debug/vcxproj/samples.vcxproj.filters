@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="samplecode">
+      <UniqueIdentifier>{6B469B88-A877-D789-8767-2C49FD2F8CBE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="experimental">
+      <UniqueIdentifier>{F245AB0E-8CE1-3111-C966-26C03DE721BE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{AFD75FDB-0789-D3F8-5663-F4E6C06D9784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C5D85D62-2D1F-BBD0-3190-3BB2E70B1772}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../samplecode/ClockFaceView.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/GMSampleView.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/OverView.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/PerlinPatch.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/Sample2PtRadial.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAAClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAAGeometry.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAARectModes.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAARects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAll.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAndroidShadows.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAnimatedText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAnimBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleArc.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleAtlas.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleBigBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleBigGradient.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleBitmapRect.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleCCPRGeometry.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleCamera.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleChart.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleChineseFling.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleCircle.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleClipDrawMatch.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleClock.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleCode.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleColorFilter.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleComplexClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleConcavePaths.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleDegenerateTwoPtRadials.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleDither.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleEffects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleEmboss.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleFatBits.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleFillType.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleFilter2.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleFilterFuzz.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleFilterQuality.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleFontScalerTest.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleFuzz.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleGradients.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleHairCurves.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleHairline.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleHairModes.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleHT.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleIdentityScale.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleLayerMask.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleLayers.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleLCD.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleLines.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleManyRects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleMeasure.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleMegaStroke.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePatch.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePath.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePathText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePathClip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePathEffects.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePathFinder.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePathFuzz.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePathOverstroke.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePdfFileViewer.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePoints.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SamplePolyToPoly.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleQuadStroker.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleRectanizer.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleRegion.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleRepeatTile.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleShaders.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleShaderText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleShadowColor.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleShadowReference.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleShadowUtils.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleShip.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleSlides.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleStringArt.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleStrokePath.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleStrokeRect.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleSubpixelTranslate.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleSVGFile.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleSVGPong.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleText.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleTextAlpha.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleTextBox.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleTextOnPath.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleTextureDomain.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleTiling.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleUnpremul.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleVertices.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleWritePixels.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleXfer.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/SampleXfermodesBlur.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../samplecode/vertexdump.cpp">
+      <Filter>samplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/SkSetPoly3To3.cpp">
+      <Filter>experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/SkSetPoly3To3_A.cpp">
+      <Filter>experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/SkSetPoly3To3_D.cpp">
+      <Filter>experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/core/SkThreadedBMPDevice.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/core/SkThreadedBMPDevice.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+</ItemGroup>
+</Project>

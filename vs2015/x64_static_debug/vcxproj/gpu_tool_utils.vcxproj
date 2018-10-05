@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GN|x64">
+      <Configuration>GN</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{06402C6F-978D-75C0-D992-EF996BAC2213}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>gpu_tool_utils</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>../../../vs2015/x64_static_debug/</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../tools/gpu;../../../include/private;../../../src/c;../../../src/codec;../../../src/core;../../../src/effects;../../../src/fonts;../../../src/image;../../../src/images;../../../src/lazy;../../../src/opts;../../../src/pathops;../../../src/pdf;../../../src/ports;../../../src/sfnt;../../../src/shaders;../../../src/shaders/gradients;../../../src/sksl;../../../src/utils;../../../src/utils/win;../../../src/xml;../../../third_party/gif;../../../src/gpu;../../../third_party/externals/angle2/include;../../../include/android;../../../include/c;../../../include/codec;../../../include/config;../../../include/core;../../../include/effects;../../../include/encode;../../../include/gpu;../../../include/gpu/gl;../../../include/pathops;../../../include/ports;../../../include/svg;../../../include/utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244;4267;4800;4291;4312;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;SK_GAMMA_APPLY_TO_A8;SK_ANGLE;SK_ENABLE_DISCRETE_GPU;GR_TEST_UTILS=1;SK_ENABLE_SPIRV_VALIDATION;SK_HAS_JPEG_LIBRARY;SK_SUPPORT_PDF;SK_HAS_PNG_LIBRARY;SK_HAS_WEBP_LIBRARY;SK_XML;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/gpu/GrContextFactory.cpp" />
+    <ClCompile Include="../../../tools/gpu/GrTest.cpp" />
+    <ClCompile Include="../../../tools/gpu/TestContext.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/GLTestContext.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/command_buffer/GLTestContext_command_buffer.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/debug/DebugGLTestContext.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrBufferObj.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrFrameBufferObj.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrProgramObj.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrShaderObj.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrTextureObj.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrTextureUnitObj.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/null/NullGLTestContext.cpp" />
+    <ClCompile Include="../../../tools/gpu/mock/MockTestContext.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/egl/CreatePlatformGLTestContext_egl.cpp" />
+    <ClCompile Include="../../../tools/gpu/gl/angle/GLTestContext_angle.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

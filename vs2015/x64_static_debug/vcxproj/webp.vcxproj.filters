@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="src\codec">
+      <UniqueIdentifier>{E4ACFA78-382F-1EE9-826D-BFA90457E100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C5D85D62-2D1F-BBD0-3190-3BB2E70B1772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\images">
+      <UniqueIdentifier>{D288BAA6-03E2-19A6-0D0F-2B751EAC8408}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/codec/SkWebpAdapterCodec.cpp">
+      <Filter>src\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/codec/SkWebpCodec.cpp">
+      <Filter>src\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/images/SkWebpEncoder.cpp">
+      <Filter>src\images</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

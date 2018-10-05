@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tools">
+      <UniqueIdentifier>{0E9715BA-57B3-F23F-1EED-56699DC72D4B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/SkShaper_primitive.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/using_skia_and_harfbuzz.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

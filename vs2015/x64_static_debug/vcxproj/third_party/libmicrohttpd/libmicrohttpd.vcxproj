@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GN|x64">
+      <Configuration>GN</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{25D50056-E294-189F-2EF2-E4D1557002A3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>libmicrohttpd</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>../../../../../vs2015/x64_static_debug/</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/libmicrohttpd;../../../../../third_party/externals/microhttpd/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/w /FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>DAUTH_SUPPORT=1;HAVE_SYS_TYPES_H=1;HAVE_TIME_H=1;MHD_USE_W32_THREADS=1;WINDOWS;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/base64.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/connection.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/daemon.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/internal.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/memorypool.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/postprocessor.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/reason_phrase.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/response.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/tsearch.c" />
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/platform/w32functions.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="bench">
+      <UniqueIdentifier>{B3060449-0AB2-B34E-9A8A-17D42A749FD8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../bench/AAClipBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/AlternatingColorPatternBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/AndroidCodecBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BenchLogger.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/Benchmark.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BezierBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BigPathBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BitmapBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BitmapRectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BitmapRegionDecoderBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BlendmodeBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BlurBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BlurImageFilterBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BlurOccludedRRectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BlurRectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BlurRectsBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/BlurRoundRectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ChartBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ChecksumBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ChromeBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ClipMaskBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/CmapBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/CodecBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ColorCanvasDrawBitmapBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ColorCodecBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ColorFilterBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ColorPrivBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ControlBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/CoverageBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/CubicKLMBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/DashBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/DisplacementBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/DrawBitmapAABench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/DrawLatticeBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/EncoderBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/FontCacheBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/FontScalerBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/FSRectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GameBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GeometryBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GLBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GLInstancedArraysBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GLVec4ScalarBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GLVertexAttributesBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GMBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GradientBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GrMemoryPoolBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GrMipMapBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/GrResourceCacheBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/HairlinePathBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/HardStopGradientBench_ScaleNumColors.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/HardStopGradientBench_ScaleNumHardStops.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/HardStopGradientBench_SpecialHardStops.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ImageBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ImageCacheBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ImageCacheBudgetBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ImageFilterCollapse.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ImageFilterDAGBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/InterpBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/LightingBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/LineBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MagnifierBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MathBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/Matrix44Bench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MatrixBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MatrixConvolutionBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MeasureBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MemsetBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MergeBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MipMapBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MorphologyBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/MutexBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/pack_int_uint16_t_Bench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PatchBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PathBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PathIterBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PathTextBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PDFBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PerlinNoiseBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PictureNestingBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PictureOverheadBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PicturePlaybackBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/PremulAndUnpremulAlphaOpsBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/QuickRejectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ReadPixBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RecordingBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RectanizerBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RectoriBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RefCntBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RegionBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RegionContainBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RepeatTileBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RotatedRectBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/RTreeBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ScalarBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ShaderMaskBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ShadowBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/ShapesBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/Sk4fBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/SkGlyphCacheBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/SKPAnimationBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/SKPBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/SkRasterPipelineBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/StreamBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/SortBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/StrokeBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/SwizzleBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/TableBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/TextBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/TextBlobBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/TileBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/TileImageFilterBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/TopoSortBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/VertBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/WritePixelsBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../bench/WriterBench.cpp">
+      <Filter>bench</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

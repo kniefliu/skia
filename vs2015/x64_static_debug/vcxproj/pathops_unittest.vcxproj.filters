@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tests">
+      <UniqueIdentifier>{0D1F53F1-2E1D-0847-D52E-44A54A206423}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{9d0dc760-26a4-4abd-8e9e-1b119ddf40a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{6a38fb5b-0c32-4680-b322-8f4f8f721db1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tests/PathOpsAngleIdeas.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsAngleTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsBattles.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsBoundsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsBuilderConicTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsBuilderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsBuildUseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsChalkboardTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsConicIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsConicLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsConicQuadIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsCubicConicIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsCubicIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsCubicIntersectionTestData.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsCubicLineIntersectionIdeas.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsCubicLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsCubicQuadIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsCubicReduceOrderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsDCubicTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsDebug.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsDLineTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsDPointTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsDRectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsDVectorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsExtendedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsFuzz763Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsInverseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsIssue3651.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsLineParametetersTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsOpCircleThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsOpCubicThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsOpLoopThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsOpRectThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsOpTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsQuadIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsQuadIntersectionTestData.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsQuadLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsQuadLineIntersectionThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsQuadReduceOrderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSimplifyDegenerateThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSimplifyFailTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSimplifyQuadralateralsThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSimplifyQuadThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSimplifyRectThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSimplifyTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSimplifyTrianglesThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsSkpTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsTestCommon.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsThreadedCommon.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsThreeWayTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsTigerTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsTightBoundsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/PathOpsTypesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/skia_test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tests/Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlagsConfig.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

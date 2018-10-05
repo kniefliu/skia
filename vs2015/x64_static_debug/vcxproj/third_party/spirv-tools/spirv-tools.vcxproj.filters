@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="..\..\third_party\externals\spirv-tools\source">
+      <UniqueIdentifier>{580ADBFA-A52F-BAB3-DFE3-478316A18EB5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\spirv-tools">
+      <UniqueIdentifier>{61A21315-B862-C53A-4E3F-0FBED80D86CA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals">
+      <UniqueIdentifier>{AA2D7338-93F3-927B-CA6F-5DA0C10A5E77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party">
+      <UniqueIdentifier>{F88318E6-F850-6A80-FDF6-B1A366449460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{A8A4AA46-5437-4AB8-6540-F14ED994B38E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\spirv-tools\source\opt">
+      <UniqueIdentifier>{ED43C15C-594A-39B0-7D66-65967CBF096D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\spirv-tools\source\util">
+      <UniqueIdentifier>{FAC821A6-8C76-715B-E042-F95AC2248FAB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\spirv-tools\source\val">
+      <UniqueIdentifier>{6D669662-5E2F-F589-13A5-E62EA34D0177}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/assembly_grammar.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/binary.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/diagnostic.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/disassemble.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/enum_string_mapping.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/ext_inst.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/extensions.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/libspirv.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/message.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/name_mapper.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opcode.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/operand.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/aggressive_dead_code_elim_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/basic_block.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/block_merge_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/build_module.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/compact_ids_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/dead_branch_elim_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/def_use_manager.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/eliminate_dead_constant_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/flatten_decoration_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/fold_spec_constant_op_and_composite_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/freeze_spec_constant_value_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/function.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/inline_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/insert_extract_elim.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/instruction.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/ir_loader.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_access_chain_convert_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_single_block_elim_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_single_store_elim_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/local_ssa_elim_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/module.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/optimizer.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/pass_manager.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/set_spec_constant_default_value_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/strip_debug_info_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/type_manager.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/types.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/opt/unify_const_pass.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\opt</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/parsed_operand.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/print.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/software_version.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/spirv_endian.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/spirv_target_env.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/spirv_validator_options.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/table.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/text.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/text_handler.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/util/parse_number.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\util</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/util/string_utils.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\util</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/basic_block.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\val</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/construct.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\val</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/function.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\val</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/instruction.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\val</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/val/validation_state.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source\val</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_capability.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_cfg.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_datarules.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_decorations.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_id.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_instruction.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_layout.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/spirv-tools/source/validate_type_unique.cpp">
+      <Filter>..\..\third_party\externals\spirv-tools\source</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

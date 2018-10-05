@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GN|x64">
+      <Configuration>GN</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A0435B9C-1904-CC1E-9A30-2C7540538F83}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>samples</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>../../../vs2015/x64_static_debug/</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../experimental;../../../samplecode;../../../include/private;../../../src/c;../../../src/codec;../../../src/core;../../../src/effects;../../../src/fonts;../../../src/image;../../../src/images;../../../src/lazy;../../../src/opts;../../../src/pathops;../../../src/pdf;../../../src/ports;../../../src/sfnt;../../../src/shaders;../../../src/shaders/gradients;../../../src/sksl;../../../src/utils;../../../src/utils/win;../../../src/xml;../../../third_party/gif;../../../src/gpu;../../../experimental/svg/model;../../../tools/flags;../../../gm;../../../tools;../../../tools/debugger;../../../tools/timer;../../../tools/trace;../../../third_party/externals/jsoncpp/include;../../../include/views;../../../include/android;../../../include/c;../../../include/codec;../../../include/config;../../../include/core;../../../include/effects;../../../include/encode;../../../include/gpu;../../../include/gpu/gl;../../../include/pathops;../../../include/ports;../../../include/svg;../../../include/utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244;4267;4800;4291;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;SK_GAMMA_APPLY_TO_A8;SK_ANGLE;SK_ENABLE_DISCRETE_GPU;GR_TEST_UTILS=1;SK_ENABLE_SPIRV_VALIDATION;SK_HAS_JPEG_LIBRARY;SK_SUPPORT_PDF;SK_HAS_PNG_LIBRARY;SK_HAS_WEBP_LIBRARY;SK_XML;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../src/core/SkThreadedBMPDevice.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../samplecode/ClockFaceView.cpp" />
+    <ClCompile Include="../../../samplecode/GMSampleView.cpp" />
+    <ClCompile Include="../../../samplecode/OverView.cpp" />
+    <ClCompile Include="../../../samplecode/PerlinPatch.cpp" />
+    <ClCompile Include="../../../samplecode/Sample2PtRadial.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAAClip.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAAGeometry.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAARectModes.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAARects.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAll.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAndroidShadows.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAnimatedText.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAnimBlur.cpp" />
+    <ClCompile Include="../../../samplecode/SampleArc.cpp" />
+    <ClCompile Include="../../../samplecode/SampleAtlas.cpp" />
+    <ClCompile Include="../../../samplecode/SampleBigBlur.cpp" />
+    <ClCompile Include="../../../samplecode/SampleBigGradient.cpp" />
+    <ClCompile Include="../../../samplecode/SampleBitmapRect.cpp" />
+    <ClCompile Include="../../../samplecode/SampleBlur.cpp" />
+    <ClCompile Include="../../../samplecode/SampleCCPRGeometry.cpp" />
+    <ClCompile Include="../../../samplecode/SampleCamera.cpp" />
+    <ClCompile Include="../../../samplecode/SampleChart.cpp" />
+    <ClCompile Include="../../../samplecode/SampleChineseFling.cpp" />
+    <ClCompile Include="../../../samplecode/SampleCircle.cpp" />
+    <ClCompile Include="../../../samplecode/SampleClip.cpp" />
+    <ClCompile Include="../../../samplecode/SampleClipDrawMatch.cpp" />
+    <ClCompile Include="../../../samplecode/SampleClock.cpp" />
+    <ClCompile Include="../../../samplecode/SampleCode.cpp" />
+    <ClCompile Include="../../../samplecode/SampleColorFilter.cpp" />
+    <ClCompile Include="../../../samplecode/SampleComplexClip.cpp" />
+    <ClCompile Include="../../../samplecode/SampleConcavePaths.cpp" />
+    <ClCompile Include="../../../samplecode/SampleDegenerateTwoPtRadials.cpp" />
+    <ClCompile Include="../../../samplecode/SampleDither.cpp" />
+    <ClCompile Include="../../../samplecode/SampleEffects.cpp" />
+    <ClCompile Include="../../../samplecode/SampleEmboss.cpp" />
+    <ClCompile Include="../../../samplecode/SampleFatBits.cpp" />
+    <ClCompile Include="../../../samplecode/SampleFillType.cpp" />
+    <ClCompile Include="../../../samplecode/SampleFilter2.cpp" />
+    <ClCompile Include="../../../samplecode/SampleFilterFuzz.cpp" />
+    <ClCompile Include="../../../samplecode/SampleFilterQuality.cpp" />
+    <ClCompile Include="../../../samplecode/SampleFontScalerTest.cpp" />
+    <ClCompile Include="../../../samplecode/SampleFuzz.cpp" />
+    <ClCompile Include="../../../samplecode/SampleGradients.cpp" />
+    <ClCompile Include="../../../samplecode/SampleHairCurves.cpp" />
+    <ClCompile Include="../../../samplecode/SampleHairline.cpp" />
+    <ClCompile Include="../../../samplecode/SampleHairModes.cpp" />
+    <ClCompile Include="../../../samplecode/SampleHT.cpp" />
+    <ClCompile Include="../../../samplecode/SampleIdentityScale.cpp" />
+    <ClCompile Include="../../../samplecode/SampleLayerMask.cpp" />
+    <ClCompile Include="../../../samplecode/SampleLayers.cpp" />
+    <ClCompile Include="../../../samplecode/SampleLCD.cpp" />
+    <ClCompile Include="../../../samplecode/SampleLines.cpp" />
+    <ClCompile Include="../../../samplecode/SampleManyRects.cpp" />
+    <ClCompile Include="../../../samplecode/SampleMeasure.cpp" />
+    <ClCompile Include="../../../samplecode/SampleMegaStroke.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePatch.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePath.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePathText.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePathClip.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePathEffects.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePathFinder.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePathFuzz.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePathOverstroke.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePdfFileViewer.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePoints.cpp" />
+    <ClCompile Include="../../../samplecode/SamplePolyToPoly.cpp" />
+    <ClCompile Include="../../../samplecode/SampleQuadStroker.cpp" />
+    <ClCompile Include="../../../samplecode/SampleRectanizer.cpp" />
+    <ClCompile Include="../../../samplecode/SampleRegion.cpp" />
+    <ClCompile Include="../../../samplecode/SampleRepeatTile.cpp" />
+    <ClCompile Include="../../../samplecode/SampleShaders.cpp" />
+    <ClCompile Include="../../../samplecode/SampleShaderText.cpp" />
+    <ClCompile Include="../../../samplecode/SampleShadowColor.cpp" />
+    <ClCompile Include="../../../samplecode/SampleShadowReference.cpp" />
+    <ClCompile Include="../../../samplecode/SampleShadowUtils.cpp" />
+    <ClCompile Include="../../../samplecode/SampleShip.cpp" />
+    <ClCompile Include="../../../samplecode/SampleSlides.cpp" />
+    <ClCompile Include="../../../samplecode/SampleStringArt.cpp" />
+    <ClCompile Include="../../../samplecode/SampleStrokePath.cpp" />
+    <ClCompile Include="../../../samplecode/SampleStrokeRect.cpp" />
+    <ClCompile Include="../../../samplecode/SampleSubpixelTranslate.cpp" />
+    <ClCompile Include="../../../samplecode/SampleSVGFile.cpp" />
+    <ClCompile Include="../../../samplecode/SampleSVGPong.cpp" />
+    <ClCompile Include="../../../samplecode/SampleText.cpp" />
+    <ClCompile Include="../../../samplecode/SampleTextAlpha.cpp" />
+    <ClCompile Include="../../../samplecode/SampleTextBox.cpp" />
+    <ClCompile Include="../../../samplecode/SampleTextOnPath.cpp" />
+    <ClCompile Include="../../../samplecode/SampleTextureDomain.cpp" />
+    <ClCompile Include="../../../samplecode/SampleTiling.cpp" />
+    <ClCompile Include="../../../samplecode/SampleUnpremul.cpp" />
+    <ClCompile Include="../../../samplecode/SampleVertices.cpp" />
+    <ClCompile Include="../../../samplecode/SampleWritePixels.cpp" />
+    <ClCompile Include="../../../samplecode/SampleXfer.cpp" />
+    <ClCompile Include="../../../samplecode/SampleXfermodesBlur.cpp" />
+    <ClCompile Include="../../../samplecode/vertexdump.cpp" />
+    <ClCompile Include="../../../experimental/SkSetPoly3To3.cpp" />
+    <ClCompile Include="../../../experimental/SkSetPoly3To3_A.cpp" />
+    <ClCompile Include="../../../experimental/SkSetPoly3To3_D.cpp" />
+    <ClCompile Include="../../../src/core/SkThreadedBMPDevice.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

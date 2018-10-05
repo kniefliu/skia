@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="src\views">
+      <UniqueIdentifier>{971DF443-6A71-E6BA-FD0A-545FB1975E45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C5D85D62-2D1F-BBD0-3190-3BB2E70B1772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\views\win">
+      <UniqueIdentifier>{6D9C81B3-01C2-3C51-6B4F-AE558C2B6C92}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/views/SkEvent.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/SkEventSink.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/SkOSMenu.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/SkTagList.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/SkTouchGesture.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/SkView.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/SkViewPriv.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/SkWindow.cpp">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/views/win/SkOSWindow_win.cpp">
+      <Filter>src\views\win</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

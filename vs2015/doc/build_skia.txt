@@ -45,6 +45,76 @@
 				Modify SampleApp.ninja 
 					defines add -DDEFAULT_TO_ANGLE
 					libs = FontSub.lib Ole32.lib OleAut32.lib User32.lib libEGL.dll.lib OpenGL32.lib kernel32.lib gdi32.lib
+8.vs2015 build
+	generate vs2015 projects without ninja
+		build 64bit static debug:
+			gn gen vs2015/x64_static_debug --args="is_debug=true skia_use_egl=true skia_use_angle=true" --ide=vs --sln=skia	
+			MsvcProjTool modify obj's ninja vcxprojs to vcxproj's vs2015 vcxprojs
+			skia.sln : modify obj/ to vcxproj/
+			need spirv-tools/*.inc : generate from ninja
+		
+	libGLESv2:
+		Specifies an object (.obj) file name to be used instead of the default.
+			translator\Compiler.cpp Compiler_translator.obj
+			common\debug.cpp debug_common.obj
+		link libs : d3d9.lib	 
+		module def file : ../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.def
+	libEGL: 
+		link libs : libGLESv2.lib
+		lib dir : $(OutDir)
+		module def file : ../../../../../third_party/externals/angle2/src/libEGL/libEGL.def
+	spirv-tools:
+		Specifies an object (.obj) file name to be used instead of the default.
+			source\opt\basic_block.cpp basic_block_opt.obj
+			source\opt\function.cpp function_opt.obj
+			source\opt\instruction.cpp instruction_opt.obj
+	gpu:
+		include dir : ../../../third_party/externals/angle2/include
+		lib directory: $(OutDir)
+		libs:
+			spirv-tools.lib libEGL.lib
+		source files:
+			remove GrAHardwareBufferImageGenerator.cpp
+	gpu_tool_utils:
+		createplatformgltestcontext_egl.cpp(225): warning C4312: 
+		Modify gpu_tool_utils.vcxproj  <DisableSpecificWarnings> add 4312
+	views:
+		error C2664: “HMODULE GetModuleHandleW(LPCWSTR)”
+			solution : GetModuleHandle change to GetModuleHandleA
+	skia:
+		../../../src/android/SkAndroidFrameworkUtils.cpp(8): fatal error C1083: 
+			solution : remove android from project
+		remove utils\mac from project
+		remove core\SkDebug.cpp
+		SkJumper_generated_win.S : 
+			for different platform and configuration, we need different suffix.obj(example _x64_static_debug.obj)
+			custom build tools
+				In command line: ml64 /Fo "%(Filename)_x64_static_debug.obj" /c "..\..\..\src\jumper\SkJumper_generated_win.S"
+				description: build %(Filename).s file to %(Filename)_x64_static_debug.obj
+				Output: %(fileName)_x64_static_debug.obj
+		lib directory: $(OutDir)
+		libs:
+			avx.lib effects.lib gpu.lib jpeg.lib png.lib sse2.lib sse41.lib sse42.lib ssse3.lib webp.lib
+			
+	SampleApp:
+		lib directory: $(OutDir)
+		libs:
+			skia.lib views.lib views.lib gpu_tool_utils.lib pdf.lib xml.lib tool_utils.lib OpenGL32.lib
+		source code:
+			tools/flags/SkCommonFlags.cpp
+			tools/flags/SkCommonFlagsConfig.cpp
+			tools/flags/SkCommandLineFlags.cpp
+			copy samples project's items to SampleApp project; 
+			add include dir: ../../../experimental/svg/model
+			copy gm project's items to SampleApp project;
+			Macro: DEFAULT_TO_ANGLE			
+	for debug : all project's need to adjust by yourself
+	
+	kGPU_DeviceType -> Failed to setup 3D
+		gpu remove src/gpu/gl/egl
+		gpu add src/gpu/gl/win
+		
+	
 	
 	
 				

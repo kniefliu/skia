@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="src\svg">
+      <UniqueIdentifier>{D0B74147-9A70-6EE1-B40B-5AACF51105FC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C5D85D62-2D1F-BBD0-3190-3BB2E70B1772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\xml">
+      <UniqueIdentifier>{32BB6BAB-3004-0EB1-A08E-37D90C40E7FF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/svg/SkSVGCanvas.cpp">
+      <Filter>src\svg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/svg/SkSVGDevice.cpp">
+      <Filter>src\svg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/xml/SkDOM.cpp">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/xml/SkXMLParser.cpp">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/xml/SkXMLWriter.cpp">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

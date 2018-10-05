@@ -1,0 +1,1935 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="dm">
+      <UniqueIdentifier>{D411396D-9C39-DDEE-AA29-B20396A7E749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{06c48f8d-6352-4b35-b6f8-6dce0faef028}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{29c5a0ee-9011-4d13-92db-b2cd97788c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{e6ba3d5c-2741-46df-bc6e-974b6c038c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gm">
+      <UniqueIdentifier>{4aad4f97-f8b4-404d-8355-04904cad30a8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../dm/DM.cpp">
+      <Filter>dm</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../dm/DMJsonWriter.cpp">
+      <Filter>dm</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../dm/DMSrcSink.cpp">
+      <Filter>dm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\AAClipTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\AnnotationTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ApplyGammaTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ArenaAllocTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\AsADashTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BadIcoTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BitmapCopyTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BitmapGetColorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BitmapTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BitSetTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BlendTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BlitMaskClip.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\BlurTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CachedDataTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CachedDecodingPixelRefTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CanvasStateHelpers.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CanvasStateTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CanvasTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ChecksumTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ClampRangeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ClearTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ClipBoundsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ClipCubicTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ClipperTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ClipStackTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CodecAnimTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CodecExactReadTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CodecPartialTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CodecTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ColorFilterTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ColorMatrixTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ColorPrivTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ColorSpaceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ColorSpaceXformTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ColorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CopySurfaceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CPlusPlusEleven.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\CTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DashPathEffectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DataRefTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DequeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DetermineDomainModeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DeviceLooperTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DeviceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DFPathRendererTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DiscardableMemoryPoolTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DiscardableMemoryTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DrawBitmapRectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DrawFilterTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DrawPathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DrawTextTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\DynamicHashTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\EGLImageTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\EmptyPathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\EncodeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ExifTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\F16StagesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FillPathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FitsInTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FlattenableCustomFactory.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FlattenableFactoryToName.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FlattenDrawableTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Float16Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FloatingPointTextureTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FontHostStreamTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FontHostTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FontMgrTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FontNamesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FontObjTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\FrontBufferedStreamTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GeometryTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GifTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GLProgramsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GpuDrawPathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GpuLayerCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GpuRectanizerTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GpuSampleLocationsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GradientTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrAllocatorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrContextAbandonTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrContextFactoryTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrMemoryPoolTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrMeshTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrPipelineDynamicStateTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrPorterDuffTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrShapeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrSKSLPrettyPrintTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrSurfaceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrTextureMipMapInvalidationTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\GrTRecorderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\HashTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\HighContrastFilterTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\HSVRoundTripTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\image-bitmap.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ICCTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageFilterCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageFilterTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageFrom565Bitmap.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageGeneratorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageIsOpaqueTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageNewShaderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageStorageTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ImageTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\IndexedPngOverflowTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\InfRectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\InsetConvexPolyTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\InterpolatorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\IntTextureTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\InvalidIndexedPngTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\IsClosedSingleContourTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\LayerDrawLooperTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\LayerRasterizerTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\LListTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\LRUCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MallocPixelRefTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MaskCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Matrix44Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MatrixClipCollapseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MatrixTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MD5Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MemoryTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MemsetTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MessageBusTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MetaDataTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\MipMapTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\OnceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\OSPathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\OverAlignedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PackBitsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PackedConfigsTextureTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PaintBreakTextTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PaintImageFilterTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PaintTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ParametricStageTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ParsePathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathCoverageTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathMeasureTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PDFDeflateWStreamTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PDFDocumentTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PDFGlyphsToUnicodeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PDFJpegEmbedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PDFMetadataAttributeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PDFOpaqueSrcModeToSrcOverTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PDFPrimitivesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\OnFlushCallbackTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PictureBBHTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PictureShaderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PictureTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PipeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PixelRefTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Point3Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PointTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PremulAlphaRoundTripTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PrimitiveProcessorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ProcessorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ProxyConversionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ProxyRefTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ProxyTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\QuickRejectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RandomTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Reader32Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ReadPixelsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ReadWriteAlphaTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RecordDrawTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RecorderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RecordingXfermodeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RecordOptsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RecordPatternTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RecordTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RectangleTextureTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RefCntTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RefDictTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RegionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RenderTargetContextTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ResourceAllocatorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ResourceCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RoundRectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RRectInPathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\RTreeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SafeMathTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ScalarTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ScaleToSidesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SerializationTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ShaderOpacityTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ShaderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\ShadowTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SizeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Sk4x4fTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkBase64Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\skbug5221.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\skbug6389.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\skbug6653.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkColor4fTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkDOMTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkFixed15Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkImageTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkLiteDLTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkNxTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkPEGTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkRasterPipelineTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkResourceCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkSharedMutexTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkSLErrorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkSLFPTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkSLGLSLTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkSLMemoryLayoutTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SkSLSPIRVTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SortTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SpecialImageTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SpecialSurfaceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SrcOverTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SRGBMipMapTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SRGBReadWritePixelsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SRGBTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\StreamBufferTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\StreamTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\StringTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\StrokerTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\StrokeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SubsetPath.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SurfaceSemaphoreTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SurfaceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SVGDeviceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\SwizzlerTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TArrayTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TDPQueueTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TableColorFilterTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TemplatesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TessellatingPathRendererTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TestConfigParsing.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TestTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TestUtils.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TextBlobCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TextBlobTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Time.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TLSTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TopoSortTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TraceMemoryDumpTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TracingTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TransferPixelsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\TypefaceTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\UnicodeTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\UtilsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\VerticesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\VkClearTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\VkHeapTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\VkUploadPixelsTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\VkWrapTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\WindowRectanglesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\WritePixelsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\Writer32Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\YUVCacheTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\YUVTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsAngleIdeas.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsAngleTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsBattles.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsBoundsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsBuilderConicTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsBuilderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsBuildUseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsChalkboardTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsConicIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsConicLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsConicQuadIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsCubicConicIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsCubicIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsCubicIntersectionTestData.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsCubicLineIntersectionIdeas.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsCubicLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsCubicQuadIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsCubicReduceOrderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsDCubicTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsDebug.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsDLineTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsDPointTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsDRectTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsDVectorTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsExtendedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsFuzz763Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsInverseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsIssue3651.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsLineParametetersTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsOpCircleThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsOpCubicThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsOpLoopThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsOpRectThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsOpTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsQuadIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsQuadIntersectionTestData.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsQuadLineIntersectionTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsQuadLineIntersectionThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsQuadReduceOrderTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSimplifyDegenerateThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSimplifyFailTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSimplifyQuadralateralsThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSimplifyQuadThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSimplifyRectThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSimplifyTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSimplifyTrianglesThreadedTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsSkpTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsTestCommon.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsThreadedCommon.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsThreeWayTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsTigerTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsTightBoundsTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\PathOpsTypesTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlagsConfig.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aaa.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aaclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aarectmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\aaxfermodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\addarc.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\all_bitmap_configs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\alpha_image.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\alphagradients.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\animatedGif.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\animatedimageblurs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\anisotropic.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\annotated_text.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\arcofzorro.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\arcto.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\arithmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\badpaint.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\beziereffects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\beziers.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigblurs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigmatrix.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigrrectaaeffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bigtileimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapcopy.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapfilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmappremul.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmaprect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmaprecttest.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmapshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bitmaptiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bleed.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blend.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurcircles.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurcircles2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurignorexform.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurimagevmask.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurquickreject.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurredclippedcircle.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurroundrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\blurtextsmallradii.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bmpfilterqualityrepeat.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug5252.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug6643.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug6783.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug530095.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\bug615686.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\cgm.c">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\cgms.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\circles.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\circulararcs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\circularclips.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clip_error.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clip_strokerect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clipdrawdraw.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\clippedbitmapshaders.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\color4f.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\coloremoji.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\coloremoji_blendmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorfilteralpha8.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorfilterimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorfilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colormatrix.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorspacexform.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\colorwheel.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip_blur_tiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip3.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\complexclip4.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\composeshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\concavepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\conicpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\constcolorprocessor.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convex_all_line_paths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convexpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convexpolyclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\convexpolyeffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\copyTo4444.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\crbug_691386.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\croppedrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\crosscontextimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\cubicpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dashcircle.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dashcubics.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dashing.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\deferredtextureimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\degeneratesegments.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dftext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\discard.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\displacement.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\distantclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\downsamplebitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\draw_bitmap_rect_skbug4374.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawable.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawatlas.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawatlascolor.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawbitmaprect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawlooper.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawminibitmaprect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawregion.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drawregionmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dropshadowimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\drrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\dstreadshuffle.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\emboss.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\emptypath.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode-alpha-jpeg.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode-platform.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\encode-srgb.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\extractbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fadefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fatpathfill.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filltypes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filltypespersp.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterbug.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterfastbounds.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\filterindiabox.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontcache.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontmgr.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontscaler.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\fontscalerdistortable.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gamma.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gammaencodedpremul.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gammatext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gamut.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\getpostextpath.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\giantbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\glyph_pos.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\glyph_pos_align.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gm.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradient_matrix.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradientDirtyLaundry.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradients.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradients_2pt_conical.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradients_no_texture.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\gradtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\grayscalejpg.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hairlines.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hairmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hardstop_gradients.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\highcontrastfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hittestpath.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\hsl.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\image.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\image_pict.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\image_shader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagealphathreshold.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblur.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblur2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblurclampmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblurrepeatmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageblurtiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersbase.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersclipped.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilterscropexpand.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilterscropped.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersgraph.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersscaled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefiltersstroked.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefilterstransformed.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagefromyuvtextures.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagemagnifier.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagemakewithfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagemasksubset.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imageresizetiled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagescalealigned.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagesource.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\imagesource2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\internal_links.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\inversepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\largeglyphblur.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lattice.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lcdblendmodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lcdoverlap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lcdtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lighting.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\linepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\localmatriximagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\localmatriximageshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\lumafilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\makecolorspace.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\manypaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\matrixconvolution.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\matriximagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\megalooper.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\mipmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\mixedtextblobs.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\modecolorfilters.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\morphology.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\multipicturedraw.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\nested.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\ninepatchstretch.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\nonclosedpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\occludedrrectblur.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\offsetimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\ovals.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\overdrawcolorfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\OverStroke.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\patch.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\path_stroke_with_zero_length.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathcontourstart.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\patheffects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathfill.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathinterior.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathmaskcache.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathopsinverse.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathopsskpclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pathreverse.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pdf_never_embed.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\perlinnoise.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\perspshaders.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\picture.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureimagegenerator.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureshadercache.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pictureshadertile.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\pixelsnap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\plus.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\points.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\poly2poly.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\polygons.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\quadpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\radial_gradient_precision.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\readpixels.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\recordopts.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rectangletexture.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\repeated_bitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\resizeimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\reveal.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\roundrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rrect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rrectclipdrawpaint.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\rrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\samplerstress.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\savelayer.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\scaledstrokes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadertext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadertext2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadertext3.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadows.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shadowutils.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shallowgradient.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shapes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\shapes_as_paths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\showmiplevels.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\simpleaaclip.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\simple_magnification.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\simplerect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug_257.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug_4868.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug_5321.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\skbug1719.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\smallarc.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\smallimage.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\smallpaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\spritebitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\srcmode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\srgb.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tosrgb_colorfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stlouisarch.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stringart.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stroke_rect_shader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokedlines.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokefill.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokerect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokerects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\strokes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\stroketext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\subsetshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\surface.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tablecolorfilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tallstretchedbitmaps.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\testgradient.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\texdata.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblob.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobblockreordering.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobcolortrans.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobgeometrychange.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textbloblooper.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobmixedsizes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobrandomfont.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobshader.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobtransforms.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\textblobuseaftergpufree.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\texteffects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\texturedomaineffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\thinconcavepaths.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\thinrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\thinstrokedrects.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tiledscaledbitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tileimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tilemodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tilemodes_scaled.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\tinybitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\transparency.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\typeface.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\variedtext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\vertices.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\verttext.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\verttext2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\verylargebitmap.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\windowrectangles.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodeimagefilter.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodes.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodes2.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xfermodes3.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\xform_image_gen.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\gm\yuvtorgbeffect.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\tests\TestUtils.h">
+      <Filter>tests</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

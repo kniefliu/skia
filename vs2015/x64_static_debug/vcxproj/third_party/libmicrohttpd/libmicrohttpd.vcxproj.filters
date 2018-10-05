@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="..\..\third_party\externals\microhttpd\src\microhttpd">
+      <UniqueIdentifier>{8F3C9C16-CA9D-AD06-8EF6-A1148B62CC92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\microhttpd\src">
+      <UniqueIdentifier>{BB01624F-70EC-BF38-DCAA-5674D4C24C7D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\microhttpd">
+      <UniqueIdentifier>{99529994-B423-A66D-FB4F-60B98D9CBAD7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals">
+      <UniqueIdentifier>{AA2D7338-93F3-927B-CA6F-5DA0C10A5E77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party">
+      <UniqueIdentifier>{F88318E6-F850-6A80-FDF6-B1A366449460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{A8A4AA46-5437-4AB8-6540-F14ED994B38E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\microhttpd\src\platform">
+      <UniqueIdentifier>{1C94CABF-3E6F-1DB0-BEAA-09005F9FEDF6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/base64.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/connection.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/daemon.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/internal.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/memorypool.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/postprocessor.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/reason_phrase.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/response.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/microhttpd/tsearch.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\microhttpd</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/microhttpd/src/platform/w32functions.c">
+      <Filter>..\..\third_party\externals\microhttpd\src\platform</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

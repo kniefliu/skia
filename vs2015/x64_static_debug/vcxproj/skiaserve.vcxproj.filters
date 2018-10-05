@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tools\skiaserve">
+      <UniqueIdentifier>{33F72F2B-1441-405E-B0B5-8EDB77CF28A3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{0E9715BA-57B3-F23F-1EED-56699DC72D4B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\skiaserve\urlhandlers">
+      <UniqueIdentifier>{8067A359-A60A-A9CE-1C8A-A1EBD8C96BAC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{b7f5d014-0d4f-4dc7-a743-37508c64ee5e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/skiaserve/Request.cpp">
+      <Filter>tools\skiaserve</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/Response.cpp">
+      <Filter>tools\skiaserve</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/skiaserve.cpp">
+      <Filter>tools\skiaserve</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/BreakHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/ClipAlphaHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/CmdHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/ColorModeHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/DataHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/DownloadHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/EnableGPUHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/ImgHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/InfoHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/OpBoundsHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/OpsHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/OverdrawHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/PostHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/QuitHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/RootHandler.cpp">
+      <Filter>tools\skiaserve\urlhandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

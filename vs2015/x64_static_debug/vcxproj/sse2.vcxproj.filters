@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="src\opts">
+      <UniqueIdentifier>{26518198-E05B-022E-B2F5-5A9D8C4F383C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C5D85D62-2D1F-BBD0-3190-3BB2E70B1772}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/opts/SkBitmapProcState_opts_SSE2.cpp">
+      <Filter>src\opts</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/opts/SkBlitRow_opts_SSE2.cpp">
+      <Filter>src\opts</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/opts/opts_check_x86.cpp">
+      <Filter>src\opts</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

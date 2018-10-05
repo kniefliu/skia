@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="..\..\third_party\externals\jsoncpp\src\lib_json">
+      <UniqueIdentifier>{146E4527-086F-81F5-6B50-0AB99D444F4A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\jsoncpp\src">
+      <UniqueIdentifier>{42597630-1F61-684C-4F43-4CE8ABC4FEC9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\jsoncpp">
+      <UniqueIdentifier>{3E674355-DEA1-1036-D2FB-540A88B0AE56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals">
+      <UniqueIdentifier>{AA2D7338-93F3-927B-CA6F-5DA0C10A5E77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party">
+      <UniqueIdentifier>{F88318E6-F850-6A80-FDF6-B1A366449460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{A8A4AA46-5437-4AB8-6540-F14ED994B38E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/jsoncpp/src/lib_json/json_reader.cpp">
+      <Filter>..\..\third_party\externals\jsoncpp\src\lib_json</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/jsoncpp/src/lib_json/json_value.cpp">
+      <Filter>..\..\third_party\externals\jsoncpp\src\lib_json</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/jsoncpp/src/lib_json/json_writer.cpp">
+      <Filter>..\..\third_party\externals\jsoncpp\src\lib_json</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

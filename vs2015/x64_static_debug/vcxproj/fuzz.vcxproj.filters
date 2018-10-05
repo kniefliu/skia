@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="fuzz">
+      <UniqueIdentifier>{E7AC4451-D0C4-53F9-D61B-B7E643692DFF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{1cf9d746-38f3-4964-8d4b-3a038329fb83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\flags">
+      <UniqueIdentifier>{54d0886a-982a-428f-a197-98a57f174f61}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../fuzz/FilterFuzz.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../fuzz/FuzzCanvas.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../fuzz/FuzzDrawFunctions.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../fuzz/FuzzGradients.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../fuzz/FuzzParsePath.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../fuzz/FuzzPathop.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../fuzz/FuzzScaleToSides.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../fuzz/fuzz.cpp">
+      <Filter>fuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlags.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\flags\SkCommonFlagsConfig.cpp">
+      <Filter>tools\flags</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

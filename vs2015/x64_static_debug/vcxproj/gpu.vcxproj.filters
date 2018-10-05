@@ -1,0 +1,1494 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="include\gpu">
+      <UniqueIdentifier>{CBE1FA0F-8207-8EBF-1A1D-3A165834599A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{882A7C1D-17D6-E17D-2881-F3658AB049AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\gpu\gl">
+      <UniqueIdentifier>{052D6DDB-EFC0-DACD-D440-37DEBCCAB453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\private">
+      <UniqueIdentifier>{694F74F1-934E-94F8-7B8C-16B2A57A03E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu">
+      <UniqueIdentifier>{8555E70F-0BEA-BB31-F7F2-6963E093D756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C5D85D62-2D1F-BBD0-3190-3BB2E70B1772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\ops">
+      <UniqueIdentifier>{F1C1E688-34BF-EA2C-C55E-C79FB1C40800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\ccpr">
+      <UniqueIdentifier>{71337531-3FE2-6BA0-E3C4-F7F054CE272B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\effects">
+      <UniqueIdentifier>{8BA688FE-FCA1-BA18-17D2-478702267A65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\instanced">
+      <UniqueIdentifier>{1DC676CE-B8AB-ABE5-74FA-13F9A9257649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\text">
+      <UniqueIdentifier>{F71F00FA-721B-7916-B108-0B2915A95364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\gl">
+      <UniqueIdentifier>{2E7DE6C7-CC66-2E5A-7A1C-5DB1BAE71739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\gl\builders">
+      <UniqueIdentifier>{FB1DD319-B431-098F-6317-D457609D1639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\glsl">
+      <UniqueIdentifier>{167E3E5F-2539-190A-3E1F-8AA17A3BA765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\mock">
+      <UniqueIdentifier>{1062572D-AF53-5062-98D0-E868CB7BAE0F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\image">
+      <UniqueIdentifier>{4F8CEDB4-A21C-AEA2-8995-96CD5A55D33D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\sksl">
+      <UniqueIdentifier>{F6347FB6-4C9D-6A9B-FA83-09F4F2199FE1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\sksl\ir">
+      <UniqueIdentifier>{8C840217-05F2-9308-00AA-FCD47CD847CA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gpu\win">
+      <UniqueIdentifier>{43d79d87-a357-47d8-8f9f-5360a3c1bc22}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../include/gpu/GrBackendSemaphore.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrBackendSurface.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrBlend.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrCaps.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrColor.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrConfig.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrContextOptions.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrContext.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrGpuResource.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrRenderTarget.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrResourceKey.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrShaderCaps.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrSurface.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrTexture.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrSamplerParams.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/GrTypes.h">
+      <Filter>include\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/gl/GrGLAssembleInterface.h">
+      <Filter>include\gpu\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/gl/GrGLConfig.h">
+      <Filter>include\gpu\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/gl/GrGLExtensions.h">
+      <Filter>include\gpu\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/gl/GrGLFunctions.h">
+      <Filter>include\gpu\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/gl/GrGLInterface.h">
+      <Filter>include\gpu\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/gpu/gl/GrGLTypes.h">
+      <Filter>include\gpu\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrAuditTrail.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrGLSL.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrInstancedPipelineInfo.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrSingleOwner.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrRenderTargetProxy.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrSurfaceProxy.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrSwizzle.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrTextureProxy.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../include/private/GrTypesPriv.h">
+      <Filter>include\private</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrAppliedClip.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrAuditTrail.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrAutoLocaleSetter.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrAllocator.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrBackendSurface.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrBackendTextureImageGenerator.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrBackendTextureImageGenerator.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrAHardwareBufferImageGenerator.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrBitmapTextureMaker.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrBitmapTextureMaker.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrBlend.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrBlurUtils.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrBlurUtils.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrBuffer.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrBuffer.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrBufferAllocPool.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrBufferAllocPool.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrCaps.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrClip.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrClipStackClip.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrClipStackClip.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrColorSpaceXform.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrColorSpaceXform.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrContext.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrContextPriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrCoordTransform.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrDefaultGeoProcFactory.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrDefaultGeoProcFactory.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrDistanceFieldGenFromVector.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrDistanceFieldGenFromVector.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrDrawingManager.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrDrawingManager.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrDrawOpAtlas.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrDrawOpAtlas.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrDrawOpTest.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrDrawOpTest.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrFixedClip.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrFixedClip.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrFragmentProcessor.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrFragmentProcessor.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrGeometryProcessor.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrGlyph.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrGpu.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrGpu.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrGpuResourceCacheAccess.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrGpuCommandBuffer.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrGpuCommandBuffer.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrGpuResourcePriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrGpuResource.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrGpuResourceRef.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrGpuFactory.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrGpuFactory.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrImageTextureMaker.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrImageTextureMaker.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrMemoryPool.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrMemoryPool.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrMesh.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrNonAtomicRef.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrOpFlushState.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrOpFlushState.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrOpList.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrOpList.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPaint.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPaint.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPath.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPath.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPathProcessor.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPathProcessor.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPathRange.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPathRange.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPathRendererChain.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPathRendererChain.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPathRenderer.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPathRenderer.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPathRendering.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPathRendering.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPathUtils.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPathUtils.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrPendingProgramElement.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrOnFlushResourceProvider.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrOnFlushResourceProvider.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPipeline.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPipeline.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPrimitiveProcessor.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPrimitiveProcessor.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrProcessorSet.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrProcessorSet.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrProgramDesc.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrProgramDesc.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrProgramElement.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrProcessor.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrProcessor.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrProcessorAnalysis.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrProcessorAnalysis.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrProcessorUnitTest.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrProcessorUnitTest.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrGpuResourceRef.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrQuad.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrRect.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrRectanizer.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrRectanizer_pow2.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrRectanizer_pow2.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrRectanizer_skyline.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrRectanizer_skyline.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrRenderTarget.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrRenderTargetPriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrRenderTargetProxy.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrReducedClip.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrReducedClip.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrRenderTargetContext.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrRenderTargetContext.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrRenderTargetContextPriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrPathRenderingRenderTargetContext.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrPathRenderingRenderTargetContext.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrRenderTargetOpList.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrRenderTargetOpList.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrResourceAllocator.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrResourceAllocator.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrResourceCache.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrResourceCache.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrResourceHandle.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrResourceProvider.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrResourceProvider.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrScissorState.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrSemaphore.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrShaderCaps.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrShape.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrShape.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrStencilAttachment.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrStencilAttachment.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrStencilSettings.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrStencilSettings.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrStyle.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrStyle.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrSurfaceContextPriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrSurfaceProxyPriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTessellator.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTessellator.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTextureOpList.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTextureOpList.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrTracing.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTestUtils.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTestUtils.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrShaderVar.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrShaderVar.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrSKSLPrettyPrint.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrSKSLPrettyPrint.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrSoftwarePathRenderer.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrSoftwarePathRenderer.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrSurfacePriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrSurface.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrSurfaceContext.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrSurfaceContext.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrSurfaceProxy.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrSWMaskHelper.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrSWMaskHelper.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTexture.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrTextureAdjuster.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTextureAdjuster.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTextureContext.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTextureContext.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTextureMaker.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTextureMaker.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrTexturePriv.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTextureProducer.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTextureProducer.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrTextureProxy.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/GrTextureRenderTargetProxy.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrTextureRenderTargetProxy.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrTextureStripAtlas.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrTRecorder.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrUserStencilSettings.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrWindowRectangles.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/GrWindowRectsState.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrXferProcessor.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrXferProcessor.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/GrYUVProvider.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/GrYUVProvider.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrAAConvexTessellator.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrAAConvexTessellator.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrAAConvexPathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrAAConvexPathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrAAFillRectOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/ops/GrAAHairLinePathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrAAHairLinePathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrAALinearizingConvexPathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrAALinearizingConvexPathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrAAStrokeRectOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/ops/GrAtlasTextOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrAtlasTextOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrClearOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrClearOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/ops/GrClearStencilClipOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrCopySurfaceOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrCopySurfaceOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrDashLinePathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrDashLinePathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrDashOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrDashOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrDefaultPathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrDefaultPathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/ops/GrDiscardOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/ops/GrDebugMarkerOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrDrawAtlasOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrDrawAtlasOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/ops/GrDrawOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrDrawPathOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrDrawPathOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrDrawVerticesOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrDrawVerticesOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrMeshDrawOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrMeshDrawOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrMSAAPathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrMSAAPathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrNonAAFillRectOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/ops/GrNonAAStrokeRectOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/ops/GrLatticeOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrLatticeOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrOvalOpFactory.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrOvalOpFactory.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/ops/GrRectOpFactory.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrRegionOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrRegionOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrSemaphoreOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrSemaphoreOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrShadowRRectOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrShadowRRectOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrSimpleMeshDrawOpHelper.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrSimpleMeshDrawOpHelper.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrSmallPathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrSmallPathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrStencilAndCoverPathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrStencilAndCoverPathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrStencilPathOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrStencilPathOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ops/GrTessellatingPathRenderer.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ops/GrTessellatingPathRenderer.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRAtlas.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRAtlas.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageProcessor.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCoverageProcessor.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCubicProcessor.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCubicProcessor.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRPathProcessor.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRPathProcessor.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRQuadraticProcessor.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRQuadraticProcessor.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRTriangleProcessor.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRTriangleProcessor.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/ccpr/GrCoverageCountingPathRenderer.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/ccpr/GrCoverageCountingPathRenderer.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrBlurredEdgeFragmentProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrBlurredEdgeFragmentProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrCircleEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrCircleEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrConfigConversionEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrConfigConversionEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrConstColorProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrConstColorProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrCoverageSetOpXP.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrCoverageSetOpXP.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrCustomXfermode.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrCustomXfermode.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrBezierEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrBezierEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrConvexPolyEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrConvexPolyEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrBicubicEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrBicubicEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrBitmapTextGeoProc.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrBitmapTextGeoProc.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrDisableColorXP.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrDisableColorXP.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrDistanceFieldGeoProc.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrDistanceFieldGeoProc.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrDitherEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrDitherEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrEllipseEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrEllipseEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrGaussianConvolutionFragmentProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrGaussianConvolutionFragmentProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrMatrixConvolutionEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrMatrixConvolutionEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrNonlinearColorSpaceXformEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrNonlinearColorSpaceXformEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrOvalEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrOvalEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrPorterDuffXferProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrPorterDuffXferProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrRRectEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrRRectEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrShadowGeoProc.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrShadowGeoProc.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrSimpleTextureEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrSimpleTextureEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrSRGBEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrSRGBEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrTextureDomain.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrTextureDomain.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrTextureStripAtlas.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/effects/GrXfermodeFragmentProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrXfermodeFragmentProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/effects/GrYUVEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/effects/GrYUVEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/instanced/InstancedOp.cpp">
+      <Filter>src\gpu\instanced</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/instanced/InstancedOp.h">
+      <Filter>src\gpu\instanced</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/instanced/InstancedRendering.cpp">
+      <Filter>src\gpu\instanced</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/instanced/InstancedRendering.h">
+      <Filter>src\gpu\instanced</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/instanced/InstancedRenderingTypes.h">
+      <Filter>src\gpu\instanced</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/instanced/InstanceProcessor.cpp">
+      <Filter>src\gpu\instanced</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/instanced/InstanceProcessor.h">
+      <Filter>src\gpu\instanced</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/instanced/GLInstancedRendering.cpp">
+      <Filter>src\gpu\instanced</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/instanced/GLInstancedRendering.h">
+      <Filter>src\gpu\instanced</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/text/GrAtlasGlyphCache.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/text/GrAtlasGlyphCache.h">
+      <Filter>src\gpu\text</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/text/GrAtlasTextBlob.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/text/GrAtlasTextBlob_regenInOp.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/text/GrAtlasTextBlob.h">
+      <Filter>src\gpu\text</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/text/GrAtlasTextContext.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/text/GrAtlasTextContext.h">
+      <Filter>src\gpu\text</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/text/GrDistanceFieldAdjustTable.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/text/GrDistanceFieldAdjustTable.h">
+      <Filter>src\gpu\text</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/text/GrStencilAndCoverTextContext.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/text/GrStencilAndCoverTextContext.h">
+      <Filter>src\gpu\text</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/text/GrTextBlobCache.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/text/GrTextBlobCache.h">
+      <Filter>src\gpu\text</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/text/GrTextUtils.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/text/GrTextUtils.h">
+      <Filter>src\gpu\text</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLAssembleInterface.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/gl/GrGLBuffer.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLBuffer.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLCaps.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLCaps.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLContext.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLContext.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLCreateNullInterface.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLDefines.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLGLSL.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLGLSL.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLGpu.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLGpu.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/gl/GrGLGpuCommandBuffer.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLGpuProgramCache.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/gl/GrGLExtensions.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/gl/GrGLInterface.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLIRect.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLPath.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLPath.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLPathRange.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLPathRange.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLPathRendering.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLPathRendering.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLProgram.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLProgram.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLProgramDataManager.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLProgramDataManager.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLRenderTarget.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLRenderTarget.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLSemaphore.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLSemaphore.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLStencilAttachment.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLStencilAttachment.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLTestInterface.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLTestInterface.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLTexture.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLTexture.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLTextureRenderTarget.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLTextureRenderTarget.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLUtil.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLUtil.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLUniformHandler.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLUniformHandler.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLVaryingHandler.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLVaryingHandler.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/GrGLVertexArray.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/GrGLVertexArray.h">
+      <Filter>src\gpu\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/builders/GrGLProgramBuilder.cpp">
+      <Filter>src\gpu\gl\builders</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/builders/GrGLProgramBuilder.h">
+      <Filter>src\gpu\gl\builders</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/gl/builders/GrGLShaderStringBuilder.cpp">
+      <Filter>src\gpu\gl\builders</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/gl/builders/GrGLShaderStringBuilder.h">
+      <Filter>src\gpu\gl\builders</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSL.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLBlend.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLBlend.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLColorSpaceXformHelper.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLFragmentProcessor.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLFragmentProcessor.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLFragmentShaderBuilder.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLFragmentShaderBuilder.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLGeometryProcessor.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLGeometryProcessor.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLGeometryShaderBuilder.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLGeometryShaderBuilder.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLPrimitiveProcessor.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLPrimitiveProcessor.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLProgramBuilder.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLProgramBuilder.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLProgramDataManager.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLProgramDataManager.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLShaderBuilder.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLShaderBuilder.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLUniformHandler.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLUtil.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLUtil.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLVarying.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLVarying.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLVertexShaderBuilder.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLVertexShaderBuilder.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/glsl/GrGLSLXferProcessor.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/glsl/GrGLSLXferProcessor.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/mock/GrMockBuffer.h">
+      <Filter>src\gpu\mock</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/mock/GrMockCaps.h">
+      <Filter>src\gpu\mock</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/mock/GrMockGpu.cpp">
+      <Filter>src\gpu\mock</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/mock/GrMockGpu.h">
+      <Filter>src\gpu\mock</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/mock/GrMockGpuCommandBuffer.h">
+      <Filter>src\gpu\mock</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/mock/GrMockStencilAttachment.h">
+      <Filter>src\gpu\mock</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/gpu/mock/GrMockTexture.h">
+      <Filter>src\gpu\mock</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/SkGpuDevice.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/SkGpuDevice.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/SkGpuDevice_drawTexture.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/gpu/SkGr.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/gpu/SkGr.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/image/SkImage_Gpu.h">
+      <Filter>src\image</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/image/SkImage_Gpu.cpp">
+      <Filter>src\image</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../src/image/SkSurface_Gpu.h">
+      <Filter>src\image</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../src/image/SkSurface_Gpu.cpp">
+      <Filter>src\image</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLCFGGenerator.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLCompiler.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLIRGenerator.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLParser.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLCPPCodeGenerator.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLHCodeGenerator.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLGLSLCodeGenerator.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLSPIRVCodeGenerator.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLString.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/SkSLUtil.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/lex.layout.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/ir/SkSLSymbolTable.cpp">
+      <Filter>src\sksl\ir</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/ir/SkSLSetting.cpp">
+      <Filter>src\sksl\ir</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sksl/ir/SkSLType.cpp">
+      <Filter>src\sksl\ir</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/gpu/gl/GrGLDefaultInterface_native.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp">
+      <Filter>src\gpu\win</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

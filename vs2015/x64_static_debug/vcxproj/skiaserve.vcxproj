@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="GN|x64">
+      <Configuration>GN</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5261D19A-F925-E8AB-DAF7-2759F8CE6913}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>skiaserve</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>../../../vs2015/x64_static_debug/</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../include/private;../../../src/c;../../../src/codec;../../../src/core;../../../src/effects;../../../src/fonts;../../../src/image;../../../src/images;../../../src/lazy;../../../src/opts;../../../src/pathops;../../../src/pdf;../../../src/ports;../../../src/sfnt;../../../src/shaders;../../../src/shaders/gradients;../../../src/sksl;../../../src/utils;../../../src/utils/win;../../../src/xml;../../../third_party/gif;../../../src/gpu;../../../tools/flags;../../../tools/gpu;../../../include/android;../../../include/c;../../../include/codec;../../../include/config;../../../include/core;../../../include/effects;../../../include/encode;../../../include/gpu;../../../include/gpu/gl;../../../include/pathops;../../../include/ports;../../../include/svg;../../../include/utils;../../../include/utils/mac;../../../tools;../../../tools/debugger;../../../tools/timer;../../../tools/trace;../../../third_party/externals/jsoncpp/include;../../../third_party/externals/microhttpd/src/include;../../../third_party/libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244;4267;4800;4291;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;SK_GAMMA_APPLY_TO_A8;SK_ANGLE;SK_ENABLE_DISCRETE_GPU;GR_TEST_UTILS=1;SK_ENABLE_SPIRV_VALIDATION;SK_HAS_JPEG_LIBRARY;SK_SUPPORT_PDF;SK_HAS_PNG_LIBRARY;SK_HAS_WEBP_LIBRARY;SK_XML;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>CONSOLE</SubSystem>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='GN|x64'">$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='GN|x64'">skia.lib;jsoncpp.lib;tool_utils.lib;libmicrohttpd.lib;gpu_tool_utils.lib;Ws2_32.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/skiaserve/Request.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/Response.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/skiaserve.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/BreakHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/ClipAlphaHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/CmdHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/ColorModeHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/DataHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/DownloadHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/EnableGPUHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/ImgHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/InfoHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/OpBoundsHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/OpsHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/OverdrawHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/PostHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/QuitHandler.cpp" />
+    <ClCompile Include="../../../tools/skiaserve/urlhandlers/RootHandler.cpp" />
+    <ClCompile Include="..\..\..\tools\flags\SkCommandLineFlags.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

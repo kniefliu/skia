@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="tools\gpu">
+      <UniqueIdentifier>{099BE127-C8D4-850F-504B-2A9E7AE77F02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{0E9715BA-57B3-F23F-1EED-56699DC72D4B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\gpu\gl">
+      <UniqueIdentifier>{1EE39156-C37D-C0C4-7763-D1A1DBFA9D8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\gpu\gl\command_buffer">
+      <UniqueIdentifier>{090FF599-0E7D-1135-0747-30D9D831DF3A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\gpu\gl\debug">
+      <UniqueIdentifier>{B6B9D1B4-CD32-8779-A6D5-73C3151DC94E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\gpu\gl\null">
+      <UniqueIdentifier>{42EE5001-F4BC-2776-9126-531734A1CCA8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\gpu\mock">
+      <UniqueIdentifier>{452E7D87-36E9-D72A-88E4-2DC6571C6E0A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\gpu\gl\egl">
+      <UniqueIdentifier>{85E6800A-5039-45F6-72B3-1104F2BD1B7E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\gpu\gl\angle">
+      <UniqueIdentifier>{DF1C199F-D9A1-5282-6C4E-8C23B4A9A2B7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../tools/gpu/GrContextFactory.cpp">
+      <Filter>tools\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/GrTest.cpp">
+      <Filter>tools\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/TestContext.cpp">
+      <Filter>tools\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/GLTestContext.cpp">
+      <Filter>tools\gpu\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/command_buffer/GLTestContext_command_buffer.cpp">
+      <Filter>tools\gpu\gl\command_buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/debug/DebugGLTestContext.cpp">
+      <Filter>tools\gpu\gl\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrBufferObj.cpp">
+      <Filter>tools\gpu\gl\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrFrameBufferObj.cpp">
+      <Filter>tools\gpu\gl\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrProgramObj.cpp">
+      <Filter>tools\gpu\gl\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrShaderObj.cpp">
+      <Filter>tools\gpu\gl\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrTextureObj.cpp">
+      <Filter>tools\gpu\gl\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/debug/GrTextureUnitObj.cpp">
+      <Filter>tools\gpu\gl\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/null/NullGLTestContext.cpp">
+      <Filter>tools\gpu\gl\null</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/mock/MockTestContext.cpp">
+      <Filter>tools\gpu\mock</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/egl/CreatePlatformGLTestContext_egl.cpp">
+      <Filter>tools\gpu\gl\egl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../tools/gpu/gl/angle/GLTestContext_angle.cpp">
+      <Filter>tools\gpu\gl\angle</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

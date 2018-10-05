@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="experimental\svg\model">
+      <UniqueIdentifier>{D6BE32AC-DD8B-B63F-1CD6-51C4F33E1DDA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="experimental\svg">
+      <UniqueIdentifier>{B4432AC4-CEA9-EB31-884A-B2AC6876E3C5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="experimental">
+      <UniqueIdentifier>{F245AB0E-8CE1-3111-C966-26C03DE721BE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGAttribute.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGAttributeParser.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGCircle.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGClipPath.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGContainer.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGDOM.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGEllipse.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGLine.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGLinearGradient.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGNode.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGPath.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGPoly.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGRect.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGRenderContext.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGSVG.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGShape.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGStop.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGTransformableNode.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../experimental/svg/model/SkSVGValue.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>
