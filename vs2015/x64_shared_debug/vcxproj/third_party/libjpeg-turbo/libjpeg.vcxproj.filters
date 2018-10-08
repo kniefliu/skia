@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="..\..\third_party\externals\libjpeg-turbo">
+      <UniqueIdentifier>{D0ACA902-4AA4-BBCA-5A15-64E6BA27A890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals">
+      <UniqueIdentifier>{AA2D7338-93F3-927B-CA6F-5DA0C10A5E77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party">
+      <UniqueIdentifier>{F88318E6-F850-6A80-FDF6-B1A366449460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{A8A4AA46-5437-4AB8-6540-F14ED994B38E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jaricom.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcapimin.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcapistd.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcarith.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jccoefct.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jccolor.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcdctmgr.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jchuff.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcinit.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcmainct.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcmarker.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcmaster.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcomapi.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcparam.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcphuff.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcprepct.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcsample.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdapimin.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdapistd.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdarith.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdcoefct.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdcolor.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jddctmgr.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdhuff.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdinput.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmainct.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmarker.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmaster.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmerge.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdphuff.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdpostct.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdsample.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jerror.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jfdctflt.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jfdctfst.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jfdctint.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctflt.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctfst.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctint.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctred.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jmemmgr.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jmemnobs.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jquant1.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jquant2.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jutils.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jsimd_none.c">
+      <Filter>..\..\third_party\externals\libjpeg-turbo</Filter>
+    </ClCompile>
+</ItemGroup>
+</Project>

@@ -57,11 +57,13 @@
 		Specifies an object (.obj) file name to be used instead of the default.
 			translator\Compiler.cpp Compiler_translator.obj
 			common\debug.cpp debug_common.obj
-		link libs : d3d9.lib	 
+		link libs : d3d9.lib
+		libGLESv2.rc : file type resource compiler
 		module def file : ../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.def
 	libEGL: 
 		link libs : libGLESv2.lib
 		lib dir : $(OutDir)
+		libEGL.rc : file type resource compiler
 		module def file : ../../../../../third_party/externals/angle2/src/libEGL/libEGL.def
 	spirv-tools:
 		Specifies an object (.obj) file name to be used instead of the default.
@@ -114,8 +116,27 @@
 		gpu remove src/gpu/gl/egl
 		gpu add src/gpu/gl/win
 		
-	
-	
+8.vs2015 build shared 64bit debug
+	generate vs2015 projects without ninja
+		build 64bit static debug:
+			gn gen vs2015/x64_shared_debug --args="is_component_build=true is_debug=true skia_use_egl=true skia_use_angle=true" --ide=vs --sln=skia	
+			MsvcProjTool modify obj's ninja vcxprojs to vcxproj's vs2015 vcxprojs
+			skia.sln : modify obj/ to vcxproj/
+			
+	avx: disable warning 4251
+	effects: disable warning 4251
+	gpu: disable warning 4251
+	jpeg: disable warning 4251
+	png: disable warning 4251
+	sse2: disable warning 4251
+	sse41: disable warning 4251
+	sse42: disable warning 4251
+	ssse3: disable warning 4251
+	webp: disable warning 4251
+	skia: 
+		disable warning 4251
+		remove SkDocument.cpp SkMultiPictureDocument.cpp SkXPSDocument.cpp SkXPSDevice.cpp
+		libs: avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;OpenGL32.lib;Usp10.lib;
 	
 				
 				

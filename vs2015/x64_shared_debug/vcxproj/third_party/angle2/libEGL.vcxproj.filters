@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="..\..\third_party\externals\angle2\src\libEGL">
+      <UniqueIdentifier>{D8693343-9835-7C69-36F2-E6B0F1DE0E63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src">
+      <UniqueIdentifier>{13C461FC-90C0-807A-FA3F-D31128D96F00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2">
+      <UniqueIdentifier>{FB4B3125-E8DC-54C8-B36E-A3172023B81C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals">
+      <UniqueIdentifier>{AA2D7338-93F3-927B-CA6F-5DA0C10A5E77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party">
+      <UniqueIdentifier>{F88318E6-F850-6A80-FDF6-B1A366449460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{A8A4AA46-5437-4AB8-6540-F14ED994B38E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libEGL/libEGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libEGL</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libEGL/libEGL.def">
+      <Filter>..\..\third_party\externals\angle2\src\libEGL</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libEGL/resource.h">
+      <Filter>..\..\third_party\externals\angle2\src\libEGL</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libEGL/libEGL.rc">
+      <Filter>..\..\third_party\externals\angle2\src\libEGL</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
