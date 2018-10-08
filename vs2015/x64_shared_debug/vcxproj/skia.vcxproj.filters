@@ -79,6 +79,12 @@
     <Filter Include="third_party">
       <UniqueIdentifier>{363093B2-8BE6-B8D4-ADFC-148BB4039B6A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\extension_dll">
+      <UniqueIdentifier>{422a99a9-8fc6-447f-b1ef-a1656a2654dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\extension_dll\win">
+      <UniqueIdentifier>{3f3dd3da-2f07-4594-a330-5dd0d812201d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../src/c/sk_paint.cpp">
@@ -1905,9 +1911,15 @@
     <ClCompile Include="../../../src/ports/SkFontMgr_win_dw_factory.cpp">
       <Filter>src\ports</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp">
+      <Filter>src\extension_dll\win</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h">
+      <Filter>src\extension_dll\win</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
