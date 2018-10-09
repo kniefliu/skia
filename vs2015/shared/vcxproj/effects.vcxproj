@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{492AC10B-3160-8932-FCF8-E0BC3E3196C9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>effects</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Locals">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../include/android;../../../include/c;../../../include/codec;../../../include/config;../../../include/core;../../../include/effects;../../../include/encode;../../../include/gpu;../../../include/gpu/gl;../../../include/pathops;../../../include/ports;../../../include/svg;../../../include/utils;../../../include/utils/mac;../../../include/private;../../../src/c;../../../src/codec;../../../src/core;../../../src/effects;../../../src/fonts;../../../src/image;../../../src/images;../../../src/lazy;../../../src/opts;../../../src/pathops;../../../src/pdf;../../../src/ports;../../../src/sfnt;../../../src/shaders;../../../src/shaders/gradients;../../../src/sksl;../../../src/utils;../../../src/utils/win;../../../src/xml;../../../third_party/gif;../../../src/gpu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244;4267;4800;4291;4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;SKIA_DLL;SK_GAMMA_APPLY_TO_A8;SK_ANGLE;SK_ENABLE_DISCRETE_GPU;GR_TEST_UTILS=1;SKIA_IMPLEMENTATION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../include/android;../../../include/c;../../../include/codec;../../../include/config;../../../include/core;../../../include/effects;../../../include/encode;../../../include/gpu;../../../include/gpu/gl;../../../include/pathops;../../../include/ports;../../../include/svg;../../../include/utils;../../../include/utils/mac;../../../include/private;../../../src/c;../../../src/codec;../../../src/core;../../../src/effects;../../../src/fonts;../../../src/image;../../../src/images;../../../src/lazy;../../../src/opts;../../../src/pathops;../../../src/pdf;../../../src/ports;../../../src/sfnt;../../../src/shaders;../../../src/shaders/gradients;../../../src/sksl;../../../src/utils;../../../src/utils/win;../../../src/xml;../../../third_party/gif;../../../src/gpu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244;4267;4800;4291;4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>NDEBUG;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;SKIA_DLL;SK_GAMMA_APPLY_TO_A8;SK_ANGLE;SK_ENABLE_DISCRETE_GPU;GR_TEST_UTILS=1;SKIA_IMPLEMENTATION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../src/effects/GrCircleBlurFragmentProcessor.h" />
+    <ClInclude Include="../../../src/effects/GrAlphaThresholdFragmentProcessor.h" />
+    <ClInclude Include="../../../src/effects/SkBlurMask.h" />
+    <ClInclude Include="../../../src/effects/SkEmbossMask.h" />
+    <ClInclude Include="../../../src/effects/SkPackBits.h" />
+    <ClInclude Include="../../../src/shaders/gradients/Sk4fGradientBase.h" />
+    <ClInclude Include="../../../src/shaders/gradients/Sk4fGradientPriv.h" />
+    <ClInclude Include="../../../src/shaders/gradients/Sk4fLinearGradient.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkClampRange.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkGradientBitmapCache.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkGradientShaderPriv.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkLinearGradient.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkRadialGradient.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkTwoPointConicalGradient.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkTwoPointConicalGradient_gpu.h" />
+    <ClInclude Include="../../../src/shaders/gradients/SkSweepGradient.h" />
+    <ClInclude Include="../../../include/effects/Sk1DPathEffect.h" />
+    <ClInclude Include="../../../include/effects/Sk2DPathEffect.h" />
+    <ClInclude Include="../../../include/effects/SkAlphaThresholdFilter.h" />
+    <ClInclude Include="../../../include/effects/SkArithmeticImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkBlurDrawLooper.h" />
+    <ClInclude Include="../../../include/effects/SkBlurImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkBlurMaskFilter.h" />
+    <ClInclude Include="../../../include/effects/SkColorFilterImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkColorMatrix.h" />
+    <ClInclude Include="../../../include/effects/SkColorMatrixFilter.h" />
+    <ClInclude Include="../../../include/effects/SkCornerPathEffect.h" />
+    <ClInclude Include="../../../include/effects/SkDashPathEffect.h" />
+    <ClInclude Include="../../../include/effects/SkDiscretePathEffect.h" />
+    <ClInclude Include="../../../include/effects/SkDisplacementMapEffect.h" />
+    <ClInclude Include="../../../include/effects/SkDropShadowImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkGradientShader.h" />
+    <ClInclude Include="../../../include/effects/SkImageSource.h" />
+    <ClInclude Include="../../../include/effects/SkLayerDrawLooper.h" />
+    <ClInclude Include="../../../include/effects/SkLayerRasterizer.h" />
+    <ClInclude Include="../../../include/effects/SkLightingImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkLumaColorFilter.h" />
+    <ClInclude Include="../../../include/effects/SkMagnifierImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkMorphologyImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkOffsetImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkOverdrawColorFilter.h" />
+    <ClInclude Include="../../../include/effects/SkPaintFlagsDrawFilter.h" />
+    <ClInclude Include="../../../include/effects/SkPaintImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkPerlinNoiseShader.h" />
+    <ClInclude Include="../../../include/effects/SkRRectsGaussianEdgeMaskFilter.h" />
+    <ClInclude Include="../../../include/effects/SkTableColorFilter.h" />
+    <ClInclude Include="../../../include/effects/SkTableMaskFilter.h" />
+    <ClInclude Include="../../../include/effects/SkTileImageFilter.h" />
+    <ClInclude Include="../../../include/effects/SkToSRGBColorFilter.h" />
+    <ClInclude Include="../../../include/effects/SkXfermodeImageFilter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/c/sk_effects.cpp" />
+    <ClCompile Include="../../../src/effects/GrCircleBlurFragmentProcessor.cpp" />
+    <ClCompile Include="../../../src/effects/GrAlphaThresholdFragmentProcessor.cpp" />
+    <ClCompile Include="../../../src/effects/Sk1DPathEffect.cpp" />
+    <ClCompile Include="../../../src/effects/Sk2DPathEffect.cpp" />
+    <ClCompile Include="../../../src/effects/SkAlphaThresholdFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkArithmeticImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkBlurMask.cpp" />
+    <ClCompile Include="../../../src/effects/SkBlurMaskFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkColorFilterImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkColorMatrix.cpp" />
+    <ClCompile Include="../../../src/effects/SkColorMatrixFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkComposeImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkCornerPathEffect.cpp" />
+    <ClCompile Include="../../../src/effects/SkDashPathEffect.cpp" />
+    <ClCompile Include="../../../src/effects/SkDiscretePathEffect.cpp" />
+    <ClCompile Include="../../../src/effects/SkDisplacementMapEffect.cpp" />
+    <ClCompile Include="../../../src/effects/SkDropShadowImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkEmbossMask.cpp" />
+    <ClCompile Include="../../../src/effects/SkEmbossMaskFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkImageSource.cpp" />
+    <ClCompile Include="../../../src/effects/SkHighContrastFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkLayerDrawLooper.cpp" />
+    <ClCompile Include="../../../src/effects/SkLayerRasterizer.cpp" />
+    <ClCompile Include="../../../src/effects/SkLightingImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkLumaColorFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkMagnifierImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkMatrixConvolutionImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkMergeImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkMorphologyImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkOffsetImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkOverdrawColorFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkPackBits.cpp" />
+    <ClCompile Include="../../../src/effects/SkPaintFlagsDrawFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkPaintImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkPictureImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkRRectsGaussianEdgeMaskFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkTableColorFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkTableMaskFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkTileImageFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkToSRGBColorFilter.cpp" />
+    <ClCompile Include="../../../src/effects/SkXfermodeImageFilter.cpp" />
+    <ClCompile Include="../../../src/shaders/SkPerlinNoiseShader.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/Sk4fGradientBase.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/Sk4fLinearGradient.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkClampRange.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkGradientBitmapCache.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkGradientShader.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkLinearGradient.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkRadialGradient.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkTwoPointConicalGradient.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkTwoPointConicalGradient_gpu.cpp" />
+    <ClCompile Include="../../../src/shaders/gradients/SkSweepGradient.cpp" />
+    <ClCompile Include="../../../src/ports/SkGlobalInitialization_default.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

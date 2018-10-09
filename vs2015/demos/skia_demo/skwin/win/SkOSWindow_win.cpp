@@ -172,14 +172,14 @@ SkOSWindow::SkOSWindow(void* hWnd)
 #endif
 
 	fExpectedDeviceType = kRaster_DeviceType;
-//#if SK_SUPPORT_GPU
-//	fExpectedDeviceType = kGPU_DeviceType;
-//	origin_ = kBottomLeft_GrSurfaceOrigin;
-//#if SK_ANGLE
-//	fExpectedDeviceType = kANGLE_DeviceTypeD3D11;
-//	origin_ = kTopLeft_GrSurfaceOrigin;
-//#endif
-//#endif
+#if SK_SUPPORT_GPU
+	fExpectedDeviceType = kGPU_DeviceType;
+	origin_ = kBottomLeft_GrSurfaceOrigin;
+#if SK_ANGLE
+	fExpectedDeviceType = kANGLE_DeviceTypeD3D11;
+	origin_ = kTopLeft_GrSurfaceOrigin;
+#endif
+#endif
 }
 
 SkOSWindow::~SkOSWindow() 
