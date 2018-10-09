@@ -509,7 +509,7 @@ void SkOSWindow::setUpBackend() {
 			SkSafeUnref(fCurIntf);
 			fCurContext = nullptr;
 			fCurIntf = nullptr;
-			SkDebugf("Failed to setup 3D");
+			OutputDebugStringA("Failed to setup 3D\n");
 
 			detach();
 		}
@@ -815,13 +815,17 @@ bool create_ANGLE(EGLNativeWindowType hWnd,
 		{
 			EGL_PLATFORM_ANGLE_TYPE_ANGLE,
 			EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE,
+#ifndef _WIN64
 			EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX, reinterpret_cast<EGLAttrib>(platformMethods()),
+#endif
 			EGL_NONE
 		},
 		{
 			EGL_PLATFORM_ANGLE_TYPE_ANGLE,
 			EGL_PLATFORM_ANGLE_TYPE_D3D9_ANGLE,
+#ifndef _WIN64
 			EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX, reinterpret_cast<EGLAttrib>(platformMethods()),
+#endif
 			EGL_NONE
 		},
 	};

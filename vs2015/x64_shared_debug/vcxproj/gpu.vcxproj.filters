@@ -55,8 +55,8 @@
     <Filter Include="src\sksl\ir">
       <UniqueIdentifier>{8C840217-05F2-9308-00AA-FCD47CD847CA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\gpu\gl\egl">
-      <UniqueIdentifier>{A920DE5E-787E-F2E0-B4B6-14B5DF4D1C90}</UniqueIdentifier>
+    <Filter Include="src\gpu\gl\win">
+      <UniqueIdentifier>{a2d152f6-a68e-4ee9-a081-ef543f611212}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1482,8 +1482,10 @@
     <ClCompile Include="../../../src/gpu/gl/GrGLDefaultInterface_native.cpp">
       <Filter>src\gpu\gl</Filter>
     </ClCompile>
-    <ClCompile Include="../../../src/gpu/gl/egl/GrGLCreateNativeInterface_egl.cpp">
-      <Filter>src\gpu\gl\egl</Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp">
+      <Filter>src\gpu\gl\win</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

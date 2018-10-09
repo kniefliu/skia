@@ -528,7 +528,7 @@
     <ClCompile Include="../../../src/sksl/ir/SkSLSetting.cpp" />
     <ClCompile Include="../../../src/sksl/ir/SkSLType.cpp" />
     <ClCompile Include="../../../src/gpu/gl/GrGLDefaultInterface_native.cpp" />
-    <ClCompile Include="../../../src/gpu/gl/egl/GrGLCreateNativeInterface_egl.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
