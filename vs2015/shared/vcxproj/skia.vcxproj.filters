@@ -1914,6 +1914,9 @@
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp">
       <Filter>src\extension_dll\win</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ports\SkFontMgr_win_gdi_factory.cpp">
+      <Filter>src\ports</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
