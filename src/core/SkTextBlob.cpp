@@ -423,7 +423,7 @@ SkRect SkTextBlobBuilder::TightRunBounds(const SkTextBlob::RunRecord& run) {
     SkAutoSTArray<16, SkRect> glyphBounds(run.glyphCount());
     paint.getTextWidths(run.glyphBuffer(),
                         run.glyphCount() * sizeof(uint16_t),
-                        NULL,
+                        nullptr,
                         glyphBounds.get());
 
     SkASSERT(SkTextBlob::kFull_Positioning == run.positioning() ||
@@ -658,7 +658,7 @@ const SkTextBlobBuilder::RunBuffer& SkTextBlobBuilder::allocRunTextPos(const SkP
                                                                        int textByteCount,
                                                                        SkString lang,
                                                                        const SkRect *bounds) {
-   this->allocInternal(font, SkTextBlob::kFull_Positioning, count, textByteCount, SkPoint::Make(0, 0), bounds);
+    this->allocInternal(font, SkTextBlob::kFull_Positioning, count, textByteCount, SkPoint::Make(0, 0), bounds);
 
     return fCurrentRunBuffer;
 }

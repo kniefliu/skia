@@ -291,9 +291,12 @@ void GrGLCaps::init(const GrContextOptions& contextOptions,
     this->initGLSL(ctxInfo);
     GrShaderCaps* shaderCaps = fShaderCaps.get();
 
-    if (!contextOptions.fSuppressPathRendering) {
-        shaderCaps->fPathRenderingSupport = this->hasPathRenderingSupport(ctxInfo, gli);
+    shaderCaps->fPathRenderingSupport = this->hasPathRenderingSupport(ctxInfo, gli);
+#if GR_TEST_UTILS
+    if (contextOptions.fSuppressPathRendering) {
+        shaderCaps->fPathRenderingSupport = false;
     }
+#endif
 
     // For now these two are equivalent but we could have dst read in shader via some other method.
     // Before setting this, initGLSL() must have been called.
@@ -528,6 +531,22 @@ void GrGLCaps::init(const GrContextOptions& contextOptions,
         fUseDrawInsteadOfClear = true;
     }
 
+#ifdef SK_BUILD_FOR_MAC
+    // crbug.com/768134 - On MacBook Pros, the Intel Iris Pro doesn't always perform
+    // full screen clears
+    if (kIntelIrisPro_GrGLRenderer == ctxInfo.renderer()) {
+        fUseDrawInsteadOfClear = true;
+    }
+#endif
+
+    // See crbug.com/755871. This could probably be narrowed to just partial clears as the driver
+    // bugs seems to involve clearing too much and not skipping the clear.
+    // See crbug.com/768134. This is also needed for full clears and was seen on an nVidia K620 
+    // but only for D3D11 ANGLE.
+    if (GrGLANGLEBackend::kD3D11 == ctxInfo.angleBackend()) {
+        fUseDrawInsteadOfClear = true;
+    }
+
     if (kAdreno4xx_GrGLRenderer == ctxInfo.renderer()) {
         // This is known to be fixed sometime between driver 145.0 and 219.0
         if (ctxInfo.driver() == kQualcomm_GrGLDriver &&
@@ -597,10 +616,6 @@ void GrGLCaps::init(const GrContextOptions& contextOptions,
     }
 
     this->initShaderPrecisionTable(ctxInfo, gli, shaderCaps);
-
-    if (contextOptions.fUseShaderSwizzling) {
-        fTextureSwizzleSupport = false;
-    }
 
     if (kGL_GrGLStandard == standard) {
         if ((version >= GR_GL_VER(4, 0) || ctxInfo.hasExtension("GL_ARB_sample_shading")) &&
@@ -1074,8 +1089,11 @@ void GrGLCaps::initFSAASupport(const GrContextOptions& contextOptions, const GrG
     // renderer is available and enabled; no other path renderers support this feature.
     if (fMultisampleDisableSupport &&
         this->shaderCaps()->dualSourceBlendingSupport() &&
-        this->shaderCaps()->pathRenderingSupport() &&
-        (contextOptions.fGpuPathRenderers & GrContextOptions::GpuPathRenderers::kStencilAndCover)) {
+        this->shaderCaps()->pathRenderingSupport()
+#if GR_TEST_UTILS
+        && (contextOptions.fGpuPathRenderers & GpuPathRenderers::kStencilAndCover)
+#endif
+        ) {
         fUsesMixedSamples = ctxInfo.hasExtension("GL_NV_framebuffer_mixed_samples") ||
                             ctxInfo.hasExtension("GL_CHROMIUM_framebuffer_mixed_samples");
         // Workaround NVIDIA bug related to glInvalidateFramebuffer and mixed samples.

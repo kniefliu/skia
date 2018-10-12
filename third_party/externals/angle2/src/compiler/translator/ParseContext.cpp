@@ -474,9 +474,10 @@ bool TParseContext::checkCanBeLValue(const TSourceLoc &line, const char *op, TIn
             message = "can't modify an attribute";
             break;
         case EvqFragmentIn:
-            message = "can't modify an input";
-            break;
         case EvqVertexIn:
+        case EvqFlatIn:
+        case EvqSmoothIn:
+        case EvqCentroidIn:
             message = "can't modify an input";
             break;
         case EvqUniform:
@@ -520,6 +521,24 @@ bool TParseContext::checkCanBeLValue(const TSourceLoc &line, const char *op, TIn
             break;
         case EvqPerVertexIn:
             message = "can't modify any member in gl_in";
+            break;
+        case EvqPrimitiveIDIn:
+            message = "can't modify gl_PrimitiveIDIn";
+            break;
+        case EvqInvocationID:
+            message = "can't modify gl_InvocationID";
+            break;
+        case EvqPrimitiveID:
+            if (mShaderType == GL_FRAGMENT_SHADER)
+            {
+                message = "can't modify gl_PrimitiveID in a fragment shader";
+            }
+            break;
+        case EvqLayer:
+            if (mShaderType == GL_FRAGMENT_SHADER)
+            {
+                message = "can't modify gl_Layer in a fragment shader";
+            }
             break;
         default:
             //
@@ -3781,7 +3800,9 @@ TIntermTyped *TParseContext::addIndexExpression(TIntermTyped *baseExpression,
                           "[");
                     break;
                 default:
-                    UNREACHABLE();
+                    // We can reach here only in error cases.
+                    ASSERT(mDiagnostics->numErrors() > 0);
+                    break;
             }
         }
         else if (baseExpression->getQualifier() == EvqFragmentOut)

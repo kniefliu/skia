@@ -45,7 +45,7 @@ bool ValidateFramebufferTextureMultiviewBaseANGLE(Context *context,
         return false;
     }
 
-    if (numViews < 1)
+    if (texture != 0 && numViews < 1)
     {
         context->handleError(InvalidValue() << "numViews cannot be less than 1.");
         return false;
@@ -82,7 +82,34 @@ bool ValidateFramebufferTextureMultiviewLevelAndFormat(Context *context,
     return true;
 }
 
-}  // namespace
+bool ValidateUniformES3(Context *context, GLenum uniformType, GLint location, GLint count)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateUniform(context, uniformType, location, count);
+}
+
+bool ValidateUniformMatrixES3(Context *context,
+                              GLenum valueType,
+                              GLint location,
+                              GLsizei count,
+                              GLboolean transpose)
+{
+    // Check for ES3 uniform entry points
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateUniformMatrix(context, valueType, location, count, transpose);
+}
+
+}  // anonymous namespace
 
 static bool ValidateTexImageFormatCombination(gl::Context *context,
                                               GLenum target,
@@ -1149,6 +1176,18 @@ bool ValidateInvalidateFramebuffer(Context *context,
                                           defaultFramebuffer);
 }
 
+bool ValidateInvalidateSubFramebuffer(Context *context,
+                                      GLenum target,
+                                      GLsizei numAttachments,
+                                      const GLenum *attachments,
+                                      GLint x,
+                                      GLint y,
+                                      GLsizei width,
+                                      GLsizei height)
+{
+    return ValidateInvalidateFramebuffer(context, target, numAttachments, attachments);
+}
+
 bool ValidateClearBuffer(ValidationContext *context)
 {
     if (context->getClientMajorVersion() < 3)
@@ -1371,11 +1410,11 @@ bool ValidateBindVertexArray(Context *context, GLuint array)
     return ValidateBindVertexArrayBase(context, array);
 }
 
-bool ValidateIsVertexArray(Context *context)
+bool ValidateIsVertexArray(Context *context, GLuint array)
 {
     if (context->getClientMajorVersion() < 3)
     {
-        context->handleError(InvalidOperation());
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
         return false;
     }
 
@@ -2634,8 +2673,8 @@ bool ValidateGetSynciv(Context *context,
         return false;
     }
 
-    FenceSync *fenceSync = context->getFenceSync(sync);
-    if (!fenceSync)
+    Sync *syncObject = context->getSync(sync);
+    if (!syncObject)
     {
         context->handleError(InvalidValue() << "Invalid sync object.");
         return false;
@@ -2688,14 +2727,14 @@ bool ValidateFramebufferTextureMultiviewLayeredANGLE(Context *context,
         return false;
     }
 
-    if (baseViewIndex < 0)
-    {
-        context->handleError(InvalidValue() << "baseViewIndex cannot be less than 0.");
-        return false;
-    }
-
     if (texture != 0)
     {
+        if (baseViewIndex < 0)
+        {
+            context->handleError(InvalidValue() << "baseViewIndex cannot be less than 0.");
+            return false;
+        }
+
         Texture *tex = context->getTexture(texture);
         ASSERT(tex);
 
@@ -2742,19 +2781,19 @@ bool ValidateFramebufferTextureMultiviewSideBySideANGLE(Context *context,
         return false;
     }
 
-    const GLsizei numViewportOffsetValues = numViews * 2;
-    for (GLsizei i = 0; i < numViewportOffsetValues; ++i)
-    {
-        if (viewportOffsets[i] < 0)
-        {
-            context->handleError(InvalidValue()
-                                 << "viewportOffsets cannot contain negative values.");
-            return false;
-        }
-    }
-
     if (texture != 0)
     {
+        const GLsizei numViewportOffsetValues = numViews * 2;
+        for (GLsizei i = 0; i < numViewportOffsetValues; ++i)
+        {
+            if (viewportOffsets[i] < 0)
+            {
+                context->handleError(InvalidValue()
+                                     << "viewportOffsets cannot contain negative values.");
+                return false;
+            }
+        }
+
         Texture *tex = context->getTexture(texture);
         ASSERT(tex);
 
@@ -2775,6 +2814,850 @@ bool ValidateFramebufferTextureMultiviewSideBySideANGLE(Context *context,
     }
 
     return true;
+}
+
+bool ValidateUniform1ui(Context *context, GLint location, GLuint v0)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT, location, 1);
+}
+
+bool ValidateUniform2ui(Context *context, GLint location, GLuint v0, GLuint v1)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT_VEC2, location, 1);
+}
+
+bool ValidateUniform3ui(Context *context, GLint location, GLuint v0, GLuint v1, GLuint v2)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT_VEC3, location, 1);
+}
+
+bool ValidateUniform4ui(Context *context,
+                        GLint location,
+                        GLuint v0,
+                        GLuint v1,
+                        GLuint v2,
+                        GLuint v3)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT_VEC4, location, 1);
+}
+
+bool ValidateUniform1uiv(Context *context, GLint location, GLsizei count, const GLuint *value)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT, location, count);
+}
+
+bool ValidateUniform2uiv(Context *context, GLint location, GLsizei count, const GLuint *value)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT_VEC2, location, count);
+}
+
+bool ValidateUniform3uiv(Context *context, GLint location, GLsizei count, const GLuint *value)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT_VEC3, location, count);
+}
+
+bool ValidateUniform4uiv(Context *context, GLint location, GLsizei count, const GLuint *value)
+{
+    return ValidateUniformES3(context, GL_UNSIGNED_INT_VEC4, location, count);
+}
+
+bool ValidateIsQuery(Context *context, GLuint id)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateUniformMatrix2x3fv(Context *context,
+                                GLint location,
+                                GLsizei count,
+                                GLboolean transpose,
+                                const GLfloat *value)
+{
+    return ValidateUniformMatrixES3(context, GL_FLOAT_MAT2x3, location, count, transpose);
+}
+
+bool ValidateUniformMatrix3x2fv(Context *context,
+                                GLint location,
+                                GLsizei count,
+                                GLboolean transpose,
+                                const GLfloat *value)
+{
+    return ValidateUniformMatrixES3(context, GL_FLOAT_MAT3x2, location, count, transpose);
+}
+
+bool ValidateUniformMatrix2x4fv(Context *context,
+                                GLint location,
+                                GLsizei count,
+                                GLboolean transpose,
+                                const GLfloat *value)
+{
+    return ValidateUniformMatrixES3(context, GL_FLOAT_MAT2x4, location, count, transpose);
+}
+
+bool ValidateUniformMatrix4x2fv(Context *context,
+                                GLint location,
+                                GLsizei count,
+                                GLboolean transpose,
+                                const GLfloat *value)
+{
+    return ValidateUniformMatrixES3(context, GL_FLOAT_MAT4x2, location, count, transpose);
+}
+
+bool ValidateUniformMatrix3x4fv(Context *context,
+                                GLint location,
+                                GLsizei count,
+                                GLboolean transpose,
+                                const GLfloat *value)
+{
+    return ValidateUniformMatrixES3(context, GL_FLOAT_MAT3x4, location, count, transpose);
+}
+
+bool ValidateUniformMatrix4x3fv(Context *context,
+                                GLint location,
+                                GLsizei count,
+                                GLboolean transpose,
+                                const GLfloat *value)
+{
+    return ValidateUniformMatrixES3(context, GL_FLOAT_MAT4x3, location, count, transpose);
+}
+
+bool ValidateEndTransformFeedback(Context *context)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    TransformFeedback *transformFeedback = context->getGLState().getCurrentTransformFeedback();
+    ASSERT(transformFeedback != nullptr);
+
+    if (!transformFeedback->isActive())
+    {
+        context->handleError(InvalidOperation());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateTransformFeedbackVaryings(Context *context,
+                                       GLuint program,
+                                       GLsizei count,
+                                       const GLchar *const *varyings,
+                                       GLenum bufferMode)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (count < 0)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidValue(), NegativeCount);
+        return false;
+    }
+
+    switch (bufferMode)
+    {
+        case GL_INTERLEAVED_ATTRIBS:
+            break;
+        case GL_SEPARATE_ATTRIBS:
+        {
+            const Caps &caps = context->getCaps();
+            if (static_cast<GLuint>(count) > caps.maxTransformFeedbackSeparateAttributes)
+            {
+                context->handleError(InvalidValue());
+                return false;
+            }
+            break;
+        }
+        default:
+            context->handleError(InvalidEnum());
+            return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateGetTransformFeedbackVarying(Context *context,
+                                         GLuint program,
+                                         GLuint index,
+                                         GLsizei bufSize,
+                                         GLsizei *length,
+                                         GLsizei *size,
+                                         GLenum *type,
+                                         GLchar *name)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (bufSize < 0)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidValue(), NegativeBufferSize);
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    if (index >= static_cast<GLuint>(programObject->getTransformFeedbackVaryingCount()))
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateBindTransformFeedback(Context *context, GLenum target, GLuint id)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    switch (target)
+    {
+        case GL_TRANSFORM_FEEDBACK:
+        {
+            // Cannot bind a transform feedback object if the current one is started and not
+            // paused (3.0.2 pg 85 section 2.14.1)
+            TransformFeedback *curTransformFeedback =
+                context->getGLState().getCurrentTransformFeedback();
+            if (curTransformFeedback && curTransformFeedback->isActive() &&
+                !curTransformFeedback->isPaused())
+            {
+                context->handleError(InvalidOperation());
+                return false;
+            }
+
+            // Cannot bind a transform feedback object that does not exist (3.0.2 pg 85 section
+            // 2.14.1)
+            if (!context->isTransformFeedbackGenerated(id))
+            {
+                ANGLE_VALIDATION_ERR(context, InvalidOperation(), TransformFeedbackDoesNotExist);
+                return false;
+            }
+        }
+        break;
+
+        default:
+            context->handleError(InvalidEnum());
+            return false;
+    }
+
+    return true;
+}
+
+bool ValidateIsTransformFeedback(Context *context, GLuint id)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidatePauseTransformFeedback(Context *context)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    TransformFeedback *transformFeedback = context->getGLState().getCurrentTransformFeedback();
+    ASSERT(transformFeedback != nullptr);
+
+    // Current transform feedback must be active and not paused in order to pause (3.0.2 pg 86)
+    if (!transformFeedback->isActive() || transformFeedback->isPaused())
+    {
+        context->handleError(InvalidOperation());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateResumeTransformFeedback(Context *context)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    TransformFeedback *transformFeedback = context->getGLState().getCurrentTransformFeedback();
+    ASSERT(transformFeedback != nullptr);
+
+    // Current transform feedback must be active and paused in order to resume (3.0.2 pg 86)
+    if (!transformFeedback->isActive() || !transformFeedback->isPaused())
+    {
+        context->handleError(InvalidOperation());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateVertexAttribI4i(Context *context, GLuint index, GLint x, GLint y, GLint z, GLint w)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateVertexAttribIndex(context, index);
+}
+
+bool ValidateVertexAttribI4ui(Context *context,
+                              GLuint index,
+                              GLuint x,
+                              GLuint y,
+                              GLuint z,
+                              GLuint w)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateVertexAttribIndex(context, index);
+}
+
+bool ValidateVertexAttribI4iv(Context *context, GLuint index, const GLint *v)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateVertexAttribIndex(context, index);
+}
+
+bool ValidateVertexAttribI4uiv(Context *context, GLuint index, const GLuint *v)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateVertexAttribIndex(context, index);
+}
+
+bool ValidateGetFragDataLocation(Context *context, GLuint program, const GLchar *name)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    if (!programObject->isLinked())
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ProgramNotLinked);
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateGetUniformIndices(Context *context,
+                               GLuint program,
+                               GLsizei uniformCount,
+                               const GLchar *const *uniformNames,
+                               GLuint *uniformIndices)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (uniformCount < 0)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateGetActiveUniformsiv(Context *context,
+                                 GLuint program,
+                                 GLsizei uniformCount,
+                                 const GLuint *uniformIndices,
+                                 GLenum pname,
+                                 GLint *params)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (uniformCount < 0)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    switch (pname)
+    {
+        case GL_UNIFORM_TYPE:
+        case GL_UNIFORM_SIZE:
+        case GL_UNIFORM_NAME_LENGTH:
+        case GL_UNIFORM_BLOCK_INDEX:
+        case GL_UNIFORM_OFFSET:
+        case GL_UNIFORM_ARRAY_STRIDE:
+        case GL_UNIFORM_MATRIX_STRIDE:
+        case GL_UNIFORM_IS_ROW_MAJOR:
+            break;
+
+        default:
+            context->handleError(InvalidEnum());
+            return false;
+    }
+
+    if (uniformCount > programObject->getActiveUniformCount())
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    for (int uniformId = 0; uniformId < uniformCount; uniformId++)
+    {
+        const GLuint index = uniformIndices[uniformId];
+
+        if (index >= static_cast<GLuint>(programObject->getActiveUniformCount()))
+        {
+            context->handleError(InvalidValue());
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool ValidateGetUniformBlockIndex(Context *context, GLuint program, const GLchar *uniformBlockName)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateGetActiveUniformBlockiv(Context *context,
+                                     GLuint program,
+                                     GLuint uniformBlockIndex,
+                                     GLenum pname,
+                                     GLint *params)
+{
+    return ValidateGetActiveUniformBlockivBase(context, program, uniformBlockIndex, pname, nullptr);
+}
+
+bool ValidateGetActiveUniformBlockName(Context *context,
+                                       GLuint program,
+                                       GLuint uniformBlockIndex,
+                                       GLsizei bufSize,
+                                       GLsizei *length,
+                                       GLchar *uniformBlockName)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    if (uniformBlockIndex >= programObject->getActiveUniformBlockCount())
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateUniformBlockBinding(Context *context,
+                                 GLuint program,
+                                 GLuint uniformBlockIndex,
+                                 GLuint uniformBlockBinding)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (uniformBlockBinding >= context->getCaps().maxUniformBufferBindings)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    // if never linked, there won't be any uniform blocks
+    if (uniformBlockIndex >= programObject->getActiveUniformBlockCount())
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateDrawArraysInstanced(Context *context,
+                                 GLenum mode,
+                                 GLint first,
+                                 GLsizei count,
+                                 GLsizei primcount)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateDrawArraysInstancedBase(context, mode, first, count, primcount);
+}
+
+bool ValidateFenceSync(Context *context, GLenum condition, GLbitfield flags)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (condition != GL_SYNC_GPU_COMMANDS_COMPLETE)
+    {
+        context->handleError(InvalidEnum());
+        return false;
+    }
+
+    if (flags != 0)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateIsSync(Context *context, GLsync sync)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateDeleteSync(Context *context, GLsync sync)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (sync != static_cast<GLsync>(0) && !context->getSync(sync))
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateClientWaitSync(Context *context, GLsync sync, GLbitfield flags, GLuint64 timeout)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if ((flags & ~(GL_SYNC_FLUSH_COMMANDS_BIT)) != 0)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    Sync *clientWaitSync = context->getSync(sync);
+    if (!clientWaitSync)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateWaitSync(Context *context, GLsync sync, GLbitfield flags, GLuint64 timeout)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (flags != 0)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    if (timeout != GL_TIMEOUT_IGNORED)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    Sync *waitSync = context->getSync(sync);
+    if (!waitSync)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateGetInteger64v(Context *context, GLenum pname, GLint64 *params)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    GLenum nativeType      = GL_NONE;
+    unsigned int numParams = 0;
+    if (!ValidateStateQuery(context, pname, &nativeType, &numParams))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateIsSampler(Context *context, GLuint sampler)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        context->handleError(InvalidOperation());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateBindSampler(Context *context, GLuint unit, GLuint sampler)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (sampler != 0 && !context->isSampler(sampler))
+    {
+        context->handleError(InvalidOperation());
+        return false;
+    }
+
+    if (unit >= context->getCaps().maxCombinedTextureImageUnits)
+    {
+        context->handleError(InvalidValue());
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateVertexAttribDivisor(Context *context, GLuint index, GLuint divisor)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    return ValidateVertexAttribIndex(context, index);
+}
+
+bool ValidateTexStorage2D(Context *context,
+                          GLenum target,
+                          GLsizei levels,
+                          GLenum internalformat,
+                          GLsizei width,
+                          GLsizei height)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (!ValidateES3TexStorage2DParameters(context, target, levels, internalformat, width, height,
+                                           1))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateTexStorage3D(Context *context,
+                          GLenum target,
+                          GLsizei levels,
+                          GLenum internalformat,
+                          GLsizei width,
+                          GLsizei height,
+                          GLsizei depth)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (!ValidateES3TexStorage3DParameters(context, target, levels, internalformat, width, height,
+                                           depth))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateGetBufferParameteri64v(ValidationContext *context,
+                                    GLenum target,
+                                    GLenum pname,
+                                    GLint64 *params)
+{
+    return ValidateGetBufferParameterBase(context, target, pname, false, nullptr);
+}
+
+bool ValidateGetSamplerParameterfv(Context *context, GLuint sampler, GLenum pname, GLfloat *params)
+{
+    return ValidateGetSamplerParameterBase(context, sampler, pname, nullptr);
+}
+
+bool ValidateGetSamplerParameteriv(Context *context, GLuint sampler, GLenum pname, GLint *params)
+{
+    return ValidateGetSamplerParameterBase(context, sampler, pname, nullptr);
+}
+
+bool ValidateSamplerParameterf(Context *context, GLuint sampler, GLenum pname, GLfloat param)
+{
+    return ValidateSamplerParameterBase(context, sampler, pname, -1, &param);
+}
+
+bool ValidateSamplerParameterfv(Context *context,
+                                GLuint sampler,
+                                GLenum pname,
+                                const GLfloat *params)
+{
+    return ValidateSamplerParameterBase(context, sampler, pname, -1, params);
+}
+
+bool ValidateSamplerParameteri(Context *context, GLuint sampler, GLenum pname, GLint param)
+{
+    return ValidateSamplerParameterBase(context, sampler, pname, -1, &param);
+}
+
+bool ValidateSamplerParameteriv(Context *context, GLuint sampler, GLenum pname, const GLint *params)
+{
+    return ValidateSamplerParameterBase(context, sampler, pname, -1, params);
+}
+
+bool ValidateGetVertexAttribIiv(Context *context, GLuint index, GLenum pname, GLint *params)
+{
+    return ValidateGetVertexAttribBase(context, index, pname, nullptr, false, true);
+}
+
+bool ValidateGetVertexAttribIuiv(Context *context, GLuint index, GLenum pname, GLuint *params)
+{
+    return ValidateGetVertexAttribBase(context, index, pname, nullptr, false, true);
+}
+
+bool ValidateGetInternalformativ(Context *context,
+                                 GLenum target,
+                                 GLenum internalformat,
+                                 GLenum pname,
+                                 GLsizei bufSize,
+                                 GLint *params)
+{
+    return ValidateGetInternalFormativBase(context, target, internalformat, pname, bufSize,
+                                           nullptr);
 }
 
 }  // namespace gl

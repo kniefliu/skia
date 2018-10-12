@@ -949,6 +949,45 @@ bool IsValidESSLShaderSourceString(const char *str, size_t len, bool lineContinu
     return true;
 }
 
+bool ValidateWebGLNamePrefix(ValidationContext *context, const GLchar *name)
+{
+    ASSERT(context->isWebGL());
+
+    // WebGL 1.0 [Section 6.16] GLSL Constructs
+    // Identifiers starting with "webgl_" and "_webgl_" are reserved for use by WebGL.
+    if (strncmp(name, "webgl_", 6) == 0 || strncmp(name, "_webgl_", 7) == 0)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), WebglBindAttribLocationReservedPrefix);
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateWebGLNameLength(ValidationContext *context, size_t length)
+{
+    ASSERT(context->isWebGL());
+
+    if (context->isWebGL1() && length > 256)
+    {
+        // WebGL 1.0 [Section 6.21] Maxmimum Uniform and Attribute Location Lengths
+        // WebGL imposes a limit of 256 characters on the lengths of uniform and attribute
+        // locations.
+        ANGLE_VALIDATION_ERR(context, InvalidValue(), WebglNameLengthLimitExceeded);
+
+        return false;
+    }
+    else if (length > 1024)
+    {
+        // WebGL 2.0 [Section 4.3.2] WebGL 2.0 imposes a limit of 1024 characters on the lengths of
+        // uniform and attribute locations.
+        ANGLE_VALIDATION_ERR(context, InvalidValue(), Webgl2NameLengthLimitExceeded);
+        return false;
+    }
+
+    return true;
+}
+
 }  // anonymous namespace
 
 bool ValidateES2TexImageParameters(Context *context,
@@ -1765,7 +1804,7 @@ bool ValidateBindVertexArrayOES(Context *context, GLuint array)
     return ValidateBindVertexArrayBase(context, array);
 }
 
-bool ValidateDeleteVertexArraysOES(Context *context, GLsizei n)
+bool ValidateDeleteVertexArraysOES(Context *context, GLsizei n, const GLuint *arrays)
 {
     if (!context->getExtensions().vertexArrayObject)
     {
@@ -1776,7 +1815,7 @@ bool ValidateDeleteVertexArraysOES(Context *context, GLsizei n)
     return ValidateGenOrDelete(context, n);
 }
 
-bool ValidateGenVertexArraysOES(Context *context, GLsizei n)
+bool ValidateGenVertexArraysOES(Context *context, GLsizei n, GLuint *arrays)
 {
     if (!context->getExtensions().vertexArrayObject)
     {
@@ -1787,7 +1826,7 @@ bool ValidateGenVertexArraysOES(Context *context, GLsizei n)
     return ValidateGenOrDelete(context, n);
 }
 
-bool ValidateIsVertexArrayOES(Context *context)
+bool ValidateIsVertexArrayOES(Context *context, GLuint array)
 {
     if (!context->getExtensions().vertexArrayObject)
     {
@@ -2251,7 +2290,7 @@ bool ValidateGetObjectLabelKHR(Context *context,
 
 static bool ValidateObjectPtrName(Context *context, const void *ptr)
 {
-    if (context->getFenceSync(reinterpret_cast<GLsync>(const_cast<void *>(ptr))) == nullptr)
+    if (context->getSync(reinterpret_cast<GLsync>(const_cast<void *>(ptr))) == nullptr)
     {
         context->handleError(InvalidValue() << "name is not a valid sync.");
         return false;
@@ -4284,12 +4323,22 @@ bool ValidateBindAttribLocation(ValidationContext *context,
         return false;
     }
 
-    // The WebGL spec (section 6.20) disallows strings containing invalid ESSL characters for
-    // shader-related entry points
-    if (context->getExtensions().webglCompatibility && !IsValidESSLString(name, strlen(name)))
+    if (context->isWebGL())
     {
-        ANGLE_VALIDATION_ERR(context, InvalidValue(), InvalidNameCharacters);
-        return false;
+        const size_t length = strlen(name);
+
+        if (!IsValidESSLString(name, length))
+        {
+            // The WebGL spec (section 6.20) disallows strings containing invalid ESSL characters
+            // for shader-related entry points
+            ANGLE_VALIDATION_ERR(context, InvalidValue(), InvalidNameCharacters);
+            return false;
+        }
+
+        if (!ValidateWebGLNameLength(context, length) || !ValidateWebGLNamePrefix(context, name))
+        {
+            return false;
+        }
     }
 
     return GetValidProgram(context, program) != nullptr;
@@ -5630,17 +5679,6 @@ bool ValidateValidateProgram(ValidationContext *context, GLuint program)
 
     if (!programObject)
     {
-        return false;
-    }
-
-    return true;
-}
-
-bool ValidateVertexAttribIndex(ValidationContext *context, GLuint index)
-{
-    if (index >= MAX_VERTEX_ATTRIBS)
-    {
-        ANGLE_VALIDATION_ERR(context, InvalidValue(), IndexExceedsMaxVertexAttribute);
         return false;
     }
 

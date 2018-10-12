@@ -390,284 +390,6 @@ bool ValidateTextureSRGBDecodeValue(Context *context, ParamType *params)
     return true;
 }
 
-template <typename ParamType>
-bool ValidateSamplerParameterBase(Context *context,
-                                  GLuint sampler,
-                                  GLenum pname,
-                                  GLsizei bufSize,
-                                  ParamType *params)
-{
-    if (context->getClientMajorVersion() < 3)
-    {
-        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
-        return false;
-    }
-
-    if (!context->isSampler(sampler))
-    {
-        ANGLE_VALIDATION_ERR(context, InvalidOperation(), InvalidSampler);
-        return false;
-    }
-
-    const GLsizei minBufSize = 1;
-    if (bufSize >= 0 && bufSize < minBufSize)
-    {
-        ANGLE_VALIDATION_ERR(context, InvalidOperation(), InsufficientBufferSize);
-        return false;
-    }
-
-    switch (pname)
-    {
-        case GL_TEXTURE_WRAP_S:
-        case GL_TEXTURE_WRAP_T:
-        case GL_TEXTURE_WRAP_R:
-            if (!ValidateTextureWrapModeValue(context, params, false))
-            {
-                return false;
-            }
-            break;
-
-        case GL_TEXTURE_MIN_FILTER:
-            if (!ValidateTextureMinFilterValue(context, params, false))
-            {
-                return false;
-            }
-            break;
-
-        case GL_TEXTURE_MAG_FILTER:
-            if (!ValidateTextureMagFilterValue(context, params))
-            {
-                return false;
-            }
-            break;
-
-        case GL_TEXTURE_MIN_LOD:
-        case GL_TEXTURE_MAX_LOD:
-            // any value is permissible
-            break;
-
-        case GL_TEXTURE_COMPARE_MODE:
-            if (!ValidateTextureCompareModeValue(context, params))
-            {
-                return false;
-            }
-            break;
-
-        case GL_TEXTURE_COMPARE_FUNC:
-            if (!ValidateTextureCompareFuncValue(context, params))
-            {
-                return false;
-            }
-            break;
-
-        case GL_TEXTURE_SRGB_DECODE_EXT:
-            if (!ValidateTextureSRGBDecodeValue(context, params))
-            {
-                return false;
-            }
-            break;
-
-        default:
-            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
-            return false;
-    }
-
-    return true;
-}
-
-bool ValidateGetSamplerParameterBase(Context *context,
-                                     GLuint sampler,
-                                     GLenum pname,
-                                     GLsizei *length)
-{
-    if (length)
-    {
-        *length = 0;
-    }
-
-    if (context->getClientMajorVersion() < 3)
-    {
-        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
-        return false;
-    }
-
-    if (!context->isSampler(sampler))
-    {
-        ANGLE_VALIDATION_ERR(context, InvalidOperation(), InvalidSampler);
-        return false;
-    }
-
-    switch (pname)
-    {
-        case GL_TEXTURE_WRAP_S:
-        case GL_TEXTURE_WRAP_T:
-        case GL_TEXTURE_WRAP_R:
-        case GL_TEXTURE_MIN_FILTER:
-        case GL_TEXTURE_MAG_FILTER:
-        case GL_TEXTURE_MIN_LOD:
-        case GL_TEXTURE_MAX_LOD:
-        case GL_TEXTURE_COMPARE_MODE:
-        case GL_TEXTURE_COMPARE_FUNC:
-            break;
-
-        case GL_TEXTURE_SRGB_DECODE_EXT:
-            if (!context->getExtensions().textureSRGBDecode)
-            {
-                context->handleError(InvalidEnum() << "GL_EXT_texture_sRGB_decode is not enabled.");
-                return false;
-            }
-            break;
-
-        default:
-            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
-            return false;
-    }
-
-    if (length)
-    {
-        *length = 1;
-    }
-    return true;
-}
-
-bool ValidateGetActiveUniformBlockivBase(Context *context,
-                                         GLuint program,
-                                         GLuint uniformBlockIndex,
-                                         GLenum pname,
-                                         GLsizei *length)
-{
-    if (length)
-    {
-        *length = 0;
-    }
-
-    if (context->getClientMajorVersion() < 3)
-    {
-        context->handleError(InvalidOperation() << "Context does not support OpenGL ES 3.0.");
-        return false;
-    }
-
-    Program *programObject = GetValidProgram(context, program);
-    if (!programObject)
-    {
-        return false;
-    }
-
-    if (uniformBlockIndex >= programObject->getActiveUniformBlockCount())
-    {
-        context->handleError(InvalidValue()
-                             << "uniformBlockIndex exceeds active uniform block count.");
-        return false;
-    }
-
-    switch (pname)
-    {
-        case GL_UNIFORM_BLOCK_BINDING:
-        case GL_UNIFORM_BLOCK_DATA_SIZE:
-        case GL_UNIFORM_BLOCK_NAME_LENGTH:
-        case GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS:
-        case GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES:
-        case GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER:
-        case GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER:
-            break;
-
-        default:
-            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
-            return false;
-    }
-
-    if (length)
-    {
-        if (pname == GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES)
-        {
-            const UniformBlock &uniformBlock =
-                programObject->getUniformBlockByIndex(uniformBlockIndex);
-            *length = static_cast<GLsizei>(uniformBlock.memberIndexes.size());
-        }
-        else
-        {
-            *length = 1;
-        }
-    }
-
-    return true;
-}
-
-bool ValidateGetInternalFormativBase(Context *context,
-                                     GLenum target,
-                                     GLenum internalformat,
-                                     GLenum pname,
-                                     GLsizei bufSize,
-                                     GLsizei *numParams)
-{
-    if (numParams)
-    {
-        *numParams = 0;
-    }
-
-    if (context->getClientMajorVersion() < 3)
-    {
-        context->handleError(InvalidOperation() << "Context does not support OpenGL ES 3.0.");
-        return false;
-    }
-
-    const TextureCaps &formatCaps = context->getTextureCaps().get(internalformat);
-    if (!formatCaps.renderable)
-    {
-        context->handleError(InvalidEnum() << "Internal format is not renderable.");
-        return false;
-    }
-
-    switch (target)
-    {
-        case GL_RENDERBUFFER:
-            break;
-
-        case GL_TEXTURE_2D_MULTISAMPLE:
-            if (context->getClientVersion() < ES_3_1)
-            {
-                context->handleError(InvalidOperation()
-                                     << "Texture target requires at least OpenGL ES 3.1.");
-                return false;
-            }
-            break;
-
-        default:
-            ANGLE_VALIDATION_ERR(context, InvalidEnum(), InvalidTarget);
-            return false;
-    }
-
-    if (bufSize < 0)
-    {
-        ANGLE_VALIDATION_ERR(context, InvalidValue(), InsufficientBufferSize);
-        return false;
-    }
-
-    GLsizei maxWriteParams = 0;
-    switch (pname)
-    {
-        case GL_NUM_SAMPLE_COUNTS:
-            maxWriteParams = 1;
-            break;
-
-        case GL_SAMPLES:
-            maxWriteParams = static_cast<GLsizei>(formatCaps.sampleCounts.size());
-            break;
-
-        default:
-            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
-            return false;
-    }
-
-    if (numParams)
-    {
-        // glGetInternalFormativ will not overflow bufSize
-        *numParams = std::min(bufSize, maxWriteParams);
-    }
-
-    return true;
-}
-
 bool ValidateUniformCommonBase(ValidationContext *context,
                                gl::Program *program,
                                GLint location,
@@ -1916,7 +1638,7 @@ bool ValidateReadnPixelsRobustANGLE(Context *context,
     return true;
 }
 
-bool ValidateGenQueriesEXT(gl::Context *context, GLsizei n)
+bool ValidateGenQueriesEXT(gl::Context *context, GLsizei n, GLuint *ids)
 {
     if (!context->getExtensions().occlusionQueryBoolean &&
         !context->getExtensions().disjointTimerQuery)
@@ -1928,7 +1650,7 @@ bool ValidateGenQueriesEXT(gl::Context *context, GLsizei n)
     return ValidateGenOrDelete(context, n);
 }
 
-bool ValidateDeleteQueriesEXT(gl::Context *context, GLsizei n)
+bool ValidateDeleteQueriesEXT(gl::Context *context, GLsizei n, const GLuint *ids)
 {
     if (!context->getExtensions().occlusionQueryBoolean &&
         !context->getExtensions().disjointTimerQuery)
@@ -1938,6 +1660,18 @@ bool ValidateDeleteQueriesEXT(gl::Context *context, GLsizei n)
     }
 
     return ValidateGenOrDelete(context, n);
+}
+
+bool ValidateIsQueryEXT(gl::Context *context, GLuint id)
+{
+    if (!context->getExtensions().occlusionQueryBoolean &&
+        !context->getExtensions().disjointTimerQuery)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), QueryExtensionNotEnabled);
+        return false;
+    }
+
+    return true;
 }
 
 bool ValidateBeginQueryBase(gl::Context *context, GLenum target, GLuint id)
@@ -2415,13 +2149,6 @@ bool ValidateProgramUniformMatrix(gl::Context *context,
 
 bool ValidateUniform(ValidationContext *context, GLenum valueType, GLint location, GLsizei count)
 {
-    // Check for ES3 uniform entry points
-    if (VariableComponentType(valueType) == GL_UNSIGNED_INT && context->getClientMajorVersion() < 3)
-    {
-        context->handleError(InvalidOperation());
-        return false;
-    }
-
     const LinkedUniform *uniform = nullptr;
     gl::Program *programObject   = context->getGLState().getProgram();
     return ValidateUniformCommonBase(context, programObject, location, count, &uniform) &&
@@ -2445,15 +2172,6 @@ bool ValidateUniformMatrix(ValidationContext *context,
                            GLsizei count,
                            GLboolean transpose)
 {
-    // Check for ES3 uniform entry points
-    int rows = VariableRowCount(valueType);
-    int cols = VariableColumnCount(valueType);
-    if (rows != cols && context->getClientMajorVersion() < 3)
-    {
-        context->handleError(InvalidOperation());
-        return false;
-    }
-
     if (transpose != GL_FALSE && context->getClientMajorVersion() < 3)
     {
         context->handleError(InvalidValue());
@@ -3006,15 +2724,6 @@ bool ValidateDrawArraysCommon(ValidationContext *context,
     return true;
 }
 
-bool ValidateDrawArraysInstanced(Context *context,
-                                 GLenum mode,
-                                 GLint first,
-                                 GLsizei count,
-                                 GLsizei primcount)
-{
-    return ValidateDrawArraysInstancedBase(context, mode, first, count, primcount);
-}
-
 bool ValidateDrawArraysInstancedANGLE(Context *context,
                                       GLenum mode,
                                       GLint first,
@@ -3159,6 +2868,13 @@ bool ValidateDrawElementsCommon(ValidationContext *context,
             if (elementDataSizeWithOffset > static_cast<uint64_t>(elementArrayBuffer->getSize()))
             {
                 ANGLE_VALIDATION_ERR(context, InvalidOperation(), InsufficientBufferSize);
+                return false;
+            }
+
+            ASSERT(typeSize > 0);
+            if (elementArrayBuffer->getSize() % typeSize != 0)
+            {
+                ANGLE_VALIDATION_ERR(context, InvalidOperation(), MismatchedByteCountType);
                 return false;
             }
         }
@@ -4328,14 +4044,6 @@ bool ValidateGetBufferParameterivRobustANGLE(ValidationContext *context,
     return true;
 }
 
-bool ValidateGetBufferParameteri64v(ValidationContext *context,
-                                    GLenum target,
-                                    GLenum pname,
-                                    GLint64 *params)
-{
-    return ValidateGetBufferParameterBase(context, target, pname, false, nullptr);
-}
-
 bool ValidateGetBufferParameteri64vRobustANGLE(ValidationContext *context,
                                                GLenum target,
                                                GLenum pname,
@@ -4582,11 +4290,6 @@ bool ValidateTexParameterivRobustANGLE(Context *context,
     return ValidateTexParameterBase(context, target, pname, bufSize, params);
 }
 
-bool ValidateGetSamplerParameterfv(Context *context, GLuint sampler, GLenum pname, GLfloat *params)
-{
-    return ValidateGetSamplerParameterBase(context, sampler, pname, nullptr);
-}
-
 bool ValidateGetSamplerParameterfvRobustANGLE(Context *context,
                                               GLuint sampler,
                                               GLenum pname,
@@ -4610,11 +4313,6 @@ bool ValidateGetSamplerParameterfvRobustANGLE(Context *context,
     }
 
     return true;
-}
-
-bool ValidateGetSamplerParameteriv(Context *context, GLuint sampler, GLenum pname, GLint *params)
-{
-    return ValidateGetSamplerParameterBase(context, sampler, pname, nullptr);
 }
 
 bool ValidateGetSamplerParameterivRobustANGLE(Context *context,
@@ -4642,19 +4340,6 @@ bool ValidateGetSamplerParameterivRobustANGLE(Context *context,
     return true;
 }
 
-bool ValidateSamplerParameterf(Context *context, GLuint sampler, GLenum pname, GLfloat param)
-{
-    return ValidateSamplerParameterBase(context, sampler, pname, -1, &param);
-}
-
-bool ValidateSamplerParameterfv(Context *context,
-                                GLuint sampler,
-                                GLenum pname,
-                                const GLfloat *params)
-{
-    return ValidateSamplerParameterBase(context, sampler, pname, -1, params);
-}
-
 bool ValidateSamplerParameterfvRobustANGLE(Context *context,
                                            GLuint sampler,
                                            GLenum pname,
@@ -4667,16 +4352,6 @@ bool ValidateSamplerParameterfvRobustANGLE(Context *context,
     }
 
     return ValidateSamplerParameterBase(context, sampler, pname, bufSize, params);
-}
-
-bool ValidateSamplerParameteri(Context *context, GLuint sampler, GLenum pname, GLint param)
-{
-    return ValidateSamplerParameterBase(context, sampler, pname, -1, &param);
-}
-
-bool ValidateSamplerParameteriv(Context *context, GLuint sampler, GLenum pname, const GLint *params)
-{
-    return ValidateSamplerParameterBase(context, sampler, pname, -1, params);
 }
 
 bool ValidateSamplerParameterivRobustANGLE(Context *context,
@@ -4768,11 +4443,6 @@ bool ValidateGetVertexAttribPointervRobustANGLE(Context *context,
     return true;
 }
 
-bool ValidateGetVertexAttribIiv(Context *context, GLuint index, GLenum pname, GLint *params)
-{
-    return ValidateGetVertexAttribBase(context, index, pname, nullptr, false, true);
-}
-
 bool ValidateGetVertexAttribIivRobustANGLE(Context *context,
                                            GLuint index,
                                            GLenum pname,
@@ -4796,11 +4466,6 @@ bool ValidateGetVertexAttribIivRobustANGLE(Context *context,
     }
 
     return true;
-}
-
-bool ValidateGetVertexAttribIuiv(Context *context, GLuint index, GLenum pname, GLuint *params)
-{
-    return ValidateGetVertexAttribBase(context, index, pname, nullptr, false, true);
 }
 
 bool ValidateGetVertexAttribIuivRobustANGLE(Context *context,
@@ -4828,15 +4493,6 @@ bool ValidateGetVertexAttribIuivRobustANGLE(Context *context,
     return true;
 }
 
-bool ValidateGetActiveUniformBlockiv(Context *context,
-                                     GLuint program,
-                                     GLuint uniformBlockIndex,
-                                     GLenum pname,
-                                     GLint *params)
-{
-    return ValidateGetActiveUniformBlockivBase(context, program, uniformBlockIndex, pname, nullptr);
-}
-
 bool ValidateGetActiveUniformBlockivRobustANGLE(Context *context,
                                                 GLuint program,
                                                 GLuint uniformBlockIndex,
@@ -4861,17 +4517,6 @@ bool ValidateGetActiveUniformBlockivRobustANGLE(Context *context,
     }
 
     return true;
-}
-
-bool ValidateGetInternalFormativ(Context *context,
-                                 GLenum target,
-                                 GLenum internalformat,
-                                 GLenum pname,
-                                 GLsizei bufSize,
-                                 GLint *params)
-{
-    return ValidateGetInternalFormativBase(context, target, internalformat, pname, bufSize,
-                                           nullptr);
 }
 
 bool ValidateGetInternalFormativRobustANGLE(Context *context,
@@ -5864,5 +5509,297 @@ bool ValidateTexParameterBase(Context *context,
 
 template bool ValidateTexParameterBase(Context *, GLenum, GLenum, GLsizei, const GLfloat *);
 template bool ValidateTexParameterBase(Context *, GLenum, GLenum, GLsizei, const GLint *);
+
+bool ValidateVertexAttribIndex(ValidationContext *context, GLuint index)
+{
+    if (index >= MAX_VERTEX_ATTRIBS)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidValue(), IndexExceedsMaxVertexAttribute);
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidateGetActiveUniformBlockivBase(Context *context,
+                                         GLuint program,
+                                         GLuint uniformBlockIndex,
+                                         GLenum pname,
+                                         GLsizei *length)
+{
+    if (length)
+    {
+        *length = 0;
+    }
+
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    Program *programObject = GetValidProgram(context, program);
+    if (!programObject)
+    {
+        return false;
+    }
+
+    if (uniformBlockIndex >= programObject->getActiveUniformBlockCount())
+    {
+        context->handleError(InvalidValue()
+                             << "uniformBlockIndex exceeds active uniform block count.");
+        return false;
+    }
+
+    switch (pname)
+    {
+        case GL_UNIFORM_BLOCK_BINDING:
+        case GL_UNIFORM_BLOCK_DATA_SIZE:
+        case GL_UNIFORM_BLOCK_NAME_LENGTH:
+        case GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS:
+        case GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES:
+        case GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER:
+        case GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER:
+            break;
+
+        default:
+            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
+            return false;
+    }
+
+    if (length)
+    {
+        if (pname == GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES)
+        {
+            const UniformBlock &uniformBlock =
+                programObject->getUniformBlockByIndex(uniformBlockIndex);
+            *length = static_cast<GLsizei>(uniformBlock.memberIndexes.size());
+        }
+        else
+        {
+            *length = 1;
+        }
+    }
+
+    return true;
+}
+
+template <typename ParamType>
+bool ValidateSamplerParameterBase(Context *context,
+                                  GLuint sampler,
+                                  GLenum pname,
+                                  GLsizei bufSize,
+                                  ParamType *params)
+{
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (!context->isSampler(sampler))
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), InvalidSampler);
+        return false;
+    }
+
+    const GLsizei minBufSize = 1;
+    if (bufSize >= 0 && bufSize < minBufSize)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), InsufficientBufferSize);
+        return false;
+    }
+
+    switch (pname)
+    {
+        case GL_TEXTURE_WRAP_S:
+        case GL_TEXTURE_WRAP_T:
+        case GL_TEXTURE_WRAP_R:
+            if (!ValidateTextureWrapModeValue(context, params, false))
+            {
+                return false;
+            }
+            break;
+
+        case GL_TEXTURE_MIN_FILTER:
+            if (!ValidateTextureMinFilterValue(context, params, false))
+            {
+                return false;
+            }
+            break;
+
+        case GL_TEXTURE_MAG_FILTER:
+            if (!ValidateTextureMagFilterValue(context, params))
+            {
+                return false;
+            }
+            break;
+
+        case GL_TEXTURE_MIN_LOD:
+        case GL_TEXTURE_MAX_LOD:
+            // any value is permissible
+            break;
+
+        case GL_TEXTURE_COMPARE_MODE:
+            if (!ValidateTextureCompareModeValue(context, params))
+            {
+                return false;
+            }
+            break;
+
+        case GL_TEXTURE_COMPARE_FUNC:
+            if (!ValidateTextureCompareFuncValue(context, params))
+            {
+                return false;
+            }
+            break;
+
+        case GL_TEXTURE_SRGB_DECODE_EXT:
+            if (!ValidateTextureSRGBDecodeValue(context, params))
+            {
+                return false;
+            }
+            break;
+
+        default:
+            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
+            return false;
+    }
+
+    return true;
+}
+
+template bool ValidateSamplerParameterBase(Context *, GLuint, GLenum, GLsizei, GLfloat *);
+template bool ValidateSamplerParameterBase(Context *, GLuint, GLenum, GLsizei, GLint *);
+
+bool ValidateGetSamplerParameterBase(Context *context,
+                                     GLuint sampler,
+                                     GLenum pname,
+                                     GLsizei *length)
+{
+    if (length)
+    {
+        *length = 0;
+    }
+
+    if (context->getClientMajorVersion() < 3)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), ES3Required);
+        return false;
+    }
+
+    if (!context->isSampler(sampler))
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidOperation(), InvalidSampler);
+        return false;
+    }
+
+    switch (pname)
+    {
+        case GL_TEXTURE_WRAP_S:
+        case GL_TEXTURE_WRAP_T:
+        case GL_TEXTURE_WRAP_R:
+        case GL_TEXTURE_MIN_FILTER:
+        case GL_TEXTURE_MAG_FILTER:
+        case GL_TEXTURE_MIN_LOD:
+        case GL_TEXTURE_MAX_LOD:
+        case GL_TEXTURE_COMPARE_MODE:
+        case GL_TEXTURE_COMPARE_FUNC:
+            break;
+
+        case GL_TEXTURE_SRGB_DECODE_EXT:
+            if (!context->getExtensions().textureSRGBDecode)
+            {
+                context->handleError(InvalidEnum() << "GL_EXT_texture_sRGB_decode is not enabled.");
+                return false;
+            }
+            break;
+
+        default:
+            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
+            return false;
+    }
+
+    if (length)
+    {
+        *length = 1;
+    }
+    return true;
+}
+
+bool ValidateGetInternalFormativBase(Context *context,
+                                     GLenum target,
+                                     GLenum internalformat,
+                                     GLenum pname,
+                                     GLsizei bufSize,
+                                     GLsizei *numParams)
+{
+    if (numParams)
+    {
+        *numParams = 0;
+    }
+
+    if (context->getClientMajorVersion() < 3)
+    {
+        context->handleError(InvalidOperation() << "Context does not support OpenGL ES 3.0.");
+        return false;
+    }
+
+    const TextureCaps &formatCaps = context->getTextureCaps().get(internalformat);
+    if (!formatCaps.renderable)
+    {
+        context->handleError(InvalidEnum() << "Internal format is not renderable.");
+        return false;
+    }
+
+    switch (target)
+    {
+        case GL_RENDERBUFFER:
+            break;
+
+        case GL_TEXTURE_2D_MULTISAMPLE:
+            if (context->getClientVersion() < ES_3_1)
+            {
+                context->handleError(InvalidOperation()
+                                     << "Texture target requires at least OpenGL ES 3.1.");
+                return false;
+            }
+            break;
+
+        default:
+            ANGLE_VALIDATION_ERR(context, InvalidEnum(), InvalidTarget);
+            return false;
+    }
+
+    if (bufSize < 0)
+    {
+        ANGLE_VALIDATION_ERR(context, InvalidValue(), InsufficientBufferSize);
+        return false;
+    }
+
+    GLsizei maxWriteParams = 0;
+    switch (pname)
+    {
+        case GL_NUM_SAMPLE_COUNTS:
+            maxWriteParams = 1;
+            break;
+
+        case GL_SAMPLES:
+            maxWriteParams = static_cast<GLsizei>(formatCaps.sampleCounts.size());
+            break;
+
+        default:
+            ANGLE_VALIDATION_ERR(context, InvalidEnum(), EnumNotSupported);
+            return false;
+    }
+
+    if (numParams)
+    {
+        // glGetInternalFormativ will not overflow bufSize
+        *numParams = std::min(bufSize, maxWriteParams);
+    }
+
+    return true;
+}
 
 }  // namespace gl

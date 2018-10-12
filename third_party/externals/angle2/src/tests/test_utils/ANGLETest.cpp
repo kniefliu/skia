@@ -199,6 +199,7 @@ ANGLETestBase::ANGLETestBase(const angle::PlatformParameters &params)
       mIgnoreD3D11SDKLayersWarnings(false),
       mQuadVertexBuffer(0),
       mQuadIndexBuffer(0),
+      m2DTexturedQuadProgram(0),
       mDeferContextInit(false)
 {
     mEGLWindow = new EGLWindow(params.majorVersion, params.minorVersion, params.eglParameters);
@@ -232,6 +233,10 @@ ANGLETestBase::~ANGLETestBase()
     if (mQuadIndexBuffer)
     {
         glDeleteBuffers(1, &mQuadIndexBuffer);
+    }
+    if (m2DTexturedQuadProgram)
+    {
+        glDeleteProgram(m2DTexturedQuadProgram);
     }
     SafeDelete(mEGLWindow);
 }
@@ -423,13 +428,16 @@ void ANGLETestBase::drawQuad(GLuint program,
         glUseProgram(program);
     }
 
+    GLint previousBuffer = 0;
+    glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &previousBuffer);
+
     GLint positionLocation = glGetAttribLocation(program, positionAttribName.c_str());
 
     if (useVertexBuffer)
     {
         setupQuadVertexBuffer(positionAttribZ, positionAttribXYScale);
         glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, previousBuffer);
     }
     else
     {
@@ -441,7 +449,15 @@ void ANGLETestBase::drawQuad(GLuint program,
             vertex.z() = positionAttribZ;
         }
 
+        if (previousBuffer != 0)
+        {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
         glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, quadVertices.data());
+        if (previousBuffer != 0)
+        {
+            glBindBuffer(GL_ARRAY_BUFFER, previousBuffer);
+        }
     }
     glEnableVertexAttribArray(positionLocation);
 
@@ -549,6 +565,44 @@ void ANGLETestBase::drawIndexedQuad(GLuint program,
     {
         glUseProgram(static_cast<GLuint>(activeProgram));
     }
+}
+
+GLuint ANGLETestBase::get2DTexturedQuadProgram()
+{
+    if (m2DTexturedQuadProgram)
+    {
+        return m2DTexturedQuadProgram;
+    }
+
+    const std::string &vs =
+        "attribute vec2 position;\n"
+        "varying mediump vec2 texCoord;\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Position = vec4(position, 0, 1);\n"
+        "    texCoord = position * 0.5 + vec2(0.5);\n"
+        "}\n";
+
+    const std::string &fs =
+        "varying mediump vec2 texCoord;\n"
+        "uniform sampler2D tex;\n"
+        "void main()\n"
+        "{\n"
+        "    gl_FragColor = texture2D(tex, texCoord);\n"
+        "}\n";
+
+    m2DTexturedQuadProgram = CompileProgram(vs, fs);
+    return m2DTexturedQuadProgram;
+}
+
+void ANGLETestBase::draw2DTexturedQuad(const std::string &positionAttribName,
+                                       GLfloat positionAttribZ,
+                                       GLfloat positionAttribXYScale,
+                                       bool useVertexBuffer)
+{
+    ASSERT_NE(0u, get2DTexturedQuadProgram());
+    return drawQuad(get2DTexturedQuadProgram(), positionAttribName, positionAttribZ,
+                    positionAttribXYScale, useVertexBuffer);
 }
 
 GLuint ANGLETestBase::compileShader(GLenum type, const std::string &source)

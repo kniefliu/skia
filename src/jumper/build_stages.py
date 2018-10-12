@@ -28,7 +28,7 @@ generated_win = sys.argv[7] if len(sys.argv) > 7 else generated_win
 clang = [ccache, clang, '-x', 'c++']
 
 
-cflags = ['-std=c++11', '-Os', '-DJUMPER',
+cflags = ['-std=c++11', '-Os', '-DJUMPER_IS_OFFLINE',
           '-momit-leaf-frame-pointer', '-ffp-contract=fast',
           '-fno-exceptions', '-fno-rtti', '-fno-unwind-tables']
 
@@ -54,6 +54,12 @@ subprocess.check_call(clang + cflags + sse2 +
 subprocess.check_call(clang + cflags + sse2 + win +
                       ['-c', stages_8bit] +
                       ['-o', 'win_8bit_sse2.o'])
+subprocess.check_call(clang + cflags + sse2 + x86 +
+                      ['-c', stages_8bit] +
+                      ['-o', 'x86_8bit_sse2.o'])
+subprocess.check_call(clang + cflags + sse2 + win + x86 +
+                      ['-c', stages_8bit] +
+                      ['-o', 'win_x86_8bit_sse2.o'])
 
 sse41 = ['-msse4.1']
 subprocess.check_call(clang + cflags + sse41 +
@@ -102,16 +108,10 @@ subprocess.check_call(['ld', '-r', '-o', 'win_merged.o',
                        'win_hsw.o', 'win_avx.o', 'win_sse41.o', 'win_sse2.o',
                        'win_8bit_hsw.o', 'win_8bit_sse41.o', 'win_8bit_sse2.o'])
 
-# iOS disallows the use of register x18,
-# so we need to use it as a least-common denominator.
-aarch64 = [ '--target=arm64-apple-ios' ]
-subprocess.check_call(clang + cflags + aarch64 +
-                      ['-c', stages] +
-                      ['-o', 'aarch64.o'])
-# TODO: need to work out relocations (adrp, lCPI, etc.)
-#subprocess.check_call(clang + cflags + aarch64 +
-#                      ['-c', stages_8bit] +
-#                      ['-o', '8bit_aarch64.o'])
+subprocess.check_call(['ld', '-r', '-o', 'x86_merged.o',
+                       'x86_sse2.o', 'x86_8bit_sse2.o'])
+subprocess.check_call(['ld', '-r', '-o', 'win_x86_merged.o',
+                       'win_x86_sse2.o', 'win_x86_8bit_sse2.o'])
 
 vfp4 = [
     '--target=armv7a-linux-gnueabihf',
@@ -120,10 +120,6 @@ vfp4 = [
 subprocess.check_call(clang + cflags + vfp4 +
                       ['-c', stages] +
                       ['-o', 'vfp4.o'])
-# TODO: should work fine... I just want to turn this one on separately from x86
-#subprocess.check_call(clang + cflags + vfp4 +
-#                      ['-c', stages_8bit] +
-#                      ['-o', '8bit_vfp4.o'])
 
 def parse_object_file(dot_o, directive, target=None):
   globl, hidden, label, comment, align = \
@@ -232,23 +228,17 @@ print '    #define BALIGN32 .balign 32'
 print '#endif'
 
 print '.text'
-print '#if defined(__aarch64__)'
+print '#if defined(__arm__)'
 print 'BALIGN4'
-parse_object_file(     'aarch64.o', '.long')
-#parse_object_file('8bit_aarch64.o', '.long')
-
-print '#elif defined(__arm__)'
-print 'BALIGN4'
-parse_object_file(     'vfp4.o', '.long', target='elf32-littlearm')
-#parse_object_file('8bit_vfp4.o', '.long', target='elf32-littlearm')
+parse_object_file('vfp4.o', '.long', target='elf32-littlearm')
 
 print '#elif defined(__x86_64__)'
 print 'BALIGN32'
-parse_object_file('merged.o',   '.byte')
+parse_object_file('merged.o', '.byte')
 
 print '#elif defined(__i386__)'
 print 'BALIGN32'
-parse_object_file('x86_sse2.o', '.byte')
+parse_object_file('x86_merged.o', '.byte')
 
 print '#endif'
 
@@ -270,7 +260,7 @@ print 'ELSE'
 print '.MODEL FLAT,C'
 print "_text32 SEGMENT ALIGN(32) 'CODE'"
 print 'ALIGN 32'
-parse_object_file('win_x86_sse2.o', 'DB')
+parse_object_file('win_x86_merged.o', 'DB')
 
 print 'ENDIF'
 print 'END'

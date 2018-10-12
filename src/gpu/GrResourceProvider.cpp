@@ -238,31 +238,29 @@ sk_sp<GrTexture> GrResourceProvider::refScratchTexture(const GrSurfaceDesc& inDe
 }
 
 sk_sp<GrTexture> GrResourceProvider::wrapBackendTexture(const GrBackendTexture& tex,
-                                                        GrSurfaceOrigin origin,
                                                         GrWrapOwnership ownership) {
     ASSERT_SINGLE_OWNER
     if (this->isAbandoned()) {
         return nullptr;
     }
-    return fGpu->wrapBackendTexture(tex, origin, ownership);
+    return fGpu->wrapBackendTexture(tex, ownership);
 }
 
 sk_sp<GrTexture> GrResourceProvider::wrapRenderableBackendTexture(const GrBackendTexture& tex,
-                                                                  GrSurfaceOrigin origin,
                                                                   int sampleCnt,
                                                                   GrWrapOwnership ownership) {
     ASSERT_SINGLE_OWNER
     if (this->isAbandoned()) {
         return nullptr;
     }
-    return fGpu->wrapRenderableBackendTexture(tex, origin, sampleCnt, ownership);
+    return fGpu->wrapRenderableBackendTexture(tex, sampleCnt, ownership);
 }
 
 sk_sp<GrRenderTarget> GrResourceProvider::wrapBackendRenderTarget(
-        const GrBackendRenderTarget& backendRT, GrSurfaceOrigin origin)
+        const GrBackendRenderTarget& backendRT)
 {
     ASSERT_SINGLE_OWNER
-    return this->isAbandoned() ? nullptr : fGpu->wrapBackendRenderTarget(backendRT, origin);
+    return this->isAbandoned() ? nullptr : fGpu->wrapBackendRenderTarget(backendRT);
 }
 
 void GrResourceProvider::assignUniqueKeyToResource(const GrUniqueKey& key,
@@ -287,7 +285,7 @@ GrTexture* GrResourceProvider::findAndRefTextureByUniqueKey(const GrUniqueKey& k
         SkASSERT(texture);
         return texture;
     }
-    return NULL;
+    return nullptr;
 }
 
 void GrResourceProvider::assignUniqueKeyToTexture(const GrUniqueKey& key, GrTexture* texture) {
@@ -362,13 +360,16 @@ const GrBuffer* GrResourceProvider::createPatternedIndexBuffer(const uint16_t* p
     return buffer;
 }
 
+static constexpr int kMaxQuads = 1 << 12;  // max possible: (1 << 14) - 1;
+
 const GrBuffer* GrResourceProvider::createQuadIndexBuffer() {
-    static const int kMaxQuads = 1 << 12; // max possible: (1 << 14) - 1;
     GR_STATIC_ASSERT(4 * kMaxQuads <= 65535);
     static const uint16_t kPattern[] = { 0, 1, 2, 0, 2, 3 };
 
     return this->createPatternedIndexBuffer(kPattern, 6, kMaxQuads, 4, fQuadIndexBufferKey);
 }
+
+int GrResourceProvider::QuadCountOfQuadBuffer() { return kMaxQuads; }
 
 sk_sp<GrPath> GrResourceProvider::createPath(const SkPath& path, const GrStyle& style) {
     SkASSERT(this->gpu()->pathRendering());
@@ -450,6 +451,7 @@ GrStencilAttachment* GrResourceProvider::attachStencilAttachment(GrRenderTarget*
             height = SkNextPow2(height);
         }
 #endif
+        SkDEBUGCODE(bool newStencil = false;)
         GrStencilAttachment::ComputeSharedStencilAttachmentKey(width, height,
                                                                rt->numStencilSamples(), &sbKey);
         GrStencilAttachment* stencil = static_cast<GrStencilAttachment*>(
@@ -459,13 +461,18 @@ GrStencilAttachment* GrResourceProvider::attachStencilAttachment(GrRenderTarget*
             stencil = this->gpu()->createStencilAttachmentForRenderTarget(rt, width, height);
             if (stencil) {
                 this->assignUniqueKeyToResource(sbKey, stencil);
+                SkDEBUGCODE(newStencil = true;)
             }
         }
         if (rt->renderTargetPriv().attachStencilAttachment(stencil)) {
 #ifdef SK_DEBUG
             // Fill the SB with an inappropriate value. opLists that use the
             // SB should clear it properly.
-            this->gpu()->clearStencil(rt, 0xFFFF);
+            if (newStencil) {
+                SkASSERT(stencil->isDirty());
+                this->gpu()->clearStencil(rt, 0xFFFF);
+                SkASSERT(stencil->isDirty());
+            }
 #endif
         }
     }
@@ -473,12 +480,12 @@ GrStencilAttachment* GrResourceProvider::attachStencilAttachment(GrRenderTarget*
 }
 
 sk_sp<GrRenderTarget> GrResourceProvider::wrapBackendTextureAsRenderTarget(
-        const GrBackendTexture& tex, GrSurfaceOrigin origin, int sampleCnt)
+        const GrBackendTexture& tex, int sampleCnt)
 {
     if (this->isAbandoned()) {
         return nullptr;
     }
-    return this->gpu()->wrapBackendTextureAsRenderTarget(tex, origin, sampleCnt);
+    return this->gpu()->wrapBackendTextureAsRenderTarget(tex, sampleCnt);
 }
 
 sk_sp<GrSemaphore> SK_WARN_UNUSED_RESULT GrResourceProvider::makeSemaphore(bool isOwned) {

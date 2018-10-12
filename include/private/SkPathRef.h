@@ -83,7 +83,7 @@ public:
          */
         SkPoint* growForRepeatedVerb(int /*SkPath::Verb*/ verb,
                                      int numVbs,
-                                     SkScalar** weights = NULL) {
+                                     SkScalar** weights = nullptr) {
             return fPathRef->growForRepeatedVerb(verb, numVbs, weights);
         }
 
@@ -123,6 +123,8 @@ public:
 
         /** Return the next verb in this iteration of the path. When all
             segments have been visited, return kDone_Verb.
+
+            If any point in the path is non-finite, return kDone_Verb immediately.
 
             @param  pts The points representing the current verb and/or segment
                         This must not be NULL.
@@ -328,8 +330,8 @@ private:
         fBoundsIsDirty = true;    // this also invalidates fIsFinite
         fPointCnt = 0;
         fVerbCnt = 0;
-        fVerbs = NULL;
-        fPoints = NULL;
+        fVerbs = nullptr;
+        fPoints = nullptr;
         fFreeSpace = 0;
         fGenerationID = kEmptyGenID;
         fSegmentMask = 0;
@@ -395,8 +397,8 @@ private:
 
         if (sizeDelta < 0 || static_cast<size_t>(sizeDelta) >= 3 * minSize) {
             sk_free(fPoints);
-            fPoints = NULL;
-            fVerbs = NULL;
+            fPoints = nullptr;
+            fVerbs = nullptr;
             fFreeSpace = 0;
             fVerbCnt = 0;
             fPointCnt = 0;

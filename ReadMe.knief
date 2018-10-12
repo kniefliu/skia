@@ -1,16 +1,4 @@
-20180929
-	the original dependent tool gn.exe
-
-20180929
-	the original dependent tools and scripts submission
-
-20180929
-	Based on skia version dfcb14a34920244924eeb6ff874c10d7387246f5, the original dependent libraries submission
-
-20180929
-	Based on skia version dfcb14a34920244924eeb6ff874c10d7387246f5, the original submission
-	
-20180929
-	skia from https://skia.googlesource.com/skia.git 
-		version_hash(dfcb14a34920244924eeb6ff874c10d7387246f5)
-		branch_name(Branch_20170825-045247)
+20181012
+	skia from https://skia.googlesource.com/skia.git  branch chrome/m62
+		version_hash(e74b41c6c84638d5a9ee6d254a715bcd9e17c603)
+		date-time(20171014-054357)

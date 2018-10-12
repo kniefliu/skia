@@ -247,7 +247,6 @@ skia_gpu_sources = [
   "$_src/gpu/ops/GrDashOp.h",
   "$_src/gpu/ops/GrDefaultPathRenderer.cpp",
   "$_src/gpu/ops/GrDefaultPathRenderer.h",
-  "$_src/gpu/ops/GrDiscardOp.h",
   "$_src/gpu/ops/GrDebugMarkerOp.h",
   "$_src/gpu/ops/GrDrawAtlasOp.cpp",
   "$_src/gpu/ops/GrDrawAtlasOp.h",
@@ -285,6 +284,8 @@ skia_gpu_sources = [
   "$_src/gpu/ops/GrStencilPathOp.h",
   "$_src/gpu/ops/GrTessellatingPathRenderer.cpp",
   "$_src/gpu/ops/GrTessellatingPathRenderer.h",
+  "$_src/gpu/ops/GrTextureOp.cpp",
+  "$_src/gpu/ops/GrTextureOp.h",
 
   # coverage counting path renderer
   "$_src/gpu/ccpr/GrCCPRAtlas.cpp",
@@ -295,6 +296,8 @@ skia_gpu_sources = [
   "$_src/gpu/ccpr/GrCCPRCoverageProcessor.h",
   "$_src/gpu/ccpr/GrCCPRCubicProcessor.cpp",
   "$_src/gpu/ccpr/GrCCPRCubicProcessor.h",
+  "$_src/gpu/ccpr/GrCCPRGeometry.cpp",
+  "$_src/gpu/ccpr/GrCCPRGeometry.h",
   "$_src/gpu/ccpr/GrCCPRPathProcessor.cpp",
   "$_src/gpu/ccpr/GrCCPRPathProcessor.h",
   "$_src/gpu/ccpr/GrCCPRQuadraticProcessor.cpp",
@@ -400,6 +403,7 @@ skia_gpu_sources = [
   "$_src/gpu/gl/GrGLGLSL.h",
   "$_src/gpu/gl/GrGLGpu.cpp",
   "$_src/gpu/gl/GrGLGpu.h",
+  "$_src/gpu/gl/GrGLGpuCommandBuffer.cpp",
   "$_src/gpu/gl/GrGLGpuCommandBuffer.h",
   "$_src/gpu/gl/GrGLGpuProgramCache.cpp",
   "$_src/gpu/gl/GrGLExtensions.cpp",

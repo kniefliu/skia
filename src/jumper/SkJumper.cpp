@@ -18,14 +18,6 @@
     #define __has_feature(x) 0
 #endif
 
-// Stages expect these constants to be set to these values.
-// It's fine to rearrange and add new ones if you update SkJumper_constants.
-using K = const SkJumper_constants;
-static K kConstants = {
-    {0,1,2,3,4,5,6,7},
-    {0,1,2,3,4,5,6,7},
-};
-
 #define M(st) +1
 static const int kNumStages = SK_RASTER_PIPELINE_STAGES(M);
 #undef M
@@ -60,7 +52,7 @@ static const int kNumStages = SK_RASTER_PIPELINE_STAGES(M);
 // We can't express the real types of most stage functions portably, so we use a stand-in.
 // We'll only ever call start_pipeline(), which then chains into the rest.
 using StageFn         = void(void);
-using StartPipelineFn = void(size_t,size_t,size_t,size_t, void**,K*);
+using StartPipelineFn = void(size_t,size_t,size_t,size_t, void**);
 
 // Some platforms expect C "name" maps to asm "_name", others to "name".
 #if defined(__APPLE__)
@@ -110,14 +102,7 @@ using StartPipelineFn = void(size_t,size_t,size_t,size_t, void**,K*);
 extern "C" {
 
 #if __has_feature(memory_sanitizer)
-    // We'll just run portable code.
-
-#elif defined(__aarch64__)
-    StartPipelineFn ASM(start_pipeline,aarch64);
-    StageFn ASM(just_return,aarch64);
-    #define M(st) StageFn ASM(st,aarch64);
-        SK_RASTER_PIPELINE_STAGES(M)
-    #undef M
+    // We'll just run baseline code.
 
 #elif defined(__arm__)
     StartPipelineFn ASM(start_pipeline,vfp4);
@@ -167,20 +152,35 @@ extern "C" {
     #undef M
 
 #elif defined(__i386__) || defined(_M_IX86)
-    StartPipelineFn ASM(start_pipeline,sse2);
-    StageFn ASM(just_return,sse2);
+    StartPipelineFn ASM(start_pipeline,sse2),
+                    ASM(start_pipeline,sse2_8bit);
+    StageFn ASM(just_return,sse2),
+            ASM(just_return,sse2_8bit);
     #define M(st) StageFn ASM(st,sse2);
+        SK_RASTER_PIPELINE_STAGES(M)
+    #undef M
+    #define M(st) StageFn ASM(st,sse2_8bit);
         SK_RASTER_PIPELINE_STAGES(M)
     #undef M
 
 #endif
 
-    // Portable, single-pixel stages.
+    // Baseline code compiled as a normal part of Skia.
     StartPipelineFn sk_start_pipeline;
     StageFn sk_just_return;
     #define M(st) StageFn sk_##st;
         SK_RASTER_PIPELINE_STAGES(M)
     #undef M
+
+#if defined(JUMPER_HAS_NEON_8BIT)
+    // We also compile 8-bit stages on ARMv8 as a normal part of Skia when compiled with Clang.
+    StartPipelineFn sk_start_pipeline_8bit;
+    StageFn sk_just_return_8bit;
+    #define M(st) StageFn sk_##st##_8bit;
+        SK_RASTER_PIPELINE_STAGES(M)
+    #undef M
+#endif
+
 }
 
 #if !__has_feature(memory_sanitizer) && (defined(__x86_64__) || defined(_M_X64))
@@ -205,6 +205,28 @@ extern "C" {
         }
         LOWP_STAGES(M)
     #undef M
+#elif !defined(SK_JUMPER_LEGACY_X86_8BIT) && \
+    (defined(__i386__) || defined(_M_IX86))
+    template <SkRasterPipeline::StockStage st>
+    static constexpr StageFn* sse2_8bit() { return nullptr; }
+
+    #define M(st) \
+        template <> constexpr StageFn* sse2_8bit<SkRasterPipeline::st>() {  \
+            return ASM(st,sse2_8bit);                                       \
+        }
+        LOWP_STAGES(M)
+    #undef M
+
+#elif defined(JUMPER_HAS_NEON_8BIT)
+    template <SkRasterPipeline::StockStage st>
+    static constexpr StageFn* neon_8bit() { return nullptr; }
+
+    #define M(st)                                                            \
+        template <> constexpr StageFn* neon_8bit<SkRasterPipeline::st>() {   \
+            return sk_##st##_8bit;                                           \
+        }
+        LOWP_STAGES(M)
+    #undef M
 #endif
 
 // Engines comprise everything we need to run SkRasterPipelines.
@@ -214,29 +236,20 @@ struct SkJumper_Engine {
     StageFn*         just_return;
 };
 
-// We'll default to this portable engine, but try to choose a better one at runtime.
-static const SkJumper_Engine kPortable = {
+// We'll default to this baseline engine, but try to choose a better one at runtime.
+static const SkJumper_Engine kBaseline = {
 #define M(stage) sk_##stage,
     { SK_RASTER_PIPELINE_STAGES(M) },
 #undef M
     sk_start_pipeline,
     sk_just_return,
 };
-static SkJumper_Engine gEngine = kPortable;
+static SkJumper_Engine gEngine = kBaseline;
 static SkOnce gChooseEngineOnce;
 
 static SkJumper_Engine choose_engine() {
 #if __has_feature(memory_sanitizer)
-    // We'll just run portable code.
-
-#elif defined(__aarch64__)
-    return {
-    #define M(stage) ASM(stage, aarch64),
-        { SK_RASTER_PIPELINE_STAGES(M) },
-        M(start_pipeline)
-        M(just_return)
-    #undef M
-    };
+    // We'll just run baseline code.
 
 #elif defined(__arm__)
     if (1 && SkCpu::Supports(SkCpu::NEON|SkCpu::NEON_FMA|SkCpu::VFP_FP16)) {
@@ -299,7 +312,7 @@ static SkJumper_Engine choose_engine() {
     }
 
 #endif
-    return kPortable;
+    return kBaseline;
 }
 
 #ifndef SK_JUMPER_DISABLE_8BIT
@@ -342,6 +355,26 @@ static SkJumper_Engine choose_engine() {
             #undef M
             };
         }
+    #elif !defined(SK_JUMPER_LEGACY_X86_8BIT) && \
+        (defined(__i386__) || defined(_M_IX86))
+        if (1 && SkCpu::Supports(SkCpu::SSE2)) {
+            return {
+            #define M(st) sse2_8bit<SkRasterPipeline::st>(),
+                { SK_RASTER_PIPELINE_STAGES(M) },
+                ASM(start_pipeline,sse2_8bit),
+                ASM(just_return   ,sse2_8bit)
+            #undef M
+            };
+        }
+
+    #elif defined(JUMPER_HAS_NEON_8BIT)
+        return {
+        #define M(st) neon_8bit<SkRasterPipeline::st>(),
+            { SK_RASTER_PIPELINE_STAGES(M) },
+            sk_start_pipeline_8bit,
+            sk_just_return_8bit,
+        #undef M
+        };
     #endif
         return kNone;
     }
@@ -398,7 +431,7 @@ void SkRasterPipeline::run(size_t x, size_t y, size_t w, size_t h) const {
     SkAutoSTMalloc<64, void*> program(fSlotsNeeded);
 
     const SkJumper_Engine& engine = this->build_pipeline(program.get() + fSlotsNeeded);
-    engine.start_pipeline(x,y,x+w,y+h, program.get(), &kConstants);
+    engine.start_pipeline(x,y,x+w,y+h, program.get());
 }
 
 std::function<void(size_t, size_t, size_t, size_t)> SkRasterPipeline::compile() const {
@@ -411,6 +444,6 @@ std::function<void(size_t, size_t, size_t, size_t)> SkRasterPipeline::compile() 
 
     auto start_pipeline = engine.start_pipeline;
     return [=](size_t x, size_t y, size_t w, size_t h) {
-        start_pipeline(x,y,x+w,y+h, program, &kConstants);
+        start_pipeline(x,y,x+w,y+h, program);
     };
 }

@@ -1681,6 +1681,16 @@ static void test_convexity(skiatest::Reporter* reporter) {
                 : SkPath::kUnknown_Convexity);
     }
 
+    path.reset();
+    path.moveTo(SkBits2Float(0xbe9171db), SkBits2Float(0xbd7eeb5d));  // -0.284072f, -0.0622362f
+    path.lineTo(SkBits2Float(0xbe9171db), SkBits2Float(0xbd7eea38));  // -0.284072f, -0.0622351f
+    path.lineTo(SkBits2Float(0xbe9171a0), SkBits2Float(0xbd7ee5a7));  // -0.28407f, -0.0622307f
+    path.lineTo(SkBits2Float(0xbe917147), SkBits2Float(0xbd7ed886));  // -0.284067f, -0.0622182f
+    path.lineTo(SkBits2Float(0xbe917378), SkBits2Float(0xbd7ee1a9));  // -0.284084f, -0.0622269f
+    path.lineTo(SkBits2Float(0xbe9171db), SkBits2Float(0xbd7eeb5d));  // -0.284072f, -0.0622362f
+    path.close();
+    check_convexity(reporter, path, SkPath::kConcave_Convexity);
+
 }
 
 static void test_isLine(skiatest::Reporter* reporter) {
@@ -2928,7 +2938,7 @@ static void test_iter(skiatest::Reporter* reporter) {
     static const size_t resultPtsSizes3[] = { 1, 2, 2, 2, 1, 0 };
     static const size_t resultPtsSizes4[] = { 1, 2, 1, 1, 0 };
     static const size_t resultPtsSizes5[] = { 1, 2, 1, 1, 1, 0 };
-    static const SkPoint* resultPts1 = 0;
+    static const SkPoint* resultPts1 = nullptr;
     static const SkPoint resultPts2[] = {
         { SK_Scalar1, 0 }, { SK_Scalar1, 0 }, { SK_Scalar1, SK_Scalar1 }, { SK_Scalar1, SK_Scalar1 }, { 0, SK_Scalar1 }
     };

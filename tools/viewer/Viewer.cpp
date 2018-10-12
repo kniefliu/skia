@@ -19,6 +19,7 @@
 #include "SkColorSpace_Base.h"
 #include "SkColorSpaceXformCanvas.h"
 #include "SkCommandLineFlags.h"
+#include "SkCommonFlagsGpuThreads.h"
 #include "SkCommonFlagsPathRenderer.h"
 #include "SkDashPathEffect.h"
 #include "SkEventTracingPriv.h"
@@ -46,7 +47,6 @@
 
 using namespace sk_app;
 
-using GpuPathRenderers = GrContextOptions::GpuPathRenderers;
 static std::map<GpuPathRenderers, std::string> gPathRendererNames;
 
 Application* Application::Create(int argc, char** argv, void* platformData) {
@@ -268,13 +268,14 @@ Viewer::Viewer(int argc, char** argv, void* platformData)
 
     static SkOnce initPathRendererNames;
     initPathRendererNames([]() {
-        gPathRendererNames[GpuPathRenderers::kAll] = "Default Ganesh Behavior (best path renderer)";
+        gPathRendererNames[GpuPathRenderers::kAll] = "All Path Renderers";
+        gPathRendererNames[GpuPathRenderers::kDefault] =
+                "Default Ganesh Behavior (best path renderer, not including CCPR)";
         gPathRendererNames[GpuPathRenderers::kStencilAndCover] = "NV_path_rendering";
         gPathRendererNames[GpuPathRenderers::kMSAA] = "Sample shading";
         gPathRendererNames[GpuPathRenderers::kSmall] = "Small paths (cached sdf or alpha masks)";
         gPathRendererNames[GpuPathRenderers::kCoverageCounting] = "Coverage counting";
         gPathRendererNames[GpuPathRenderers::kTessellating] = "Tessellating";
-        gPathRendererNames[GpuPathRenderers::kDefault] = "Original Ganesh path renderer";
         gPathRendererNames[GpuPathRenderers::kNone] = "Software masks";
     });
 
@@ -303,6 +304,7 @@ Viewer::Viewer(int argc, char** argv, void* platformData)
     displayParams.fMSAASampleCount = FLAGS_msaa;
     displayParams.fGrContextOptions.fEnableInstancedRendering = FLAGS_instancedRendering;
     displayParams.fGrContextOptions.fGpuPathRenderers = CollectGpuPathRenderersFromFlags();
+    displayParams.fGrContextOptions.fExecutor = GpuExecutorForTools();
     fWindow->setRequestedDisplayParams(displayParams);
 
     // register callbacks
@@ -613,7 +615,7 @@ void Viewer::updateTitle() {
     title.append("]");
 
     GpuPathRenderers pr = fWindow->getRequestedDisplayParams().fGrContextOptions.fGpuPathRenderers;
-    if (GpuPathRenderers::kAll != pr) {
+    if (GpuPathRenderers::kDefault != pr) {
         title.appendf(" [Path renderer: %s]", gPathRendererNames[pr].c_str());
     }
 
@@ -1103,6 +1105,7 @@ void Viewer::drawImGui(SkCanvas* canvas) {
                     if (!ctx) {
                         ImGui::RadioButton("Software", true);
                     } else if (fWindow->sampleCount()) {
+                        prButton(GpuPathRenderers::kDefault);
                         prButton(GpuPathRenderers::kAll);
                         if (ctx->caps()->shaderCaps()->pathRenderingSupport()) {
                             prButton(GpuPathRenderers::kStencilAndCover);
@@ -1111,9 +1114,9 @@ void Viewer::drawImGui(SkCanvas* canvas) {
                             prButton(GpuPathRenderers::kMSAA);
                         }
                         prButton(GpuPathRenderers::kTessellating);
-                        prButton(GpuPathRenderers::kDefault);
                         prButton(GpuPathRenderers::kNone);
                     } else {
+                        prButton(GpuPathRenderers::kDefault);
                         prButton(GpuPathRenderers::kAll);
                         if (GrCoverageCountingPathRenderer::IsSupported(*ctx->caps())) {
                             prButton(GpuPathRenderers::kCoverageCounting);
@@ -1342,6 +1345,7 @@ void Viewer::updateUIState() {
     if (!ctx) {
         prState[kOptions].append("Software");
     } else if (fWindow->sampleCount()) {
+        prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kDefault]);
         prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kAll]);
         if (ctx->caps()->shaderCaps()->pathRenderingSupport()) {
             prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kStencilAndCover]);
@@ -1350,9 +1354,9 @@ void Viewer::updateUIState() {
             prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kMSAA]);
         }
         prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kTessellating]);
-        prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kDefault]);
         prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kNone]);
     } else {
+        prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kDefault]);
         prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kAll]);
         if (GrCoverageCountingPathRenderer::IsSupported(*ctx->caps())) {
             prState[kOptions].append(gPathRendererNames[GpuPathRenderers::kCoverageCounting]);

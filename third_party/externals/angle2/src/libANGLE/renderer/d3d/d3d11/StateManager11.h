@@ -84,7 +84,7 @@ class StateManager11 final : angle::NonCopyable
     StateManager11(Renderer11 *renderer);
     ~StateManager11();
 
-    gl::Error initialize(const gl::Caps &caps);
+    gl::Error initialize(const gl::Caps &caps, const gl::Extensions &extensions);
     void deinitialize();
 
     void syncState(const gl::Context *context, const gl::State::DirtyBits &dirtyBits);
@@ -115,6 +115,7 @@ class StateManager11 final : angle::NonCopyable
     void invalidateBoundViews(const gl::Context *context);
     void invalidateVertexBuffer();
     void invalidateEverything(const gl::Context *context);
+    void invalidateViewport(const gl::Context *context);
 
     // Called from VertexArray11::updateVertexAttribStorage.
     void invalidateCurrentValueAttrib(size_t attribIndex);
@@ -199,7 +200,7 @@ class StateManager11 final : angle::NonCopyable
 
     void syncScissorRectangle(const gl::Rectangle &scissor, bool enabled);
 
-    void syncViewport(const gl::Caps *caps, const gl::Rectangle &viewport, float zNear, float zFar);
+    void syncViewport(const gl::Context *context);
 
     void checkPresentPath(const gl::Context *context);
 
@@ -224,6 +225,7 @@ class StateManager11 final : angle::NonCopyable
 
     // Faster than calling setTexture a jillion times
     gl::Error clearTextures(gl::SamplerType samplerType, size_t rangeStart, size_t rangeEnd);
+    void handleMultiviewDrawFramebufferChange(const gl::Context *context);
 
     gl::Error syncCurrentValueAttribs(const gl::State &state);
 
@@ -270,6 +272,11 @@ class StateManager11 final : angle::NonCopyable
     gl::Rectangle mCurViewport;
     float mCurNear;
     float mCurFar;
+
+    // The viewport offsets are guaranteed to be updated whenever the gl::State::DirtyBits are
+    // resolved and can be applied to the viewport and scissor whenever the internal viewport and
+    // scissor bits are resolved.
+    std::vector<gl::Offset> mViewportOffsets;
 
     // Things needed in viewport state
     dx_VertexConstants11 mVertexConstants;
@@ -374,6 +381,9 @@ class StateManager11 final : angle::NonCopyable
     InputLayoutCache mInputLayoutCache;
     std::vector<const TranslatedAttribute *> mCurrentAttributes;
     Optional<GLint> mLastFirstVertex;
+
+    // ANGLE_multiview.
+    bool mIsMultiviewEnabled;
 };
 
 }  // namespace rx

@@ -203,9 +203,19 @@ bool SkImage_Gpu::onReadPixels(const SkImageInfo& dstInfo, void* dstPixels, size
         flags = GrContextPriv::kUnpremul_PixelOpsFlag;
     }
 
+    // This hack allows us to call makeNonTextureImage on images with arbitrary color spaces.
+    // Otherwise, we'll be unable to create a render target context.
+    // TODO: This shouldn't be necessary - we need more robust support for images (and surfaces)
+    // with arbitrary color spaces. Unfortunately, this is one spot where we go from image to
+    // surface (rather than the opposite), and our lenient image rules break our (currently) more
+    // strict surface rules.
+    sk_sp<SkColorSpace> surfaceColorSpace = fColorSpace;
+    if (!flags && SkColorSpace::Equals(fColorSpace.get(), dstInfo.colorSpace())) {
+        surfaceColorSpace = nullptr;
+    }
+
     sk_sp<GrSurfaceContext> sContext = fContext->contextPriv().makeWrappedSurfaceContext(
-                                                                                    fProxy,
-                                                                                    fColorSpace);
+            fProxy, surfaceColorSpace);
     if (!sContext) {
         return false;
     }
@@ -266,9 +276,7 @@ static sk_sp<SkImage> new_wrapped_texture_common(GrContext* ctx,
         return nullptr;
     }
 
-    sk_sp<GrTexture> tex = ctx->resourceProvider()->wrapBackendTexture(backendTex,
-                                                                       origin,
-                                                                       ownership);
+    sk_sp<GrTexture> tex = ctx->resourceProvider()->wrapBackendTexture(backendTex, ownership);
     if (!tex) {
         return nullptr;
     }
@@ -491,7 +499,7 @@ sk_sp<SkImage> SkImage::MakeCrossContextFromEncoded(GrContext* context, sk_sp<Sk
 
     sk_sp<GrSemaphore> sema = context->getGpu()->prepareTextureForCrossContextUsage(texture.get());
 
-    auto gen = GrBackendTextureImageGenerator::Make(std::move(texture),
+    auto gen = GrBackendTextureImageGenerator::Make(std::move(texture), proxy->origin(),
                                                     std::move(sema), codecImage->alphaType(),
                                                     std::move(texColorSpace));
     return SkImage::MakeFromGenerator(std::move(gen));

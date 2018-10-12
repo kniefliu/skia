@@ -86,8 +86,7 @@ ContextState::ContextState(ContextID contextIn,
       mRenderbuffers(
           AllocateOrGetSharedResourceManager(shareContextState, &ContextState::mRenderbuffers)),
       mSamplers(AllocateOrGetSharedResourceManager(shareContextState, &ContextState::mSamplers)),
-      mFenceSyncs(
-          AllocateOrGetSharedResourceManager(shareContextState, &ContextState::mFenceSyncs)),
+      mSyncs(AllocateOrGetSharedResourceManager(shareContextState, &ContextState::mSyncs)),
       mPaths(AllocateOrGetSharedResourceManager(shareContextState, &ContextState::mPaths)),
       mFramebuffers(new FramebufferManager())
 {
@@ -98,9 +97,14 @@ ContextState::~ContextState()
     // Handles are released by the Context.
 }
 
+bool ContextState::isWebGL() const
+{
+    return mExtensions.webglCompatibility;
+}
+
 bool ContextState::isWebGL1() const
 {
-    return (mExtensions.webglCompatibility && mClientVersion.major == 2);
+    return (isWebGL() && mClientVersion.major == 2);
 }
 
 const TextureCaps &ContextState::getTextureCap(GLenum internalFormat) const

@@ -22,9 +22,9 @@
 #include "GrVkTexture.h"
 #include "SkRect.h"
 
-void GrVkGpuTextureCommandBuffer::copy(GrSurface* src, const SkIRect& srcRect,
-                                       const SkIPoint& dstPoint) {
-    fCopies.emplace_back(src, srcRect, dstPoint);
+void GrVkGpuTextureCommandBuffer::copy(GrSurface* src, GrSurfaceOrigin srcOrigin,
+                                       const SkIRect& srcRect, const SkIPoint& dstPoint) {
+    fCopies.emplace_back(src, srcOrigin, srcRect, dstPoint);
 }
 
 void GrVkGpuTextureCommandBuffer::insertEventMarker(const char* msg) {
@@ -34,7 +34,8 @@ void GrVkGpuTextureCommandBuffer::insertEventMarker(const char* msg) {
 void GrVkGpuTextureCommandBuffer::submit() {
     for (int i = 0; i < fCopies.count(); ++i) {
         CopyInfo& copyInfo = fCopies[i];
-        fGpu->copySurface(fTexture, copyInfo.fSrc, copyInfo.fSrcRect, copyInfo.fDstPoint);
+        fGpu->copySurface(fTexture, fOrigin, copyInfo.fSrc, copyInfo.fSrcOrigin, copyInfo.fSrcRect,
+                          copyInfo.fDstPoint);
     }
 }
 
@@ -42,17 +43,16 @@ GrVkGpuTextureCommandBuffer::~GrVkGpuTextureCommandBuffer() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void get_vk_load_store_ops(GrGpuRTCommandBuffer::LoadOp loadOpIn,
-                           GrGpuRTCommandBuffer::StoreOp storeOpIn,
+void get_vk_load_store_ops(GrLoadOp loadOpIn, GrStoreOp storeOpIn,
                            VkAttachmentLoadOp* loadOp, VkAttachmentStoreOp* storeOp) {
     switch (loadOpIn) {
-        case GrGpuRTCommandBuffer::LoadOp::kLoad:
+        case GrLoadOp::kLoad:
             *loadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
             break;
-        case GrGpuRTCommandBuffer::LoadOp::kClear:
+        case GrLoadOp::kClear:
             *loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
             break;
-        case GrGpuRTCommandBuffer::LoadOp::kDiscard:
+        case GrLoadOp::kDiscard:
             *loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
             break;
         default:
@@ -61,10 +61,10 @@ void get_vk_load_store_ops(GrGpuRTCommandBuffer::LoadOp loadOpIn,
     }
 
     switch (storeOpIn) {
-        case GrGpuRTCommandBuffer::StoreOp::kStore:
+        case GrStoreOp::kStore:
             *storeOp = VK_ATTACHMENT_STORE_OP_STORE;
             break;
-        case GrGpuRTCommandBuffer::StoreOp::kDiscard:
+        case GrStoreOp::kDiscard:
             *storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
             break;
         default:
@@ -116,7 +116,11 @@ void GrVkGpuRTCommandBuffer::init() {
     cbInfo.fColorClearValue.color.float32[2] = fClearColor.fRGBA[2];
     cbInfo.fColorClearValue.color.float32[3] = fClearColor.fRGBA[3];
 
-    cbInfo.fBounds.setEmpty();
+    if (VK_ATTACHMENT_LOAD_OP_CLEAR == fVkColorLoadOp) {
+        cbInfo.fBounds = SkRect::MakeWH(vkRT->width(), vkRT->height());
+    } else {
+        cbInfo.fBounds.setEmpty();
+    }
     cbInfo.fIsEmpty = true;
     cbInfo.fStartsWithClear = false;
 
@@ -182,7 +186,8 @@ void GrVkGpuRTCommandBuffer::submit() {
 
         for (int j = 0; j < cbInfo.fPreCopies.count(); ++j) {
             CopyInfo& copyInfo = cbInfo.fPreCopies[j];
-            fGpu->copySurface(fRenderTarget, copyInfo.fSrc, copyInfo.fSrcRect, copyInfo.fDstPoint);
+            fGpu->copySurface(fRenderTarget, fOrigin, copyInfo.fSrc, copyInfo.fSrcOrigin,
+                              copyInfo.fSrcRect, copyInfo.fDstPoint);
         }
 
         // TODO: We can't add this optimization yet since many things create a scratch texture which
@@ -204,7 +209,7 @@ void GrVkGpuRTCommandBuffer::submit() {
             cbInfo.fBounds.roundOut(&iBounds);
 
             fGpu->submitSecondaryCommandBuffer(cbInfo.fCommandBuffers, cbInfo.fRenderPass,
-                                               &cbInfo.fColorClearValue, vkRT, iBounds);
+                                               &cbInfo.fColorClearValue, vkRT, fOrigin, iBounds);
         }
     }
 }
@@ -441,13 +446,13 @@ void GrVkGpuRTCommandBuffer::inlineUpload(GrOpFlushState* state, GrDrawOp::Defer
     fCommandBufferInfos[fCurrentCmdInfo].fPreDrawUploads.emplace_back(state, upload);
 }
 
-void GrVkGpuRTCommandBuffer::copy(GrSurface* src, const SkIRect& srcRect,
+void GrVkGpuRTCommandBuffer::copy(GrSurface* src, GrSurfaceOrigin srcOrigin, const SkIRect& srcRect,
                                   const SkIPoint& dstPoint) {
     if (!fCommandBufferInfos[fCurrentCmdInfo].fIsEmpty ||
         fCommandBufferInfos[fCurrentCmdInfo].fStartsWithClear) {
         this->addAdditionalRenderPass();
     }
-    fCommandBufferInfos[fCurrentCmdInfo].fPreCopies.emplace_back(src, srcRect, dstPoint);
+    fCommandBufferInfos[fCurrentCmdInfo].fPreCopies.emplace_back(src, srcOrigin, srcRect, dstPoint);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -524,10 +529,12 @@ sk_sp<GrVkPipelineState> GrVkGpuRTCommandBuffer::prepareDrawState(
     GrRenderTarget* rt = pipeline.renderTarget();
 
     if (!pipeline.getScissorState().enabled()) {
-        GrVkPipeline::SetDynamicScissorRectState(fGpu, cbInfo.currentCmdBuf(), rt,
+        GrVkPipeline::SetDynamicScissorRectState(fGpu, cbInfo.currentCmdBuf(),
+                                                 rt, pipeline.proxy()->origin(),
                                                  SkIRect::MakeWH(rt->width(), rt->height()));
     } else if (!hasDynamicState) {
-        GrVkPipeline::SetDynamicScissorRectState(fGpu, cbInfo.currentCmdBuf(), rt,
+        GrVkPipeline::SetDynamicScissorRectState(fGpu, cbInfo.currentCmdBuf(),
+                                                 rt, pipeline.proxy()->origin(),
                                                  pipeline.getScissorState().rect());
     }
     GrVkPipeline::SetDynamicViewportState(fGpu, cbInfo.currentCmdBuf(), rt);
@@ -556,14 +563,14 @@ static void prepare_sampled_images(const GrResourceIOProcessor& processor, GrVkG
         // We may need to resolve the texture first if it is also a render target
         GrVkRenderTarget* texRT = static_cast<GrVkRenderTarget*>(vkTexture->asRenderTarget());
         if (texRT) {
-            gpu->onResolveRenderTarget(texRT);
+            gpu->onResolveRenderTarget(texRT, sampler.proxy()->origin());
         }
 
         const GrSamplerParams& params = sampler.params();
         // Check if we need to regenerate any mip maps
         if (GrSamplerParams::kMipMap_FilterMode == params.filterMode()) {
             if (vkTexture->texturePriv().mipMapsAreDirty()) {
-                gpu->generateMipmap(vkTexture);
+                gpu->generateMipmap(vkTexture, sampler.proxy()->origin());
                 vkTexture->texturePriv().dirtyMipMaps(false);
             }
         }
@@ -623,7 +630,7 @@ void GrVkGpuRTCommandBuffer::onDraw(const GrPipeline& pipeline,
         if (dynamicStates) {
             if (pipeline.getScissorState().enabled()) {
                 GrVkPipeline::SetDynamicScissorRectState(fGpu, cbInfo.currentCmdBuf(),
-                                                         fRenderTarget,
+                                                         fRenderTarget, pipeline.proxy()->origin(),
                                                          dynamicStates[i].fScissorRect);
             }
         }
