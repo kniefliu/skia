@@ -1,3 +1,26 @@
+FOR chrome/m62:
+	skia static 64bit debug:
+		gpu vcxproj:
+			remove src/gpu/ops/GrDiscardOp.h
+			add src\gpu\ccpr\GrCCPRGeometry.h
+			add src\gpu\ops\GrTextureOp.h
+			add src\gpu\ccpr\GrCCPRGeometry.cpp
+			add src\gpu\gl\GrGLGpuCommandBuffer.cpp
+			add src\gpu\ops\GrTextureOp.cpp
+		skia vcxproj:
+			add include\core\SkDeferredDisplayListRecorder.h
+			add src\core\SkDeferredDisplayListRecorder.cpp
+		libGLESv2 vcxproj:
+			remove third_party/externals/angle2/src/libANGLE/renderer/FenceSyncImpl.h
+			remove third_party/externals/angle2/src/libANGLE/renderer/Format.h
+			remove third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.cpp
+			remove third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.cpp
+			add third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.h
+			add third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.h
+			add third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.cpp
+			add third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.cpp
+		
+
 1.download and install git
 2.download and install python
 3.download depot_tools
@@ -143,3 +166,5 @@
 	need change or disable skia\src\ports\SkImageGeneratorWIC.cpp
 	need change skia\include\gpu\gl\GrGLFunctions.h
 	need disable skia\src\gpu\gl\GrGLTestInterface.cpp
+	
+	

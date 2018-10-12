@@ -347,6 +347,7 @@
     <ClInclude Include="../../../src/fonts/SkTestScalerContext.h" />
     <ClInclude Include="../../../src/xps/SkXPSDocument.h" />
     <ClInclude Include="../../../src/xps/SkXPSDevice.h" />
+    <ClInclude Include="..\..\..\include\core\SkDeferredDisplayListRecorder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../src/c/sk_paint.cpp" />
@@ -590,6 +591,7 @@
     <ClCompile Include="../../../src/pathops/SkReduceOrder.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper_stages.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp" />
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='GN|x64'">ml64 /Fo "%(Filename)_x64_static_debug.obj" /c "..\..\..\src\jumper\SkJumper_generated_win.S"</Command>

@@ -197,7 +197,6 @@
     <ClInclude Include="../../../src/gpu/ops/GrDashLinePathRenderer.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDashOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDefaultPathRenderer.h" />
-    <ClInclude Include="../../../src/gpu/ops/GrDiscardOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDebugMarkerOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDrawAtlasOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDrawOp.h" />
@@ -313,6 +312,8 @@
     <ClInclude Include="../../../src/gpu/SkGr.h" />
     <ClInclude Include="../../../src/image/SkImage_Gpu.h" />
     <ClInclude Include="../../../src/image/SkSurface_Gpu.h" />
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.h" />
+    <ClInclude Include="..\..\..\src\gpu\ops\GrTextureOp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../src/gpu/GrAuditTrail.cpp" />
@@ -533,7 +534,10 @@
     <ClCompile Include="../../../src/sksl/ir/SkSLSetting.cpp" />
     <ClCompile Include="../../../src/sksl/ir/SkSLType.cpp" />
     <ClCompile Include="../../../src/gpu/gl/GrGLDefaultInterface_native.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\gl\GrGLGpuCommandBuffer.cpp" />
     <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\ops\GrTextureOp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
