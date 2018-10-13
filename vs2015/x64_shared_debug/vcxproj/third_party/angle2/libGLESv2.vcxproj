@@ -252,9 +252,7 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/DisplayImpl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/EGLImplFactory.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceNVImpl.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceSyncImpl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format_ID_autogen.inl" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FramebufferAttachmentObjectImpl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FramebufferImpl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/GLImplFactory.h" />
@@ -317,10 +315,11 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl_ext.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_autogen.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/global_state.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.def" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.h" />
     <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/resource.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/BlitGL.h" />
@@ -330,7 +329,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ContextGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/DisplayGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FunctionsGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/PathGL.h" />
@@ -729,7 +727,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl_ext.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_autogen.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/global_state.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.cpp" />
@@ -740,7 +737,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ContextGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/DisplayGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FunctionsGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/PathGL.cpp" />
@@ -840,6 +836,8 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/VertexBuffer11.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/win32/NativeWindow11Win32.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/third_party/systeminfo/SystemInfo.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />

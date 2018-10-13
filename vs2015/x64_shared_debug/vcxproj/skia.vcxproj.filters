@@ -1914,11 +1914,18 @@
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp">
       <Filter>src\extension_dll\win</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h">
       <Filter>src\extension_dll\win</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="..\..\..\include\core\SkDeferredDisplayListRecorder.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

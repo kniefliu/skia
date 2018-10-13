@@ -499,7 +499,7 @@ void SkOSWindow::setUpBackend() {
 	{
 		SkASSERT(nullptr == fCurContext);
 		GrContextOptions fGrContextOptions;
-		fGrContextOptions.fGpuPathRenderers = GrContextOptions::GpuPathRenderers::kAll;
+		fGrContextOptions.fGpuPathRenderers = GpuPathRenderers::kAll;
 
 		fCurContext = GrContext::MakeGL(fCurIntf, fGrContextOptions).release();
 
