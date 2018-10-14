@@ -436,6 +436,7 @@
     <ClInclude Include="../../../src/utils/win/SkWGL.h" />
     <ClInclude Include="../../../src/fonts/SkRandomScalerContext.h" />
     <ClInclude Include="../../../src/fonts/SkTestScalerContext.h" />
+    <ClInclude Include="..\..\..\include\core\SkDeferredDisplayListRecorder.h" />
     <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h" />
   </ItemGroup>
   <ItemGroup>
@@ -680,6 +681,7 @@
     <ClCompile Include="../../../src/pathops/SkReduceOrder.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper_stages.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp" />
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp" />
     <ClCompile Include="..\..\..\src\ports\SkFontMgr_win_gdi_factory.cpp" />
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">

@@ -1200,18 +1200,12 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceNVImpl.h">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceSyncImpl.h">
-      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
-    </ClInclude>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format_ID_autogen.inl">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
     </ClInclude>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format_table_autogen.cpp">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
     </ClCompile>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format.h">
-      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
-    </ClInclude>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FramebufferAttachmentObjectImpl.h">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
     </ClInclude>
@@ -1479,12 +1473,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.h">
       <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
     </ClInclude>
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.cpp">
-      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.h">
-      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
-    </ClInclude>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.cpp">
       <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
     </ClCompile>
@@ -1546,12 +1534,6 @@
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
     </ClCompile>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.h">
-      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
-    </ClInclude>
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.cpp">
-      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.h">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
     </ClInclude>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.cpp">
@@ -2466,6 +2448,12 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/third_party/systeminfo/SystemInfo.h">
       <Filter>..\..\third_party\externals\angle2\src\third_party\systeminfo</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
@@ -2476,6 +2464,14 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">
