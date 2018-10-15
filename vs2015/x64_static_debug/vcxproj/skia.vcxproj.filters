@@ -1902,8 +1902,18 @@
     <ClCompile Include="../../../src/ports/SkFontMgr_win_dw_factory.cpp">
       <Filter>src\ports</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkBlitter_RGB565.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkSpriteBlitter_RGB565.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
   </ItemGroup>
   <ItemGroup>

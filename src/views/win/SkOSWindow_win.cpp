@@ -374,8 +374,8 @@ static void* get_angle_egl_display(void* nativeDisplay) {
 
 struct ANGLEAssembleContext {
     ANGLEAssembleContext() {
-        fEGL = GetModuleHandle("libEGL.dll");
-        fGL = GetModuleHandle("libGLESv2.dll");
+        fEGL = GetModuleHandleA("libEGL.dll");
+        fGL = GetModuleHandleA("libGLESv2.dll");
     }
 
     bool isValid() const { return SkToBool(fEGL) && SkToBool(fGL); }

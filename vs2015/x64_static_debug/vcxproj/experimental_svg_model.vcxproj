@@ -71,6 +71,16 @@
     <ClCompile Include="../../../experimental/svg/model/SkSVGStop.cpp" />
     <ClCompile Include="../../../experimental/svg/model/SkSVGTransformableNode.cpp" />
     <ClCompile Include="../../../experimental/svg/model/SkSVGValue.cpp" />
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGGradient.cpp" />
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGPattern.cpp" />
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGRadialGradient.cpp" />
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGUse.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGGradient.h" />
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGPattern.h" />
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGRadialGradient.h" />
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGUse.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />

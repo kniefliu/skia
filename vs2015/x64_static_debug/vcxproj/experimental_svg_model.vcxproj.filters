@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <Filter Include="experimental\svg\model">
@@ -69,5 +69,31 @@
     <ClCompile Include="../../../experimental/svg/model/SkSVGValue.cpp">
       <Filter>experimental\svg\model</Filter>
     </ClCompile>
-</ItemGroup>
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGPattern.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGGradient.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGRadialGradient.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\experimental\svg\model\SkSVGUse.cpp">
+      <Filter>experimental\svg\model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGPattern.h">
+      <Filter>experimental\svg\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGGradient.h">
+      <Filter>experimental\svg\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGRadialGradient.h">
+      <Filter>experimental\svg\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\experimental\svg\model\SkSVGUse.h">
+      <Filter>experimental\svg\model</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
