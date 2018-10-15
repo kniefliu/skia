@@ -38,22 +38,16 @@ void SetupAlwaysEvictAtlas(GrContext* context) {
     GrDrawOpAtlasConfig configs[3];
     configs[kA8_GrMaskFormat].fWidth = dim;
     configs[kA8_GrMaskFormat].fHeight = dim;
-    configs[kA8_GrMaskFormat].fLog2Width = SkNextLog2(dim);
-    configs[kA8_GrMaskFormat].fLog2Height = SkNextLog2(dim);
     configs[kA8_GrMaskFormat].fPlotWidth = dim;
     configs[kA8_GrMaskFormat].fPlotHeight = dim;
 
     configs[kA565_GrMaskFormat].fWidth = dim;
     configs[kA565_GrMaskFormat].fHeight = dim;
-    configs[kA565_GrMaskFormat].fLog2Width = SkNextLog2(dim);
-    configs[kA565_GrMaskFormat].fLog2Height = SkNextLog2(dim);
     configs[kA565_GrMaskFormat].fPlotWidth = dim;
     configs[kA565_GrMaskFormat].fPlotHeight = dim;
 
     configs[kARGB_GrMaskFormat].fWidth = dim;
     configs[kARGB_GrMaskFormat].fHeight = dim;
-    configs[kARGB_GrMaskFormat].fLog2Width = SkNextLog2(dim);
-    configs[kARGB_GrMaskFormat].fLog2Height = SkNextLog2(dim);
     configs[kARGB_GrMaskFormat].fPlotWidth = dim;
     configs[kARGB_GrMaskFormat].fPlotHeight = dim;
 
@@ -153,14 +147,14 @@ void GrContext::printGpuStats() const {
 sk_sp<SkImage> GrContext::getFontAtlasImage_ForTesting(GrMaskFormat format) {
     GrAtlasGlyphCache* cache = this->getAtlasGlyphCache();
 
-    sk_sp<GrTextureProxy> proxy = cache->getProxy(format);
-    if (!proxy) {
+    const sk_sp<GrTextureProxy>* proxies = cache->getProxies(format);
+    if (!proxies[0]) {
         return nullptr;
     }
 
-    SkASSERT(proxy->priv().isExact());
+    SkASSERT(proxies[0]->priv().isExact());
     sk_sp<SkImage> image(new SkImage_Gpu(this, kNeedNewImageUniqueID, kPremul_SkAlphaType,
-                                         std::move(proxy), nullptr, SkBudgeted::kNo));
+                                         std::move(proxies[0]), nullptr, SkBudgeted::kNo));
     return image;
 }
 
@@ -316,32 +310,34 @@ DRAW_OP_TEST_EXTERN(SmallPathOp);
 DRAW_OP_TEST_EXTERN(RegionOp);
 DRAW_OP_TEST_EXTERN(RRectOp);
 DRAW_OP_TEST_EXTERN(TesselatingPathOp);
+DRAW_OP_TEST_EXTERN(TextureOp);
 
 void GrDrawRandomOp(SkRandom* random, GrRenderTargetContext* renderTargetContext, GrPaint&& paint) {
     GrContext* context = renderTargetContext->surfPriv().getContext();
     using MakeDrawOpFn = std::unique_ptr<GrDrawOp>(GrPaint&&, SkRandom*, GrContext*, GrFSAAType);
     static constexpr MakeDrawOpFn* gFactories[] = {
-        DRAW_OP_TEST_ENTRY(AAConvexPathOp),
-        DRAW_OP_TEST_ENTRY(AAFillRectOp),
-        DRAW_OP_TEST_ENTRY(AAFlatteningConvexPathOp),
-        DRAW_OP_TEST_ENTRY(AAHairlineOp),
-        DRAW_OP_TEST_ENTRY(AAStrokeRectOp),
-        DRAW_OP_TEST_ENTRY(CircleOp),
-        DRAW_OP_TEST_ENTRY(DashOp),
-        DRAW_OP_TEST_ENTRY(DefaultPathOp),
-        DRAW_OP_TEST_ENTRY(DIEllipseOp),
-        DRAW_OP_TEST_ENTRY(EllipseOp),
-        DRAW_OP_TEST_ENTRY(GrAtlasTextOp),
-        DRAW_OP_TEST_ENTRY(GrDrawAtlasOp),
-        DRAW_OP_TEST_ENTRY(GrDrawVerticesOp),
-        DRAW_OP_TEST_ENTRY(NonAAFillRectOp),
-        DRAW_OP_TEST_ENTRY(NonAALatticeOp),
-        DRAW_OP_TEST_ENTRY(NonAAStrokeRectOp),
-        DRAW_OP_TEST_ENTRY(ShadowRRectOp),
-        DRAW_OP_TEST_ENTRY(SmallPathOp),
-        DRAW_OP_TEST_ENTRY(RegionOp),
-        DRAW_OP_TEST_ENTRY(RRectOp),
-        DRAW_OP_TEST_ENTRY(TesselatingPathOp),
+            DRAW_OP_TEST_ENTRY(AAConvexPathOp),
+            DRAW_OP_TEST_ENTRY(AAFillRectOp),
+            DRAW_OP_TEST_ENTRY(AAFlatteningConvexPathOp),
+            DRAW_OP_TEST_ENTRY(AAHairlineOp),
+            DRAW_OP_TEST_ENTRY(AAStrokeRectOp),
+            DRAW_OP_TEST_ENTRY(CircleOp),
+            DRAW_OP_TEST_ENTRY(DashOp),
+            DRAW_OP_TEST_ENTRY(DefaultPathOp),
+            DRAW_OP_TEST_ENTRY(DIEllipseOp),
+            DRAW_OP_TEST_ENTRY(EllipseOp),
+            DRAW_OP_TEST_ENTRY(GrAtlasTextOp),
+            DRAW_OP_TEST_ENTRY(GrDrawAtlasOp),
+            DRAW_OP_TEST_ENTRY(GrDrawVerticesOp),
+            DRAW_OP_TEST_ENTRY(NonAAFillRectOp),
+            DRAW_OP_TEST_ENTRY(NonAALatticeOp),
+            DRAW_OP_TEST_ENTRY(NonAAStrokeRectOp),
+            DRAW_OP_TEST_ENTRY(ShadowRRectOp),
+            DRAW_OP_TEST_ENTRY(SmallPathOp),
+            DRAW_OP_TEST_ENTRY(RegionOp),
+            DRAW_OP_TEST_ENTRY(RRectOp),
+            DRAW_OP_TEST_ENTRY(TesselatingPathOp),
+            DRAW_OP_TEST_ENTRY(TextureOp),
     };
 
     static constexpr size_t kTotal = SK_ARRAY_COUNT(gFactories);

@@ -217,7 +217,7 @@ struct CompareFlagsByName {
 };
 }  // namespace
 
-void SkCommandLineFlags::Parse(int argc, char** argv) {
+void SkCommandLineFlags::Parse(int argc, const char* const * argv) {
     // Only allow calling this function once.
     static bool gOnce;
     if (gOnce) {
@@ -395,7 +395,7 @@ bool ShouldSkipImpl(const Strings& strings, const char* name) {
                 && strncmp(name, matchName, matchLen) == 0
                 : matchEnd ? matchLen <= testLen
                 && strncmp(name + testLen - matchLen, matchName, matchLen) == 0
-                : strstr(name, matchName) != 0) {
+                : strstr(name, matchName) != nullptr) {
             return matchExclude;
         }
     }

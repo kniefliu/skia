@@ -22,6 +22,7 @@
 #include "base/run_loop.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "base/test/scoped_task_environment.h"
 #include "base/time/time.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
@@ -121,7 +122,7 @@ class ZipReaderTest : public PlatformTest {
     PlatformTest::SetUp();
 
     ASSERT_TRUE(temp_dir_.CreateUniqueTempDir());
-    test_dir_ = temp_dir_.path();
+    test_dir_ = temp_dir_.GetPath();
 
     ASSERT_TRUE(GetTestDataDirectory(&test_data_dir_));
 
@@ -188,7 +189,7 @@ class ZipReaderTest : public PlatformTest {
 
   base::ScopedTempDir temp_dir_;
 
-  base::MessageLoop message_loop_;
+  base::test::ScopedTaskEnvironment scoped_task_environment_;
 };
 
 TEST_F(ZipReaderTest, Open_ValidZipFile) {
@@ -575,15 +576,56 @@ TEST_F(ZipReaderTest, ExtractCurrentEntryToString) {
     if (i > 0) {
       // Exact byte read limit: must pass.
       EXPECT_TRUE(reader.ExtractCurrentEntryToString(i, &contents));
-      EXPECT_EQ(i, contents.size());
-      EXPECT_EQ(0, memcmp(contents.c_str(), "0123456", i));
+      EXPECT_EQ(base::StringPiece("0123456", i).as_string(), contents);
     }
 
     // More than necessary byte read limit: must pass.
     EXPECT_TRUE(reader.ExtractCurrentEntryToString(16, &contents));
-    EXPECT_EQ(i, contents.size());
-    EXPECT_EQ(0, memcmp(contents.c_str(), "0123456", i));
+    EXPECT_EQ(base::StringPiece("0123456", i).as_string(), contents);
   }
+  reader.Close();
+}
+
+TEST_F(ZipReaderTest, ExtractPartOfCurrentEntry) {
+  // test_mismatch_size.zip contains files with names from 0.txt to 7.txt with
+  // sizes from 0 to 7 bytes respectively, being the contents of each file a
+  // substring of "0123456" starting at '0'.
+  base::FilePath test_zip_file =
+      test_data_dir_.AppendASCII("test_mismatch_size.zip");
+
+  ZipReader reader;
+  std::string contents;
+  ASSERT_TRUE(reader.Open(test_zip_file));
+
+  base::FilePath file_name0 = base::FilePath::FromUTF8Unsafe("0.txt");
+  ASSERT_TRUE(reader.LocateAndOpenEntry(file_name0));
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(0, &contents));
+  EXPECT_EQ("", contents);
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(1, &contents));
+  EXPECT_EQ("", contents);
+
+  base::FilePath file_name1 = base::FilePath::FromUTF8Unsafe("1.txt");
+  ASSERT_TRUE(reader.LocateAndOpenEntry(file_name1));
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(0, &contents));
+  EXPECT_EQ("", contents);
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(1, &contents));
+  EXPECT_EQ("0", contents);
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(2, &contents));
+  EXPECT_EQ("0", contents);
+
+  base::FilePath file_name4 = base::FilePath::FromUTF8Unsafe("4.txt");
+  ASSERT_TRUE(reader.LocateAndOpenEntry(file_name4));
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(0, &contents));
+  EXPECT_EQ("", contents);
+  EXPECT_FALSE(reader.ExtractCurrentEntryToString(2, &contents));
+  EXPECT_EQ("01", contents);
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(4, &contents));
+  EXPECT_EQ("0123", contents);
+  // Checks that entire file is extracted and function returns true when
+  // |max_read_bytes| is larger than file size.
+  EXPECT_TRUE(reader.ExtractCurrentEntryToString(5, &contents));
+  EXPECT_EQ("0123", contents);
+
   reader.Close();
 }
 
@@ -609,7 +651,8 @@ TEST_F(ZipReaderTest, ExtractCurrentEntryPrepareFailure) {
 
   ASSERT_TRUE(reader.Open(test_zip_file_));
   ASSERT_TRUE(reader.LocateAndOpenEntry(target_path));
-  ASSERT_FALSE(reader.ExtractCurrentEntry(&mock_writer));
+  ASSERT_FALSE(reader.ExtractCurrentEntry(
+      &mock_writer, std::numeric_limits<uint64_t>::max()));
 }
 
 // Test that when WriterDelegate::WriteBytes returns false, no other methods on
@@ -627,7 +670,8 @@ TEST_F(ZipReaderTest, ExtractCurrentEntryWriteBytesFailure) {
 
   ASSERT_TRUE(reader.Open(test_zip_file_));
   ASSERT_TRUE(reader.LocateAndOpenEntry(target_path));
-  ASSERT_FALSE(reader.ExtractCurrentEntry(&mock_writer));
+  ASSERT_FALSE(reader.ExtractCurrentEntry(
+      &mock_writer, std::numeric_limits<uint64_t>::max()));
 }
 
 // Test that extraction succeeds when the writer delegate reports all is well.
@@ -644,7 +688,8 @@ TEST_F(ZipReaderTest, ExtractCurrentEntrySuccess) {
 
   ASSERT_TRUE(reader.Open(test_zip_file_));
   ASSERT_TRUE(reader.LocateAndOpenEntry(target_path));
-  ASSERT_TRUE(reader.ExtractCurrentEntry(&mock_writer));
+  ASSERT_TRUE(reader.ExtractCurrentEntry(&mock_writer,
+                                         std::numeric_limits<uint64_t>::max()));
 }
 
 class FileWriterDelegateTest : public ::testing::Test {

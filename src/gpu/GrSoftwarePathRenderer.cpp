@@ -8,18 +8,31 @@
 #include "GrSoftwarePathRenderer.h"
 #include "GrAuditTrail.h"
 #include "GrClip.h"
+#include "GrContextPriv.h"
+#include "GrDeferredProxyUploader.h"
 #include "GrGpuResourcePriv.h"
+#include "GrOpFlushState.h"
+#include "GrOpList.h"
 #include "GrResourceProvider.h"
 #include "GrSWMaskHelper.h"
+#include "SkMakeUnique.h"
+#include "SkSemaphore.h"
+#include "SkTaskGroup.h"
+#include "SkTraceEvent.h"
 #include "ops/GrDrawOp.h"
 #include "ops/GrRectOpFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-bool GrSoftwarePathRenderer::onCanDrawPath(const CanDrawPathArgs& args) const {
+GrPathRenderer::CanDrawPath
+GrSoftwarePathRenderer::onCanDrawPath(const CanDrawPathArgs& args) const {
     // Pass on any style that applies. The caller will apply the style if a suitable renderer is
     // not found and try again with the new GrShape.
-    return !args.fShape->style().applies() && SkToBool(fResourceProvider) &&
-           (args.fAAType == GrAAType::kCoverage || args.fAAType == GrAAType::kNone);
+    if (!args.fShape->style().applies() && SkToBool(fResourceProvider) &&
+        (args.fAAType == GrAAType::kCoverage || args.fAAType == GrAAType::kNone)) {
+        // This is the fallback renderer for when a path is too complicated for the GPU ones.
+        return CanDrawPath::kAsBackup;
+    }
+    return CanDrawPath::kNo;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,11 +157,64 @@ void GrSoftwarePathRenderer::DrawToTargetWithShapeMask(
                                               SkIntToScalar(-textureOriginInDeviceSpace.fY));
     maskMatrix.preConcat(viewMatrix);
     paint.addCoverageFragmentProcessor(GrSimpleTextureEffect::Make(
-                std::move(proxy), nullptr, maskMatrix, GrSamplerParams::kNone_FilterMode));
-    renderTargetContext->addDrawOp(clip,
-                                   GrRectOpFactory::MakeNonAAFillWithLocalMatrix(
-                                           std::move(paint), SkMatrix::I(), invert, dstRect,
-                                           GrAAType::kNone, &userStencilSettings));
+            std::move(proxy), nullptr, maskMatrix, GrSamplerState::Filter::kNearest));
+    DrawNonAARect(renderTargetContext, std::move(paint), userStencilSettings, clip, SkMatrix::I(),
+                  dstRect, invert);
+}
+
+static sk_sp<GrTextureProxy> make_deferred_mask_texture_proxy(GrContext* context, SkBackingFit fit,
+                                                              int width, int height) {
+    GrSurfaceDesc desc;
+    desc.fOrigin = kTopLeft_GrSurfaceOrigin;
+    desc.fWidth = width;
+    desc.fHeight = height;
+    desc.fConfig = kAlpha_8_GrPixelConfig;
+    // MDB TODO: We're going to fill this proxy with an ASAP upload (which is out of order wrt to
+    // ops), so it can't have any pending IO.
+    return GrSurfaceProxy::MakeDeferred(context->resourceProvider(), desc, fit, SkBudgeted::kYes,
+                                        GrResourceProvider::kNoPendingIO_Flag);
+}
+
+namespace {
+
+/**
+ * Payload class for use with GrTDeferredProxyUploader. The software path renderer only draws
+ * a single path into the mask texture. This stores all of the information needed by the worker
+ * thread's call to drawShape (see below, in onDrawPath).
+ */
+class SoftwarePathData {
+public:
+    SoftwarePathData(const SkIRect& maskBounds, const SkMatrix& viewMatrix, const GrShape& shape,
+                     GrAA aa)
+            : fMaskBounds(maskBounds)
+            , fViewMatrix(viewMatrix)
+            , fShape(shape)
+            , fAA(aa) {}
+
+    const SkIRect& getMaskBounds() const { return fMaskBounds; }
+    const SkMatrix* getViewMatrix() const { return &fViewMatrix; }
+    const GrShape& getShape() const { return fShape; }
+    GrAA getAA() const { return fAA; }
+
+private:
+    SkIRect fMaskBounds;
+    SkMatrix fViewMatrix;
+    GrShape fShape;
+    GrAA fAA;
+};
+
+// When the SkPathRef genID changes, invalidate a corresponding GrResource described by key.
+class PathInvalidator : public SkPathRef::GenIDChangeListener {
+public:
+    explicit PathInvalidator(const GrUniqueKey& key) : fMsg(key) {}
+private:
+    GrUniqueKeyInvalidatedMessage fMsg;
+
+    void onChange() override {
+        SkMessageBus<GrUniqueKeyInvalidatedMessage>::Post(fMsg);
+    }
+};
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,8 +259,9 @@ bool GrSoftwarePathRenderer::onDrawPath(const DrawPathArgs& args) {
         // Use the cache only if >50% of the path is visible.
         int unclippedWidth = unclippedDevShapeBounds.width();
         int unclippedHeight = unclippedDevShapeBounds.height();
-        int unclippedArea = unclippedWidth * unclippedHeight;
-        int clippedArea = clippedDevShapeBounds.width() * clippedDevShapeBounds.height();
+        int64_t unclippedArea = sk_64_mul(unclippedWidth, unclippedHeight);
+        int64_t clippedArea = sk_64_mul(clippedDevShapeBounds.width(),
+                                        clippedDevShapeBounds.height());
         int maxTextureSize = args.fRenderTargetContext->caps()->maxTextureSize();
         if (unclippedArea > 2 * clippedArea || unclippedWidth > maxTextureSize ||
             unclippedHeight > maxTextureSize) {
@@ -205,11 +272,6 @@ bool GrSoftwarePathRenderer::onDrawPath(const DrawPathArgs& args) {
     }
 
     GrUniqueKey maskKey;
-    struct KeyData {
-        SkScalar fFractionalTranslateX;
-        SkScalar fFractionalTranslateY;
-    };
-
     if (useCache) {
         // We require the upper left 2x2 of the matrix to match exactly for a cache hit.
         SkScalar sx = args.fViewMatrix->get(SkMatrix::kMScaleX);
@@ -240,26 +302,59 @@ bool GrSoftwarePathRenderer::onDrawPath(const DrawPathArgs& args) {
         builder[4] = fracX | (fracY >> 8);
         args.fShape->writeUnstyledKey(&builder[5]);
 #endif
-        // FIXME: Doesn't the key need to consider whether we're using AA or not? In practice that
-        // should always be true, though.
     }
 
     sk_sp<GrTextureProxy> proxy;
     if (useCache) {
-        proxy = fResourceProvider->findProxyByUniqueKey(maskKey, kTopLeft_GrSurfaceOrigin);
+        proxy = fResourceProvider->findOrCreateProxyByUniqueKey(maskKey, kTopLeft_GrSurfaceOrigin);
     }
     if (!proxy) {
         SkBackingFit fit = useCache ? SkBackingFit::kExact : SkBackingFit::kApprox;
         GrAA aa = GrAAType::kCoverage == args.fAAType ? GrAA::kYes : GrAA::kNo;
-        proxy = GrSWMaskHelper::DrawShapeMaskToTexture(args.fContext, *args.fShape,
-                                                       *boundsForMask, aa,
-                                                       fit, args.fViewMatrix);
+
+        SkTaskGroup* taskGroup = args.fContext->contextPriv().getTaskGroup();
+        if (taskGroup) {
+            proxy = make_deferred_mask_texture_proxy(args.fContext, fit,
+                                                     boundsForMask->width(),
+                                                     boundsForMask->height());
+            if (!proxy) {
+                return false;
+            }
+
+            auto uploader = skstd::make_unique<GrTDeferredProxyUploader<SoftwarePathData>>(
+                    *boundsForMask, *args.fViewMatrix, *args.fShape, aa);
+            GrTDeferredProxyUploader<SoftwarePathData>* uploaderRaw = uploader.get();
+
+            auto drawAndUploadMask = [uploaderRaw] {
+                TRACE_EVENT0("skia", "Threaded SW Mask Render");
+                GrSWMaskHelper helper(uploaderRaw->getPixels());
+                if (helper.init(uploaderRaw->data().getMaskBounds())) {
+                    helper.drawShape(uploaderRaw->data().getShape(),
+                                     *uploaderRaw->data().getViewMatrix(),
+                                     SkRegion::kReplace_Op, uploaderRaw->data().getAA(), 0xFF);
+                } else {
+                    SkDEBUGFAIL("Unable to allocate SW mask.");
+                }
+                uploaderRaw->signalAndFreeData();
+            };
+            taskGroup->add(std::move(drawAndUploadMask));
+            proxy->texPriv().setDeferredUploader(std::move(uploader));
+        } else {
+            GrSWMaskHelper helper;
+            if (!helper.init(*boundsForMask)) {
+                return false;
+            }
+            helper.drawShape(*args.fShape, *args.fViewMatrix, SkRegion::kReplace_Op, aa, 0xFF);
+            proxy = helper.toTextureProxy(args.fContext, fit);
+        }
+
         if (!proxy) {
             return false;
         }
         if (useCache) {
             SkASSERT(proxy->origin() == kTopLeft_GrSurfaceOrigin);
             fResourceProvider->assignUniqueKeyToProxy(maskKey, proxy.get());
+            args.fShape->addGenIDChangeListener(new PathInvalidator(maskKey));
         }
     }
     if (inverseFilled) {

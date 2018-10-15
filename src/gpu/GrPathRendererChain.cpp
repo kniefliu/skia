@@ -28,7 +28,6 @@
 #include "ops/GrTessellatingPathRenderer.h"
 
 GrPathRendererChain::GrPathRendererChain(GrContext* context, const Options& options) {
-    using GpuPathRenderers = GrContextOptions::GpuPathRenderers;
     const GrCaps& caps = *context->caps();
     if (options.fGpuPathRenderers & GpuPathRenderers::kDashLine) {
         fChain.push_back(sk_make_sp<GrDashLinePathRenderer>());
@@ -47,8 +46,15 @@ GrPathRendererChain::GrPathRendererChain(GrContext* context, const Options& opti
         }
     }
 #endif
-    if (options.fGpuPathRenderers & GpuPathRenderers::kAAHairline) {
-        fChain.push_back(sk_make_sp<GrAAHairLinePathRenderer>());
+
+    // AA hairline path renderer is very specialized - no other renderer can do this job well
+    fChain.push_back(sk_make_sp<GrAAHairLinePathRenderer>());
+
+    if (options.fGpuPathRenderers & GpuPathRenderers::kCoverageCounting) {
+        if (auto ccpr = GrCoverageCountingPathRenderer::CreateIfSupported(*context->caps())) {
+            context->contextPriv().addOnFlushCallbackObject(ccpr.get());
+            fChain.push_back(std::move(ccpr));
+        }
     }
     if (options.fGpuPathRenderers & GpuPathRenderers::kAAConvex) {
         fChain.push_back(sk_make_sp<GrAAConvexPathRenderer>());
@@ -57,20 +63,16 @@ GrPathRendererChain::GrPathRendererChain(GrContext* context, const Options& opti
         fChain.push_back(sk_make_sp<GrAALinearizingConvexPathRenderer>());
     }
     if (options.fGpuPathRenderers & GpuPathRenderers::kSmall) {
-        fChain.push_back(sk_make_sp<GrSmallPathRenderer>());
-    }
-    if (options.fGpuPathRenderers & Options::GpuPathRenderers::kCoverageCounting) {
-        if (auto ccpr = GrCoverageCountingPathRenderer::CreateIfSupported(*context->caps())) {
-            context->contextPriv().addOnFlushCallbackObject(ccpr.get());
-            fChain.push_back(std::move(ccpr));
-        }
+        auto spr = sk_make_sp<GrSmallPathRenderer>();
+        context->contextPriv().addOnFlushCallbackObject(spr.get());
+        fChain.push_back(std::move(spr));
     }
     if (options.fGpuPathRenderers & GpuPathRenderers::kTessellating) {
         fChain.push_back(sk_make_sp<GrTessellatingPathRenderer>());
     }
-    if (options.fGpuPathRenderers & GpuPathRenderers::kDefault) {
-        fChain.push_back(sk_make_sp<GrDefaultPathRenderer>());
-    }
+
+    // We always include the default path renderer (as well as SW), so we can draw any path
+    fChain.push_back(sk_make_sp<GrDefaultPathRenderer>());
 }
 
 GrPathRenderer* GrPathRendererChain::getPathRenderer(
@@ -96,18 +98,29 @@ GrPathRenderer* GrPathRendererChain::getPathRenderer(
         }
     }
 
-    for (int i = 0; i < fChain.count(); ++i) {
-        if (fChain[i]->canDrawPath(args)) {
-            if (GrPathRenderer::kNoSupport_StencilSupport != minStencilSupport) {
-                GrPathRenderer::StencilSupport support = fChain[i]->getStencilSupport(*args.fShape);
-                if (support < minStencilSupport) {
-                    continue;
-                } else if (stencilSupport) {
-                    *stencilSupport = support;
-                }
+    GrPathRenderer* bestPathRenderer = nullptr;
+    for (const sk_sp<GrPathRenderer>& pr : fChain) {
+        GrPathRenderer::StencilSupport support = GrPathRenderer::kNoSupport_StencilSupport;
+        if (GrPathRenderer::kNoSupport_StencilSupport != minStencilSupport) {
+            support = pr->getStencilSupport(*args.fShape);
+            if (support < minStencilSupport) {
+                continue;
             }
-            return fChain[i].get();
+        }
+        GrPathRenderer::CanDrawPath canDrawPath = pr->canDrawPath(args);
+        if (GrPathRenderer::CanDrawPath::kNo == canDrawPath) {
+            continue;
+        }
+        if (GrPathRenderer::CanDrawPath::kAsBackup == canDrawPath && bestPathRenderer) {
+            continue;
+        }
+        if (stencilSupport) {
+            *stencilSupport = support;
+        }
+        bestPathRenderer = pr.get();
+        if (GrPathRenderer::CanDrawPath::kYes == canDrawPath) {
+            break;
         }
     }
-    return nullptr;
+    return bestPathRenderer;
 }

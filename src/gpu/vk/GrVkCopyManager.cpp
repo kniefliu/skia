@@ -7,7 +7,7 @@
 
 #include "GrVkCopyManager.h"
 
-#include "GrSamplerParams.h"
+#include "GrSamplerState.h"
 #include "GrShaderCaps.h"
 #include "GrSurface.h"
 #include "GrTexturePriv.h"
@@ -44,17 +44,17 @@ bool GrVkCopyManager::createCopyProgram(GrVkGpu* gpu) {
         "#extension GL_ARB_shading_language_420pack : enable\n"
 
         "layout(set = 0, binding = 0) uniform vertexUniformBuffer {"
-            "mediump float4 uPosXform;"
-            "mediump float4 uTexCoordXform;"
+            "half4 uPosXform;"
+            "half4 uTexCoordXform;"
         "};"
-        "layout(location = 0) in highp float2 inPosition;"
-        "layout(location = 1) out mediump float2 vTexCoord;"
+        "layout(location = 0) in float2 inPosition;"
+        "layout(location = 1) out half2 vTexCoord;"
 
         "// Copy Program VS\n"
         "void main() {"
             "vTexCoord = inPosition * uTexCoordXform.xy + uTexCoordXform.zw;"
-            "gl_Position.xy = inPosition * uPosXform.xy + uPosXform.zw;"
-            "gl_Position.zw = float2(0, 1);"
+            "sk_Position.xy = inPosition * uPosXform.xy + uPosXform.zw;"
+            "sk_Position.zw = half2(0, 1);"
         "}"
     );
 
@@ -63,11 +63,9 @@ bool GrVkCopyManager::createCopyProgram(GrVkGpu* gpu) {
         "#extension GL_ARB_separate_shader_objects : enable\n"
         "#extension GL_ARB_shading_language_420pack : enable\n"
 
-        "precision mediump float;"
-
-        "layout(set = 1, binding = 0) uniform mediump sampler2D uTextureSampler;"
-        "layout(location = 1) in mediump float2 vTexCoord;"
-        "layout(location = 0, index = 0) out mediump float4 fsColorOut;"
+        "layout(set = 1, binding = 0) uniform sampler2D uTextureSampler;"
+        "layout(location = 1) in half2 vTexCoord;"
+        "layout(location = 0, index = 0) out half4 fsColorOut;"
 
         "// Copy Program FS\n"
         "void main() {"
@@ -143,10 +141,9 @@ bool GrVkCopyManager::createCopyProgram(GrVkGpu* gpu) {
 }
 
 bool GrVkCopyManager::copySurfaceAsDraw(GrVkGpu* gpu,
-                                        GrSurface* dst,
-                                        GrSurface* src,
-                                        const SkIRect& srcRect,
-                                        const SkIPoint& dstPoint) {
+                                        GrSurface* dst, GrSurfaceOrigin dstOrigin,
+                                        GrSurface* src, GrSurfaceOrigin srcOrigin,
+                                        const SkIRect& srcRect, const SkIPoint& dstPoint) {
     // None of our copy methods can handle a swizzle. TODO: Make copySurfaceAsDraw handle the
     // swizzle.
     if (gpu->caps()->shaderCaps()->configOutputSwizzle(src->config()) !=
@@ -204,7 +201,7 @@ bool GrVkCopyManager::copySurfaceAsDraw(GrVkGpu* gpu,
     float dx1 = 2.f * (dstPoint.fX + w) / dw - 1.f;
     float dy0 = 2.f * dstPoint.fY / dh - 1.f;
     float dy1 = 2.f * (dstPoint.fY + h) / dh - 1.f;
-    if (kBottomLeft_GrSurfaceOrigin == dst->origin()) {
+    if (kBottomLeft_GrSurfaceOrigin == dstOrigin) {
         dy0 = -dy0;
         dy1 = -dy1;
     }
@@ -215,7 +212,7 @@ bool GrVkCopyManager::copySurfaceAsDraw(GrVkGpu* gpu,
     float sy0 = (float)srcRect.fTop;
     float sy1 = (float)(srcRect.fTop + h);
     int sh = src->height();
-    if (kBottomLeft_GrSurfaceOrigin == src->origin()) {
+    if (kBottomLeft_GrSurfaceOrigin == srcOrigin) {
         sy0 = sh - sy0;
         sy1 = sh - sy1;
     }
@@ -260,10 +257,10 @@ bool GrVkCopyManager::copySurfaceAsDraw(GrVkGpu* gpu,
     const GrVkDescriptorSet* samplerDS =
         gpu->resourceProvider().getSamplerDescriptorSet(fSamplerDSHandle);
 
-    GrSamplerParams params(SkShader::kClamp_TileMode, GrSamplerParams::kNone_FilterMode);
+    GrSamplerState samplerState = GrSamplerState::ClampNearest();
 
-    GrVkSampler* sampler =
-        resourceProv.findOrCreateCompatibleSampler(params, srcTex->texturePriv().maxMipMapLevel());
+    GrVkSampler* sampler = resourceProv.findOrCreateCompatibleSampler(
+            samplerState, srcTex->texturePriv().maxMipMapLevel());
 
     VkDescriptorImageInfo imageInfo;
     memset(&imageInfo, 0, sizeof(VkDescriptorImageInfo));
@@ -293,7 +290,7 @@ bool GrVkCopyManager::copySurfaceAsDraw(GrVkGpu* gpu,
 
     GrVkRenderTarget* texRT = static_cast<GrVkRenderTarget*>(srcTex->asRenderTarget());
     if (texRT) {
-        gpu->onResolveRenderTarget(texRT);
+        gpu->onResolveRenderTarget(texRT, srcOrigin);
     }
 
     GrVkPrimaryCommandBuffer* cmdBuffer = gpu->currentCommandBuffer();

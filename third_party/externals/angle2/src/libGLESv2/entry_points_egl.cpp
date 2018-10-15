@@ -10,7 +10,7 @@
 #include "libGLESv2/entry_points_egl_ext.h"
 #include "libGLESv2/entry_points_gles_2_0_autogen.h"
 #include "libGLESv2/entry_points_gles_2_0_ext.h"
-#include "libGLESv2/entry_points_gles_3_0.h"
+#include "libGLESv2/entry_points_gles_3_0_autogen.h"
 #include "libGLESv2/entry_points_gles_3_1.h"
 #include "libGLESv2/global_state.h"
 
@@ -574,31 +574,14 @@ EGLBoolean EGLAPIENTRY QueryContext(EGLDisplay dpy, EGLContext ctx, EGLint attri
     Display *display     = static_cast<Display *>(dpy);
     gl::Context *context = static_cast<gl::Context *>(ctx);
 
-    Error error = ValidateContext(display, context);
+    Error error = ValidateQueryContext(display, context, attribute, value);
     if (error.isError())
     {
         thread->setError(error);
         return EGL_FALSE;
     }
 
-    switch (attribute)
-    {
-        case EGL_CONFIG_ID:
-            *value = context->getConfig()->configID;
-            break;
-        case EGL_CONTEXT_CLIENT_TYPE:
-            *value = context->getClientType();
-            break;
-        case EGL_CONTEXT_CLIENT_VERSION:
-            *value = context->getClientMajorVersion();
-            break;
-        case EGL_RENDER_BUFFER:
-            *value = context->getRenderBuffer();
-            break;
-        default:
-            thread->setError(EglBadAttribute());
-            return EGL_FALSE;
-    }
+    QueryContextAttrib(context, attribute, value);
 
     thread->setError(NoError());
     return EGL_TRUE;
@@ -1600,8 +1583,7 @@ __eglMustCastToProperFunctionPointerType EGLAPIENTRY GetProcAddress(const char *
         INSERT_PROC_ADDRESS(gl, UniformBlockBinding);
         INSERT_PROC_ADDRESS(gl, DrawArraysInstanced);
         INSERT_PROC_ADDRESS(gl, DrawElementsInstanced);
-        // FenceSync is the name of a class, the function has an added _ to prevent a name conflict.
-        INSERT_PROC_ADDRESS_NO_NS("glFenceSync", gl::FenceSync_);
+        INSERT_PROC_ADDRESS(gl, FenceSync);
         INSERT_PROC_ADDRESS(gl, IsSync);
         INSERT_PROC_ADDRESS(gl, DeleteSync);
         INSERT_PROC_ADDRESS(gl, ClientWaitSync);

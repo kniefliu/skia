@@ -165,6 +165,20 @@ DEF_TEST(SkNi_saturatedAdd, r) {
     }
 }
 
+DEF_TEST(SkNi_mulHi, r) {
+    // First 8 primes.
+    Sk4u a{ 0x00020000, 0x00030000, 0x00050000, 0x00070000 };
+    Sk4u b{ 0x000b0000, 0x000d0000, 0x00110000, 0x00130000 };
+
+    Sk4u q{22, 39, 85, 133};
+
+    Sk4u c = a.mulHi(b);
+    REPORTER_ASSERT(r, c[0] == q[0]);
+    REPORTER_ASSERT(r, c[1] == q[1]);
+    REPORTER_ASSERT(r, c[2] == q[2]);
+    REPORTER_ASSERT(r, c[3] == q[3]);
+}
+
 DEF_TEST(Sk4px_muldiv255round, r) {
     for (int a = 0; a < (1<<8); a++) {
     for (int b = 0; b < (1<<8); b++) {
@@ -210,6 +224,12 @@ DEF_TEST(SkNx_abs, r) {
     REPORTER_ASSERT(r, fs[1] == 0.0f);
     REPORTER_ASSERT(r, fs[2] == 2.0f);
     REPORTER_ASSERT(r, fs[3] == 4.0f);
+    auto fshi = Sk2f(0.0f, -0.0f).abs();
+    auto fslo = Sk2f(2.0f, -4.0f).abs();
+    REPORTER_ASSERT(r, fshi[0] == 0.0f);
+    REPORTER_ASSERT(r, fshi[1] == 0.0f);
+    REPORTER_ASSERT(r, fslo[0] == 2.0f);
+    REPORTER_ASSERT(r, fslo[1] == 4.0f);
 }
 
 DEF_TEST(Sk4i_abs, r) {
@@ -357,4 +377,32 @@ DEF_TEST(SkNx_4fLoad4Store4, r) {
     float dst[16];
     Sk4f::Store4(dst, a, b, c, d);
     REPORTER_ASSERT(r, 0 == memcmp(dst, src, 16 * sizeof(float)));
+}
+
+DEF_TEST(SkNx_neg, r) {
+    auto fs = -Sk4f(0.0f, -0.0f, 2.0f, -4.0f);
+    REPORTER_ASSERT(r, fs[0] == 0.0f);
+    REPORTER_ASSERT(r, fs[1] == 0.0f);
+    REPORTER_ASSERT(r, fs[2] == -2.0f);
+    REPORTER_ASSERT(r, fs[3] == 4.0f);
+    auto fshi = -Sk2f(0.0f, -0.0f);
+    auto fslo = -Sk2f(2.0f, -4.0f);
+    REPORTER_ASSERT(r, fshi[0] == 0.0f);
+    REPORTER_ASSERT(r, fshi[1] == 0.0f);
+    REPORTER_ASSERT(r, fslo[0] == -2.0f);
+    REPORTER_ASSERT(r, fslo[1] == 4.0f);
+}
+
+DEF_TEST(SkNx_thenElse, r) {
+    auto fs = (Sk4f(0.0f, -0.0f, 2.0f, -4.0f) < 0).thenElse(-1, 1);
+    REPORTER_ASSERT(r, fs[0] == 1);
+    REPORTER_ASSERT(r, fs[1] == 1);
+    REPORTER_ASSERT(r, fs[2] == 1);
+    REPORTER_ASSERT(r, fs[3] == -1);
+    auto fshi = (Sk2f(0.0f, -0.0f) < 0).thenElse(-1, 1);
+    auto fslo = (Sk2f(2.0f, -4.0f) < 0).thenElse(-1, 1);
+    REPORTER_ASSERT(r, fshi[0] == 1);
+    REPORTER_ASSERT(r, fshi[1] == 1);
+    REPORTER_ASSERT(r, fslo[0] == 1);
+    REPORTER_ASSERT(r, fslo[1] == -1);
 }

@@ -18,6 +18,7 @@
 #include "SkColorSpacePriv.h"
 #include "SkCommonFlags.h"
 #include "SkCommonFlagsConfig.h"
+#include "SkCommonFlagsGpuThreads.h"
 #include "SkCommonFlagsPathRenderer.h"
 #include "SkData.h"
 #include "SkDocument.h"
@@ -91,6 +92,8 @@ DEFINE_int32(shard,  0, "Which shard do I run?");
 DEFINE_string(mskps, "", "Directory to read mskps from, or a single mskp file.");
 DEFINE_bool(forceRasterPipeline, false, "sets gSkForceRasterPipelineBlitter");
 
+DEFINE_bool(ddl, false, "If true, use DeferredDisplayLists for GPU SKP rendering.");
+
 #if SK_SUPPORT_GPU
 DEFINE_pathrenderer_flag;
 #endif
@@ -113,7 +116,9 @@ static FILE* gVLog;
 template <typename... Args>
 static void vlog(const char* fmt, Args&&... args) {
     if (gVLog) {
-        fprintf(gVLog, "%s\t", HumanizeMs(SkTime::GetMSecs() - kStartMs).c_str());
+        char s[64];
+        HumanizeMs(s, 64, SkTime::GetMSecs() - kStartMs);
+        fprintf(gVLog, "%s\t", s);
         fprintf(gVLog, fmt, args...);
         fflush(gVLog);
     }
@@ -772,7 +777,11 @@ static bool gather_srcs() {
         push_src("gm", "", new GMSrc(r->factory()));
     }
 
-    gather_file_srcs<SKPSrc>(FLAGS_skps, "skp");
+    if (FLAGS_ddl) {
+        gather_file_srcs<DDLSKPSrc>(FLAGS_skps, "skp");
+    } else {
+        gather_file_srcs<SKPSrc>(FLAGS_skps, "skp");
+    }
     gather_file_srcs<MSKPSrc>(FLAGS_mskps, "mskp");
 #if defined(SK_XML)
     gather_file_srcs<SVGSrc>(FLAGS_svgs, "svg");
@@ -858,10 +867,19 @@ static Sink* create_sink(const GrContextOptions& grCtxOptions, const SkCommandLi
                      "GM tests will be skipped.\n", gpuConfig->getTag().c_str());
                 return nullptr;
             }
-            return new GPUSink(contextType, contextOverrides, gpuConfig->getSamples(),
-                               gpuConfig->getUseDIText(), gpuConfig->getColorType(),
-                               gpuConfig->getAlphaType(), sk_ref_sp(gpuConfig->getColorSpace()),
-                               FLAGS_gpu_threading, grCtxOptions);
+            if (gpuConfig->getTestThreading()) {
+                return new GPUThreadTestingSink(contextType, contextOverrides,
+                                                gpuConfig->getSamples(), gpuConfig->getUseDIText(),
+                                                gpuConfig->getColorType(),
+                                                gpuConfig->getAlphaType(),
+                                                sk_ref_sp(gpuConfig->getColorSpace()),
+                                                FLAGS_gpu_threading, grCtxOptions);
+            } else {
+                return new GPUSink(contextType, contextOverrides, gpuConfig->getSamples(),
+                                   gpuConfig->getUseDIText(), gpuConfig->getColorType(),
+                                   gpuConfig->getAlphaType(), sk_ref_sp(gpuConfig->getColorSpace()),
+                                   FLAGS_gpu_threading, grCtxOptions);
+            }
         }
     }
 #endif
@@ -1110,9 +1128,9 @@ struct Task {
                             SkBitmap swizzle;
                             SkAssertResult(sk_tool_utils::copy_to(&swizzle, kRGBA_8888_SkColorType,
                                                                   bitmap));
-                            hash.write(swizzle.getPixels(), swizzle.getSize());
+                            hash.write(swizzle.getPixels(), swizzle.computeByteSize());
                         } else {
-                            hash.write(bitmap.getPixels(), bitmap.getSize());
+                            hash.write(bitmap.getPixels(), bitmap.computeByteSize());
                         }
                     }
                     SkMD5::Digest digest;
@@ -1136,7 +1154,7 @@ struct Task {
 
                 if (!FLAGS_writePath.isEmpty()) {
                     const char* ext = task.sink->fileExtension();
-                    if (!FLAGS_dont_write.contains(ext)) {
+                    if (ext && !FLAGS_dont_write.contains(ext)) {
                         if (data->getLength()) {
                             WriteToDisk(task, md5, ext, data, data->getLength(), nullptr);
                             SkASSERT(bitmap.drawsNothing());
@@ -1304,6 +1322,9 @@ int main(int argc, char** argv) {
     if (FLAGS_forceAnalyticAA) {
         gSkForceAnalyticAA = true;
     }
+    if (FLAGS_forceDeltaAA) {
+        gSkForceDeltaAA = true;
+    }
     if (FLAGS_forceRasterPipeline) {
         gSkForceRasterPipelineBlitter = true;
     }
@@ -1320,6 +1341,7 @@ int main(int argc, char** argv) {
     GrContextOptions grCtxOptions;
 #if SK_SUPPORT_GPU
     grCtxOptions.fGpuPathRenderers = CollectGpuPathRenderersFromFlags();
+    grCtxOptions.fExecutor = GpuExecutorForTools();
 #endif
 
     JsonWriter::DumpJson();  // It's handy for the bots to assume this is ~never missing.
@@ -1416,68 +1438,3 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-
-// TODO: currently many GPU tests are declared outside SK_SUPPORT_GPU guards.
-// Thus we export the empty RunWithGPUTestContexts when SK_SUPPORT_GPU=0.
-namespace skiatest {
-
-#if SK_SUPPORT_GPU
-bool IsGLContextType(sk_gpu_test::GrContextFactory::ContextType type) {
-    return kOpenGL_GrBackend == GrContextFactory::ContextTypeBackend(type);
-}
-bool IsVulkanContextType(sk_gpu_test::GrContextFactory::ContextType type) {
-    return kVulkan_GrBackend == GrContextFactory::ContextTypeBackend(type);
-}
-bool IsRenderingGLContextType(sk_gpu_test::GrContextFactory::ContextType type) {
-    return IsGLContextType(type) && GrContextFactory::IsRenderingContext(type);
-}
-bool IsNullGLContextType(sk_gpu_test::GrContextFactory::ContextType type) {
-    return type == GrContextFactory::kNullGL_ContextType;
-}
-#else
-bool IsGLContextType(int) { return false; }
-bool IsVulkanContextType(int) { return false; }
-bool IsRenderingGLContextType(int) { return false; }
-bool IsNullGLContextType(int) { return false; }
-#endif
-
-void RunWithGPUTestContexts(GrContextTestFn* test, GrContextTypeFilterFn* contextTypeFilter,
-                            Reporter* reporter, GrContextFactory* factory) {
-#if SK_SUPPORT_GPU
-
-#if defined(SK_BUILD_FOR_UNIX) || defined(SK_BUILD_FOR_WIN) || defined(SK_BUILD_FOR_MAC)
-    static constexpr auto kNativeGLType = GrContextFactory::kGL_ContextType;
-#else
-    static constexpr auto kNativeGLType = GrContextFactory::kGLES_ContextType;
-#endif
-
-    for (int typeInt = 0; typeInt < GrContextFactory::kContextTypeCnt; ++typeInt) {
-        GrContextFactory::ContextType contextType = (GrContextFactory::ContextType) typeInt;
-        // Use "native" instead of explicitly trying OpenGL and OpenGL ES. Do not use GLES on
-        // desktop since tests do not account for not fixing http://skbug.com/2809
-        if (contextType == GrContextFactory::kGL_ContextType ||
-            contextType == GrContextFactory::kGLES_ContextType) {
-            if (contextType != kNativeGLType) {
-                continue;
-            }
-        }
-        ContextInfo ctxInfo = factory->getContextInfo(contextType,
-                                                  GrContextFactory::ContextOverrides::kDisableNVPR);
-        if (contextTypeFilter && !(*contextTypeFilter)(contextType)) {
-            continue;
-        }
-        ReporterContext ctx(reporter, SkString(GrContextFactory::ContextTypeName(contextType)));
-        if (ctxInfo.grContext()) {
-            (*test)(reporter, ctxInfo);
-            ctxInfo.grContext()->flush();
-        }
-        ctxInfo = factory->getContextInfo(contextType,
-                                          GrContextFactory::ContextOverrides::kRequireNVPRSupport);
-        if (ctxInfo.grContext()) {
-            (*test)(reporter, ctxInfo);
-            ctxInfo.grContext()->flush();
-        }
-    }
-#endif
-}
-} // namespace skiatest

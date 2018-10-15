@@ -25,7 +25,7 @@
 
 // Version number for shader translation API.
 // It is incremented every time the API changes.
-#define ANGLE_SH_VERSION 179
+#define ANGLE_SH_VERSION 182
 
 enum ShShaderSpec
 {
@@ -215,7 +215,7 @@ const ShCompileOptions SH_REWRITE_FLOAT_UNARY_MINUS_OPERATOR = UINT64_C(1) << 29
 const ShCompileOptions SH_EMULATE_ATAN2_FLOAT_FUNCTION = UINT64_C(1) << 30;
 
 // Set to 1 to translate gl_ViewID_OVR to an uniform so that the extension can be emulated.
-// "uniform highp uint webgl_angle_ViewID_OVR".
+// "uniform highp uint ViewID_OVR".
 const ShCompileOptions SH_TRANSLATE_VIEWID_OVR_TO_UNIFORM = UINT64_C(1) << 31;
 
 // Set to initialize uninitialized local variables. Should only be used with GLSL output. In HLSL
@@ -343,6 +343,10 @@ struct ShBuiltInResources
 
     // GLES 3.1 constants
 
+    // texture gather offset constraints.
+    int MinProgramTextureGatherOffset;
+    int MaxProgramTextureGatherOffset;
+
     // maximum number of available image units
     int MaxImageUnits;
 
@@ -415,10 +419,18 @@ struct ShBuiltInResources
     float MaxPointSize;
 
     // OES_geometry_shader constants
-    // TODO(jiawei.shao@intel.com): add complete geometry shader constants.
     int MaxGeometryUniformComponents;
+    int MaxGeometryUniformBlocks;
+    int MaxGeometryInputComponents;
+    int MaxGeometryOutputComponents;
     int MaxGeometryOutputVertices;
+    int MaxGeometryTotalOutputComponents;
+    int MaxGeometryTextureImageUnits;
+    int MaxGeometryAtomicCounterBuffers;
+    int MaxGeometryAtomicCounters;
+    int MaxGeometryShaderStorageBlocks;
     int MaxGeometryShaderInvocations;
+    int MaxGeometryImageUniforms;
 };
 
 //

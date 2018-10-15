@@ -98,7 +98,7 @@ void GrAHardwareBufferImageGenerator::deleteImageTexture(void* context) {
 
 sk_sp<GrTextureProxy> GrAHardwareBufferImageGenerator::onGenerateTexture(
         GrContext* context, const SkImageInfo& info, const SkIPoint& origin,
-        SkTransferFunctionBehavior) {
+        SkTransferFunctionBehavior, bool willNeedMipMaps) {
     auto proxy = this->makeProxy(context);
     if (!proxy) {
         return nullptr;
@@ -192,7 +192,6 @@ sk_sp<GrTextureProxy> GrAHardwareBufferImageGenerator::makeProxy(GrContext* cont
         return nullptr;
     }
     sk_sp<GrTexture> tex = context->resourceProvider()->wrapBackendTexture(backendTex,
-                                                                       kTopLeft_GrSurfaceOrigin,
                                                                        kAdopt_GrWrapOwnership);
     if (!tex) {
         glDeleteTextures(1, &texID);

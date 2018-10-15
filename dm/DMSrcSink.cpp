@@ -9,6 +9,7 @@
 #include "Resources.h"
 #include "SkAndroidCodec.h"
 #include "SkAutoMalloc.h"
+#include "SkBase64.h"
 #include "SkCodec.h"
 #include "SkCodecImageGenerator.h"
 #include "SkColorSpace.h"
@@ -19,7 +20,9 @@
 #include "SkData.h"
 #include "SkDebugCanvas.h"
 #include "SkDeferredCanvas.h"
+#include "SkDeferredDisplayListRecorder.h"
 #include "SkDocument.h"
+#include "SkExecutor.h"
 #include "SkImageGenerator.h"
 #include "SkImageGeneratorCG.h"
 #include "SkImageGeneratorWIC.h"
@@ -35,12 +38,15 @@
 #include "SkPictureData.h"
 #include "SkPictureRecorder.h"
 #include "SkPipe.h"
+#include "SkPngEncoder.h"
 #include "SkRandom.h"
 #include "SkRecordDraw.h"
 #include "SkRecorder.h"
+#include "SkSurfaceCharacterization.h"
 #include "SkSVGCanvas.h"
 #include "SkStream.h"
 #include "SkSwizzler.h"
+#include "SkTaskGroup.h"
 #include "SkTLogic.h"
 #include <cmath>
 #include <functional>
@@ -61,6 +67,7 @@
 DEFINE_bool(multiPage, false, "For document-type backends, render the source"
             " into multiple pages");
 DEFINE_bool(RAW_threading, true, "Allow RAW decodes to run on multiple threads?");
+DECLARE_int32(gpuThreads);
 
 using sk_gpu_test::GrContextFactory;
 
@@ -107,7 +114,7 @@ bool BRDSrc::veto(SinkFlags flags) const {
 static SkBitmapRegionDecoder* create_brd(Path path) {
     sk_sp<SkData> encoded(SkData::MakeFromFileName(path.c_str()));
     if (!encoded) {
-        return NULL;
+        return nullptr;
     }
     return SkBitmapRegionDecoder::Create(encoded, SkBitmapRegionDecoder::kAndroidCodec_Strategy);
 }
@@ -447,7 +454,7 @@ Error CodecSrc::draw(SkCanvas* canvas) const {
 
     const int bpp = SkColorTypeBytesPerPixel(decodeInfo.colorType());
     const size_t rowBytes = size.width() * bpp;
-    const size_t safeSize = decodeInfo.getSafeSize(rowBytes);
+    const size_t safeSize = decodeInfo.computeByteSize(rowBytes);
     SkAutoMalloc pixels(safeSize);
 
     SkCodec::Options options;
@@ -1138,43 +1145,174 @@ Name ColorCodecSrc::name() const {
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-static const SkRect kSKPViewport = {0,0, 1000,1000};
+static const SkRect kSKPViewport = {0, 0, 1000, 1000};
 
-SKPSrc::SKPSrc(Path path) : fPath(path) {}
+SKPSrc::SKPSrc(Path path) : fPath(path) { }
 
-Error SKPSrc::draw(SkCanvas* canvas) const {
-    std::unique_ptr<SkStream> stream = SkStream::MakeFromFile(fPath.c_str());
+static sk_sp<SkPicture> read_skp(const char* path) {
+    std::unique_ptr<SkStream> stream = SkStream::MakeFromFile(path);
     if (!stream) {
-        return SkStringPrintf("Couldn't read %s.", fPath.c_str());
+        return nullptr;
     }
     sk_sp<SkPicture> pic(SkPicture::MakeFromStream(stream.get()));
     if (!pic) {
-        return SkStringPrintf("Couldn't decode %s as a picture.", fPath.c_str());
+        return nullptr;
     }
     stream = nullptr;  // Might as well drop this when we're done with it.
+
+    return pic;
+}
+
+Error SKPSrc::draw(SkCanvas* canvas) const {
+    sk_sp<SkPicture> pic = read_skp(fPath.c_str());
+    if (!pic) {
+        return SkStringPrintf("Couldn't read %s.", fPath.c_str());
+    }
 
     canvas->clipRect(kSKPViewport);
     canvas->drawPicture(pic);
     return "";
 }
 
-SkISize SKPSrc::size() const {
-    std::unique_ptr<SkStream> stream = SkStream::MakeFromFile(fPath.c_str());
+static SkRect get_cull_rect_for_skp(const char* path) {
+    std::unique_ptr<SkStream> stream = SkStream::MakeFromFile(path);
     if (!stream) {
-        return {0, 0};
+        return SkRect::MakeEmpty();
     }
     SkPictInfo info;
     if (!SkPicture::InternalOnly_StreamIsSKP(stream.get(), &info)) {
-        return {0, 0};
+        return SkRect::MakeEmpty();
     }
-    SkRect viewport = kSKPViewport;
-    if (!viewport.intersect(info.fCullRect)) {
+
+    return info.fCullRect;
+}
+
+SkISize SKPSrc::size() const {
+    SkRect viewport = get_cull_rect_for_skp(fPath.c_str());
+    if (!viewport.intersect(kSKPViewport)) {
         return {0, 0};
     }
     return viewport.roundOut().size();
 }
 
 Name SKPSrc::name() const { return SkOSPath::Basename(fPath.c_str()); }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+static const int kNumDDLXTiles = 4;
+static const int kNumDDLYTiles = 4;
+static const int kDDLTileSize = 1024;
+static const SkRect kDDLSKPViewport = { 0, 0,
+                                        kNumDDLXTiles * kDDLTileSize,
+                                        kNumDDLYTiles * kDDLTileSize };
+
+DDLSKPSrc::DDLSKPSrc(Path path) : fPath(path) { }
+
+Error DDLSKPSrc::draw(SkCanvas* canvas) const {
+    class TileData {
+    public:
+        // Note: we could just pass in surface characterization
+        TileData(sk_sp<SkSurface> surf, const SkIRect& clip)
+                : fSurface(std::move(surf))
+                , fClip(clip) {
+            SkAssertResult(fSurface->characterize(&fCharacterization));
+        }
+
+        // This method operates in parallel
+        void preprocess(SkPicture* pic) {
+            SkDeferredDisplayListRecorder recorder(fCharacterization);
+
+            SkCanvas* subCanvas = recorder.getCanvas();
+
+            subCanvas->clipRect(SkRect::MakeWH(fClip.width(), fClip.height()));
+            subCanvas->translate(-fClip.fLeft, -fClip.fTop);
+
+            // Note: in this use case we only render a picture to the deferred canvas
+            // but, more generally, clients will use arbitrary draw calls.
+            subCanvas->drawPicture(pic);
+
+            fDisplayList = recorder.detach();
+        }
+
+        // This method operates serially
+        void draw() {
+            fSurface->draw(fDisplayList.get());
+        }
+
+        // This method also operates serially
+        void compose(SkCanvas* dst) {
+            sk_sp<SkImage> img = fSurface->makeImageSnapshot();
+            dst->save();
+            dst->clipRect(SkRect::Make(fClip));
+            dst->drawImage(std::move(img), fClip.fLeft, fClip.fTop);
+            dst->restore();
+        }
+
+    private:
+        sk_sp<SkSurface> fSurface;
+        SkIRect          fClip;    // in the device space of the destination canvas
+        std::unique_ptr<SkDeferredDisplayList> fDisplayList;
+        SkSurfaceCharacterization              fCharacterization;
+    };
+
+    SkTArray<TileData> tileData;
+    tileData.reserve(16);
+
+    sk_sp<SkPicture> pic = read_skp(fPath.c_str());
+    if (!pic) {
+        return SkStringPrintf("Couldn't read %s.", fPath.c_str());
+    }
+
+    const SkRect cullRect = pic->cullRect();
+
+    // All the destination tiles are the same size
+    const SkImageInfo tileII = SkImageInfo::MakeN32Premul(kDDLTileSize, kDDLTileSize);
+
+    // First, create the destination tiles
+    for (int y = 0; y < kNumDDLYTiles; ++y) {
+        for (int x = 0; x < kNumDDLXTiles; ++x) {
+            SkRect clip = SkRect::MakeXYWH(x * kDDLTileSize, y * kDDLTileSize,
+                                           kDDLTileSize, kDDLTileSize);
+
+            if (!clip.intersect(cullRect)) {
+                continue;
+            }
+
+            tileData.push_back(TileData(canvas->makeSurface(tileII), clip.roundOut()));
+        }
+    }
+
+    // Second, run the cpu pre-processing in threads
+    SkTaskGroup().batch(tileData.count(), [&](int i) {
+        tileData[i].preprocess(pic.get());
+    });
+
+    // Third, synchronously render the display lists into the dest tiles
+    // TODO: it would be cool to not wait until all the tiles are drawn to begin
+    // drawing to the GPU
+    for (int i = 0; i < tileData.count(); ++i) {
+        tileData[i].draw();
+    }
+
+    // Finally, compose the drawn tiles into the result
+    // Note: the separation between the tiles and the final composition better
+    // matches Chrome but costs us a copy
+    for (int i = 0; i < tileData.count(); ++i) {
+        tileData[i].compose(canvas);
+    }
+
+    return "";
+}
+
+SkISize DDLSKPSrc::size() const {
+    SkRect viewport = get_cull_rect_for_skp(fPath.c_str());
+    if (!viewport.intersect(kDDLSKPViewport)) {
+        return {0, 0};
+    }
+    return viewport.roundOut().size();
+}
+
+Name DDLSKPSrc::name() const { return SkOSPath::Basename(fPath.c_str()); }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 #if defined(SK_XML)
@@ -1292,6 +1430,73 @@ Error NullSink::draw(const Src& src, SkBitmap*, SkWStream*, SkString*) const {
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+static bool encode_png_base64(const SkBitmap& bitmap, SkString* dst) {
+    SkPixmap pm;
+    if (!bitmap.peekPixels(&pm)) {
+        dst->set("peekPixels failed");
+        return false;
+    }
+
+    // We're going to embed this PNG in a data URI, so make it as small as possible
+    SkPngEncoder::Options options;
+    options.fFilterFlags = SkPngEncoder::FilterFlag::kAll;
+    options.fZLibLevel = 9;
+    options.fUnpremulBehavior = pm.colorSpace() ? SkTransferFunctionBehavior::kRespect
+                                                : SkTransferFunctionBehavior::kIgnore;
+
+    SkDynamicMemoryWStream wStream;
+    if (!SkPngEncoder::Encode(&wStream, pm, options)) {
+        dst->set("SkPngEncoder::Encode failed");
+        return false;
+    }
+
+    sk_sp<SkData> pngData = wStream.detachAsData();
+    size_t len = SkBase64::Encode(pngData->data(), pngData->size(), nullptr);
+
+    // The PNG can be almost arbitrarily large. We don't want to fill our logs with enormous URLs.
+    // Infra says these can be pretty big, as long as we're only outputting them on failure.
+    static const size_t kMaxBase64Length = 1024 * 1024;
+    if (len > kMaxBase64Length) {
+        dst->printf("Encoded image too large (%u bytes)", static_cast<uint32_t>(len));
+        return false;
+    }
+
+    dst->resize(len);
+    SkBase64::Encode(pngData->data(), pngData->size(), dst->writable_str());
+    return true;
+}
+
+static Error compare_bitmaps(const SkBitmap& reference, const SkBitmap& bitmap) {
+    // The dimensions are a property of the Src only, and so should be identical.
+    SkASSERT(reference.computeByteSize() == bitmap.computeByteSize());
+    if (reference.computeByteSize() != bitmap.computeByteSize()) {
+        return "Dimensions don't match reference";
+    }
+    // All SkBitmaps in DM are tight, so this comparison is easy.
+    if (0 != memcmp(reference.getPixels(), bitmap.getPixels(), reference.computeByteSize())) {
+        SkString encoded;
+        SkString errString("Pixels don't match reference");
+        if (encode_png_base64(reference, &encoded)) {
+            errString.append("\nExpected: data:image/png;base64,");
+            errString.append(encoded);
+        } else {
+            errString.append("\nExpected image failed to encode: ");
+            errString.append(encoded);
+        }
+        if (encode_png_base64(bitmap, &encoded)) {
+            errString.append("\nActual: data:image/png;base64,");
+            errString.append(encoded);
+        } else {
+            errString.append("\nActual image failed to encode: ");
+            errString.append(encoded);
+        }
+        return errString;
+    }
+    return "";
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 DEFINE_bool(gpuStats, false, "Append GPU stats to the log for each GPU task?");
 
 GPUSink::GPUSink(GrContextFactory::ContextType ct,
@@ -1315,8 +1520,13 @@ GPUSink::GPUSink(GrContextFactory::ContextType ct,
 
 DEFINE_bool(drawOpClip, false, "Clip each GrDrawOp to its device bounds for testing.");
 
-Error GPUSink::draw(const Src& src, SkBitmap* dst, SkWStream*, SkString* log) const {
-    GrContextOptions grOptions = fBaseContextOptions;
+Error GPUSink::draw(const Src& src, SkBitmap* dst, SkWStream* dstStream, SkString* log) const {
+    return this->onDraw(src, dst, dstStream, log, fBaseContextOptions);
+}
+
+Error GPUSink::onDraw(const Src& src, SkBitmap* dst, SkWStream*, SkString* log,
+                      const GrContextOptions& baseOptions) const {
+    GrContextOptions grOptions = baseOptions;
 
     src.modifyGrContextOptions(&grOptions);
 
@@ -1364,6 +1574,49 @@ Error GPUSink::draw(const Src& src, SkBitmap* dst, SkWStream*, SkString* log) co
         factory.releaseResourcesAndAbandonContexts();
     }
     return "";
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+GPUThreadTestingSink::GPUThreadTestingSink(GrContextFactory::ContextType ct,
+                                           GrContextFactory::ContextOverrides overrides,
+                                           int samples,
+                                           bool diText,
+                                           SkColorType colorType,
+                                           SkAlphaType alphaType,
+                                           sk_sp<SkColorSpace> colorSpace,
+                                           bool threaded,
+                                           const GrContextOptions& grCtxOptions)
+        : INHERITED(ct, overrides, samples, diText, colorType, alphaType, std::move(colorSpace),
+                    threaded, grCtxOptions)
+        , fExecutor(SkExecutor::MakeFIFOThreadPool(FLAGS_gpuThreads)) {
+    SkASSERT(fExecutor);
+}
+
+Error GPUThreadTestingSink::draw(const Src& src, SkBitmap* dst, SkWStream* wStream,
+                                 SkString* log) const {
+    // Draw twice, once with worker threads, and once without. Verify that we get the same result.
+    // Also, force us to only use the software path renderer, so we really stress-test the threaded
+    // version of that code.
+    GrContextOptions contextOptions = this->baseContextOptions();
+    contextOptions.fGpuPathRenderers = GpuPathRenderers::kNone;
+
+    contextOptions.fExecutor = fExecutor.get();
+    Error err = this->onDraw(src, dst, wStream, log, contextOptions);
+    if (!err.isEmpty() || !dst) {
+        return err;
+    }
+
+    SkBitmap reference;
+    SkString refLog;
+    SkDynamicMemoryWStream refStream;
+    contextOptions.fExecutor = nullptr;
+    Error refErr = this->onDraw(src, &reference, &refStream, &refLog, contextOptions);
+    if (!refErr.isEmpty()) {
+        return refErr;
+    }
+
+    return compare_bitmaps(reference, *dst);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -1553,15 +1806,7 @@ static Error check_against_reference(const SkBitmap* bitmap, const Src& src, Sin
         if (!err.isEmpty()) {
             return err;
         }
-        // The dimensions are a property of the Src only, and so should be identical.
-        SkASSERT(reference.getSize() == bitmap->getSize());
-        if (reference.getSize() != bitmap->getSize()) {
-            return "Dimensions don't match reference";
-        }
-        // All SkBitmaps in DM are pre-locked and tight, so this comparison is easy.
-        if (0 != memcmp(reference.getPixels(), bitmap->getPixels(), reference.getSize())) {
-            return "Pixels don't match reference";
-        }
+        return compare_bitmaps(reference, *bitmap);
     }
     return "";
 }

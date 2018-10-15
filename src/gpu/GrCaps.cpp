@@ -72,9 +72,14 @@ GrCaps::GrCaps(const GrContextOptions& options) {
     fMaxWindowRectangles = 0;
 
     fSuppressPrints = options.fSuppressPrints;
+#if GR_TEST_UTILS
     fWireframeMode = options.fWireframeMode;
+#else
+    fWireframeMode = false;
+#endif
     fBufferMapThreshold = options.fBufferMapThreshold;
     fAvoidInstancedDrawsToFPTargets = false;
+    fBlacklistCoverageCounting = false;
     fAvoidStencilBuffers = false;
 
     fPreferVRAMUseOverFlushes = true;
@@ -83,12 +88,13 @@ GrCaps::GrCaps(const GrContextOptions& options) {
 void GrCaps::applyOptionsOverrides(const GrContextOptions& options) {
     this->onApplyOptionsOverrides(options);
     fMaxTextureSize = SkTMin(fMaxTextureSize, options.fMaxTextureSizeOverride);
+    fMaxTileSize = fMaxTextureSize;
+#if GR_TEST_UTILS
     // If the max tile override is zero, it means we should use the max texture size.
-    if (!options.fMaxTileSizeOverride || options.fMaxTileSizeOverride > fMaxTextureSize) {
-        fMaxTileSize = fMaxTextureSize;
-    } else {
+    if (options.fMaxTileSizeOverride && options.fMaxTileSizeOverride < fMaxTextureSize) {
         fMaxTileSize = options.fMaxTileSizeOverride;
     }
+#endif
     if (fMaxWindowRectangles > GrWindowRectangles::kMaxWindows) {
         SkDebugf("WARNING: capping window rectangles at %i. HW advertises support for %i.\n",
                  GrWindowRectangles::kMaxWindows, fMaxWindowRectangles);
@@ -143,6 +149,8 @@ void GrCaps::dumpJSON(SkJSONWriter* writer) const {
     writer->appendBool("Cross context texture support", fCrossContextTextureSupport);
 
     writer->appendBool("Draw Instead of Clear [workaround]", fUseDrawInsteadOfClear);
+    writer->appendBool("Blacklist Coverage Counting Path Renderer [workaround]",
+                       fBlacklistCoverageCounting);
     writer->appendBool("Prefer VRAM Use over flushes [workaround]", fPreferVRAMUseOverFlushes);
 
     if (this->advancedBlendEquationSupport()) {

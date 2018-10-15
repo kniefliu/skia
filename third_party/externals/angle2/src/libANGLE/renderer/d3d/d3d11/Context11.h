@@ -47,14 +47,17 @@ class Context11 : public ContextImpl
     // Query and Fence creation
     QueryImpl *createQuery(GLenum type) override;
     FenceNVImpl *createFenceNV() override;
-    FenceSyncImpl *createFenceSync() override;
+    SyncImpl *createSync() override;
 
     // Transform Feedback creation
     TransformFeedbackImpl *createTransformFeedback(
         const gl::TransformFeedbackState &state) override;
 
     // Sampler object creation
-    SamplerImpl *createSampler() override;
+    SamplerImpl *createSampler(const gl::SamplerState &state) override;
+
+    // Program Pipeline object creation
+    ProgramPipelineImpl *createProgramPipeline(const gl::ProgramPipelineState &data) override;
 
     // Path object creation.
     std::vector<PathImpl *> createPaths(GLsizei) override;
@@ -135,12 +138,11 @@ class Context11 : public ContextImpl
                               GLuint numGroupsY,
                               GLuint numGroupsZ) override;
 
-    gl::Error triggerDrawCallProgramRecompilation(const gl::Context *context,
-                                                  gl::InfoLog *infoLog,
-                                                  gl::MemoryProgramCache *memoryCache,
-                                                  GLenum drawMode) override;
+    gl::Error triggerDrawCallProgramRecompilation(const gl::Context *context, GLenum drawMode);
 
   private:
+    gl::Error prepareForDrawCall(const gl::Context *context, GLenum drawMode);
+
     Renderer11 *mRenderer;
 };
 

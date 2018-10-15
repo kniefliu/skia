@@ -70,7 +70,7 @@ void GrGLProgram::abandon() {
 ///////////////////////////////////////////////////////////////////////////////
 
 void GrGLProgram::setData(const GrPrimitiveProcessor& primProc, const GrPipeline& pipeline) {
-    this->setRenderTargetState(primProc, pipeline.renderTarget());
+    this->setRenderTargetState(primProc, pipeline.proxy());
 
     // we set the textures, and uniforms for installed processors in a generic way, but subclasses
     // of GLProgram determine how to set coord transforms
@@ -96,8 +96,9 @@ void GrGLProgram::setData(const GrPrimitiveProcessor& primProc, const GrPipeline
 
     fXferProcessor->setData(fProgramDataManager, xp, dstTexture, offset);
     if (dstTexture) {
-        fGpu->bindTexture(nextTexSamplerIdx++, GrSamplerParams::ClampNoFilter(), true,
-                          static_cast<GrGLTexture*>(dstTexture));
+        fGpu->bindTexture(nextTexSamplerIdx++, GrSamplerState::ClampNearest(), true,
+                          static_cast<GrGLTexture*>(dstTexture),
+                          pipeline.dstTextureProxy()->origin());
     }
     SkASSERT(nextTexSamplerIdx == fNumTextureSamplers);
     SkASSERT(nextTexelBufferIdx == fNumTextureSamplers + fNumTexelBuffers);
@@ -135,7 +136,8 @@ void GrGLProgram::setFragmentData(const GrPrimitiveProcessor& primProc,
 
 
 void GrGLProgram::setRenderTargetState(const GrPrimitiveProcessor& primProc,
-                                       const GrRenderTarget* rt) {
+                                       const GrRenderTargetProxy* proxy) {
+    GrRenderTarget* rt = proxy->priv().peekRenderTarget();
     // Load the RT height uniform if it is needed to y-flip gl_FragCoord.
     if (fBuiltinUniformHandles.fRTHeightUni.isValid() &&
         fRenderTargetState.fRenderTargetSize.fHeight != rt->height()) {
@@ -146,10 +148,10 @@ void GrGLProgram::setRenderTargetState(const GrPrimitiveProcessor& primProc,
     SkISize size;
     size.set(rt->width(), rt->height());
     if (!primProc.isPathRendering()) {
-        if (fRenderTargetState.fRenderTargetOrigin != rt->origin() ||
+        if (fRenderTargetState.fRenderTargetOrigin != proxy->origin() ||
             fRenderTargetState.fRenderTargetSize != size) {
             fRenderTargetState.fRenderTargetSize = size;
-            fRenderTargetState.fRenderTargetOrigin = rt->origin();
+            fRenderTargetState.fRenderTargetOrigin = proxy->origin();
 
             float rtAdjustmentVec[4];
             fRenderTargetState.getRTAdjustmentVec(rtAdjustmentVec);
@@ -159,7 +161,7 @@ void GrGLProgram::setRenderTargetState(const GrPrimitiveProcessor& primProc,
         SkASSERT(fGpu->glCaps().shaderCaps()->pathRenderingSupport());
         const GrPathProcessor& pathProc = primProc.cast<GrPathProcessor>();
         fGpu->glPathRendering()->setProjectionMatrix(pathProc.viewMatrix(),
-                                                     size, rt->origin());
+                                                     size, proxy->origin());
     }
 }
 
@@ -170,8 +172,9 @@ void GrGLProgram::bindTextures(const GrResourceIOProcessor& processor,
                                int* nextImageStorageIdx) {
     for (int i = 0; i < processor.numTextureSamplers(); ++i) {
         const GrResourceIOProcessor::TextureSampler& sampler = processor.textureSampler(i);
-        fGpu->bindTexture((*nextTexSamplerIdx)++, sampler.params(),
-                          allowSRGBInputs, static_cast<GrGLTexture*>(sampler.peekTexture()));
+        fGpu->bindTexture((*nextTexSamplerIdx)++, sampler.samplerState(), allowSRGBInputs,
+                          static_cast<GrGLTexture*>(sampler.peekTexture()),
+                          sampler.proxy()->origin());
     }
     for (int i = 0; i < processor.numBuffers(); ++i) {
         const GrResourceIOProcessor::BufferAccess& access = processor.bufferAccess(i);
@@ -188,7 +191,8 @@ void GrGLProgram::bindTextures(const GrResourceIOProcessor& processor,
 void GrGLProgram::generateMipmaps(const GrResourceIOProcessor& processor, bool allowSRGBInputs) {
     for (int i = 0; i < processor.numTextureSamplers(); ++i) {
         const GrResourceIOProcessor::TextureSampler& sampler = processor.textureSampler(i);
-        fGpu->generateMipmaps(sampler.params(), allowSRGBInputs,
-                              static_cast<GrGLTexture*>(sampler.peekTexture()));
+        fGpu->generateMipmaps(sampler.samplerState(), allowSRGBInputs,
+                              static_cast<GrGLTexture*>(sampler.peekTexture()),
+                              sampler.proxy()->origin());
     }
 }

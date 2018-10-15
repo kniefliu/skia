@@ -37,11 +37,11 @@ void CheckBlendFunctions(GLenum src, GLenum dst)
 constexpr const char *FloatingPointTextureExtensions[] = {
     "",
     "GL_EXT_texture_storage",
-    "GL_OES_texture_float",
-    "GL_OES_texture_float_linear",
     "GL_OES_texture_half_float",
     "GL_OES_texture_half_float_linear",
     "GL_EXT_color_buffer_half_float",
+    "GL_OES_texture_float",
+    "GL_OES_texture_float_linear",
     "GL_EXT_color_buffer_float",
     "GL_CHROMIUM_color_buffer_float_rgba",
     "GL_CHROMIUM_color_buffer_float_rgb",
@@ -445,6 +445,372 @@ TEST_P(WebGLCompatibilityTest, ExtensionCompilerSpec)
     GLuint program = CompileProgram(vert, frag);
     EXPECT_EQ(0u, program);
     glDeleteProgram(program);
+}
+
+// Test enabling the GL_NV_pixel_buffer_object extension
+TEST_P(WebGLCompatibilityTest, EnablePixelBufferObjectExtensions)
+{
+    EXPECT_FALSE(extensionEnabled("GL_NV_pixel_buffer_object"));
+    EXPECT_FALSE(extensionEnabled("GL_OES_mapbuffer"));
+    EXPECT_FALSE(extensionEnabled("GL_EXT_map_buffer_range"));
+
+    // These extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    GLBuffer buffer;
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    if (extensionRequestable("GL_NV_pixel_buffer_object"))
+    {
+        glRequestExtensionANGLE("GL_NV_pixel_buffer_object");
+        EXPECT_GL_NO_ERROR();
+
+        glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer);
+        EXPECT_GL_NO_ERROR();
+
+        glBufferData(GL_PIXEL_PACK_BUFFER, 4, nullptr, GL_STATIC_DRAW);
+        glReadPixels(0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the GL_OES_mapbuffer and GL_EXT_map_buffer_range extensions
+TEST_P(WebGLCompatibilityTest, EnableMapBufferExtensions)
+{
+    EXPECT_FALSE(extensionEnabled("GL_OES_mapbuffer"));
+    EXPECT_FALSE(extensionEnabled("GL_EXT_map_buffer_range"));
+
+    // These extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    GLBuffer buffer;
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4, nullptr, GL_STATIC_DRAW);
+
+    glMapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    glMapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, 4, GL_MAP_WRITE_BIT);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    GLint access = 0;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_ACCESS_OES, &access);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    if (extensionRequestable("GL_OES_mapbuffer"))
+    {
+        glRequestExtensionANGLE("GL_OES_mapbuffer");
+        EXPECT_GL_NO_ERROR();
+
+        glMapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES);
+        glUnmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
+        glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_ACCESS_OES, &access);
+        EXPECT_GL_NO_ERROR();
+    }
+
+    if (extensionRequestable("GL_EXT_map_buffer_range"))
+    {
+        glRequestExtensionANGLE("GL_EXT_map_buffer_range");
+        EXPECT_GL_NO_ERROR();
+
+        glMapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, 4, GL_MAP_WRITE_BIT);
+        glUnmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
+        glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_ACCESS_OES, &access);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the GL_OES_fbo_render_mipmap extension
+TEST_P(WebGLCompatibilityTest, EnableRenderMipmapExtension)
+{
+    EXPECT_FALSE(extensionEnabled("GL_OES_fbo_render_mipmap"));
+
+    // This extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    GLTexture texture;
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 2, 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 1, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+    GLFramebuffer fbo;
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+    EXPECT_GL_NO_ERROR();
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 1);
+    EXPECT_GL_ERROR(GL_INVALID_VALUE);
+
+    if (extensionRequestable("GL_OES_fbo_render_mipmap"))
+    {
+        glRequestExtensionANGLE("GL_OES_fbo_render_mipmap");
+        EXPECT_GL_NO_ERROR();
+
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 1);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the GL_EXT_blend_minmax extension
+TEST_P(WebGLCompatibilityTest, EnableBlendMinMaxExtension)
+{
+    EXPECT_FALSE(extensionEnabled("GL_EXT_blend_minmax"));
+
+    // This extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    glBlendEquation(GL_MIN);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    glBlendEquation(GL_MAX);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    if (extensionRequestable("GL_EXT_blend_minmax"))
+    {
+        glRequestExtensionANGLE("GL_EXT_blend_minmax");
+        EXPECT_GL_NO_ERROR();
+
+        glBlendEquation(GL_MIN);
+        glBlendEquation(GL_MAX);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the query extensions
+TEST_P(WebGLCompatibilityTest, EnableQueryExtensions)
+{
+    EXPECT_FALSE(extensionEnabled("GL_EXT_occlusion_query_boolean"));
+    EXPECT_FALSE(extensionEnabled("GL_EXT_disjoint_timer_query"));
+    EXPECT_FALSE(extensionEnabled("GL_CHROMIUM_sync_query"));
+
+    // This extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    GLQueryEXT badQuery;
+
+    glBeginQueryEXT(GL_ANY_SAMPLES_PASSED_EXT, badQuery);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    glBeginQueryEXT(GL_ANY_SAMPLES_PASSED_CONSERVATIVE, badQuery);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    glBeginQueryEXT(GL_TIME_ELAPSED_EXT, badQuery);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    glQueryCounterEXT(GL_TIMESTAMP_EXT, badQuery);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    glBeginQueryEXT(GL_COMMANDS_COMPLETED_CHROMIUM, badQuery);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    if (extensionRequestable("GL_EXT_occlusion_query_boolean"))
+    {
+        glRequestExtensionANGLE("GL_EXT_occlusion_query_boolean");
+        EXPECT_GL_NO_ERROR();
+
+        GLQueryEXT query;
+        glBeginQueryEXT(GL_ANY_SAMPLES_PASSED_EXT, query);
+        glEndQueryEXT(GL_ANY_SAMPLES_PASSED_EXT);
+        EXPECT_GL_NO_ERROR();
+    }
+
+    if (extensionRequestable("GL_EXT_disjoint_timer_query"))
+    {
+        glRequestExtensionANGLE("GL_EXT_disjoint_timer_query");
+        EXPECT_GL_NO_ERROR();
+
+        GLQueryEXT query1;
+        glBeginQueryEXT(GL_TIME_ELAPSED_EXT, query1);
+        glEndQueryEXT(GL_TIME_ELAPSED_EXT);
+        EXPECT_GL_NO_ERROR();
+
+        GLQueryEXT query2;
+        glQueryCounterEXT(query2, GL_TIMESTAMP_EXT);
+        EXPECT_GL_NO_ERROR();
+    }
+
+    if (extensionRequestable("GL_CHROMIUM_sync_query"))
+    {
+        glRequestExtensionANGLE("GL_CHROMIUM_sync_query");
+        EXPECT_GL_NO_ERROR();
+
+        GLQueryEXT query;
+        glBeginQueryEXT(GL_COMMANDS_COMPLETED_CHROMIUM, query);
+        glEndQueryEXT(GL_COMMANDS_COMPLETED_CHROMIUM);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the GL_ANGLE_framebuffer_multisample extension
+TEST_P(WebGLCompatibilityTest, EnableFramebufferMultisampleExtension)
+{
+    EXPECT_FALSE(extensionEnabled("GL_ANGLE_framebuffer_multisample"));
+
+    // This extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    GLint maxSamples = 0;
+    glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    GLRenderbuffer renderbuffer;
+    glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+    glRenderbufferStorageMultisampleANGLE(GL_RENDERBUFFER, 1, GL_RGBA4, 1, 1);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    if (extensionRequestable("GL_ANGLE_framebuffer_multisample"))
+    {
+        glRequestExtensionANGLE("GL_ANGLE_framebuffer_multisample");
+        EXPECT_GL_NO_ERROR();
+
+        glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
+        EXPECT_GL_NO_ERROR();
+
+        glRenderbufferStorageMultisampleANGLE(GL_RENDERBUFFER, maxSamples, GL_RGBA4, 1, 1);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the GL_ANGLE_instanced_arrays extension
+TEST_P(WebGLCompatibilityTest, EnableInstancedArraysExtension)
+{
+    EXPECT_FALSE(extensionEnabled("GL_ANGLE_instanced_arrays"));
+
+    // This extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    GLint divisor = 0;
+    glGetVertexAttribiv(0, GL_VERTEX_ATTRIB_ARRAY_DIVISOR, &divisor);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    glVertexAttribDivisorANGLE(0, 1);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    if (extensionRequestable("GL_ANGLE_instanced_arrays"))
+    {
+        glRequestExtensionANGLE("GL_ANGLE_instanced_arrays");
+        EXPECT_GL_NO_ERROR();
+
+        glGetVertexAttribiv(0, GL_VERTEX_ATTRIB_ARRAY_DIVISOR, &divisor);
+        glVertexAttribDivisorANGLE(0, 1);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the GL_ANGLE_pack_reverse_row_order extension
+TEST_P(WebGLCompatibilityTest, EnablePackReverseRowOrderExtension)
+{
+    EXPECT_FALSE(extensionEnabled("GL_ANGLE_pack_reverse_row_order"));
+
+    GLint result = 0;
+    glGetIntegerv(GL_PACK_REVERSE_ROW_ORDER_ANGLE, &result);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    glPixelStorei(GL_PACK_REVERSE_ROW_ORDER_ANGLE, GL_TRUE);
+    EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+    if (extensionRequestable("GL_ANGLE_pack_reverse_row_order"))
+    {
+        glRequestExtensionANGLE("GL_ANGLE_pack_reverse_row_order");
+        EXPECT_GL_NO_ERROR();
+
+        glGetIntegerv(GL_PACK_REVERSE_ROW_ORDER_ANGLE, &result);
+        glPixelStorei(GL_PACK_REVERSE_ROW_ORDER_ANGLE, GL_TRUE);
+        EXPECT_GL_NO_ERROR();
+    }
+}
+
+// Test enabling the GL_EXT_unpack_subimage extension
+TEST_P(WebGLCompatibilityTest, EnablePackUnpackSubImageExtension)
+{
+    EXPECT_FALSE(extensionEnabled("GL_EXT_unpack_subimage"));
+
+    // This extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    constexpr GLenum parameters[] = {
+        GL_UNPACK_ROW_LENGTH_EXT, GL_UNPACK_SKIP_ROWS_EXT, GL_UNPACK_SKIP_PIXELS_EXT,
+    };
+
+    for (GLenum param : parameters)
+    {
+        GLint resultI = 0;
+        glGetIntegerv(param, &resultI);
+        EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+        GLfloat resultF = 0.0f;
+        glGetFloatv(param, &resultF);
+        EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+        glPixelStorei(param, 0);
+        EXPECT_GL_ERROR(GL_INVALID_ENUM);
+    }
+
+    if (extensionRequestable("GL_EXT_unpack_subimage"))
+    {
+        glRequestExtensionANGLE("GL_EXT_unpack_subimage");
+        EXPECT_GL_NO_ERROR();
+
+        for (GLenum param : parameters)
+        {
+            GLint resultI = 0;
+            glGetIntegerv(param, &resultI);
+
+            GLfloat resultF = 0.0f;
+            glGetFloatv(param, &resultF);
+
+            glPixelStorei(param, 0);
+
+            EXPECT_GL_NO_ERROR();
+        }
+    }
+}
+
+// Test enabling the GL_NV_pack_subimage extension
+TEST_P(WebGLCompatibilityTest, EnablePackPackSubImageExtension)
+{
+    EXPECT_FALSE(extensionEnabled("GL_NV_pack_subimage"));
+
+    // This extensions become core in in ES3/WebGL2.
+    ANGLE_SKIP_TEST_IF(getClientMajorVersion() >= 3);
+
+    constexpr GLenum parameters[] = {
+        GL_PACK_ROW_LENGTH, GL_PACK_SKIP_ROWS, GL_PACK_SKIP_PIXELS,
+    };
+
+    for (GLenum param : parameters)
+    {
+        GLint resultI = 0;
+        glGetIntegerv(param, &resultI);
+        EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+        GLfloat resultF = 0.0f;
+        glGetFloatv(param, &resultF);
+        EXPECT_GL_ERROR(GL_INVALID_ENUM);
+
+        glPixelStorei(param, 0);
+        EXPECT_GL_ERROR(GL_INVALID_ENUM);
+    }
+
+    if (extensionRequestable("GL_NV_pack_subimage"))
+    {
+        glRequestExtensionANGLE("GL_NV_pack_subimage");
+        EXPECT_GL_NO_ERROR();
+
+        for (GLenum param : parameters)
+        {
+            GLint resultI = 0;
+            glGetIntegerv(param, &resultI);
+
+            GLfloat resultF = 0.0f;
+            glGetFloatv(param, &resultF);
+
+            glPixelStorei(param, 0);
+
+            EXPECT_GL_NO_ERROR();
+        }
+    }
 }
 
 // Verify that the context generates the correct error when the framebuffer attachments are
@@ -978,6 +1344,21 @@ TEST_P(WebGL2CompatibilityTest, ShaderSourceLineContinuation)
     glDeleteShader(shader);
 }
 
+// Tests bindAttribLocations for reserved prefixes and length limits
+TEST_P(WebGLCompatibilityTest, BindAttribLocationLimitation)
+{
+    constexpr int maxLocStringLength = 256;
+    const std::string tooLongString(maxLocStringLength + 1, '_');
+
+    glBindAttribLocation(0, 0, "_webgl_var");
+
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    glBindAttribLocation(0, 0, static_cast<const GLchar *>(tooLongString.c_str()));
+
+    EXPECT_GL_ERROR(GL_INVALID_VALUE);
+}
+
 // Test the checks for OOB reads in the vertex buffers, instanced version
 TEST_P(WebGL2CompatibilityTest, DrawArraysBufferOutOfBoundsInstanced)
 {
@@ -1306,7 +1687,7 @@ TEST_P(WebGLCompatibilityTest, DrawElementsOffsetRestriction)
     glEnableVertexAttribArray(posLocation);
 
     GLBuffer indexBuffer;
-    const GLubyte indices[] = {0, 0, 0, 0, 0, 0, 0};
+    const GLubyte indices[] = {0, 0, 0, 0, 0, 0, 0, 0};
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.get());
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
@@ -1317,10 +1698,10 @@ TEST_P(WebGLCompatibilityTest, DrawElementsOffsetRestriction)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, zeroIndices);
     ASSERT_GL_NO_ERROR();
 
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, zeroIndices);
+    glDrawElements(GL_TRIANGLES, 4, GL_UNSIGNED_SHORT, zeroIndices);
     ASSERT_GL_NO_ERROR();
 
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, zeroIndices + 1);
+    glDrawElements(GL_TRIANGLES, 4, GL_UNSIGNED_SHORT, zeroIndices + 1);
     EXPECT_GL_ERROR(GL_INVALID_OPERATION);
 }
 
@@ -2928,6 +3309,85 @@ TEST_P(WebGLCompatibilityTest, DrawBuffers)
     }
 }
 
+// Test that it's possible to generate mipmaps on unsized floating point textures once the
+// extensions have been enabled
+TEST_P(WebGLCompatibilityTest, GenerateMipmapUnsizedFloatingPointTexture)
+{
+    if (extensionRequestable("GL_OES_texture_float"))
+    {
+        glRequestExtensionANGLE("GL_OES_texture_float");
+    }
+    ANGLE_SKIP_TEST_IF(!extensionEnabled("GL_OES_texture_float"));
+
+    GLTexture texture;
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    constexpr GLColor32F data[4] = {
+        kFloatRed, kFloatRed, kFloatGreen, kFloatBlue,
+    };
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 4, 4, 0, GL_RGBA, GL_FLOAT, data);
+    ASSERT_GL_NO_ERROR();
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    EXPECT_GL_NO_ERROR();
+}
+// Test that it's possible to generate mipmaps on unsized floating point textures once the
+// extensions have been enabled
+TEST_P(WebGLCompatibilityTest, GenerateMipmapSizedFloatingPointTexture)
+{
+    if (extensionRequestable("GL_OES_texture_float"))
+    {
+        glRequestExtensionANGLE("GL_OES_texture_float");
+    }
+    ANGLE_SKIP_TEST_IF(!extensionEnabled("GL_OES_texture_float"));
+
+    if (extensionRequestable("GL_EXT_texture_storage"))
+    {
+        glRequestExtensionANGLE("GL_EXT_texture_storage");
+    }
+    ANGLE_SKIP_TEST_IF(!extensionEnabled("GL_EXT_texture_storage"));
+
+    GLTexture texture;
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    constexpr GLColor32F data[4] = {
+        kFloatRed, kFloatRed, kFloatGreen, kFloatBlue,
+    };
+    glTexStorage2DEXT(GL_TEXTURE_2D, 2, GL_RGBA32F, 2, 2);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 2, 2, GL_RGBA, GL_FLOAT, data);
+    ASSERT_GL_NO_ERROR();
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+
+    if (extensionRequestable("GL_EXT_color_buffer_float"))
+    {
+        // Format is renderable but not filterable
+        glRequestExtensionANGLE("GL_EXT_color_buffer_float");
+        glGenerateMipmap(GL_TEXTURE_2D);
+        EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+    }
+
+    if (extensionRequestable("GL_EXT_color_buffer_float_linear"))
+    {
+        // Format is renderable but not filterable
+        glRequestExtensionANGLE("GL_EXT_color_buffer_float_linear");
+
+        if (extensionEnabled("GL_EXT_color_buffer_float"))
+        {
+            // Format is filterable and renderable
+            glGenerateMipmap(GL_TEXTURE_2D);
+            EXPECT_GL_NO_ERROR();
+        }
+        else
+        {
+            // Format is filterable but not renderable
+            glGenerateMipmap(GL_TEXTURE_2D);
+            EXPECT_GL_ERROR(GL_INVALID_OPERATION);
+        }
+    }
+}
+
 // Linking should fail when corresponding vertex/fragment uniform blocks have different precision
 // qualifiers.
 TEST_P(WebGL2CompatibilityTest, UniformBlockPrecisionMismatch)
@@ -2988,6 +3448,17 @@ TEST_P(WebGL2CompatibilityTest, NoAttributeVertexShader)
     glDrawArrays(GL_TRIANGLES, 0, 6);
     ASSERT_GL_NO_ERROR();
     EXPECT_PIXEL_COLOR_EQ(0, 0, GLColor::green);
+}
+
+// Tests bindAttribLocations for length limit
+TEST_P(WebGL2CompatibilityTest, BindAttribLocationLimitation)
+{
+    constexpr int maxLocStringLength = 1024;
+    const std::string tooLongString(maxLocStringLength + 1, '_');
+
+    glBindAttribLocation(0, 0, static_cast<const GLchar *>(tooLongString.c_str()));
+
+    EXPECT_GL_ERROR(GL_INVALID_VALUE);
 }
 
 // Use this to select which configurations (e.g. which renderer, which GLES major version) these

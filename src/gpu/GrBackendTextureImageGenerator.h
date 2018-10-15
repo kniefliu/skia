@@ -16,7 +16,8 @@ class GrSemaphore;
 
 class GrBackendTextureImageGenerator : public SkImageGenerator {
 public:
-    static std::unique_ptr<SkImageGenerator> Make(sk_sp<GrTexture>, sk_sp<GrSemaphore>,
+    static std::unique_ptr<SkImageGenerator> Make(sk_sp<GrTexture>, GrSurfaceOrigin,
+                                                  sk_sp<GrSemaphore>,
                                                   SkAlphaType, sk_sp<SkColorSpace>);
 
     ~GrBackendTextureImageGenerator() override;
@@ -29,11 +30,12 @@ protected:
 #if SK_SUPPORT_GPU
     TexGenType onCanGenerateTexture() const override { return TexGenType::kCheap; }
     sk_sp<GrTextureProxy> onGenerateTexture(GrContext*, const SkImageInfo&, const SkIPoint&,
-                                            SkTransferFunctionBehavior) override;
+                                            SkTransferFunctionBehavior,
+                                            bool willNeedMipMaps) override;
 #endif
 
 private:
-    GrBackendTextureImageGenerator(const SkImageInfo& info, GrTexture*,
+    GrBackendTextureImageGenerator(const SkImageInfo& info, GrTexture*, GrSurfaceOrigin,
                                    uint32_t owningContextID, sk_sp<GrSemaphore>,
                                    const GrBackendTexture&);
 

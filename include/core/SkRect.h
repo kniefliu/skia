@@ -10,6 +10,7 @@
 
 #include "SkPoint.h"
 #include "SkSize.h"
+#include "../private/SkTFitsIn.h"
 
 struct SkRect;
 
@@ -18,12 +19,13 @@ struct SkRect;
     SkIRect holds four 32 bit integer coordinates for a rectangle
 */
 struct SK_API SkIRect {
-    int32_t fLeft, fTop, fRight, fBottom;
+    int32_t fLeft;
+    int32_t fTop;
+    int32_t fRight;
+    int32_t fBottom;
 
-    static SkIRect SK_WARN_UNUSED_RESULT MakeEmpty() {
-        SkIRect r;
-        r.setEmpty();
-        return r;
+    static constexpr SkIRect SK_WARN_UNUSED_RESULT MakeEmpty() {
+        return SkIRect{0, 0, 0, 0};
     }
 
     static SkIRect SK_WARN_UNUSED_RESULT MakeLargest() {
@@ -32,28 +34,20 @@ struct SK_API SkIRect {
         return r;
     }
 
-    static SkIRect SK_WARN_UNUSED_RESULT MakeWH(int32_t w, int32_t h) {
-        SkIRect r;
-        r.set(0, 0, w, h);
-        return r;
+    static constexpr SkIRect SK_WARN_UNUSED_RESULT MakeWH(int32_t w, int32_t h) {
+        return SkIRect{0, 0, w, h};
     }
 
-    static SkIRect SK_WARN_UNUSED_RESULT MakeSize(const SkISize& size) {
-        SkIRect r;
-        r.set(0, 0, size.width(), size.height());
-        return r;
+    static constexpr SkIRect SK_WARN_UNUSED_RESULT MakeSize(const SkISize& size) {
+        return SkIRect{0, 0, size.fWidth, size.fHeight};
     }
 
-    static SkIRect SK_WARN_UNUSED_RESULT MakeLTRB(int32_t l, int32_t t, int32_t r, int32_t b) {
-        SkIRect rect;
-        rect.set(l, t, r, b);
-        return rect;
+    static constexpr SkIRect SK_WARN_UNUSED_RESULT MakeLTRB(int32_t l, int32_t t, int32_t r, int32_t b) {
+        return SkIRect{l, t, r, b};
     }
 
-    static SkIRect SK_WARN_UNUSED_RESULT MakeXYWH(int32_t x, int32_t y, int32_t w, int32_t h) {
-        SkIRect r;
-        r.set(x, y, x + w, y + h);
-        return r;
+    static constexpr SkIRect SK_WARN_UNUSED_RESULT MakeXYWH(int32_t x, int32_t y, int32_t w, int32_t h) {
+        return SkIRect{x, y, x + w, y + h};
     }
 
     int left() const { return fLeft; }
@@ -116,8 +110,8 @@ struct SK_API SkIRect {
     }
 
     bool is16Bit() const {
-        return  SkIsS16(fLeft) && SkIsS16(fTop) &&
-                SkIsS16(fRight) && SkIsS16(fBottom);
+        return  SkTFitsIn<int16_t>(fLeft) && SkTFitsIn<int16_t>(fTop) &&
+                SkTFitsIn<int16_t>(fRight) && SkTFitsIn<int16_t>(fBottom);
     }
 
     /** Set the rectangle to (0,0,0,0)
@@ -402,7 +396,10 @@ struct SK_API SkIRect {
 /** \struct SkRect
 */
 struct SK_API SkRect {
-    SkScalar    fLeft, fTop, fRight, fBottom;
+    SkScalar    fLeft;
+    SkScalar    fTop;
+    SkScalar    fRight;
+    SkScalar    fBottom;
 
     static constexpr SkRect SK_WARN_UNUSED_RESULT MakeEmpty() {
         return SkRect{0, 0, 0, 0};
@@ -414,10 +411,16 @@ struct SK_API SkRect {
         return r;
     }
 
-    static SkRect SK_WARN_UNUSED_RESULT MakeWH(SkScalar w, SkScalar h) {
-        SkRect r;
-        r.set(0, 0, w, h);
+    // The largest SkRect for which round() is well-defined.
+    static SkRect SK_WARN_UNUSED_RESULT MakeLargestS32() {
+        const SkRect r = MakeLTRB(SK_MinS32FitsInFloat, SK_MinS32FitsInFloat,
+                                  SK_MaxS32FitsInFloat, SK_MaxS32FitsInFloat);
+        SkASSERT(r == Make(r.roundOut()));
         return r;
+    }
+
+    static constexpr SkRect SK_WARN_UNUSED_RESULT MakeWH(SkScalar w, SkScalar h) {
+        return SkRect{0, 0, w, h};
     }
 
     static SkRect SK_WARN_UNUSED_RESULT MakeIWH(int w, int h) {
@@ -426,10 +429,8 @@ struct SK_API SkRect {
         return r;
     }
 
-    static SkRect SK_WARN_UNUSED_RESULT MakeSize(const SkSize& size) {
-        SkRect r;
-        r.set(0, 0, size.width(), size.height());
-        return r;
+    static constexpr SkRect SK_WARN_UNUSED_RESULT MakeSize(const SkSize& size) {
+        return SkRect{0, 0, size.fWidth, size.fHeight};
     }
 
     static constexpr SkRect SK_WARN_UNUSED_RESULT MakeLTRB(SkScalar l, SkScalar t, SkScalar r,
@@ -437,10 +438,8 @@ struct SK_API SkRect {
         return SkRect {l, t, r, b};
     }
 
-    static SkRect SK_WARN_UNUSED_RESULT MakeXYWH(SkScalar x, SkScalar y, SkScalar w, SkScalar h) {
-        SkRect r;
-        r.set(x, y, x + w, y + h);
-        return r;
+    static constexpr SkRect SK_WARN_UNUSED_RESULT MakeXYWH(SkScalar x, SkScalar y, SkScalar w, SkScalar h) {
+        return SkRect {x, y, x + w, y + h};
     }
 
     SK_ATTR_DEPRECATED("use Make()")
@@ -789,11 +788,11 @@ public:
      *  contains(x,y) -> fLeft <= x < fRight && fTop <= y < fBottom. Also note
      *  that contains(x,y) always returns false if the rect is empty.
      */
-    void growToInclude(SkScalar x, SkScalar y) {
-        fLeft  = SkMinScalar(x, fLeft);
-        fRight = SkMaxScalar(x, fRight);
-        fTop    = SkMinScalar(y, fTop);
-        fBottom = SkMaxScalar(y, fBottom);
+    void growToInclude(SkPoint pt) {
+        fLeft  =  SkMinScalar(pt.fX, fLeft);
+        fRight =  SkMaxScalar(pt.fX, fRight);
+        fTop    = SkMinScalar(pt.fY, fTop);
+        fBottom = SkMaxScalar(pt.fY, fBottom);
     }
 
     /** Bulk version of growToInclude */
@@ -807,7 +806,7 @@ public:
         SkASSERT(stride >= sizeof(SkPoint));
         const SkPoint* end = (const SkPoint*)((intptr_t)pts + count * stride);
         for (; pts < end; pts = (const SkPoint*)((intptr_t)pts + stride)) {
-            this->growToInclude(pts->fX, pts->fY);
+            this->growToInclude(*pts);
         }
     }
 

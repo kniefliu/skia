@@ -164,11 +164,28 @@ void ProgramNULL::setUniformMatrix4x3fv(GLint location,
 {
 }
 
+void ProgramNULL::getUniformfv(const gl::Context *context, GLint location, GLfloat *params) const
+{
+    // TODO(jmadill): Write some values.
+}
+
+void ProgramNULL::getUniformiv(const gl::Context *context, GLint location, GLint *params) const
+{
+    // TODO(jmadill): Write some values.
+}
+
+void ProgramNULL::getUniformuiv(const gl::Context *context, GLint location, GLuint *params) const
+{
+    // TODO(jmadill): Write some values.
+}
+
 void ProgramNULL::setUniformBlockBinding(GLuint uniformBlockIndex, GLuint uniformBlockBinding)
 {
 }
 
-bool ProgramNULL::getUniformBlockSize(const std::string &blockName, size_t *sizeOut) const
+bool ProgramNULL::getUniformBlockSize(const std::string &blockName,
+                                      const std::string &blockMappedName,
+                                      size_t *sizeOut) const
 {
     // TODO(geofflang): Compute reasonable sizes?
     *sizeOut = 0;
@@ -176,6 +193,7 @@ bool ProgramNULL::getUniformBlockSize(const std::string &blockName, size_t *size
 }
 
 bool ProgramNULL::getUniformBlockMemberInfo(const std::string &memberUniformName,
+                                            const std::string &memberUniformMappedName,
                                             sh::BlockMemberInfo *memberInfoOut) const
 {
     // TODO(geofflang): Compute reasonable values?

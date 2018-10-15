@@ -19,6 +19,16 @@ using namespace sh;
 #define EXPECT_GLENUM_EQ(expected, actual) \
     EXPECT_EQ(static_cast<::GLenum>(expected), static_cast<::GLenum>(actual))
 
+namespace
+{
+
+std::string DecorateName(const char *name)
+{
+    return std::string("_u") + name;
+}
+
+}  // anonymous namespace
+
 class CollectVariablesTest : public testing::Test
 {
   public:
@@ -34,7 +44,7 @@ class CollectVariablesTest : public testing::Test
         initTranslator(resources);
     }
 
-    void initTranslator(const ShBuiltInResources &resources)
+    virtual void initTranslator(const ShBuiltInResources &resources)
     {
         mTranslator.reset(
             new TranslatorGLSL(mShaderType, SH_GLES3_SPEC, SH_GLSL_COMPATIBILITY_OUTPUT));
@@ -131,10 +141,27 @@ class CollectFragmentVariablesTest : public CollectVariablesTest
       CollectFragmentVariablesTest() : CollectVariablesTest(GL_FRAGMENT_SHADER) {}
 };
 
-class CollectGeometryVariablesTest : public CollectVariablesTest
+class CollectVariablesTestES31 : public CollectVariablesTest
 {
   public:
-    CollectGeometryVariablesTest() : CollectVariablesTest(GL_GEOMETRY_SHADER_OES) {}
+    CollectVariablesTestES31(sh::GLenum shaderType) : CollectVariablesTest(shaderType) {}
+
+  protected:
+    void initTranslator(const ShBuiltInResources &resources) override
+    {
+        mTranslator.reset(
+            new TranslatorGLSL(mShaderType, SH_GLES3_1_SPEC, SH_GLSL_COMPATIBILITY_OUTPUT));
+        ASSERT_TRUE(mTranslator->Init(resources));
+    }
+};
+
+class CollectVariablesOESGeometryShaderTest : public CollectVariablesTestES31
+{
+  public:
+    CollectVariablesOESGeometryShaderTest(sh::GLenum shaderType)
+        : CollectVariablesTestES31(shaderType)
+    {
+    }
 
   protected:
     void SetUp() override
@@ -145,14 +172,16 @@ class CollectGeometryVariablesTest : public CollectVariablesTest
 
         initTranslator(resources);
     }
+};
 
-    void initTranslator(const ShBuiltInResources &resources)
+class CollectGeometryVariablesTest : public CollectVariablesOESGeometryShaderTest
+{
+  public:
+    CollectGeometryVariablesTest() : CollectVariablesOESGeometryShaderTest(GL_GEOMETRY_SHADER_OES)
     {
-        mTranslator.reset(
-            new TranslatorGLSL(mShaderType, SH_GLES3_1_SPEC, SH_GLSL_COMPATIBILITY_OUTPUT));
-        ASSERT_TRUE(mTranslator->Init(resources));
     }
 
+  protected:
     void compileGeometryShaderWithInputPrimitive(const std::string &inputPrimitive)
     {
         std::ostringstream sstream;
@@ -166,6 +195,35 @@ class CollectGeometryVariablesTest : public CollectVariablesTest
                 << "}\n";
         compile(sstream.str());
     }
+};
+
+class CollectFragmentVariablesOESGeometryShaderTest : public CollectVariablesOESGeometryShaderTest
+{
+  public:
+    CollectFragmentVariablesOESGeometryShaderTest()
+        : CollectVariablesOESGeometryShaderTest(GL_FRAGMENT_SHADER)
+    {
+    }
+
+  protected:
+    void initTranslator(const ShBuiltInResources &resources)
+    {
+        mTranslator.reset(
+            new TranslatorGLSL(mShaderType, SH_GLES3_1_SPEC, SH_GLSL_COMPATIBILITY_OUTPUT));
+        ASSERT_TRUE(mTranslator->Init(resources));
+    }
+};
+
+class CollectVertexVariablesES31Test : public CollectVariablesTestES31
+{
+  public:
+    CollectVertexVariablesES31Test() : CollectVariablesTestES31(GL_VERTEX_SHADER) {}
+};
+
+class CollectFragmentVariablesES31Test : public CollectVariablesTestES31
+{
+  public:
+    CollectFragmentVariablesES31Test() : CollectVariablesTestES31(GL_FRAGMENT_SHADER) {}
 };
 
 TEST_F(CollectFragmentVariablesTest, SimpleOutputVar)
@@ -338,6 +396,7 @@ TEST_F(CollectVertexVariablesTest, StructInterfaceBlock)
     EXPECT_FALSE(interfaceBlock.isRowMajorLayout);
     EXPECT_EQ(BLOCKLAYOUT_SHARED, interfaceBlock.layout);
     EXPECT_EQ("b", interfaceBlock.name);
+    EXPECT_EQ(DecorateName("b"), interfaceBlock.mappedName);
     EXPECT_TRUE(interfaceBlock.staticUse);
 
     ASSERT_EQ(1u, interfaceBlock.fields.size());
@@ -347,6 +406,7 @@ TEST_F(CollectVertexVariablesTest, StructInterfaceBlock)
     EXPECT_TRUE(field.isStruct());
     EXPECT_TRUE(field.staticUse);
     EXPECT_EQ("s", field.name);
+    EXPECT_EQ(DecorateName("s"), field.mappedName);
     EXPECT_FALSE(field.isRowMajorLayout);
 
     const ShaderVariable &member = field.fields[0];
@@ -354,6 +414,7 @@ TEST_F(CollectVertexVariablesTest, StructInterfaceBlock)
     // NOTE: we don't currently mark struct members as statically used or not
     EXPECT_FALSE(member.isStruct());
     EXPECT_EQ("f", member.name);
+    EXPECT_EQ(DecorateName("f"), member.mappedName);
     EXPECT_GLENUM_EQ(GL_FLOAT, member.type);
     EXPECT_GLENUM_EQ(GL_HIGH_FLOAT, member.precision);
 }
@@ -381,6 +442,7 @@ TEST_F(CollectVertexVariablesTest, StructInstancedInterfaceBlock)
     EXPECT_FALSE(interfaceBlock.isRowMajorLayout);
     EXPECT_EQ(BLOCKLAYOUT_SHARED, interfaceBlock.layout);
     EXPECT_EQ("b", interfaceBlock.name);
+    EXPECT_EQ(DecorateName("b"), interfaceBlock.mappedName);
     EXPECT_EQ("instanceName", interfaceBlock.instanceName);
     EXPECT_TRUE(interfaceBlock.staticUse);
 
@@ -391,6 +453,7 @@ TEST_F(CollectVertexVariablesTest, StructInstancedInterfaceBlock)
     EXPECT_TRUE(field.isStruct());
     EXPECT_TRUE(field.staticUse);
     EXPECT_EQ("s", field.name);
+    EXPECT_EQ(DecorateName("s"), field.mappedName);
     EXPECT_FALSE(field.isRowMajorLayout);
 
     const ShaderVariable &member = field.fields[0];
@@ -398,6 +461,7 @@ TEST_F(CollectVertexVariablesTest, StructInstancedInterfaceBlock)
     // NOTE: we don't currently mark struct members as statically used or not
     EXPECT_FALSE(member.isStruct());
     EXPECT_EQ("f", member.name);
+    EXPECT_EQ(DecorateName("f"), member.mappedName);
     EXPECT_GLENUM_EQ(GL_FLOAT, member.type);
     EXPECT_GLENUM_EQ(GL_HIGH_FLOAT, member.precision);
 }
@@ -425,6 +489,7 @@ TEST_F(CollectVertexVariablesTest, NestedStructRowMajorInterfaceBlock)
     EXPECT_TRUE(interfaceBlock.isRowMajorLayout);
     EXPECT_EQ(BLOCKLAYOUT_SHARED, interfaceBlock.layout);
     EXPECT_EQ("b", interfaceBlock.name);
+    EXPECT_EQ(DecorateName("b"), interfaceBlock.mappedName);
     EXPECT_TRUE(interfaceBlock.staticUse);
 
     ASSERT_EQ(1u, interfaceBlock.fields.size());
@@ -434,6 +499,7 @@ TEST_F(CollectVertexVariablesTest, NestedStructRowMajorInterfaceBlock)
     EXPECT_TRUE(field.isStruct());
     EXPECT_TRUE(field.staticUse);
     EXPECT_EQ("s", field.name);
+    EXPECT_EQ(DecorateName("s"), field.mappedName);
     EXPECT_TRUE(field.isRowMajorLayout);
 
     const ShaderVariable &member = field.fields[0];
@@ -441,6 +507,7 @@ TEST_F(CollectVertexVariablesTest, NestedStructRowMajorInterfaceBlock)
     // NOTE: we don't currently mark struct members as statically used or not
     EXPECT_FALSE(member.isStruct());
     EXPECT_EQ("m", member.name);
+    EXPECT_EQ(DecorateName("m"), member.mappedName);
     EXPECT_GLENUM_EQ(GL_FLOAT_MAT2, member.type);
     EXPECT_GLENUM_EQ(GL_HIGH_FLOAT, member.precision);
 }
@@ -473,6 +540,7 @@ TEST_F(CollectVertexVariablesTest, VaryingInterpolation)
     EXPECT_TRUE(varying->staticUse);
     EXPECT_GLENUM_EQ(GL_FLOAT, varying->type);
     EXPECT_EQ("vary", varying->name);
+    EXPECT_EQ(DecorateName("vary"), varying->mappedName);
     EXPECT_EQ(INTERPOLATION_CENTROID, varying->interpolation);
 }
 
@@ -926,4 +994,297 @@ TEST_F(CollectGeometryVariablesTest, GLInArraySize)
         ASSERT_EQ("gl_in", inBlock->instanceName);
         EXPECT_EQ(kArraySizeForInputPrimitives[i], inBlock->arraySize);
     }
+}
+
+// Test collecting gl_PrimitiveIDIn in a geometry shader.
+TEST_F(CollectGeometryVariablesTest, CollectPrimitiveIDIn)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "layout (points) in;\n"
+        "layout (points, max_vertices = 2) out;\n"
+        "void main()\n"
+        "{\n"
+        "    int value = gl_PrimitiveIDIn;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getOutputVaryings().empty());
+    ASSERT_TRUE(mTranslator->getInBlocks().empty());
+
+    const auto &inputVaryings = mTranslator->getInputVaryings();
+    ASSERT_EQ(1u, inputVaryings.size());
+
+    const Varying *varying = &inputVaryings[0];
+    EXPECT_EQ("gl_PrimitiveIDIn", varying->name);
+    EXPECT_FALSE(varying->isArray());
+    EXPECT_FALSE(varying->isStruct());
+    EXPECT_TRUE(varying->staticUse);
+    EXPECT_TRUE(varying->isBuiltIn());
+    EXPECT_GLENUM_EQ(GL_HIGH_INT, varying->precision);
+    EXPECT_GLENUM_EQ(GL_INT, varying->type);
+}
+
+// Test collecting gl_InvocationID in a geometry shader.
+TEST_F(CollectGeometryVariablesTest, CollectInvocationID)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "layout (points, invocations = 2) in;\n"
+        "layout (points, max_vertices = 2) out;\n"
+        "void main()\n"
+        "{\n"
+        "    int value = gl_InvocationID;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getOutputVaryings().empty());
+    ASSERT_TRUE(mTranslator->getInBlocks().empty());
+
+    const auto &inputVaryings = mTranslator->getInputVaryings();
+    ASSERT_EQ(1u, inputVaryings.size());
+
+    const Varying *varying = &inputVaryings[0];
+    EXPECT_EQ("gl_InvocationID", varying->name);
+    EXPECT_FALSE(varying->isArray());
+    EXPECT_FALSE(varying->isStruct());
+    EXPECT_TRUE(varying->staticUse);
+    EXPECT_TRUE(varying->isBuiltIn());
+    EXPECT_GLENUM_EQ(GL_HIGH_INT, varying->precision);
+    EXPECT_GLENUM_EQ(GL_INT, varying->type);
+}
+
+// Test collecting gl_in in a geometry shader when gl_in is indexed by an expression.
+TEST_F(CollectGeometryVariablesTest, CollectGLInIndexedByExpression)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "layout (triangles, invocations = 2) in;\n"
+        "layout (points, max_vertices = 2) out;\n"
+        "void main()\n"
+        "{\n"
+        "    vec4 value = gl_in[gl_InvocationID + 1].gl_Position;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getOutputVaryings().empty());
+
+    const auto &inBlocks = mTranslator->getInBlocks();
+    ASSERT_EQ(1u, inBlocks.size());
+    const InterfaceBlock *inBlock = &inBlocks[0];
+    EXPECT_EQ("gl_PerVertex", inBlock->name);
+    EXPECT_EQ("gl_in", inBlock->instanceName);
+
+    const auto &inputVaryings = mTranslator->getInputVaryings();
+    ASSERT_EQ(1u, inputVaryings.size());
+    const Varying *glInvocationID = &inputVaryings[0];
+    EXPECT_EQ("gl_InvocationID", glInvocationID->name);
+}
+
+// Test collecting gl_Position in a geometry shader.
+TEST_F(CollectGeometryVariablesTest, CollectPosition)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "layout (points) in;\n"
+        "layout (points, max_vertices = 2) out;\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Position = vec4(0.1, 0.2, 0.3, 1);\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getInputVaryings().empty());
+    ASSERT_TRUE(mTranslator->getInBlocks().empty());
+
+    const auto &outputVaryings = mTranslator->getOutputVaryings();
+    ASSERT_EQ(1u, outputVaryings.size());
+
+    const Varying *varying = &outputVaryings[0];
+    EXPECT_EQ("gl_Position", varying->name);
+    EXPECT_FALSE(varying->isArray());
+    EXPECT_FALSE(varying->isStruct());
+    EXPECT_TRUE(varying->staticUse);
+    EXPECT_TRUE(varying->isBuiltIn());
+    EXPECT_GLENUM_EQ(GL_HIGH_FLOAT, varying->precision);
+    EXPECT_GLENUM_EQ(GL_FLOAT_VEC4, varying->type);
+}
+
+// Test collecting gl_PrimitiveID in a geometry shader.
+TEST_F(CollectGeometryVariablesTest, CollectPrimitiveID)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "layout (points) in;\n"
+        "layout (points, max_vertices = 2) out;\n"
+        "void main()\n"
+        "{\n"
+        "    gl_PrimitiveID = 100;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getInputVaryings().empty());
+    ASSERT_TRUE(mTranslator->getInBlocks().empty());
+
+    const auto &OutputVaryings = mTranslator->getOutputVaryings();
+    ASSERT_EQ(1u, OutputVaryings.size());
+
+    const Varying *varying = &OutputVaryings[0];
+    EXPECT_EQ("gl_PrimitiveID", varying->name);
+    EXPECT_FALSE(varying->isArray());
+    EXPECT_FALSE(varying->isStruct());
+    EXPECT_TRUE(varying->staticUse);
+    EXPECT_TRUE(varying->isBuiltIn());
+    EXPECT_GLENUM_EQ(GL_HIGH_INT, varying->precision);
+    EXPECT_GLENUM_EQ(GL_INT, varying->type);
+}
+
+// Test collecting gl_Layer in a geometry shader.
+TEST_F(CollectGeometryVariablesTest, CollectLayer)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "layout (points) in;\n"
+        "layout (points, max_vertices = 2) out;\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Layer = 2;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getInputVaryings().empty());
+    ASSERT_TRUE(mTranslator->getInBlocks().empty());
+
+    const auto &OutputVaryings = mTranslator->getOutputVaryings();
+    ASSERT_EQ(1u, OutputVaryings.size());
+
+    const Varying *varying = &OutputVaryings[0];
+    EXPECT_EQ("gl_Layer", varying->name);
+    EXPECT_FALSE(varying->isArray());
+    EXPECT_FALSE(varying->isStruct());
+    EXPECT_TRUE(varying->staticUse);
+    EXPECT_TRUE(varying->isBuiltIn());
+    EXPECT_GLENUM_EQ(GL_HIGH_INT, varying->precision);
+    EXPECT_GLENUM_EQ(GL_INT, varying->type);
+}
+
+// Test collecting gl_PrimitiveID in a fragment shader.
+TEST_F(CollectFragmentVariablesOESGeometryShaderTest, CollectPrimitiveID)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "void main()\n"
+        "{\n"
+        "    int value = gl_PrimitiveID;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getOutputVaryings().empty());
+
+    const auto &inputVaryings = mTranslator->getInputVaryings();
+    ASSERT_EQ(1u, inputVaryings.size());
+
+    const Varying *varying = &inputVaryings[0];
+    EXPECT_EQ("gl_PrimitiveID", varying->name);
+    EXPECT_FALSE(varying->isArray());
+    EXPECT_FALSE(varying->isStruct());
+    EXPECT_TRUE(varying->staticUse);
+    EXPECT_TRUE(varying->isBuiltIn());
+    EXPECT_GLENUM_EQ(GL_HIGH_INT, varying->precision);
+    EXPECT_GLENUM_EQ(GL_INT, varying->type);
+}
+
+// Test collecting gl_Layer in a fragment shader.
+TEST_F(CollectFragmentVariablesOESGeometryShaderTest, CollectLayer)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "void main()\n"
+        "{\n"
+        "    int value = gl_Layer;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    ASSERT_TRUE(mTranslator->getOutputVaryings().empty());
+
+    const auto &inputVaryings = mTranslator->getInputVaryings();
+    ASSERT_EQ(1u, inputVaryings.size());
+
+    const Varying *varying = &inputVaryings[0];
+    EXPECT_EQ("gl_Layer", varying->name);
+    EXPECT_FALSE(varying->isArray());
+    EXPECT_FALSE(varying->isStruct());
+    EXPECT_TRUE(varying->staticUse);
+    EXPECT_TRUE(varying->isBuiltIn());
+    EXPECT_GLENUM_EQ(GL_HIGH_INT, varying->precision);
+    EXPECT_GLENUM_EQ(GL_INT, varying->type);
+}
+
+// Test collecting the location of vertex shader outputs.
+TEST_F(CollectVertexVariablesES31Test, CollectOutputWithLocation)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "out vec4 v_output1;\n"
+        "layout (location = 1) out vec4 v_output2;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    compile(shaderString);
+
+    const auto &outputVaryings = mTranslator->getOutputVaryings();
+    ASSERT_EQ(2u, outputVaryings.size());
+
+    const Varying *varying1 = &outputVaryings[0];
+    EXPECT_EQ("v_output1", varying1->name);
+    EXPECT_EQ(-1, varying1->location);
+
+    const Varying *varying2 = &outputVaryings[1];
+    EXPECT_EQ("v_output2", varying2->name);
+    EXPECT_EQ(1, varying2->location);
+}
+
+// Test collecting the location of fragment shader inputs.
+TEST_F(CollectFragmentVariablesES31Test, CollectInputWithLocation)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "in vec4 f_input1;\n"
+        "layout (location = 1) in vec4 f_input2;\n"
+        "layout (location = 0) out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    o_color = f_input2;\n"
+        "}\n";
+
+    compile(shaderString);
+
+    const auto &inputVaryings = mTranslator->getInputVaryings();
+    ASSERT_EQ(2u, inputVaryings.size());
+
+    const Varying *varying1 = &inputVaryings[0];
+    EXPECT_EQ("f_input1", varying1->name);
+    EXPECT_EQ(-1, varying1->location);
+
+    const Varying *varying2 = &inputVaryings[1];
+    EXPECT_EQ("f_input2", varying2->name);
+    EXPECT_EQ(1, varying2->location);
 }

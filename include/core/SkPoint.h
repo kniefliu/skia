@@ -215,13 +215,13 @@ struct SK_API SkPoint {
 
     void setRectFan(SkScalar l, SkScalar t, SkScalar r, SkScalar b, size_t stride) {
         SkASSERT(stride >= sizeof(SkPoint));
-        
+
         ((SkPoint*)((intptr_t)this + 0 * stride))->set(l, t);
         ((SkPoint*)((intptr_t)this + 1 * stride))->set(l, b);
         ((SkPoint*)((intptr_t)this + 2 * stride))->set(r, b);
         ((SkPoint*)((intptr_t)this + 3 * stride))->set(r, t);
     }
-    
+
 
     static void Offset(SkPoint points[], int count, const SkPoint& offset) {
         Offset(points, count, offset.fX, offset.fY);
@@ -351,13 +351,13 @@ struct SK_API SkPoint {
     SkPoint operator*(SkScalar scale) const {
         return Make(fX * scale, fY * scale);
     }
-    
+
     SkPoint& operator*=(SkScalar scale) {
         fX *= scale;
         fY *= scale;
         return *this;
     }
-    
+
     /**
      *  Returns true if both X and Y are finite (not infinity or NaN)
      */
@@ -496,7 +496,7 @@ struct SK_API SkPoint {
      */
     SkScalar distanceToLineBetweenSqd(const SkPoint& a,
                                       const SkPoint& b,
-                                      Side* side = NULL) const;
+                                      Side* side = nullptr) const;
 
     /**
      * Returns the distance to the infinite line between two pts. Also
@@ -505,7 +505,7 @@ struct SK_API SkPoint {
      */
     SkScalar distanceToLineBetween(const SkPoint& a,
                                    const SkPoint& b,
-                                   Side* side = NULL) const {
+                                   Side* side = nullptr) const {
         return SkScalarSqrt(this->distanceToLineBetweenSqd(a, b, side));
     }
 

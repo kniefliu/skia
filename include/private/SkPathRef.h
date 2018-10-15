@@ -83,7 +83,7 @@ public:
          */
         SkPoint* growForRepeatedVerb(int /*SkPath::Verb*/ verb,
                                      int numVbs,
-                                     SkScalar** weights = NULL) {
+                                     SkScalar** weights = nullptr) {
             return fPathRef->growForRepeatedVerb(verb, numVbs, weights);
         }
 
@@ -123,6 +123,8 @@ public:
 
         /** Return the next verb in this iteration of the path. When all
             segments have been visited, return kDone_Verb.
+
+            If any point in the path is non-finite, return kDone_Verb immediately.
 
             @param  pts The points representing the current verb and/or segment
                         This must not be NULL.
@@ -316,20 +318,20 @@ public:
 
 private:
     enum SerializationOffsets {
-        kRRectOrOvalStartIdx_SerializationShift = 28,  // requires 3 bits
-        kRRectOrOvalIsCCW_SerializationShift = 27,     // requires 1 bit
-        kIsRRect_SerializationShift = 26,              // requires 1 bit
-        kIsFinite_SerializationShift = 25,             // requires 1 bit
-        kIsOval_SerializationShift = 24,               // requires 1 bit
-        kSegmentMask_SerializationShift = 0            // requires 4 bits
+        kLegacyRRectOrOvalStartIdx_SerializationShift = 28, // requires 3 bits, ignored.
+        kLegacyRRectOrOvalIsCCW_SerializationShift = 27,    // requires 1 bit, ignored.
+        kLegacyIsRRect_SerializationShift = 26,             // requires 1 bit, ignored.
+        kIsFinite_SerializationShift = 25,                  // requires 1 bit
+        kLegacyIsOval_SerializationShift = 24,              // requires 1 bit, ignored.
+        kSegmentMask_SerializationShift = 0                 // requires 4 bits
     };
 
     SkPathRef() {
         fBoundsIsDirty = true;    // this also invalidates fIsFinite
         fPointCnt = 0;
         fVerbCnt = 0;
-        fVerbs = NULL;
-        fPoints = NULL;
+        fVerbs = nullptr;
+        fPoints = nullptr;
         fFreeSpace = 0;
         fGenerationID = kEmptyGenID;
         fSegmentMask = 0;
@@ -395,8 +397,8 @@ private:
 
         if (sizeDelta < 0 || static_cast<size_t>(sizeDelta) >= 3 * minSize) {
             sk_free(fPoints);
-            fPoints = NULL;
-            fVerbs = NULL;
+            fPoints = nullptr;
+            fVerbs = nullptr;
             fFreeSpace = 0;
             fVerbCnt = 0;
             fPointCnt = 0;

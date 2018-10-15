@@ -46,7 +46,7 @@ namespace gl
 class Buffer;
 class Compiler;
 class FenceNV;
-class FenceSync;
+class Sync;
 class Framebuffer;
 class MemoryProgramCache;
 class Program;
@@ -58,6 +58,7 @@ class Texture;
 class TransformFeedback;
 class VertexArray;
 struct VertexAttribute;
+class ProgramPipeline;
 
 class Context final : public ValidationContext
 {
@@ -68,8 +69,7 @@ class Context final : public ValidationContext
             TextureManager *shareTextures,
             MemoryProgramCache *memoryProgramCache,
             const egl::AttributeMap &attribs,
-            const egl::DisplayExtensions &displayExtensions,
-            bool robustResourceInit);
+            const egl::DisplayExtensions &displayExtensions);
 
     egl::Error onDestroy(const egl::Display *display);
     ~Context() override;
@@ -84,20 +84,16 @@ class Context final : public ValidationContext
     GLuint createProgram();
     GLuint createTexture();
     GLuint createRenderbuffer();
-    GLuint createSampler();
-    GLuint createTransformFeedback();
-    GLsync createFenceSync();
     GLuint createPaths(GLsizei range);
+    GLuint createProgramPipeline();
 
     void deleteBuffer(GLuint buffer);
     void deleteShader(GLuint shader);
     void deleteProgram(GLuint program);
     void deleteTexture(GLuint texture);
     void deleteRenderbuffer(GLuint renderbuffer);
-    void deleteSampler(GLuint sampler);
-    void deleteTransformFeedback(GLuint transformFeedback);
-    void deleteFenceSync(GLsync fenceSync);
     void deletePaths(GLuint first, GLsizei range);
+    void deleteProgramPipeline(GLuint pipeline);
 
     // CHROMIUM_path_rendering
     bool hasPathData(GLuint path) const;
@@ -119,14 +115,6 @@ class Context final : public ValidationContext
     // NV Fences are owned by the Context.
     GLuint createFenceNV();
     void deleteFenceNV(GLuint fence);
-
-    // Queries are owned by the Context;
-    GLuint createQuery();
-    void deleteQuery(GLuint query);
-
-    // Vertex arrays are owned by the Context
-    GLuint createVertexArray();
-    void deleteVertexArray(GLuint vertexArray);
 
     void bindArrayBuffer(GLuint bufferHandle);
     void bindElementArrayBuffer(GLuint bufferHandle);
@@ -171,19 +159,20 @@ class Context final : public ValidationContext
     void bindPixelPackBuffer(GLuint bufferHandle);
     void bindPixelUnpackBuffer(GLuint bufferHandle);
     void useProgram(GLuint program);
-    void bindTransformFeedback(GLuint transformFeedbackHandle);
+    void bindTransformFeedback(GLenum target, GLuint transformFeedbackHandle);
     void bindDrawIndirectBuffer(GLuint bufferHandle);
+    void bindProgramPipeline(GLuint pipelineHandle);
 
-    Error beginQuery(GLenum target, GLuint query);
-    Error endQuery(GLenum target);
-    Error queryCounter(GLuint id, GLenum target);
+    void beginQuery(GLenum target, GLuint query);
+    void endQuery(GLenum target);
+    void queryCounter(GLuint id, GLenum target);
     void getQueryiv(GLenum target, GLenum pname, GLint *params);
     void getQueryObjectiv(GLuint id, GLenum pname, GLint *params);
     void getQueryObjectuiv(GLuint id, GLenum pname, GLuint *params);
     void getQueryObjecti64v(GLuint id, GLenum pname, GLint64 *params);
     void getQueryObjectui64v(GLuint id, GLenum pname, GLuint64 *params);
 
-    void setVertexAttribDivisor(GLuint index, GLuint divisor);
+    void vertexAttribDivisor(GLuint index, GLuint divisor);
     void setVertexBindingDivisor(GLuint bindingIndex, GLuint divisor);
 
     void getBufferParameteriv(GLenum target, GLenum pname, GLint *params);
@@ -227,9 +216,14 @@ class Context final : public ValidationContext
                               GLsizei *length,
                               GLint *params);
 
+    void getProgramInterfaceiv(GLuint program,
+                               GLenum programInterface,
+                               GLenum pname,
+                               GLint *params);
+
     Buffer *getBuffer(GLuint handle) const;
     FenceNV *getFenceNV(GLuint handle);
-    FenceSync *getFenceSync(GLsync handle) const;
+    Sync *getSync(GLsync handle) const;
     Texture *getTexture(GLuint handle) const;
     Framebuffer *getFramebuffer(GLuint handle) const;
     Renderbuffer *getRenderbuffer(GLuint handle) const;
@@ -238,6 +232,8 @@ class Context final : public ValidationContext
     Query *getQuery(GLuint handle, bool create, GLenum type);
     Query *getQuery(GLuint handle) const;
     TransformFeedback *getTransformFeedback(GLuint handle) const;
+    ProgramPipeline *getProgramPipeline(GLuint handle) const;
+
     void objectLabel(GLenum identifier, GLuint name, GLsizei length, const GLchar *label);
     void objectPtrLabel(const void *ptr, GLsizei length, const GLchar *label);
     void getObjectLabel(GLenum identifier,
@@ -263,7 +259,7 @@ class Context final : public ValidationContext
     void getFloatvImpl(GLenum pname, GLfloat *params);
     void getIntegerv(GLenum pname, GLint *params);
     void getIntegervImpl(GLenum pname, GLint *params);
-    void getInteger64v(GLenum pname, GLint64 *params);
+    void getInteger64vImpl(GLenum pname, GLint64 *params);
     void getPointerv(GLenum pname, void **params) const;
     void getBooleani_v(GLenum target, GLuint index, GLboolean *data);
     void getIntegeri_v(GLenum target, GLuint index, GLint *data);
@@ -293,6 +289,7 @@ class Context final : public ValidationContext
     void pixelStorei(GLenum pname, GLint param);
     void polygonOffset(GLfloat factor, GLfloat units);
     void sampleCoverage(GLfloat value, GLboolean invert);
+    void sampleMaski(GLuint maskNumber, GLbitfield mask);
     void scissor(GLint x, GLint y, GLsizei width, GLsizei height);
     void stencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
     void stencilMaskSeparate(GLenum face, GLuint mask);
@@ -780,6 +777,67 @@ class Context final : public ValidationContext
     void uniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
     void validateProgram(GLuint program);
 
+    void genQueries(GLsizei n, GLuint *ids);
+    void deleteQueries(GLsizei n, const GLuint *ids);
+    GLboolean isQuery(GLuint id);
+
+    void uniform1ui(GLint location, GLuint v0);
+    void uniform2ui(GLint location, GLuint v0, GLuint v1);
+    void uniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2);
+    void uniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
+    void uniform1uiv(GLint location, GLsizei count, const GLuint *value);
+    void uniform2uiv(GLint location, GLsizei count, const GLuint *value);
+    void uniform3uiv(GLint location, GLsizei count, const GLuint *value);
+    void uniform4uiv(GLint location, GLsizei count, const GLuint *value);
+
+    void uniformMatrix2x3fv(GLint location,
+                            GLsizei count,
+                            GLboolean transpose,
+                            const GLfloat *value);
+    void uniformMatrix3x2fv(GLint location,
+                            GLsizei count,
+                            GLboolean transpose,
+                            const GLfloat *value);
+    void uniformMatrix2x4fv(GLint location,
+                            GLsizei count,
+                            GLboolean transpose,
+                            const GLfloat *value);
+    void uniformMatrix4x2fv(GLint location,
+                            GLsizei count,
+                            GLboolean transpose,
+                            const GLfloat *value);
+    void uniformMatrix3x4fv(GLint location,
+                            GLsizei count,
+                            GLboolean transpose,
+                            const GLfloat *value);
+    void uniformMatrix4x3fv(GLint location,
+                            GLsizei count,
+                            GLboolean transpose,
+                            const GLfloat *value);
+
+    void deleteVertexArrays(GLsizei n, const GLuint *arrays);
+    void genVertexArrays(GLsizei n, GLuint *arrays);
+    bool isVertexArray(GLuint array);
+
+    void endTransformFeedback();
+    void transformFeedbackVaryings(GLuint program,
+                                   GLsizei count,
+                                   const GLchar *const *varyings,
+                                   GLenum bufferMode);
+    void getTransformFeedbackVarying(GLuint program,
+                                     GLuint index,
+                                     GLsizei bufSize,
+                                     GLsizei *length,
+                                     GLsizei *size,
+                                     GLenum *type,
+                                     GLchar *name);
+
+    void deleteTransformFeedbacks(GLsizei n, const GLuint *ids);
+    void genTransformFeedbacks(GLsizei n, GLuint *ids);
+    bool isTransformFeedback(GLuint id);
+    void pauseTransformFeedback();
+    void resumeTransformFeedback();
+
     void getProgramBinary(GLuint program,
                           GLsizei bufSize,
                           GLsizei *length,
@@ -787,8 +845,53 @@ class Context final : public ValidationContext
                           void *binary);
     void programBinary(GLuint program, GLenum binaryFormat, const void *binary, GLsizei length);
 
-    // Returns the error.
-    Error handleError(const Error &error) override;
+    void getUniformuiv(GLuint program, GLint location, GLuint *params);
+    GLint getFragDataLocation(GLuint program, const GLchar *name);
+    void getUniformIndices(GLuint program,
+                           GLsizei uniformCount,
+                           const GLchar *const *uniformNames,
+                           GLuint *uniformIndices);
+    void getActiveUniformsiv(GLuint program,
+                             GLsizei uniformCount,
+                             const GLuint *uniformIndices,
+                             GLenum pname,
+                             GLint *params);
+    GLuint getUniformBlockIndex(GLuint program, const GLchar *uniformBlockName);
+    void getActiveUniformBlockiv(GLuint program,
+                                 GLuint uniformBlockIndex,
+                                 GLenum pname,
+                                 GLint *params);
+    void getActiveUniformBlockName(GLuint program,
+                                   GLuint uniformBlockIndex,
+                                   GLsizei bufSize,
+                                   GLsizei *length,
+                                   GLchar *uniformBlockName);
+    void uniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
+
+    GLsync fenceSync(GLenum condition, GLbitfield flags);
+    GLboolean isSync(GLsync sync);
+    void deleteSync(GLsync sync);
+    GLenum clientWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout);
+    void waitSync(GLsync sync, GLbitfield flags, GLuint64 timeout);
+    void getInteger64v(GLenum pname, GLint64 *params);
+
+    void getBufferParameteri64v(GLenum target, GLenum pname, GLint64 *params);
+    void genSamplers(GLsizei count, GLuint *samplers);
+    void deleteSamplers(GLsizei count, const GLuint *samplers);
+    void getInternalformativ(GLenum target,
+                             GLenum internalformat,
+                             GLenum pname,
+                             GLsizei bufSize,
+                             GLint *params);
+
+    void programUniform1iv(GLuint program, GLint location, GLsizei count, const GLint *value);
+
+    void deleteProgramPipelines(GLsizei n, const GLuint *pipelines);
+    void genProgramPipelines(GLsizei n, GLuint *pipelines);
+    GLboolean isProgramPipeline(GLuint pipeline);
+
+    // Consumes the error.
+    void handleError(const Error &error) override;
 
     GLenum getError();
     void markContextLost();
@@ -836,12 +939,17 @@ class Context final : public ValidationContext
                       GLsizei height,
                       GLsizei depth);
 
+    // Notification for a state change in a Texture.
+    void onTextureChange(const Texture *texture);
+
     egl::Display *getCurrentDisplay() const { return mCurrentDisplay; }
     egl::Surface *getCurrentDrawSurface() const { return mCurrentSurface; }
     egl::Surface *getCurrentReadSurface() const { return mCurrentSurface; }
 
+    bool isRobustResourceInitEnabled() const { return mGLState.isRobustResourceInitEnabled(); }
+
   private:
-    Error prepareForDraw(GLenum drawMode);
+    Error prepareForDraw();
     void syncRendererState();
     void syncRendererState(const State::DirtyBits &bitMask, const State::DirtyObjects &objectMask);
     void syncStateForReadPixels();
@@ -858,12 +966,13 @@ class Context final : public ValidationContext
     void detachVertexArray(GLuint vertexArray);
     void detachTransformFeedback(GLuint transformFeedback);
     void detachSampler(GLuint sampler);
+    void detachProgramPipeline(GLuint pipeline);
 
     void initRendererString();
     void initVersionStrings();
     void initExtensionStrings();
 
-    void initCaps(const egl::DisplayExtensions &displayExtensions);
+    void initCaps(const egl::DisplayExtensions &displayExtensions, bool robustResourceInit);
     void updateCaps();
     void initWorkarounds();
 

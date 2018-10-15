@@ -45,7 +45,6 @@ public:
             return;
         }
 
-        fLastFullClearOp = nullptr;
         this->forwardCombine(caps);
 
         INHERITED::makeClosed(caps);
@@ -56,7 +55,7 @@ public:
     /**
      * Empties the draw buffer of any queued up draws.
      */
-    void reset() override;
+    void endFlush() override;
 
     void abandonGpuResources() override;
     void freeGpuResources() override;
@@ -69,14 +68,32 @@ public:
     bool onExecute(GrOpFlushState* flushState) override;
 
     uint32_t addOp(std::unique_ptr<GrOp> op, const GrCaps& caps) {
-        this->recordOp(std::move(op), caps, nullptr, nullptr);
+        auto addDependency = [ &caps, this ] (GrSurfaceProxy* p) {
+            this->addDependency(p, caps);
+        };
+
+        op->visitProxies(addDependency);
+
+        this->recordOp(std::move(op), caps);
+
         return this->uniqueID();
     }
+
     uint32_t addOp(std::unique_ptr<GrOp> op, const GrCaps& caps,
                    GrAppliedClip&& clip, const DstProxy& dstProxy) {
+        auto addDependency = [ &caps, this ] (GrSurfaceProxy* p) {
+            this->addDependency(p, caps);
+        };
+
+        op->visitProxies(addDependency);
+        clip.visitProxies(addDependency);
+
         this->recordOp(std::move(op), caps, clip.doesClip() ? &clip : nullptr, &dstProxy);
+
         return this->uniqueID();
     }
+
+    void discard();
 
     /** Clears the entire render target */
     void fullClear(const GrCaps& caps, GrColor color);
@@ -124,18 +141,16 @@ private:
         GrAppliedClip* fAppliedClip;
     };
 
-    // If the input op is combined with an earlier op, this returns the combined op. Otherwise, it
-    // returns the input op.
-    GrOp* recordOp(std::unique_ptr<GrOp>, const GrCaps& caps,
-                   GrAppliedClip* = nullptr, const DstProxy* = nullptr);
+    void gatherProxyIntervals(GrResourceAllocator*) const override;
+
+    void recordOp(std::unique_ptr<GrOp>, const GrCaps& caps,
+                  GrAppliedClip* = nullptr, const DstProxy* = nullptr);
 
     void forwardCombine(const GrCaps&);
 
     // If this returns true then b has been merged into a's op.
     bool combineIfPossible(const RecordedOp& a, GrOp* b, const GrAppliedClip* bClip,
                            const DstProxy* bDstTexture, const GrCaps&);
-
-    GrClearOp*                     fLastFullClearOp = nullptr;
 
     std::unique_ptr<gr_instanced::InstancedRendering> fInstancedRendering;
 

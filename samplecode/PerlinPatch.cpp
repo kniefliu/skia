@@ -102,11 +102,11 @@ public:
                                     SkPoint::Make(100.0f, 100.0f) };
         fShader0 = SkGradientShader::MakeLinear(points,
                                                   colors,
-                                                  NULL,
+                                                  nullptr,
                                                   3,
                                                   SkShader::kMirror_TileMode,
                                                   0,
-                                                  NULL);
+                                                  nullptr);
     }
 
 protected:
@@ -147,7 +147,7 @@ protected:
             { fTexX + texWidth, fTexY + texHeight},
             { fTexX - texWidth, fTexY + texHeight}}
         ;
-        
+
         SkScalar scaleFreq = 2.0;
         fShader1 = SkPerlinNoiseShader::MakeImprovedNoise(fXFreq/scaleFreq, fYFreq/scaleFreq, 4,
                                                              fSeed);

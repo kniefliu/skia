@@ -9,6 +9,7 @@
 #include "SkTypes.h"
 
 #if SK_SUPPORT_GPU
+#ifndef SK_DISABLE_DEFERRED_PROXIES
 #include "Test.h"
 
 #include "GrContextPriv.h"
@@ -53,8 +54,7 @@ static sk_sp<GrSurfaceProxy> make_backend(GrContext* context, const ProxyParams&
                                                                p.fConfig,
                                                                *backendTexHandle);
 
-    SkASSERT(kDefault_GrSurfaceOrigin != p.fOrigin);
-    sk_sp<GrSurface> tex = context->resourceProvider()->wrapBackendTexture(backendTex, p.fOrigin,
+    sk_sp<GrSurface> tex = context->resourceProvider()->wrapBackendTexture(backendTex,
                                                                            kBorrow_GrWrapOwnership);
     return GrSurfaceProxy::MakeWrapped(std::move(tex), p.fOrigin);
 }
@@ -169,9 +169,8 @@ DEF_GPUTEST_FOR_RENDERING_CONTEXTS(ResourceAllocatorTest, reporter, ctxInfo) {
         // Two non-overlapping intervals w/ different RT classifications should never share
         { { 64,    kRT, kRGBA, kA, 0, kTL }, { 64, kNotRT, kRGBA, kA, 0, kTL }, kDontShare },
         { { 64, kNotRT, kRGBA, kA, 0, kTL }, { 64,    kRT, kRGBA, kA, 0, kTL }, kDontShare },
-        // Two non-overlapping intervals w/ different origins should not share
-        // TODO: rm this test case
-        { { 64,    kRT, kRGBA, kA, 0, kTL }, { 64,    kRT, kRGBA, kA, 0, kBL }, kDontShare },
+        // Two non-overlapping intervals w/ different origins should share
+        { { 64,    kRT, kRGBA, kA, 0, kTL }, { 64,    kRT, kRGBA, kA, 0, kBL }, kShare },
     };
 
     for (auto test : gNonOverlappingTests) {
@@ -199,4 +198,5 @@ DEF_GPUTEST_FOR_RENDERING_CONTEXTS(ResourceAllocatorTest, reporter, ctxInfo) {
     }
 }
 
+#endif
 #endif
