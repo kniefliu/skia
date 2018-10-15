@@ -9,6 +9,12 @@
 #ifndef GrGLFunctions_DEFINED
 #define GrGLFunctions_DEFINED
 
+#if defined(_WIN32) && !defined(_WIN64)
+
+#include "GrGLFunctions_win32.h"
+
+#else
+
 #include "GrGLTypes.h"
 #include "../private/SkTLogic.h"
 
@@ -431,4 +437,5 @@ private:
     size_t fBuf[4];
 };
 
+#endif
 #endif

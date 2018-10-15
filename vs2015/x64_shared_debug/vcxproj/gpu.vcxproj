@@ -66,7 +66,6 @@
     <ClInclude Include="../../../include/gpu/GrShaderCaps.h" />
     <ClInclude Include="../../../include/gpu/GrSurface.h" />
     <ClInclude Include="../../../include/gpu/GrTexture.h" />
-    <ClInclude Include="../../../include/gpu/GrSamplerParams.h" />
     <ClInclude Include="../../../include/gpu/GrTypes.h" />
     <ClInclude Include="../../../include/gpu/gl/GrGLAssembleInterface.h" />
     <ClInclude Include="../../../include/gpu/gl/GrGLConfig.h" />
@@ -192,7 +191,6 @@
     <ClInclude Include="../../../src/gpu/ops/GrDashLinePathRenderer.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDashOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDefaultPathRenderer.h" />
-    <ClInclude Include="../../../src/gpu/ops/GrDiscardOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDebugMarkerOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDrawAtlasOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrDrawOp.h" />
@@ -213,7 +211,6 @@
     <ClInclude Include="../../../src/gpu/ops/GrStencilPathOp.h" />
     <ClInclude Include="../../../src/gpu/ops/GrTessellatingPathRenderer.h" />
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRAtlas.h" />
-    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.h" />
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCoverageProcessor.h" />
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCubicProcessor.h" />
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRPathProcessor.h" />
@@ -308,6 +305,12 @@
     <ClInclude Include="../../../src/gpu/SkGr.h" />
     <ClInclude Include="../../../src/image/SkImage_Gpu.h" />
     <ClInclude Include="../../../src/image/SkSurface_Gpu.h" />
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRCoverageOp.h" />
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.h" />
+    <ClInclude Include="..\..\..\src\gpu\effects\GrArithmeticFP.h" />
+    <ClInclude Include="..\..\..\src\gpu\ops\GrTextureOp.h" />
+    <ClInclude Include="..\..\..\src\sksl\SkSLLayoutLexer.h" />
+    <ClInclude Include="..\..\..\src\sksl\SkSLLexer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../src/gpu/GrAuditTrail.cpp" />
@@ -420,7 +423,6 @@
     <ClCompile Include="../../../src/gpu/ops/GrStencilPathOp.cpp" />
     <ClCompile Include="../../../src/gpu/ops/GrTessellatingPathRenderer.cpp" />
     <ClCompile Include="../../../src/gpu/ccpr/GrCCPRAtlas.cpp" />
-    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.cpp" />
     <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageProcessor.cpp" />
     <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCubicProcessor.cpp" />
     <ClCompile Include="../../../src/gpu/ccpr/GrCCPRPathProcessor.cpp" />
@@ -523,12 +525,18 @@
     <ClCompile Include="../../../src/sksl/SkSLSPIRVCodeGenerator.cpp" />
     <ClCompile Include="../../../src/sksl/SkSLString.cpp" />
     <ClCompile Include="../../../src/sksl/SkSLUtil.cpp" />
-    <ClCompile Include="../../../src/sksl/lex.layout.cpp" />
     <ClCompile Include="../../../src/sksl/ir/SkSLSymbolTable.cpp" />
     <ClCompile Include="../../../src/sksl/ir/SkSLSetting.cpp" />
     <ClCompile Include="../../../src/sksl/ir/SkSLType.cpp" />
     <ClCompile Include="../../../src/gpu/gl/GrGLDefaultInterface_native.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRCoverageOp.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\effects\GrArithmeticFP.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\gl\GrGLGpuCommandBuffer.cpp" />
     <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp" />
+    <ClCompile Include="..\..\..\src\gpu\ops\GrTextureOp.cpp" />
+    <ClCompile Include="..\..\..\src\sksl\SkSLLayoutLexer.cpp" />
+    <ClCompile Include="..\..\..\src\sksl\SkSLLexer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />

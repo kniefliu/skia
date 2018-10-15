@@ -1,34 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
-    <Filter Include="contrib\intel">
+    <Filter Include="intel">
       <UniqueIdentifier>{7E8AEBC7-F7CC-0734-E6E9-8C2C53ADA514}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="contrib">
-      <UniqueIdentifier>{89A43375-990C-64BB-F7F4-915DF45BB2FA}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="../../../../../third_party/libpng/png.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngerror.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngget.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngmem.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngpread.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngread.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngrio.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngrtran.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngrutil.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngset.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngtrans.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngwio.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngwrite.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngwtran.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/pngwutil.c"/>
-    <ClCompile Include="../../../../../third_party/libpng/contrib/intel/filter_sse2_intrinsics.c">
-      <Filter>contrib\intel</Filter>
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngerror.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngget.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngmem.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngpread.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngread.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngrio.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngrtran.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngrutil.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngset.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngtrans.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngwio.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngwrite.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngwtran.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/pngwutil.c" />
+    <ClCompile Include="../../../../../third_party/externals/libpng/intel/filter_sse2_intrinsics.c">
+      <Filter>intel</Filter>
     </ClCompile>
-    <ClCompile Include="../../../../../third_party/libpng/contrib/intel/intel_init.c">
-      <Filter>contrib\intel</Filter>
+    <ClCompile Include="../../../../../third_party/externals/libpng/intel/intel_init.c">
+      <Filter>intel</Filter>
     </ClCompile>
-</ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/libpng/png.c" />
+  </ItemGroup>
 </Project>

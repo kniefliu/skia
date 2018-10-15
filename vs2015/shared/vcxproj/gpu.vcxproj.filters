@@ -102,9 +102,6 @@
     <ClInclude Include="../../../include/gpu/GrTexture.h">
       <Filter>include\gpu</Filter>
     </ClInclude>
-    <ClInclude Include="../../../include/gpu/GrSamplerParams.h">
-      <Filter>include\gpu</Filter>
-    </ClInclude>
     <ClInclude Include="../../../include/gpu/GrTypes.h">
       <Filter>include\gpu</Filter>
     </ClInclude>
@@ -753,9 +750,6 @@
     <ClInclude Include="../../../src/gpu/ops/GrDefaultPathRenderer.h">
       <Filter>src\gpu\ops</Filter>
     </ClInclude>
-    <ClInclude Include="../../../src/gpu/ops/GrDiscardOp.h">
-      <Filter>src\gpu\ops</Filter>
-    </ClInclude>
     <ClInclude Include="../../../src/gpu/ops/GrDebugMarkerOp.h">
       <Filter>src\gpu\ops</Filter>
     </ClInclude>
@@ -871,12 +865,6 @@
       <Filter>src\gpu\ccpr</Filter>
     </ClCompile>
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRAtlas.h">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClInclude>
-    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.cpp">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.h">
       <Filter>src\gpu\ccpr</Filter>
     </ClInclude>
     <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageProcessor.cpp">
@@ -1467,9 +1455,6 @@
     <ClCompile Include="../../../src/sksl/SkSLUtil.cpp">
       <Filter>src\sksl</Filter>
     </ClCompile>
-    <ClCompile Include="../../../src/sksl/lex.layout.cpp">
-      <Filter>src\sksl</Filter>
-    </ClCompile>
     <ClCompile Include="../../../src/sksl/ir/SkSLSymbolTable.cpp">
       <Filter>src\sksl\ir</Filter>
     </ClCompile>
@@ -1482,10 +1467,49 @@
     <ClCompile Include="../../../src/gpu/gl/GrGLDefaultInterface_native.cpp">
       <Filter>src\gpu\gl</Filter>
     </ClCompile>
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRCoverageOp.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrArithmeticFP.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\ops\GrTextureOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\sksl\SkSLLayoutLexer.h">
+      <Filter>src\sksl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\sksl\SkSLLexer.h">
+      <Filter>src\sksl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp">
       <Filter>src\gpu\gl\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRCoverageOp.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrArithmeticFP.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\gl\GrGLGpuCommandBuffer.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ops\GrTextureOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sksl\SkSLLayoutLexer.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sksl\SkSLLexer.cpp">
+      <Filter>src\sksl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

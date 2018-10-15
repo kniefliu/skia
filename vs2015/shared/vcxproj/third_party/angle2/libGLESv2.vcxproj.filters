@@ -79,9 +79,6 @@
     <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\numerics">
       <UniqueIdentifier>{8296EAB6-BE53-E660-6525-F240633B04C4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\murmurhash">
-      <UniqueIdentifier>{CF6BA4D1-A421-25FA-9449-BD8D0388D372}</UniqueIdentifier>
-    </Filter>
     <Filter Include="..\..\third_party\externals\angle2\src\image_util">
       <UniqueIdentifier>{E640CE33-F896-55C7-F1B1-2026BC834875}</UniqueIdentifier>
     </Filter>
@@ -126,6 +123,12 @@
     </Filter>
     <Filter Include="..\..\third_party\externals\angle2\src\third_party\systeminfo">
       <UniqueIdentifier>{3B6DA84F-2F27-1D59-375A-ADB894FA9209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\smhasher">
+      <UniqueIdentifier>{ece9af01-4123-4671-9382-ee07a62c9975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\smhasher\src">
+      <UniqueIdentifier>{68d650d7-d9a2-4774-be29-b8d890762854}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -618,12 +621,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMaxParameters.cpp">
       <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
     </ClCompile>
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMultiviewWebGL.cpp">
-      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMultiviewWebGL.h">
-      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
-    </ClInclude>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateOutputs.cpp">
       <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
     </ClCompile>
@@ -1200,9 +1197,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceNVImpl.h">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceSyncImpl.h">
-      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
-    </ClInclude>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format_ID_autogen.inl">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
     </ClInclude>
@@ -1392,12 +1386,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/sys_byteorder.h">
       <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase</Filter>
     </ClInclude>
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/third_party/murmurhash/MurmurHash3.cpp">
-      <Filter>..\..\third_party\externals\angle2\src\common\third_party\murmurhash</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/murmurhash/MurmurHash3.h">
-      <Filter>..\..\third_party\externals\angle2\src\common\third_party\murmurhash</Filter>
-    </ClInclude>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/tls.cpp">
       <Filter>..\..\third_party\externals\angle2\src\common</Filter>
     </ClCompile>
@@ -1479,12 +1467,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.h">
       <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
     </ClInclude>
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.cpp">
-      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.h">
-      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
-    </ClInclude>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.cpp">
       <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
     </ClCompile>
@@ -1546,12 +1528,6 @@
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
     </ClCompile>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.h">
-      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
-    </ClInclude>
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.cpp">
-      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.h">
       <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
     </ClInclude>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.cpp">
@@ -2466,6 +2442,36 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/third_party/systeminfo/SystemInfo.h">
       <Filter>..\..\third_party\externals\angle2\src\third_party\systeminfo</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\common\third_party\smhasher\src\PMurHash.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\smhasher\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\common\uniform_type_info_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ExtensionBehavior.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveArrayLengthMethod.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ValidateVaryingLocations.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\ProgramPipeline.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\ProgramPipeline11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\ProgramPipelineGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
@@ -2476,6 +2482,35 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\common\third_party\smhasher\src\PMurHash.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\smhasher\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveArrayLengthMethod.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ValidateVaryingLocations.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\ProgramPipeline.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\ProgramPipelineImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\ProgramPipeline11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\ProgramPipelineGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">

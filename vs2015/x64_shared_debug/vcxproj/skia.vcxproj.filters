@@ -1914,12 +1914,22 @@
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp">
       <Filter>src\extension_dll\win</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkBlitter_RGB565.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkSpriteBlitter_RGB565.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h">
       <Filter>src\extension_dll\win</Filter>
     </ClInclude>
+    <ClInclude Include="../../../src/core/SkTDPQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
