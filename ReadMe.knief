@@ -11,6 +11,6 @@
 	Based on skia version dfcb14a34920244924eeb6ff874c10d7387246f5, the original submission
 	
 20180929
-	skia from https://skia.googlesource.com/skia.git 
-		version_hash(dfcb14a34920244924eeb6ff874c10d7387246f5)
-		branch_name(Branch_20170825-045247)
+	skia from https://skia.googlesource.com/skia.git chrome/m63
+		version_hash(dbae7001c9805fb0a4b18fd0cbc889941cb39db4)
+		branch_name(20171122-094003)
