@@ -2505,6 +2505,8 @@
     <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.h">
       <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
     </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">
