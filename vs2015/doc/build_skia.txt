@@ -72,9 +72,6 @@
 			source\opt\instruction.cpp instruction_opt.obj
 	gpu:
 		include dir : ../../../third_party/externals/angle2/include
-		lib directory: $(OutDir)
-		libs:
-			spirv-tools.lib libEGL.lib
 		source files:
 			remove GrAHardwareBufferImageGenerator.cpp
 	gpu_tool_utils:
@@ -94,14 +91,11 @@
 				In command line: ml64 /Fo "%(Filename)_x64_static_debug.obj" /c "..\..\..\src\jumper\SkJumper_generated_win.S"
 				description: build %(Filename).s file to %(Filename)_x64_static_debug.obj
 				Output: %(fileName)_x64_static_debug.obj
-		lib directory: $(OutDir)
-		libs:
-			avx.lib effects.lib gpu.lib jpeg.lib png.lib sse2.lib sse41.lib sse42.lib ssse3.lib webp.lib
 			
 	SampleApp:
 		lib directory: $(OutDir)
 		libs:
-			skia.lib views.lib views.lib gpu_tool_utils.lib pdf.lib xml.lib tool_utils.lib OpenGL32.lib
+			views.lib;gpu_tool_utils.lib;pdf.lib;experimental_svg_model.lib;xml.lib;expat.lib;tool_utils.lib;skia.lib;avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;spirv-tools.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;OpenGL32.lib;Usp10.lib;
 		source code:
 			tools/flags/SkCommonFlags.cpp
 			tools/flags/SkCommonFlagsConfig.cpp
@@ -109,7 +103,12 @@
 			copy samples project's items to SampleApp project; 
 			add include dir: ../../../experimental/svg/model
 			copy gm project's items to SampleApp project;
-			Macro: DEFAULT_TO_ANGLE			
+			Macro: DEFAULT_TO_ANGLE
+	viewer:
+		lib directory: $(OutDir)
+		libs:
+			imgui.lib;jsoncpp.lib;views.lib;gpu_tool_utils.lib;pdf.lib;experimental_svg_model.lib;xml.lib;expat.lib;tool_utils.lib;skia.lib;avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;spirv-tools.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;OpenGL32.lib;Usp10.lib;
+			
 	for debug : all project's need to adjust by yourself
 	
 	kGPU_DeviceType -> Failed to setup 3D

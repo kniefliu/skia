@@ -1906,6 +1906,7 @@
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="../../../src/core/SkTDPQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">

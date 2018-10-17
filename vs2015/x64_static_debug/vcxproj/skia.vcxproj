@@ -51,10 +51,7 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
     </ClCompile>
     <Link />
-    <Lib>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/c/sk_types_priv.h" />
