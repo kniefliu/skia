@@ -2470,6 +2470,8 @@
   <ItemGroup>
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">

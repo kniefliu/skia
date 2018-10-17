@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="GN|x64">
-      <Configuration>GN</Configuration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -12,6 +12,7 @@
     <RootNamespace>libGLESv2</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
@@ -29,7 +30,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>../../../../../vs2015/x64_static_debug/</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)</TargetName>
     <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
     <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
@@ -45,12 +46,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>LIBANGLE_IMPLEMENTATION;LIBGLESV2_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;ANGLE_ENABLE_ESSL;ANGLE_ENABLE_GLSL;ANGLE_ENABLE_HLSL;ANGLE_ENABLE_OPENGL;EGL_EGLEXT_PROTOTYPES;GL_GLEXT_PROTOTYPES;ANGLE_ENABLE_D3D11;ANGLE_ENABLE_D3D9;GL_APICALL=;EGLAPI=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='GN|x64'">Disabled</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='GN|x64'">d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile Condition="'$(Configuration)|$(Platform)'=='GN|x64'">../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.def</ModuleDefinitionFile>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -558,7 +559,7 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/CodeGen.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/CollectVariables.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/Compiler.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='GN|x64'">$(IntDir)Compiler_translator.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)Compiler_translator.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ConstantUnion.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/DeclareAndInitBuiltinsForInstancedMultiview.cpp" />
@@ -713,7 +714,7 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/MemoryBuffer.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/angleutils.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/debug.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='GN|x64'">$(IntDir)debug_common.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)debug_common.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/mathutil.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/string_utils.cpp" />
