@@ -35,7 +35,7 @@ bool SkRBuffer::skipToAlign4() {
         return false;
     }
 }
-    
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void* SkWBuffer::skip(size_t size) {
@@ -45,7 +45,7 @@ void* SkWBuffer::skip(size_t size) {
 }
 
 void SkWBuffer::writeNoSizeCheck(const void* buffer, size_t size) {
-    SkASSERT(fData == 0 || fStop == 0 || fPos + size <= fStop);
+    SkASSERT(fData == nullptr || fStop == nullptr || fPos + size <= fStop);
     if (fData && buffer)
         memcpy(fPos, buffer, size);
     fPos += size;

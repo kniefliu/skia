@@ -398,21 +398,6 @@ Error ValidateGetPlatformDisplayCommon(EGLenum platform,
                     }
                     break;
 
-                case EGL_DISPLAY_ROBUST_RESOURCE_INITIALIZATION_ANGLE:
-                    if (!clientExtensions.displayRobustResourceInitialization)
-                    {
-                        return EglBadAttribute()
-                               << "Attribute EGL_DISPLAY_ROBUST_RESOURCE_INITIALIZATION_ANGLE "
-                                  "requires EGL_ANGLE_display_robust_resource_initialization.";
-                    }
-                    if (value != EGL_TRUE && value != EGL_FALSE)
-                    {
-                        return EglBadAttribute() << "EGL_DISPLAY_ROBUST_RESOURCE_"
-                                                    "INITIALIZATION_ANGLE must be either "
-                                                    "EGL_TRUE or EGL_FALSE.";
-                    }
-                    break;
-
                 default:
                     break;
             }
@@ -620,9 +605,9 @@ Error ValidateCreateContext(Display *display, Config *configuration, gl::Context
             break;
 
           case EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR:
-            static_assert(EGL_LOSE_CONTEXT_ON_RESET_EXT == EGL_LOSE_CONTEXT_ON_RESET_KHR, "EGL extension enums not equal.");
-            static_assert(EGL_NO_RESET_NOTIFICATION_EXT == EGL_NO_RESET_NOTIFICATION_KHR, "EGL extension enums not equal.");
-            // same as EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_EXT, fall through
+            return EglBadAttribute() << "EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR is not"
+                                     << " valid for GLES with EGL 1.4 and KHR_create_context. Use"
+                                     << " EXT_create_context_robustness.";
           case EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_EXT:
             if (!display->getExtensions().createContextRobustness)
             {
@@ -723,6 +708,19 @@ Error ValidateCreateContext(Display *display, Config *configuration, gl::Context
               {
                   return EglBadAttribute() << "EGL_CONTEXT_PROGRAM_BINARY_CACHE_ENABLED_ANGLE must "
                                               "be EGL_TRUE or EGL_FALSE.";
+              }
+              break;
+
+          case EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE:
+              if (!display->getExtensions().robustResourceInitialization)
+              {
+                  return EglBadAttribute() << "Attribute EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE "
+                                              "requires EGL_ANGLE_robust_resource_initialization.";
+              }
+              if (value != EGL_TRUE && value != EGL_FALSE)
+              {
+                  return EglBadAttribute() << "EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE must be "
+                                              "either EGL_TRUE or EGL_FALSE.";
               }
               break;
 
@@ -875,6 +873,19 @@ Error ValidateCreateWindowSurface(Display *display, Config *config, EGLNativeWin
               }
               break;
 
+          case EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE:
+              if (!display->getExtensions().robustResourceInitialization)
+              {
+                  return EglBadAttribute() << "Attribute EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE "
+                                              "requires EGL_ANGLE_robust_resource_initialization.";
+              }
+              if (value != EGL_TRUE && value != EGL_FALSE)
+              {
+                  return EglBadAttribute() << "EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE must be "
+                                              "either EGL_TRUE or EGL_FALSE.";
+              }
+              break;
+
           default:
               return EglBadAttribute();
         }
@@ -950,6 +961,19 @@ Error ValidateCreatePbufferSurface(Display *display, Config *config, const Attri
                   return EglBadAttribute()
                          << "EGL_FLEXIBLE_SURFACE_COMPATIBILITY_SUPPORTED_ANGLE cannot be used "
                             "without EGL_ANGLE_flexible_surface_compatibility support.";
+              }
+              break;
+
+          case EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE:
+              if (!display->getExtensions().robustResourceInitialization)
+              {
+                  return EglBadAttribute() << "Attribute EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE "
+                                              "requires EGL_ANGLE_robust_resource_initialization.";
+              }
+              if (value != EGL_TRUE && value != EGL_FALSE)
+              {
+                  return EglBadAttribute() << "EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE must be "
+                                              "either EGL_TRUE or EGL_FALSE.";
               }
               break;
 
@@ -2426,8 +2450,49 @@ Error ValidateQuerySurface(const Display *display,
             }
             break;
 
+        case EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE:
+            if (!display->getExtensions().robustResourceInitialization)
+            {
+                return EglBadAttribute() << "EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE cannot be "
+                                            "used without EGL_ANGLE_robust_resource_initialization "
+                                            "support.";
+            }
+            break;
+
         default:
             return EglBadAttribute() << "Invalid surface attribute.";
+    }
+
+    return NoError();
+}
+
+Error ValidateQueryContext(const Display *display,
+                           const gl::Context *context,
+                           EGLint attribute,
+                           EGLint *value)
+{
+    ANGLE_TRY(ValidateDisplay(display));
+    ANGLE_TRY(ValidateContext(display, context));
+
+    switch (attribute)
+    {
+        case EGL_CONFIG_ID:
+        case EGL_CONTEXT_CLIENT_TYPE:
+        case EGL_CONTEXT_CLIENT_VERSION:
+        case EGL_RENDER_BUFFER:
+            break;
+
+        case EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE:
+            if (!display->getExtensions().robustResourceInitialization)
+            {
+                return EglBadAttribute() << "EGL_ROBUST_RESOURCE_INITIALIZATION_ANGLE cannot be "
+                                            "used without EGL_ANGLE_robust_resource_initialization "
+                                            "support.";
+            }
+            break;
+
+        default:
+            return EglBadAttribute() << "Invalid context attribute.";
     }
 
     return NoError();

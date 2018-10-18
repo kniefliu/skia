@@ -96,6 +96,16 @@ mailing address.
 // Get a 16-bit value stored in little-endian format.
 #define GETINT16(p)   ((p)[1]<<8|(p)[0])
 
+namespace {
+    bool is_palette_index_valid(int transparentIndex) {
+        // -1 is a signal that there is no transparent index.
+        // Otherwise, it is encoded in 8 bits, and all 256 values are considered
+        // valid since a GIF may use an index outside of the palette to be
+        // transparent.
+        return transparentIndex >= 0;
+    }
+} // anonymous namespace
+
 // Send the data to the display front-end.
 void SkGIFLZWContext::outputRow(const unsigned char* rowBegin)
 {
@@ -344,7 +354,7 @@ sk_sp<SkColorTable> SkGIFColorMap::buildTable(SkStreamBuffer* streamBuffer, SkCo
 }
 
 sk_sp<SkColorTable> SkGifImageReader::getColorTable(SkColorType colorType, int index) {
-    if (index < 0 || static_cast<size_t>(index) >= m_frames.size()) {
+    if (index < 0 || index >= m_frames.count()) {
         return nullptr;
     }
 
@@ -382,8 +392,7 @@ bool SkGIFFrameContext::decode(SkStreamBuffer* streamBuffer, SkGifCodec* client,
     }
 
     // Some bad GIFs have extra blocks beyond the last row, which we don't want to decode.
-    while (static_cast<size_t>(m_currentLzwBlock) < m_lzwBlocks.size()
-           && m_lzwContext->hasRemainingRows()) {
+    while (m_currentLzwBlock < m_lzwBlocks.count() && m_lzwContext->hasRemainingRows()) {
         const auto& block = m_lzwBlocks[m_currentLzwBlock];
         const size_t len = block.blockSize;
 
@@ -430,7 +439,7 @@ SkCodec::Result SkGifImageReader::parse(SkGifImageReader::SkGIFParseQuery query)
 
     // SkGIFSizeQuery and SkGIFFrameCountQuery are negative, so this is only meaningful when >= 0.
     const int lastFrameToParse = (int) query;
-    if (lastFrameToParse >= 0 && (int) m_frames.size() > lastFrameToParse
+    if (lastFrameToParse >= 0 && m_frames.count() > lastFrameToParse
                 && m_frames[lastFrameToParse]->isComplete()) {
         // We have already parsed this frame.
         return SkCodec::kSuccess;
@@ -753,9 +762,7 @@ SkCodec::Result SkGifImageReader::parse(SkGifImageReader::SkGIFParseQuery query)
             if (currentFrameIsFirstFrame()) {
                 const int transPix = m_frames.empty() ? SkGIFColorMap::kNotFound
                                                       : m_frames[0]->transparentPixel();
-                if (this->hasTransparency(transPix,
-                        isLocalColormapDefined, numColors))
-                {
+                if (is_palette_index_valid(transPix)) {
                     m_firstFrameHasAlpha = true;
                 } else {
                     const bool frameIsSubset = xOffset > 0 || yOffset > 0
@@ -823,7 +830,7 @@ SkCodec::Result SkGifImageReader::parse(SkGifImageReader::SkGIFParseQuery query)
                 // decode all rows but we treat it as frame complete.
                 m_frames.back()->setComplete();
                 GETN(1, SkGIFImageStart);
-                if (lastFrameToParse >= 0 && (int) m_frames.size() > lastFrameToParse) {
+                if (lastFrameToParse >= 0 && m_frames.count() > lastFrameToParse) {
                     m_streamBuffer.flush();
                     return SkCodec::kSuccess;
                 }
@@ -847,36 +854,11 @@ SkCodec::Result SkGifImageReader::parse(SkGifImageReader::SkGIFParseQuery query)
     }
 }
 
-bool SkGifImageReader::hasTransparency(int transparentPixel, bool isLocalColormapDefined,
-                                       int localColors) const {
-    const int globalColors = m_globalColorMap.numColors();
-    if (!isLocalColormapDefined && globalColors == 0) {
-        // No color table for this frame, so it is completely transparent.
-        return true;
-    }
-
-    if (transparentPixel < 0) {
-        SkASSERT(SkGIFColorMap::kNotFound == transparentPixel);
-        return false;
-    }
-
-    if (isLocalColormapDefined) {
-        return transparentPixel < localColors;
-    }
-
-    // If there is a global color table, it will be parsed before reaching
-    // here. If its numColors is set, it will be defined.
-    SkASSERT(globalColors > 0);
-    SkASSERT(m_globalColorMap.isDefined());
-    return transparentPixel < globalColors;
-}
-
 void SkGifImageReader::addFrameIfNecessary()
 {
     if (m_frames.empty() || m_frames.back()->isComplete()) {
-        const size_t i = m_frames.size();
-        std::unique_ptr<SkGIFFrameContext> frame(new SkGIFFrameContext(this, static_cast<int>(i)));
-        m_frames.push_back(std::move(frame));
+        const int i = m_frames.count();
+        m_frames.emplace_back(new SkGIFFrameContext(i));
     }
 }
 
@@ -901,8 +883,7 @@ bool SkGIFFrameContext::onReportsAlpha() const {
     // Note: We could correct these after decoding - i.e. some frames may turn out to be
     // independent and opaque if they do not use the transparent pixel, but that would require
     // checking whether each pixel used the transparent index.
-    return m_owner->hasTransparency(this->transparentPixel(),
-            m_localColorMap.isDefined(), m_localColorMap.numColors());
+    return is_palette_index_valid(this->transparentPixel());
 }
 
 void SkFrameHolder::setAlphaAndRequiredFrame(SkFrame* frame) {

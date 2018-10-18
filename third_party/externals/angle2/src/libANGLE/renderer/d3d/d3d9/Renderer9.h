@@ -67,7 +67,7 @@ class Renderer9 : public RendererD3D
 {
   public:
     explicit Renderer9(egl::Display *display);
-    virtual ~Renderer9();
+    ~Renderer9() override;
 
     egl::Error initialize() override;
     bool resetDevice() override;
@@ -129,10 +129,6 @@ class Renderer9 : public RendererD3D
                          int index,
                          gl::Texture *texture);
 
-    gl::Error setUniformBuffers(const gl::ContextState &data,
-                                const std::vector<GLint> &vertexUniformBuffers,
-                                const std::vector<GLint> &fragmentUniformBuffers) override;
-
     gl::Error updateState(const gl::Context *context, GLenum drawMode);
 
     void setScissorRectangle(const gl::Rectangle &scissor, bool enabled);
@@ -147,24 +143,20 @@ class Renderer9 : public RendererD3D
     gl::Error applyRenderTarget(const gl::Context *context,
                                 const gl::FramebufferAttachment *colorAttachment,
                                 const gl::FramebufferAttachment *depthStencilAttachment);
-    gl::Error applyUniforms(const ProgramD3D &programD3D,
-                            GLenum drawMode,
-                            const std::vector<D3DUniform *> &uniformArray) override;
+    gl::Error applyUniforms(ProgramD3D *programD3D);
     bool applyPrimitiveType(GLenum primitiveType, GLsizei elementCount, bool usesPointSize);
-    gl::Error applyVertexBuffer(const gl::State &state,
+    gl::Error applyVertexBuffer(const gl::Context *context,
                                 GLenum mode,
                                 GLint first,
                                 GLsizei count,
                                 GLsizei instances,
                                 TranslatedIndexData *indexInfo);
-    gl::Error applyIndexBuffer(const gl::ContextState &data,
+    gl::Error applyIndexBuffer(const gl::Context *context,
                                const void *indices,
                                GLsizei count,
                                GLenum mode,
                                GLenum type,
                                TranslatedIndexData *indexInfo);
-
-    gl::Error applyTransformFeedbackBuffers(const gl::State &state);
 
     gl::Error clear(const gl::Context *context,
                     const ClearParameters &clearParams,
@@ -175,7 +167,7 @@ class Renderer9 : public RendererD3D
 
     // lost device
     bool testDeviceLost() override;
-    bool testDeviceResettable();
+    bool testDeviceResettable() override;
 
     VendorID getVendorId() const;
     std::string getRendererDescription() const;
@@ -186,8 +178,6 @@ class Renderer9 : public RendererD3D
 
     unsigned int getReservedVertexUniformVectors() const;
     unsigned int getReservedFragmentUniformVectors() const;
-    unsigned int getReservedVertexUniformBuffers() const override;
-    unsigned int getReservedFragmentUniformBuffers() const override;
 
     bool getShareHandleSupport() const;
 
@@ -257,13 +247,13 @@ class Renderer9 : public RendererD3D
     // Shader operations
     gl::Error loadExecutable(const uint8_t *function,
                              size_t length,
-                             ShaderType type,
+                             gl::ShaderType type,
                              const std::vector<D3DVarying> &streamOutVaryings,
                              bool separatedOutputBuffers,
                              ShaderExecutableD3D **outExecutable) override;
     gl::Error compileToExecutable(gl::InfoLog &infoLog,
                                   const std::string &shaderHLSL,
-                                  ShaderType type,
+                                  gl::ShaderType type,
                                   const std::vector<D3DVarying> &streamOutVaryings,
                                   bool separatedOutputBuffers,
                                   const angle::CompilerWorkaroundsD3D &workarounds,
@@ -321,7 +311,7 @@ class Renderer9 : public RendererD3D
                                                       GLsizei height,
                                                       int levels,
                                                       int samples,
-                                                      GLboolean fixedSampleLocations) override;
+                                                      bool fixedSampleLocations) override;
 
     // Buffer creation
     VertexBuffer *createVertexBuffer() override;
@@ -363,7 +353,7 @@ class Renderer9 : public RendererD3D
                                  IDirect3DSurface9 *source,
                                  bool fromManaged);
 
-    RendererClass getRendererClass() const override { return RENDERER_D3D9; }
+    RendererClass getRendererClass() const override;
 
     D3DDEVTYPE getD3D9DeviceType() const { return mDeviceType; }
 
@@ -391,16 +381,15 @@ class Renderer9 : public RendererD3D
 
     gl::Version getMaxSupportedESVersion() const override;
 
-    gl::Error applyComputeUniforms(const ProgramD3D &programD3D,
-                                   const std::vector<D3DUniform *> &uniformArray) override;
-
     gl::Error clearRenderTarget(RenderTargetD3D *renderTarget,
                                 const gl::ColorF &clearColorValue,
                                 const float clearDepthValue,
                                 const unsigned int clearStencilValue) override;
 
+    bool canSelectViewInVertexShader() const override;
+
   private:
-    gl::Error drawArraysImpl(const gl::ContextState &data,
+    gl::Error drawArraysImpl(const gl::Context *context,
                              GLenum mode,
                              GLint startVertex,
                              GLsizei count,
@@ -415,10 +404,7 @@ class Renderer9 : public RendererD3D
     gl::Error applyShaders(const gl::Context *context, GLenum drawMode);
 
     gl::Error applyTextures(const gl::Context *context);
-    gl::Error applyTextures(const gl::Context *context,
-                            gl::SamplerType shaderType,
-                            const FramebufferTextureArray &framebufferTextures,
-                            size_t framebufferTextureCount);
+    gl::Error applyTextures(const gl::Context *context, gl::SamplerType shaderType);
 
     void generateCaps(gl::Caps *outCaps,
                       gl::TextureCapsMap *outTextureCaps,
@@ -435,12 +421,14 @@ class Renderer9 : public RendererD3D
     void applyUniformniv(const D3DUniform *targetUniform, const GLint *v);
     void applyUniformnbv(const D3DUniform *targetUniform, const GLint *v);
 
-    gl::Error drawLineLoop(GLsizei count,
+    gl::Error drawLineLoop(const gl::Context *context,
+                           GLsizei count,
                            GLenum type,
                            const void *indices,
                            int minIndex,
                            gl::Buffer *elementArrayBuffer);
-    gl::Error drawIndexedPoints(GLsizei count,
+    gl::Error drawIndexedPoints(const gl::Context *context,
+                                GLsizei count,
                                 GLenum type,
                                 const void *indices,
                                 int minIndex,

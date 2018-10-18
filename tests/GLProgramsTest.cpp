@@ -78,7 +78,7 @@ public:
     std::unique_ptr<GrFragmentProcessor> clone() const override { return Make(); }
 
 private:
-    BigKeyProcessor() : INHERITED(kNone_OptimizationFlags) { this->initClassID<BigKeyProcessor>(); }
+    BigKeyProcessor() : INHERITED(kBigKeyProcessor_ClassID, kNone_OptimizationFlags) { }
     virtual void onGetGLSLProcessorKey(const GrShaderCaps& caps,
                                        GrProcessorKeyBuilder* b) const override {
         GLBigKeyProcessor::GenKey(*this, caps, b);
@@ -126,8 +126,7 @@ private:
     };
 
     BlockInputFragmentProcessor(std::unique_ptr<GrFragmentProcessor> child)
-            : INHERITED(kNone_OptimizationFlags) {
-        this->initClassID<BlockInputFragmentProcessor>();
+            : INHERITED(kBlockInputFragmentProcessor_ClassID, kNone_OptimizationFlags) {
         this->registerChildProcessor(std::move(child));
     }
 
@@ -160,6 +159,7 @@ static sk_sp<GrRenderTargetContext> random_render_target_context(GrContext* cont
                                                                            kRGBA_8888_GrPixelConfig,
                                                                            nullptr,
                                                                            sampleCnt,
+                                                                           GrMipMapped::kNo,
                                                                            origin));
     return renderTargetContext;
 }
@@ -394,17 +394,11 @@ static void test_glprograms(skiatest::Reporter* reporter, const sk_gpu_test::Con
         return;
     }
 
-    // Disable this test on ANGLE D3D9 configurations. We keep hitting a D3D compiler bug.
-    // See skbug.com/6842 and anglebug.com/2098
-    if (sk_gpu_test::GrContextFactory::kANGLE_D3D9_ES2_ContextType == ctxInfo.type()) {
-        return;
-    }
-
     REPORTER_ASSERT(reporter, GrDrawingManager::ProgramUnitTest(ctxInfo.grContext(), maxStages,
                                                                 maxLevels));
 }
 
-DEF_GPUTEST(GLPrograms, reporter, /*factory*/) {
+DEF_GPUTEST(GLPrograms, reporter, options) {
     // Set a locale that would cause shader compilation to fail because of , as decimal separator.
     // skbug 3330
 #ifdef SK_BUILD_FOR_WIN
@@ -414,11 +408,11 @@ DEF_GPUTEST(GLPrograms, reporter, /*factory*/) {
 #endif
 
     // We suppress prints to avoid spew
-    GrContextOptions opts;
+    GrContextOptions opts = options;
     opts.fSuppressPrints = true;
     sk_gpu_test::GrContextFactory debugFactory(opts);
     skiatest::RunWithGPUTestContexts(test_glprograms, &skiatest::IsRenderingGLContextType, reporter,
-                                     &debugFactory);
+                                     opts);
 }
 
 #endif

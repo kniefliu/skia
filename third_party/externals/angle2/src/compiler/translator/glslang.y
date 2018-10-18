@@ -86,6 +86,7 @@ using namespace sh;
             TIntermCase *intermCase;
         };
         union {
+            TVector<unsigned int> *arraySizes;
             TTypeSpecifierNonArray typeSpecifierNonArray;
             TPublicType type;
             TPrecision precision;
@@ -146,7 +147,7 @@ extern void yyerror(YYLTYPE* yylloc, TParseContext* context, void *scanner, cons
 }
 
 #define ES3_OR_NEWER_OR_MULTIVIEW(TOKEN, LINE, REASON) {  \
-    if (context->getShaderVersion() < 300 && !context->isMultiviewExtensionEnabled()) {  \
+    if (context->getShaderVersion() < 300 && !context->isExtensionEnabled(TExtension::OVR_multiview)) {  \
         context->error(LINE, REASON " supported in GLSL ES 3.00 and above only", TOKEN);  \
     }  \
 }
@@ -205,7 +206,7 @@ extern void yyerror(YYLTYPE* yylloc, TParseContext* context, void *scanner, cons
 %type <interm.intermNode> condition conditionopt
 %type <interm.intermBlock> translation_unit
 %type <interm.intermNode> function_definition statement simple_statement
-%type <interm.intermBlock> statement_list compound_statement compound_statement_no_new_scope
+%type <interm.intermBlock> statement_list compound_statement_with_scope compound_statement_no_new_scope
 %type <interm.intermNode> declaration_statement selection_statement expression_statement
 %type <interm.intermNode> declaration external_declaration
 %type <interm.intermNode> for_init_statement
@@ -217,6 +218,9 @@ extern void yyerror(YYLTYPE* yylloc, TParseContext* context, void *scanner, cons
 
 %type <interm.param> parameter_declaration parameter_declarator parameter_type_specifier
 %type <interm.layoutQualifier> layout_qualifier_id_list layout_qualifier_id
+
+// Note: array_specifier guaranteed to be non-null.
+%type <interm.arraySizes> array_specifier
 
 %type <interm.type> fully_specified_type type_specifier
 
@@ -279,7 +283,8 @@ primary_expression
         $$ = context->addScalarLiteral(unionArray, @1);
     }
     | YUVCSCSTANDARDEXTCONSTANT {
-        if (!context->isExtensionEnabled("GL_EXT_YUV_target")) {
+        if (!context->checkCanUseExtension(@1, TExtension::EXT_YUV_target))
+        {
            context->error(@1, "unsupported value", $1.string->c_str());
         }
         TConstantUnion *unionArray = new TConstantUnion[1];
@@ -681,8 +686,8 @@ parameter_declarator
     : type_specifier identifier {
         $$ = context->parseParameterDeclarator($1, $2.string, @2);
     }
-    | type_specifier identifier LEFT_BRACKET constant_expression RIGHT_BRACKET {
-        $$ = context->parseParameterArrayDeclarator($2.string, @2, $4, @3, &$1);
+    | type_specifier identifier array_specifier {
+        $$ = context->parseParameterArrayDeclarator($2.string, @2, *($3), @3, &$1);
     }
     ;
 
@@ -720,19 +725,14 @@ init_declarator_list
         $$ = $1;
         context->parseDeclarator($$.type, @3, *$3.string, $$.intermDeclaration);
     }
-    | init_declarator_list COMMA identifier LEFT_BRACKET constant_expression RIGHT_BRACKET {
+    | init_declarator_list COMMA identifier array_specifier {
         $$ = $1;
-        context->parseArrayDeclarator($$.type, @3, *$3.string, @4, $5, $$.intermDeclaration);
+        context->parseArrayDeclarator($$.type, @3, *$3.string, @4, *($4), $$.intermDeclaration);
     }
-    | init_declarator_list COMMA identifier LEFT_BRACKET RIGHT_BRACKET EQUAL initializer {
-        ES3_OR_NEWER("[]", @3, "implicitly sized array");
+    | init_declarator_list COMMA identifier array_specifier EQUAL initializer {
+        ES3_OR_NEWER("=", @5, "first-class arrays (array initializer)");
         $$ = $1;
-        context->parseArrayInitDeclarator($$.type, @3, *$3.string, @4, nullptr, @6, $7, $$.intermDeclaration);
-    }
-    | init_declarator_list COMMA identifier LEFT_BRACKET constant_expression RIGHT_BRACKET EQUAL initializer {
-        ES3_OR_NEWER("=", @7, "first-class arrays (array initializer)");
-        $$ = $1;
-        context->parseArrayInitDeclarator($$.type, @3, *$3.string, @4, $5, @7, $8, $$.intermDeclaration);
+        context->parseArrayInitDeclarator($$.type, @3, *$3.string, @4, *($4), @5, $6, $$.intermDeclaration);
     }
     | init_declarator_list COMMA identifier EQUAL initializer {
         $$ = $1;
@@ -749,19 +749,14 @@ single_declaration
         $$.type = $1;
         $$.intermDeclaration = context->parseSingleDeclaration($$.type, @2, *$2.string);
     }
-    | fully_specified_type identifier LEFT_BRACKET constant_expression RIGHT_BRACKET {
+    | fully_specified_type identifier array_specifier {
         $$.type = $1;
-        $$.intermDeclaration = context->parseSingleArrayDeclaration($$.type, @2, *$2.string, @3, $4);
+        $$.intermDeclaration = context->parseSingleArrayDeclaration($$.type, @2, *$2.string, @3, *($3));
     }
-    | fully_specified_type identifier LEFT_BRACKET RIGHT_BRACKET EQUAL initializer {
-        ES3_OR_NEWER("[]", @3, "implicitly sized array");
+    | fully_specified_type identifier array_specifier EQUAL initializer {
+        ES3_OR_NEWER("[]", @3, "first-class arrays (array initializer)");
         $$.type = $1;
-        $$.intermDeclaration = context->parseSingleArrayInitDeclaration($$.type, @2, *$2.string, @3, nullptr, @5, $6);
-    }
-    | fully_specified_type identifier LEFT_BRACKET constant_expression RIGHT_BRACKET EQUAL initializer {
-        ES3_OR_NEWER("=", @6, "first-class arrays (array initializer)");
-        $$.type = $1;
-        $$.intermDeclaration = context->parseSingleArrayInitDeclaration($$.type, @2, *$2.string, @3, $4, @6, $7);
+        $$.intermDeclaration = context->parseSingleArrayInitDeclaration($$.type, @2, *$2.string, @3, *($3), @4, $5);
     }
     | fully_specified_type identifier EQUAL initializer {
         $$.type = $1;
@@ -936,15 +931,37 @@ type_specifier_no_prec
     : type_specifier_nonarray {
         $$.initialize($1, (context->symbolTable.atGlobalLevel() ? EvqGlobal : EvqTemporary));
     }
-    | type_specifier_nonarray LEFT_BRACKET RIGHT_BRACKET {
-        ES3_OR_NEWER("[]", @2, "implicitly sized array");
+    | type_specifier_nonarray array_specifier {
         $$.initialize($1, (context->symbolTable.atGlobalLevel() ? EvqGlobal : EvqTemporary));
-        $$.setArraySize(0);
+        $$.setArraySizes($2);
     }
-    | type_specifier_nonarray LEFT_BRACKET constant_expression RIGHT_BRACKET {
-        $$.initialize($1, (context->symbolTable.atGlobalLevel() ? EvqGlobal : EvqTemporary));
+    ;
+
+array_specifier
+    : LEFT_BRACKET RIGHT_BRACKET {
+        ES3_OR_NEWER("[]", @1, "implicitly sized array");
+        $$ = new TVector<unsigned int>();
+        $$->push_back(0u);
+    }
+    | LEFT_BRACKET constant_expression RIGHT_BRACKET {
+        $$ = new TVector<unsigned int>();
+        unsigned int size = context->checkIsValidArraySize(@1, $2);
+        // Make the type an array even if size check failed.
+        // This ensures useless error messages regarding a variable's non-arrayness won't follow.
+        $$->push_back(size);
+    }
+    | array_specifier LEFT_BRACKET RIGHT_BRACKET {
+        ES3_1_ONLY("[]", @2, "arrays of arrays");
+        $$ = $1;
+        $$->insert($$->begin(), 0u);
+    }
+    | array_specifier LEFT_BRACKET constant_expression RIGHT_BRACKET {
+        ES3_1_ONLY("[]", @2, "arrays of arrays");
+        $$ = $1;
         unsigned int size = context->checkIsValidArraySize(@2, $3);
-        $$.setArraySize(size);
+        // Make the type an array even if size check failed.
+        // This ensures useless error messages regarding a variable's non-arrayness won't follow.
+        $$->insert($$->begin(), size);
     }
     ;
 
@@ -1049,7 +1066,8 @@ type_specifier_nonarray
         $$.setMatrix(4, 3);
     }
     | YUVCSCSTANDARDEXT {
-        if (!context->isExtensionEnabled("GL_EXT_YUV_target")) {
+        if (!context->checkCanUseExtension(@1, TExtension::EXT_YUV_target))
+        {
             context->error(@1, "unsupported type", "yuvCscStandardEXT");
         }
         $$.initialize(EbtYuvCscStandardEXT, @1);
@@ -1109,20 +1127,25 @@ type_specifier_nonarray
         $$.initialize(EbtSampler2DArrayShadow, @1);
     }
     | SAMPLER_EXTERNAL_OES {
-        if (!context->supportsExtension("GL_OES_EGL_image_external") &&
-            !context->supportsExtension("GL_NV_EGL_stream_consumer_external")) {
+        constexpr std::array<TExtension, 3u> extensions{ { TExtension::NV_EGL_stream_consumer_external,
+                                                           TExtension::OES_EGL_image_external_essl3,
+                                                           TExtension::OES_EGL_image_external } };
+        if (!context->checkCanUseOneOfExtensions(@1, extensions))
+        {
             context->error(@1, "unsupported type", "samplerExternalOES");
         }
         $$.initialize(EbtSamplerExternalOES, @1);
     }
     | SAMPLEREXTERNAL2DY2YEXT {
-        if (!context->isExtensionEnabled("GL_EXT_YUV_target")) {
+        if (!context->checkCanUseExtension(@1, TExtension::EXT_YUV_target))
+        {
             context->error(@1, "unsupported type", "__samplerExternal2DY2YEXT");
         }
         $$.initialize(EbtSamplerExternal2DY2YEXT, @1);
     }
     | SAMPLER2DRECT {
-        if (!context->supportsExtension("GL_ARB_texture_rectangle")) {
+        if (!context->checkCanUseExtension(@1, TExtension::ARB_texture_rectangle))
+        {
             context->error(@1, "unsupported type", "sampler2DRect");
         }
         $$.initialize(EbtSampler2DRect, @1);
@@ -1187,7 +1210,7 @@ struct_specifier
 
 struct_declaration_list
     : struct_declaration {
-        $$ = $1;
+        $$ = context->addStructFieldList($1, @1);
     }
     | struct_declaration_list struct_declaration {
         $$ = context->combineStructFieldLists($1, $2, @2);
@@ -1218,8 +1241,8 @@ struct_declarator
     : identifier {
         $$ = context->parseStructDeclarator($1.string, @1);
     }
-    | identifier LEFT_BRACKET constant_expression RIGHT_BRACKET {
-        $$ = context->parseStructArrayDeclarator($1.string, @1, $3, @3);
+    | identifier array_specifier {
+        $$ = context->parseStructArrayDeclarator($1.string, @1, *($2), @2);
     }
     ;
 
@@ -1232,8 +1255,8 @@ declaration_statement
     ;
 
 statement
-    : compound_statement  { $$ = $1; }
-    | simple_statement    { $$ = $1; }
+    : compound_statement_with_scope { $$ = $1; }
+    | simple_statement              { $$ = $1; }
     ;
 
 // Grammar Note:  Labeled statements for SWITCH only; 'goto' is not supported.
@@ -1248,8 +1271,11 @@ simple_statement
     | jump_statement        { $$ = $1; }
     ;
 
-compound_statement
-    : LEFT_BRACE RIGHT_BRACE { $$ = 0; }
+compound_statement_with_scope
+    : LEFT_BRACE RIGHT_BRACE {
+        $$ = new TIntermBlock();
+        $$->setLine(@$);
+    }
     | LEFT_BRACE { context->symbolTable.push(); } statement_list { context->symbolTable.pop(); } RIGHT_BRACE {
         $3->setLine(@$);
         $$ = $3;
@@ -1267,9 +1293,10 @@ statement_with_scope
     ;
 
 compound_statement_no_new_scope
-    // Statement that doesn't create a new scope, for selection_statement, iteration_statement
+    // Statement that doesn't create a new scope for iteration_statement, function definition (scope is created for parameters)
     : LEFT_BRACE RIGHT_BRACE {
-        $$ = nullptr;
+        $$ = new TIntermBlock();
+        $$->setLine(@$);
     }
     | LEFT_BRACE statement_list RIGHT_BRACE {
         $2->setLine(@$);
@@ -1289,7 +1316,7 @@ statement_list
     ;
 
 expression_statement
-    : SEMICOLON  { $$ = 0; }
+    : SEMICOLON  { $$ = context->addEmptyStatement(@$); }
     | expression SEMICOLON  { $$ = $1; }
     ;
 
@@ -1310,8 +1337,10 @@ selection_rest_statement
     }
     ;
 
+// Note that we've diverged from the spec grammar here a bit for the sake of simplicity.
+// We're reusing compound_statement_with_scope instead of having separate rules for switch.
 switch_statement
-    : SWITCH LEFT_PAREN expression RIGHT_PAREN { context->incrSwitchNestingLevel(); } compound_statement {
+    : SWITCH LEFT_PAREN expression RIGHT_PAREN { context->incrSwitchNestingLevel(); } compound_statement_with_scope {
         $$ = context->addSwitch($3, $6, @1);
         context->decrSwitchNestingLevel();
     }

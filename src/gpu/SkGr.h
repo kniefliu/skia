@@ -10,22 +10,22 @@
 
 #include "GrBlend.h"
 #include "GrColor.h"
-#include "GrSamplerParams.h"
+#include "GrSamplerState.h"
 #include "GrTypes.h"
+#include "SkBlendModePriv.h"
 #include "SkCanvas.h"
 #include "SkColor.h"
-#include "SkColorPriv.h"
+#include "SkColorData.h"
 #include "SkFilterQuality.h"
 #include "SkImageInfo.h"
 #include "SkMatrix.h"
 #include "SkPM4f.h"
 #include "SkVertices.h"
-#include "SkBlendModePriv.h"
 
 class GrCaps;
+class GrColorSpaceInfo;
 class GrColorSpaceXform;
 class GrContext;
-class GrRenderTargetContext;
 class GrFragmentProcessor;
 class GrPaint;
 class GrResourceProvider;
@@ -58,18 +58,10 @@ static inline GrColor SkColorToUnpremulGrColor(SkColor c) {
     return GrColorPackRGBA(r, g, b, a);
 }
 
-/** Transform an SkColor (sRGB bytes) to GrColor4f for the specified color space. */
-GrColor4f SkColorToPremulGrColor4f(SkColor c, SkColorSpace* dstColorSpace);
-GrColor4f SkColorToUnpremulGrColor4f(SkColor c, SkColorSpace* dstColorSpace);
-
-/**
- * As above, but with a caller-supplied color space xform object. Faster for the cases where we
- * have that cached.
- */
-GrColor4f SkColorToPremulGrColor4f(SkColor c, SkColorSpace* dstColorSpace,
-                                   GrColorSpaceXform* gamutXform);
-GrColor4f SkColorToUnpremulGrColor4f(SkColor c, SkColorSpace* dstColorSpace,
-                                     GrColorSpaceXform* gamutXform);
+/** Transform an SkColor (sRGB bytes) to GrColor4f for the specified color space info. */
+GrColor4f SkColorToPremulGrColor4f(SkColor, const GrColorSpaceInfo&);
+GrColor4f SkColorToPremulGrColor4fLegacy(SkColor);
+GrColor4f SkColorToUnpremulGrColor4f(SkColor, const GrColorSpaceInfo&);
 
 /** Replicates the SkColor's alpha to all four channels of the GrColor. */
 static inline GrColor SkColorAlphaToGrColor(SkColor c) {
@@ -98,14 +90,14 @@ static inline GrColor4f SkPM4fToGrColor4f(const SkPM4f& c) {
 /** Converts an SkPaint to a GrPaint for a given GrContext. The matrix is required in order
     to convert the SkShader (if any) on the SkPaint. The primitive itself has no color. */
 bool SkPaintToGrPaint(GrContext*,
-                      GrRenderTargetContext*,
+                      const GrColorSpaceInfo& dstColorSpaceInfo,
                       const SkPaint& skPaint,
                       const SkMatrix& viewM,
                       GrPaint* grPaint);
 
 /** Same as above but ignores the SkShader (if any) on skPaint. */
 bool SkPaintToGrPaintNoShader(GrContext* context,
-                              GrRenderTargetContext* rtc,
+                              const GrColorSpaceInfo& dstColorSpaceInfo,
                               const SkPaint& skPaint,
                               GrPaint* grPaint);
 
@@ -113,7 +105,7 @@ bool SkPaintToGrPaintNoShader(GrContext* context,
     should expect an unpremul input color and produce a premultiplied output color. There is
     no primitive color. */
 bool SkPaintToGrPaintReplaceShader(GrContext*,
-                                   GrRenderTargetContext*,
+                                   const GrColorSpaceInfo& dstColorSpaceInfo,
                                    const SkPaint& skPaint,
                                    std::unique_ptr<GrFragmentProcessor> shaderFP,
                                    GrPaint* grPaint);
@@ -121,7 +113,7 @@ bool SkPaintToGrPaintReplaceShader(GrContext*,
 /** Blends the SkPaint's shader (or color if no shader) with the color which specified via a
     GrOp's GrPrimitiveProcesssor. */
 bool SkPaintToGrPaintWithXfermode(GrContext* context,
-                                  GrRenderTargetContext* rtc,
+                                  const GrColorSpaceInfo& dstColorSpaceInfo,
                                   const SkPaint& skPaint,
                                   const SkMatrix& viewM,
                                   SkBlendMode primColorMode,
@@ -131,16 +123,17 @@ bool SkPaintToGrPaintWithXfermode(GrContext* context,
     the expectation is that the primitive color will be premultiplied, though it really should be
     unpremultiplied so that interpolation is done in unpremul space. The paint's alpha will be
     applied to the primitive color after interpolation. */
-inline bool SkPaintToGrPaintWithPrimitiveColor(GrContext* context, GrRenderTargetContext* rtc,
+inline bool SkPaintToGrPaintWithPrimitiveColor(GrContext* context,
+                                               const GrColorSpaceInfo& dstColorSpaceInfo,
                                                const SkPaint& skPaint, GrPaint* grPaint) {
-    return SkPaintToGrPaintWithXfermode(context, rtc, skPaint, SkMatrix::I(), SkBlendMode::kDst,
-                                        grPaint);
+    return SkPaintToGrPaintWithXfermode(context, dstColorSpaceInfo, skPaint, SkMatrix::I(),
+                                        SkBlendMode::kDst, grPaint);
 }
 
 /** This is used when there may or may not be a shader, and the caller wants to plugin a texture
     lookup.  If there is a shader, then its output will only be used if the texture is alpha8. */
 bool SkPaintToGrPaintWithTexture(GrContext* context,
-                                 GrRenderTargetContext* rtc,
+                                 const GrColorSpaceInfo& dstColorSpaceInfo,
                                  const SkPaint& paint,
                                  const SkMatrix& viewM,
                                  std::unique_ptr<GrFragmentProcessor> fp,
@@ -156,10 +149,10 @@ GrPixelConfig SkImageInfo2GrPixelConfig(const SkImageInfo& info, const GrCaps& c
 
 bool GrPixelConfigToColorType(GrPixelConfig, SkColorType*);
 
-GrSamplerParams::FilterMode GrSkFilterQualityToGrFilterMode(SkFilterQuality paintFilterQuality,
-                                                            const SkMatrix& viewM,
-                                                            const SkMatrix& localM,
-                                                            bool* doBicubic);
+GrSamplerState::Filter GrSkFilterQualityToGrFilterMode(SkFilterQuality paintFilterQuality,
+                                                       const SkMatrix& viewM,
+                                                       const SkMatrix& localM,
+                                                       bool* doBicubic);
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -195,7 +188,7 @@ GR_STATIC_ASSERT((int)kIDA_GrBlendCoeff == (int)SkBlendModeCoeff::kIDA);
 ////////////////////////////////////////////////////////////////////////////////
 // Texture management
 
-/** Returns a texture representing the bitmap that is compatible with the GrSamplerParams. The
+/** Returns a texture representing the bitmap that is compatible with the GrSamplerState. The
  *  texture is inserted into the cache (unless the bitmap is marked volatile) and can be
  *  retrieved again via this function.
  *  The 'scaleAdjust' in/out parameter will be updated to hold any rescaling that needs to be
@@ -204,7 +197,7 @@ GR_STATIC_ASSERT((int)kIDA_GrBlendCoeff == (int)SkBlendModeCoeff::kIDA);
  */
 sk_sp<GrTextureProxy> GrRefCachedBitmapTextureProxy(GrContext*,
                                                     const SkBitmap&,
-                                                    const GrSamplerParams&,
+                                                    const GrSamplerState&,
                                                     SkScalar scaleAdjust[2]);
 
 /**
@@ -225,6 +218,12 @@ sk_sp<GrTextureProxy> GrUploadPixmapToTextureProxy(GrResourceProvider*,
                                                    const SkPixmap&, SkBudgeted, SkColorSpace*);
 
 /**
+ * Creates a new texture with mipmap levels and copies the baseProxy into the base layer.
+ */
+sk_sp<GrTextureProxy> GrCopyBaseMipMapToTextureProxy(GrContext*,
+                                                     GrTextureProxy* baseProxy);
+
+/**
  * Creates a new texture populated with the mipmap levels.
  */
 sk_sp<GrTextureProxy> GrUploadMipMapToTextureProxy(GrContext*, const SkImageInfo&,
@@ -238,7 +237,7 @@ sk_sp<GrTextureProxy> GrUploadMipMapToTextureProxy(GrContext*, const SkImageInfo
 //        return nullptr;
 //    }
 //    sk_sp<GrTexture> texture = GrMakeCachedBitmapTexture(fContext.get(), bitmap,
-//                                                         GrSamplerParams::ClampNoFilter(),
+//                                                         GrSamplerState::ClampNearest(),
 //                                                         nullptr);
 //    if (!texture) {
 //        return nullptr;

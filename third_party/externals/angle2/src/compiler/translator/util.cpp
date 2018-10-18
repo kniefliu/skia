@@ -23,6 +23,24 @@ bool atoi_clamp(const char *str, unsigned int *value)
 namespace sh
 {
 
+namespace
+{
+
+bool IsInterpolationIn(TQualifier qualifier)
+{
+    switch (qualifier)
+    {
+        case EvqSmoothIn:
+        case EvqFlatIn:
+        case EvqCentroidIn:
+            return true;
+        default:
+            return false;
+    }
+}
+
+}  // anonymous namespace
+
 float NumericLexFloat32OutOfRangeToInfinity(const std::string &str)
 {
     // Parses a decimal string using scientific notation into a floating point number.
@@ -438,13 +456,29 @@ GLenum GLVariablePrecision(const TType &type)
 TString ArrayString(const TType &type)
 {
     TStringStream arrayString;
-    const TVector<unsigned int> &arraySizes = type.getArraySizes();
+    if (!type.isArray())
+        return arrayString.str();
+
+    const TVector<unsigned int> &arraySizes = *type.getArraySizes();
     for (auto arraySizeIter = arraySizes.rbegin(); arraySizeIter != arraySizes.rend();
          ++arraySizeIter)
     {
-        arrayString << "[" << (*arraySizeIter) << "]";
+        arrayString << "[";
+        if (*arraySizeIter > 0)
+        {
+            arrayString << (*arraySizeIter);
+        }
+        arrayString << "]";
     }
     return arrayString.str();
+}
+
+TString GetTypeName(const TType &type, ShHashFunction64 hashFunction, NameMap *nameMap)
+{
+    if (type.getBasicType() == EbtStruct)
+        return HashName(TName(type.getStruct()->name()), hashFunction, nameMap);
+    else
+        return type.getBuiltInTypeNameString();
 }
 
 bool IsVaryingOut(TQualifier qualifier)
@@ -456,6 +490,7 @@ bool IsVaryingOut(TQualifier qualifier)
         case EvqFlatOut:
         case EvqCentroidOut:
         case EvqVertexOut:
+        case EvqGeometryOut:
             return true;
 
         default:
@@ -474,6 +509,7 @@ bool IsVaryingIn(TQualifier qualifier)
         case EvqFlatIn:
         case EvqCentroidIn:
         case EvqFragmentIn:
+        case EvqGeometryIn:
             return true;
 
         default:
@@ -486,6 +522,12 @@ bool IsVaryingIn(TQualifier qualifier)
 bool IsVarying(TQualifier qualifier)
 {
     return IsVaryingIn(qualifier) || IsVaryingOut(qualifier);
+}
+
+bool IsGeometryShaderInput(GLenum shaderType, TQualifier qualifier)
+{
+    return (qualifier == EvqGeometryIn) ||
+           ((shaderType == GL_GEOMETRY_SHADER_OES) && IsInterpolationIn(qualifier));
 }
 
 InterpolationType GetInterpolationType(TQualifier qualifier)
@@ -502,6 +544,8 @@ InterpolationType GetInterpolationType(TQualifier qualifier)
         case EvqFragmentIn:
         case EvqVaryingIn:
         case EvqVaryingOut:
+        case EvqGeometryIn:
+        case EvqGeometryOut:
             return INTERPOLATION_SMOOTH;
 
         case EvqCentroidIn:

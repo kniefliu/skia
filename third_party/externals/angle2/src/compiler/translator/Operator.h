@@ -42,6 +42,8 @@ enum TOperator
     EOpPreIncrement,
     EOpPreDecrement,
 
+    EOpArrayLength,
+
     //
     // binary operations (ones with special GLSL syntax are used in TIntermBinary nodes, others in
     // TIntermAggregate nodes)
@@ -237,7 +239,11 @@ enum TOperator
     EOpMemoryBarrierBuffer,
     EOpMemoryBarrierImage,
     EOpMemoryBarrierShared,
-    EOpGroupMemoryBarrier
+    EOpGroupMemoryBarrier,
+
+    //  Geometry only
+    EOpEmitVertex,
+    EOpEndPrimitive
 };
 
 // Returns the string corresponding to the operator in GLSL

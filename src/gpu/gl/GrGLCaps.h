@@ -125,9 +125,15 @@ public:
             return SkToBool(fConfigTable[config].fFlags & ConfigInfo::kRenderable_Flag);
         }
     }
-    bool canConfigBeImageStorage(GrPixelConfig config) const override {
-        return SkToBool(fConfigTable[config].fFlags & ConfigInfo::kCanUseAsImageStorage_Flag);
+
+    bool isConfigCopyable(GrPixelConfig config) const override {
+        // In GL we have three ways to be able to copy. CopyTexImage, blit, and draw. CopyTexImage
+        // requires the src to be an FBO attachment, blit requires both src and dst to be FBO
+        // attachments, and draw requires the dst to be an FBO attachment. Thus to copy from and to
+        // the same config, we need that config to be renderable so we can attach it to an FBO.
+        return this->isConfigRenderable(config, false);
     }
+
     bool canConfigBeFBOColorAttachment(GrPixelConfig config) const {
         return SkToBool(fConfigTable[config].fFlags & ConfigInfo::kFBOColorAttachment_Flag);
     }
@@ -367,6 +373,9 @@ public:
     // https://bugs.chromium.org/p/skia/issues/detail?id=6650
     bool drawArraysBaseVertexIsBroken() const { return fDrawArraysBaseVertexIsBroken; }
 
+    // Many drivers have issues with color clears.
+    bool useDrawToClearColor() const { return fUseDrawToClearColor; }
+
     /// Adreno 4xx devices experience an issue when there are a large number of stencil clip bit
     /// clears. The minimal repro steps are not precisely known but drawing a rect with a stencil
     /// op instead of using glClear seems to resolve the issue.
@@ -390,8 +399,21 @@ public:
         return fRequiresCullFaceEnableDisableWhenDrawingLinesAfterNonLines;
     }
 
+    // Returns the observed maximum number of instances the driver can handle in a single call to
+    // glDrawArraysInstanced without crashing, or 'pendingInstanceCount' if this
+    // workaround is not necessary.
+    // NOTE: the return value may be larger than pendingInstanceCount.
+    int maxInstancesPerDrawArraysWithoutCrashing(int pendingInstanceCount) const {
+        return fMaxInstancesPerDrawArraysWithoutCrashing ? fMaxInstancesPerDrawArraysWithoutCrashing
+                                                         : pendingInstanceCount;
+    }
+
     bool initDescForDstCopy(const GrRenderTargetProxy* src, GrSurfaceDesc* desc,
                             bool* rectsMustMatch, bool* disallowSubrect) const override;
+
+    bool programBinarySupport() const {
+        return fProgramBinarySupport;
+    }
 
 private:
     enum ExternalFormatUsage {
@@ -406,7 +428,7 @@ private:
                            GrGLenum* externalType) const;
 
     void init(const GrContextOptions&, const GrGLContextInfo&, const GrGLInterface*);
-    void initGLSL(const GrGLContextInfo&);
+    void initGLSL(const GrGLContextInfo&, const GrGLInterface*);
     bool hasPathRenderingSupport(const GrGLContextInfo&, const GrGLInterface*);
 
     void onApplyOptionsOverrides(const GrContextOptions& options) override;
@@ -418,8 +440,6 @@ private:
     // This must be called after initFSAASupport().
     void initConfigTable(const GrContextOptions&, const GrGLContextInfo&, const GrGLInterface*,
                          GrShaderCaps*);
-
-    void initShaderPrecisionTable(const GrGLContextInfo&, const GrGLInterface*, GrShaderCaps*);
 
     GrGLStandard fStandard;
 
@@ -464,12 +484,15 @@ private:
     bool fClearToBoundaryValuesIsBroken : 1;
     bool fClearTextureSupport : 1;
     bool fDrawArraysBaseVertexIsBroken : 1;
+    bool fUseDrawToClearColor : 1;
     bool fUseDrawToClearStencilClip : 1;
     bool fDisallowTexSubImageForUnormConfigTexturesEverBoundToFBO : 1;
     bool fUseDrawInsteadOfAllRenderTargetWrites : 1;
     bool fRequiresCullFaceEnableDisableWhenDrawingLinesAfterNonLines : 1;
+    bool fProgramBinarySupport : 1;
 
     uint32_t fBlitFramebufferFlags;
+    int fMaxInstancesPerDrawArraysWithoutCrashing;
 
     /** Number type of the components (with out considering number of bits.) */
     enum FormatType {
@@ -540,7 +563,6 @@ private:
             kFBOColorAttachment_Flag      = 0x10,
             kCanUseTexStorage_Flag        = 0x20,
             kCanUseWithTexelBuffer_Flag   = 0x40,
-            kCanUseAsImageStorage_Flag    = 0x80,
         };
         uint32_t fFlags;
 

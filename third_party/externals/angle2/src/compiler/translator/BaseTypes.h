@@ -477,6 +477,106 @@ inline bool IsShadowSampler(TBasicType type)
     return false;
 }
 
+inline bool IsImage2D(TBasicType type)
+{
+    switch (type)
+    {
+        case EbtImage2D:
+        case EbtIImage2D:
+        case EbtUImage2D:
+            return true;
+        case EbtImage3D:
+        case EbtIImage3D:
+        case EbtUImage3D:
+        case EbtImage2DArray:
+        case EbtIImage2DArray:
+        case EbtUImage2DArray:
+        case EbtImageCube:
+        case EbtIImageCube:
+        case EbtUImageCube:
+            return false;
+        default:
+            assert(!IsImage(type));
+    }
+
+    return false;
+}
+
+inline bool IsImage3D(TBasicType type)
+{
+    switch (type)
+    {
+        case EbtImage3D:
+        case EbtIImage3D:
+        case EbtUImage3D:
+            return true;
+        case EbtImage2D:
+        case EbtIImage2D:
+        case EbtUImage2D:
+        case EbtImage2DArray:
+        case EbtIImage2DArray:
+        case EbtUImage2DArray:
+        case EbtImageCube:
+        case EbtIImageCube:
+        case EbtUImageCube:
+            return false;
+        default:
+            assert(!IsImage(type));
+    }
+
+    return false;
+}
+
+inline bool IsImage2DArray(TBasicType type)
+{
+    switch (type)
+    {
+        case EbtImage2DArray:
+        case EbtIImage2DArray:
+        case EbtUImage2DArray:
+            return true;
+        case EbtImage2D:
+        case EbtIImage2D:
+        case EbtUImage2D:
+        case EbtImage3D:
+        case EbtIImage3D:
+        case EbtUImage3D:
+        case EbtImageCube:
+        case EbtIImageCube:
+        case EbtUImageCube:
+            return false;
+        default:
+            assert(!IsImage(type));
+    }
+
+    return false;
+}
+
+inline bool IsImageCube(TBasicType type)
+{
+    switch (type)
+    {
+        case EbtImageCube:
+        case EbtIImageCube:
+        case EbtUImageCube:
+            return true;
+        case EbtImage2D:
+        case EbtIImage2D:
+        case EbtUImage2D:
+        case EbtImage3D:
+        case EbtIImage3D:
+        case EbtUImage3D:
+        case EbtImage2DArray:
+        case EbtIImage2DArray:
+        case EbtUImage2DArray:
+            return false;
+        default:
+            assert(!IsImage(type));
+    }
+
+    return false;
+}
+
 inline bool IsInteger(TBasicType type)
 {
     return type == EbtInt || type == EbtUInt;
@@ -576,8 +676,11 @@ enum TQualifier
     // GLSL ES 3.1 extension OES_geometry_shader qualifiers
     EvqGeometryIn,
     EvqGeometryOut,
-    EvqPerVertexIn,
-    EvqLayer,  // gl_Layer
+    EvqPerVertexIn,    // gl_in
+    EvqPrimitiveIDIn,  // gl_PrimitiveIDIn
+    EvqInvocationID,   // gl_InvocationID
+    EvqPrimitiveID,    // gl_PrimitiveID
+    EvqLayer,          // gl_Layer
 
     // end of list
     EvqLast
@@ -618,7 +721,8 @@ enum TLayoutBlockStorage
     EbsUnspecified,
     EbsShared,
     EbsPacked,
-    EbsStd140
+    EbsStd140,
+    EbsStd430
 };
 
 enum TYuvCscStandardEXT
@@ -643,54 +747,10 @@ enum TLayoutPrimitiveType
 
 struct TLayoutQualifier
 {
-    int location;
-    unsigned int locationsSpecified;
-    TLayoutMatrixPacking matrixPacking;
-    TLayoutBlockStorage blockStorage;
+    // Must have a trivial default constructor since it is used in YYSTYPE.
+    TLayoutQualifier() = default;
 
-    // Compute shader layout qualifiers.
-    sh::WorkGroupSize localSize;
-
-    int binding;
-    int offset;
-
-    // Image format layout qualifier
-    TLayoutImageInternalFormat imageInternalFormat;
-
-    // OVR_multiview num_views.
-    int numViews;
-
-    // EXT_YUV_target yuv layout qualifier.
-    bool yuv;
-
-    // OES_geometry_shader layout qualifiers.
-    TLayoutPrimitiveType primitiveType;
-    int invocations;
-    int maxVertices;
-
-    static TLayoutQualifier create()
-    {
-        TLayoutQualifier layoutQualifier;
-
-        layoutQualifier.location           = -1;
-        layoutQualifier.locationsSpecified = 0;
-        layoutQualifier.matrixPacking      = EmpUnspecified;
-        layoutQualifier.blockStorage       = EbsUnspecified;
-
-        layoutQualifier.localSize.fill(-1);
-        layoutQualifier.binding  = -1;
-        layoutQualifier.offset   = -1;
-        layoutQualifier.numViews = -1;
-        layoutQualifier.yuv      = false;
-
-        layoutQualifier.imageInternalFormat = EiifUnspecified;
-
-        layoutQualifier.primitiveType = EptUndefined;
-        layoutQualifier.invocations   = 0;
-        layoutQualifier.maxVertices   = -1;
-
-        return layoutQualifier;
-    }
+    constexpr static TLayoutQualifier Create() { return TLayoutQualifier(0); }
 
     bool isEmpty() const
     {
@@ -721,10 +781,63 @@ struct TLayoutQualifier
     {
         return localSize.isWorkGroupSizeMatching(localSizeIn);
     }
+
+    int location;
+    unsigned int locationsSpecified;
+    TLayoutMatrixPacking matrixPacking;
+    TLayoutBlockStorage blockStorage;
+
+    // Compute shader layout qualifiers.
+    sh::WorkGroupSize localSize;
+
+    int binding;
+    int offset;
+
+    // Image format layout qualifier
+    TLayoutImageInternalFormat imageInternalFormat;
+
+    // OVR_multiview num_views.
+    int numViews;
+
+    // EXT_YUV_target yuv layout qualifier.
+    bool yuv;
+
+    // OES_geometry_shader layout qualifiers.
+    TLayoutPrimitiveType primitiveType;
+    int invocations;
+    int maxVertices;
+
+  private:
+    explicit constexpr TLayoutQualifier(int /*placeholder*/)
+        : location(-1),
+          locationsSpecified(0),
+          matrixPacking(EmpUnspecified),
+          blockStorage(EbsUnspecified),
+          localSize(-1),
+          binding(-1),
+          offset(-1),
+          imageInternalFormat(EiifUnspecified),
+          numViews(-1),
+          yuv(false),
+          primitiveType(EptUndefined),
+          invocations(0),
+          maxVertices(-1)
+    {
+    }
 };
 
 struct TMemoryQualifier
 {
+    // Must have a trivial default constructor since it is used in YYSTYPE.
+    TMemoryQualifier() = default;
+
+    bool isEmpty() const
+    {
+        return !readonly && !writeonly && !coherent && !restrictQualifier && !volatileQualifier;
+    }
+
+    constexpr static TMemoryQualifier Create() { return TMemoryQualifier(0); }
+
     // GLSL ES 3.10 Revision 4, 4.9 Memory Access Qualifiers
     // An image can be qualified as both readonly and writeonly. It still can be can be used with
     // imageSize().
@@ -735,22 +848,15 @@ struct TMemoryQualifier
     // restrict and volatile are reserved keywords in C/C++
     bool restrictQualifier;
     bool volatileQualifier;
-    static TMemoryQualifier create()
+
+  private:
+    explicit constexpr TMemoryQualifier(int /*placeholder*/)
+        : readonly(false),
+          writeonly(false),
+          coherent(false),
+          restrictQualifier(false),
+          volatileQualifier(false)
     {
-        TMemoryQualifier memoryQualifier;
-
-        memoryQualifier.readonly          = false;
-        memoryQualifier.writeonly         = false;
-        memoryQualifier.coherent          = false;
-        memoryQualifier.restrictQualifier = false;
-        memoryQualifier.volatileQualifier = false;
-
-        return memoryQualifier;
-    }
-
-    bool isEmpty()
-    {
-        return !readonly && !writeonly && !coherent && !restrictQualifier && !volatileQualifier;
     }
 };
 
@@ -867,6 +973,8 @@ inline const char *getBlockStorageString(TLayoutBlockStorage bsq)
             return "packed";
         case EbsStd140:
             return "std140";
+        case EbsStd430:
+            return "std430";
         default:
             UNREACHABLE();
             return "unknown block storage";

@@ -25,11 +25,11 @@ static void test_basic_draw_as_src(skiatest::Reporter* reporter, GrContext* cont
             context->makeDeferredRenderTargetContext(SkBackingFit::kExact, rectProxy->width(),
                                                      rectProxy->height(), rectProxy->config(),
                                                      nullptr));
-    for (auto filter : {GrSamplerParams::kNone_FilterMode,
-                        GrSamplerParams::kBilerp_FilterMode,
-                        GrSamplerParams::kMipMap_FilterMode}) {
+    for (auto filter : {GrSamplerState::Filter::kNearest,
+                        GrSamplerState::Filter::kBilerp,
+                        GrSamplerState::Filter::kMipMap}) {
         rtContext->clear(nullptr, 0xDDCCBBAA, true);
-        auto fp = GrSimpleTextureEffect::Make(rectProxy, nullptr, SkMatrix::I(), filter);
+        auto fp = GrSimpleTextureEffect::Make(rectProxy, SkMatrix::I(), filter);
         GrPaint paint;
         paint.setPorterDuffXPFactory(SkBlendMode::kSrc);
         paint.addColorFragmentProcessor(std::move(fp));

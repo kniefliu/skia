@@ -41,16 +41,22 @@ file is up to date:
 Try Jobs
 --------
 
-It is useful to know how your change will perform before it is submitted. After
-uploading your CL to [Gerrit](https://skia-review.googlesource.com/), you may
-trigger a try job for any job listed in tasks.json:
+Skia's trybots allow testing and verification of changes before they land in the
+repo. You need to have permission to trigger try jobs; if you need permission,
+ask a committer. After uploading your CL to [Gerrit](https://skia-review.googlesource.com/),
+you may trigger a try job for any job listed in tasks.json, either via the
+Gerrit UI, using "git cl try", eg.
 
-	$ git cl try -B <bucket name> -b <job name>
+    git cl try -B skia.primary -b Some-Tryjob-Name
 
-The bucket name refers to the [Buildbucket](https://chromium.googlesource.com/infra/infra/+/master/appengine/cr-buildbucket/README.md)
-bucket to which the request will be submitted. Most public Skia repos use the
-"skia.primary" bucket, and most private Skia repos use the "skia.internal"
-bucket.
+or using bin/try, a small wrapper for "git cl try" which helps to choose try jobs.
+From a Skia checkout:
+
+    bin/try --list
+
+You can also search using regular expressions:
+
+    bin/try "Test.*GTX660.*Release"
 
 
 Status View
@@ -87,4 +93,44 @@ task specs:
   used, per the Javascript String Match() rules:
   http://www.w3schools.com/jsref/jsref_match.asp
 
+<a name="adding-new-jobs"></a>
+Adding new jobs
+---------------
 
+If you would like to add jobs to build or test new configurations, please file a
+[New Bot Request][new bot request].
+
+If you know that the new jobs will need new hardware or you aren't sure which
+existing bots should run the new jobs, assign to jcgregorio. Once the Infra team
+has allocated the hardware, we will assign back to you to complete the process.
+
+Generally it's possible to copy an existing job and make changes to accomplish
+what you want. You will need to add the new job to
+[infra/bots/jobs.json][jobs json]. In some cases, you will need to make changes
+to recipes:
+
+* If there are new GN flags or compiler options:
+  [infra/bots/recipe_modules/flavor/gn_flavor.py][gn flavor py]
+* If there are modifications to dm flags: [infra/bots/recipes/test.py][test py]
+* If there are modifications to nanobench flags:
+  [infra/bots/recipes/perf.py][perf py]
+
+After modifying any of the above files, run `make train` in the infra/bots
+directory to update generated files. Upload the CL, then run `git cl try -B
+skia.primary -b <job name>` to run the new job. (After commit, the new job will
+appear in the PolyGerrit UI after the next successful run of the
+Housekeeper-Nightly-UpdateMetaConfig task.)
+
+If you need to do something more complicated, or if you are not sure how to add
+and configure the new jobs, please ask for help from borenet, benjaminwagner, or
+mtklein.
+
+[new bot request]:
+    https://bugs.chromium.org/p/skia/issues/entry?template=New+Bot+Request
+[jobs json]: https://skia.googlesource.com/skia/+/master/infra/bots/jobs.json
+[gn flavor py]:
+    https://skia.googlesource.com/skia/+/master/infra/bots/recipe_modules/flavor/gn_flavor.py
+[test py]:
+    https://skia.googlesource.com/skia/+/master/infra/bots/recipes/test.py
+[perf py]:
+    https://skia.googlesource.com/skia/+/master/infra/bots/recipes/perf.py

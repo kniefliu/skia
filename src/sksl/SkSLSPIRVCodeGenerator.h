@@ -33,6 +33,7 @@
 #include "ir/SkSLProgramElement.h"
 #include "ir/SkSLReturnStatement.h"
 #include "ir/SkSLStatement.h"
+#include "ir/SkSLSwitchStatement.h"
 #include "ir/SkSLSwizzle.h"
 #include "ir/SkSLTernaryExpression.h"
 #include "ir/SkSLVarDeclarations.h"
@@ -97,6 +98,8 @@ private:
     void setupIntrinsics();
 
     SpvId nextId();
+
+    Type getActualType(const Type& type);
 
     SpvId getType(const Type& type);
 
@@ -231,6 +234,8 @@ private:
 
     void writeDoStatement(const DoStatement& d, OutputStream& out);
 
+    void writeSwitchStatement(const SwitchStatement& s, OutputStream& out);
+
     void writeReturnStatement(const ReturnStatement& r, OutputStream& out);
 
     void writeCapabilities(OutputStream& out);
@@ -241,19 +246,19 @@ private:
 
     void writeWord(int32_t word, OutputStream& out);
 
-    void writeString(const char* string, OutputStream& out);
+    void writeString(const char* string, size_t length, OutputStream& out);
 
     void writeLabel(SpvId id, OutputStream& out);
 
     void writeInstruction(SpvOp_ opCode, OutputStream& out);
 
-    void writeInstruction(SpvOp_ opCode, const char* string, OutputStream& out);
+    void writeInstruction(SpvOp_ opCode, StringFragment string, OutputStream& out);
 
     void writeInstruction(SpvOp_ opCode, int32_t word1, OutputStream& out);
 
-    void writeInstruction(SpvOp_ opCode, int32_t word1, const char* string, OutputStream& out);
+    void writeInstruction(SpvOp_ opCode, int32_t word1, StringFragment string, OutputStream& out);
 
-    void writeInstruction(SpvOp_ opCode, int32_t word1, int32_t word2, const char* string,
+    void writeInstruction(SpvOp_ opCode, int32_t word1, int32_t word2, StringFragment string,
                           OutputStream& out);
 
     void writeInstruction(SpvOp_ opCode, int32_t word1, int32_t word2, OutputStream& out);

@@ -9,6 +9,7 @@
 #include "SkTypes.h"
 
 #if SK_SUPPORT_GPU
+#ifndef SK_DISABLE_DEFERRED_PROXIES
 #include "Test.h"
 
 #include "GrContextPriv.h"
@@ -51,10 +52,10 @@ static sk_sp<GrSurfaceProxy> make_backend(GrContext* context, const ProxyParams&
                                                                p.fSize,
                                                                p.fSize,
                                                                p.fConfig,
+                                                               GrMipMapped::kNo,
                                                                *backendTexHandle);
 
-    SkASSERT(kDefault_GrSurfaceOrigin != p.fOrigin);
-    sk_sp<GrSurface> tex = context->resourceProvider()->wrapBackendTexture(backendTex, p.fOrigin,
+    sk_sp<GrSurface> tex = context->resourceProvider()->wrapBackendTexture(backendTex,
                                                                            kBorrow_GrWrapOwnership);
     return GrSurfaceProxy::MakeWrapped(std::move(tex), p.fOrigin);
 }
@@ -72,8 +73,10 @@ static void overlap_test(skiatest::Reporter* reporter, GrResourceProvider* resou
 
     alloc.addInterval(p1.get(), 0, 4);
     alloc.addInterval(p2.get(), 1, 2);
+    alloc.markEndOfOpList(0);
 
-    alloc.assign();
+    int startIndex, stopIndex;
+    alloc.assign(&startIndex, &stopIndex);
 
     REPORTER_ASSERT(reporter, p1->priv().peekSurface());
     REPORTER_ASSERT(reporter, p2->priv().peekSurface());
@@ -90,8 +93,10 @@ static void non_overlap_test(skiatest::Reporter* reporter, GrResourceProvider* r
 
     alloc.addInterval(p1.get(), 0, 2);
     alloc.addInterval(p2.get(), 3, 5);
+    alloc.markEndOfOpList(0);
 
-    alloc.assign();
+    int startIndex, stopIndex;
+    alloc.assign(&startIndex, &stopIndex);
 
     REPORTER_ASSERT(reporter, p1->priv().peekSurface());
     REPORTER_ASSERT(reporter, p2->priv().peekSurface());
@@ -138,7 +143,8 @@ DEF_GPUTEST_FOR_RENDERING_CONTEXTS(ResourceAllocatorTest, reporter, ctxInfo) {
     for (auto test : gOverlappingTests) {
         sk_sp<GrSurfaceProxy> p1 = make_deferred(resourceProvider, test.fP1);
         sk_sp<GrSurfaceProxy> p2 = make_deferred(resourceProvider, test.fP2);
-        overlap_test(reporter, resourceProvider, std::move(p1), std::move(p2), test.fExpectation);
+        overlap_test(reporter, resourceProvider,
+                     std::move(p1), std::move(p2), test.fExpectation);
     }
 
     int k2 = ctxInfo.grContext()->caps()->getSampleCount(2, kRGBA);
@@ -169,9 +175,8 @@ DEF_GPUTEST_FOR_RENDERING_CONTEXTS(ResourceAllocatorTest, reporter, ctxInfo) {
         // Two non-overlapping intervals w/ different RT classifications should never share
         { { 64,    kRT, kRGBA, kA, 0, kTL }, { 64, kNotRT, kRGBA, kA, 0, kTL }, kDontShare },
         { { 64, kNotRT, kRGBA, kA, 0, kTL }, { 64,    kRT, kRGBA, kA, 0, kTL }, kDontShare },
-        // Two non-overlapping intervals w/ different origins should not share
-        // TODO: rm this test case
-        { { 64,    kRT, kRGBA, kA, 0, kTL }, { 64,    kRT, kRGBA, kA, 0, kBL }, kDontShare },
+        // Two non-overlapping intervals w/ different origins should share
+        { { 64,    kRT, kRGBA, kA, 0, kTL }, { 64,    kRT, kRGBA, kA, 0, kBL }, kShare },
     };
 
     for (auto test : gNonOverlappingTests) {
@@ -180,8 +185,8 @@ DEF_GPUTEST_FOR_RENDERING_CONTEXTS(ResourceAllocatorTest, reporter, ctxInfo) {
         if (!p1 || !p2) {
             continue; // creation can fail (i.e., for msaa4 on iOS)
         }
-        non_overlap_test(reporter, resourceProvider, std::move(p1), std::move(p2),
-                         test.fExpectation);
+        non_overlap_test(reporter, resourceProvider,
+                         std::move(p1), std::move(p2), test.fExpectation);
     }
 
     {
@@ -193,10 +198,11 @@ DEF_GPUTEST_FOR_RENDERING_CONTEXTS(ResourceAllocatorTest, reporter, ctxInfo) {
         GrBackendObject backEndObj;
         sk_sp<GrSurfaceProxy> p1 = make_backend(ctxInfo.grContext(), t[0].fP1, &backEndObj);
         sk_sp<GrSurfaceProxy> p2 = make_deferred(resourceProvider, t[0].fP2);
-        non_overlap_test(reporter, resourceProvider, std::move(p1), std::move(p2),
-                         t[0].fExpectation);
+        non_overlap_test(reporter, resourceProvider,
+                         std::move(p1), std::move(p2), t[0].fExpectation);
         cleanup_backend(ctxInfo.grContext(), &backEndObj);
     }
 }
 
+#endif
 #endif

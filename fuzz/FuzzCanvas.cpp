@@ -920,20 +920,12 @@ static sk_sp<SkImageFilter> make_fuzz_imageFilter(Fuzz* fuzz, int depth) {
             return SkPictureImageFilter::Make(std::move(picture), cropRect);
         }
         case 22: {
-            SkRect cropRect;
-            SkFilterQuality filterQuality;
-            fuzz->next(&cropRect, &filterQuality);
-            sk_sp<SkPicture> picture = make_fuzz_picture(fuzz, depth - 1);
-            return SkPictureImageFilter::MakeForLocalSpace(std::move(picture), cropRect,
-                                                           filterQuality);
-        }
-        case 23: {
             SkRect src, dst;
             fuzz->next(&src, &dst);
             sk_sp<SkImageFilter> input = make_fuzz_imageFilter(fuzz, depth - 1);
             return SkTileImageFilter::Make(src, dst, std::move(input));
         }
-        case 24: {
+        case 23: {
             SkBlendMode blendMode;
             bool useCropRect;
             fuzz->next(&useCropRect, &blendMode);
@@ -1803,11 +1795,7 @@ DEF_FUZZ(DebugGLCanvas, fuzz) {
 #endif
 
 DEF_FUZZ(PDFCanvas, fuzz) {
-    struct final : public SkWStream {
-        bool write(const void*, size_t n) override { fN += n; return true; }
-        size_t bytesWritten() const override { return fN; }
-        size_t fN = 0;
-    } stream;
+    SkNullWStream stream;
     auto doc = SkDocument::MakePDF(&stream);
     fuzz_canvas(fuzz, doc->beginPage(SkIntToScalar(kCanvasSize.width()),
                                      SkIntToScalar(kCanvasSize.height())));

@@ -140,7 +140,7 @@ TIntermTyped *CreateZeroNode(const TType &type)
     {
         ASSERT(type.getBasicType() == EbtStruct);
 
-        TStructure *structure = type.getStruct();
+        const TStructure *structure = type.getStruct();
         for (const auto &field : structure->fields())
         {
             arguments->push_back(CreateZeroNode(*field->type()));
@@ -170,6 +170,37 @@ TIntermConstantUnion *CreateBoolNode(bool value)
     return node;
 }
 
+TIntermSymbol *CreateTempSymbolNode(const TSymbolUniqueId &id,
+                                    const TType &type,
+                                    TQualifier qualifier)
+{
+    TInfoSinkBase symbolNameOut;
+    symbolNameOut << "s" << id.get();
+    TString symbolName = symbolNameOut.c_str();
+
+    TIntermSymbol *node = new TIntermSymbol(id, symbolName, type);
+    node->setInternal(true);
+
+    ASSERT(qualifier == EvqTemporary || qualifier == EvqConst || qualifier == EvqGlobal);
+    node->getTypePointer()->setQualifier(qualifier);
+
+    // TODO(oetuaho): Might be useful to sanitize layout qualifier etc. on the type of the created
+    // symbol. This might need to be done in other places as well.
+    return node;
+}
+
+TIntermDeclaration *CreateTempInitDeclarationNode(const TSymbolUniqueId &id,
+                                                  TIntermTyped *initializer,
+                                                  TQualifier qualifier)
+{
+    ASSERT(initializer != nullptr);
+    TIntermSymbol *tempSymbol = CreateTempSymbolNode(id, initializer->getType(), qualifier);
+    TIntermDeclaration *tempDeclaration = new TIntermDeclaration();
+    TIntermBinary *tempInit             = new TIntermBinary(EOpInitialize, tempSymbol, initializer);
+    tempDeclaration->appendDeclarator(tempInit);
+    return tempDeclaration;
+}
+
 TIntermBlock *EnsureBlock(TIntermNode *node)
 {
     if (node == nullptr)
@@ -188,7 +219,7 @@ TIntermSymbol *ReferenceGlobalVariable(const TString &name, const TSymbolTable &
 {
     TVariable *var = reinterpret_cast<TVariable *>(symbolTable.findGlobal(name));
     ASSERT(var);
-    return new TIntermSymbol(var->getUniqueId(), name, var->getType());
+    return new TIntermSymbol(var->uniqueId(), name, var->getType());
 }
 
 TIntermSymbol *ReferenceBuiltInVariable(const TString &name,
@@ -198,7 +229,7 @@ TIntermSymbol *ReferenceBuiltInVariable(const TString &name,
     const TVariable *var =
         reinterpret_cast<const TVariable *>(symbolTable.findBuiltIn(name, shaderVersion, true));
     ASSERT(var);
-    return new TIntermSymbol(var->getUniqueId(), name, var->getType());
+    return new TIntermSymbol(var->uniqueId(), name, var->getType());
 }
 
 TIntermTyped *CreateBuiltInFunctionCallNode(const TString &name,

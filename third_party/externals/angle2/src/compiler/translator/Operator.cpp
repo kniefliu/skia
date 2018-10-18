@@ -30,6 +30,9 @@ const char *GetOperatorString(TOperator op)
         case EOpPreDecrement:
             return "--";
 
+        case EOpArrayLength:
+            return ".length()";
+
         case EOpAdd:
             return "+";
         case EOpSub:
@@ -341,6 +344,11 @@ const char *GetOperatorString(TOperator op)
             return "memoryBarrierShared";
         case EOpGroupMemoryBarrier:
             return "groupMemoryBarrier";
+
+        case EOpEmitVertex:
+            return "EmitVertex";
+        case EOpEndPrimitive:
+            return "EndPrimitive";
         default:
             break;
     }

@@ -301,12 +301,12 @@ static bool get_clip_stack_path(const SkMatrix& transform,
     iter.reset(clipStack, SkClipStack::Iter::kBottom_IterStart);
     for (clipEntry = iter.next(); clipEntry; clipEntry = iter.next()) {
         SkPath entryPath;
-        if (SkClipStack::Element::kEmpty_Type == clipEntry->getType()) {
+        if (SkClipStack::Element::DeviceSpaceType::kEmpty == clipEntry->getDeviceSpaceType()) {
             outClipPath->reset();
             outClipPath->setFillType(SkPath::kInverseWinding_FillType);
             continue;
         } else {
-            clipEntry->asPath(&entryPath);
+            clipEntry->asDeviceSpacePath(&entryPath);
         }
         entryPath.transform(transform);
         if (!apply_clip(clipEntry->getOp(), *outClipPath, entryPath, outClipPath)) {
@@ -414,7 +414,7 @@ void GraphicStackState::updateDrawingState(const SkPDFDevice::GraphicStateEntry&
 
     if (state.fTextScaleX) {
         if (state.fTextScaleX != currentEntry()->fTextScaleX) {
-            SkScalar pdfScale = state.fTextScaleX * 1000;
+            SkScalar pdfScale = state.fTextScaleX * 100;
             SkPDFUtils::AppendScalar(pdfScale, fContentStream);
             fContentStream->writeText(" Tz\n");
             currentEntry()->fTextScaleX = state.fTextScaleX;
@@ -952,8 +952,9 @@ void SkPDFDevice::internalDrawPath(const SkClipStack& clipStack,
     if (!content.entry()) {
         return;
     }
+    constexpr SkScalar kToleranceScale = 0.0625f;  // smaller = better conics (circles).
     SkScalar matrixScale = matrix.mapRadius(1.0f);
-    SkScalar tolerance = matrixScale > 0.0f ? 0.25f / matrixScale : 0.25f;
+    SkScalar tolerance = matrixScale > 0.0f ? kToleranceScale / matrixScale : kToleranceScale;
     bool consumeDegeratePathSegments =
            paint.getStyle() == SkPaint::kFill_Style ||
            (paint.getStrokeCap() != SkPaint::kRound_Cap &&
@@ -1385,7 +1386,7 @@ void SkPDFDevice::internalDrawText(
         const SkScalar pos[], SkTextBlob::GlyphPositioning positioning,
         SkPoint offset, const SkPaint& srcPaint, const uint32_t* clusters,
         uint32_t textByteLength, const char* utf8Text) {
-    if (0 == sourceByteCount || !sourceText) {
+    if (0 == sourceByteCount || !sourceText || srcPaint.getTextSize() <= 0) {
         return;
     }
     if (this->cs().isEmpty(this->bounds())) {

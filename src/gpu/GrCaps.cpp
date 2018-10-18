@@ -14,6 +14,8 @@ static const char* pixel_config_name(GrPixelConfig config) {
     switch (config) {
         case kUnknown_GrPixelConfig: return "Unknown";
         case kAlpha_8_GrPixelConfig: return "Alpha8";
+        case kAlpha_8_as_Alpha_GrPixelConfig: return "Alpha8_asAlpha";
+        case kAlpha_8_as_Red_GrPixelConfig: return "Alpha8_asRed";
         case kGray_8_GrPixelConfig: return "Gray8";
         case kRGB_565_GrPixelConfig: return "RGB565";
         case kRGBA_4444_GrPixelConfig: return "RGBA444";
@@ -25,6 +27,7 @@ static const char* pixel_config_name(GrPixelConfig config) {
         case kRGBA_float_GrPixelConfig: return "RGBAFloat";
         case kRG_float_GrPixelConfig: return "RGFloat";
         case kAlpha_half_GrPixelConfig: return "AlphaHalf";
+        case kAlpha_half_as_Red_GrPixelConfig: return "AlphaHalf_asRed";
         case kRGBA_half_GrPixelConfig: return "RGBAHalf";
     }
     SK_ABORT("Invalid pixel config");
@@ -54,8 +57,6 @@ GrCaps::GrCaps(const GrContextOptions& options) {
     fFenceSyncSupport = false;
     fCrossContextTextureSupport = false;
 
-    fUseDrawInsteadOfClear = false;
-
     fInstancedSupport = InstancedSupport::kNone;
 
     fBlendEquationSupport = kBasic_BlendEquationSupport;
@@ -71,10 +72,23 @@ GrCaps::GrCaps(const GrContextOptions& options) {
     fMaxRasterSamples = 0;
     fMaxWindowRectangles = 0;
 
+    // An default count of 4 was chosen because of the common pattern in Blink of:
+    //   isect RR
+    //   diff  RR
+    //   isect convex_poly
+    //   isect convex_poly
+    // when drawing rounded div borders.
+    fMaxClipAnalyticFPs = 4;
+
     fSuppressPrints = options.fSuppressPrints;
+#if GR_TEST_UTILS
     fWireframeMode = options.fWireframeMode;
+#else
+    fWireframeMode = false;
+#endif
     fBufferMapThreshold = options.fBufferMapThreshold;
     fAvoidInstancedDrawsToFPTargets = false;
+    fBlacklistCoverageCounting = false;
     fAvoidStencilBuffers = false;
 
     fPreferVRAMUseOverFlushes = true;
@@ -83,12 +97,13 @@ GrCaps::GrCaps(const GrContextOptions& options) {
 void GrCaps::applyOptionsOverrides(const GrContextOptions& options) {
     this->onApplyOptionsOverrides(options);
     fMaxTextureSize = SkTMin(fMaxTextureSize, options.fMaxTextureSizeOverride);
+    fMaxTileSize = fMaxTextureSize;
+#if GR_TEST_UTILS
     // If the max tile override is zero, it means we should use the max texture size.
-    if (!options.fMaxTileSizeOverride || options.fMaxTileSizeOverride > fMaxTextureSize) {
-        fMaxTileSize = fMaxTextureSize;
-    } else {
+    if (options.fMaxTileSizeOverride && options.fMaxTileSizeOverride < fMaxTextureSize) {
         fMaxTileSize = options.fMaxTileSizeOverride;
     }
+#endif
     if (fMaxWindowRectangles > GrWindowRectangles::kMaxWindows) {
         SkDebugf("WARNING: capping window rectangles at %i. HW advertises support for %i.\n",
                  GrWindowRectangles::kMaxWindows, fMaxWindowRectangles);
@@ -142,7 +157,8 @@ void GrCaps::dumpJSON(SkJSONWriter* writer) const {
     writer->appendBool("Fence sync support", fFenceSyncSupport);
     writer->appendBool("Cross context texture support", fCrossContextTextureSupport);
 
-    writer->appendBool("Draw Instead of Clear [workaround]", fUseDrawInsteadOfClear);
+    writer->appendBool("Blacklist Coverage Counting Path Renderer [workaround]",
+                       fBlacklistCoverageCounting);
     writer->appendBool("Prefer VRAM Use over flushes [workaround]", fPreferVRAMUseOverFlushes);
 
     if (this->advancedBlendEquationSupport()) {
@@ -156,6 +172,7 @@ void GrCaps::dumpJSON(SkJSONWriter* writer) const {
     writer->appendS32("Max Stencil Sample Count", fMaxStencilSampleCount);
     writer->appendS32("Max Raster Samples", fMaxRasterSamples);
     writer->appendS32("Max Window Rectangles", fMaxWindowRectangles);
+    writer->appendS32("Max Clip Analytic Fragment Processors", fMaxClipAnalyticFPs);
 
     static const char* kInstancedSupportNames[] = {
         "None",

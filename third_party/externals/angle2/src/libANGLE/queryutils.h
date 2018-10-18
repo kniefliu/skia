@@ -19,7 +19,7 @@ namespace gl
 class Buffer;
 class Context;
 class Error;
-class FenceSync;
+class Sync;
 class Framebuffer;
 class Program;
 class Renderbuffer;
@@ -97,11 +97,7 @@ void QueryInternalFormativ(const TextureCaps &format, GLenum pname, GLsizei bufS
 
 void QueryFramebufferParameteriv(const Framebuffer *framebuffer, GLenum pname, GLint *params);
 
-Error QuerySynciv(const FenceSync *sync,
-                  GLenum pname,
-                  GLsizei bufSize,
-                  GLsizei *length,
-                  GLint *values);
+Error QuerySynciv(const Sync *sync, GLenum pname, GLsizei bufSize, GLsizei *length, GLint *values);
 
 void SetTexParameterf(Context *context, Texture *texture, GLenum pname, GLfloat param);
 void SetTexParameterfv(Context *context, Texture *texture, GLenum pname, const GLfloat *params);
@@ -116,6 +112,8 @@ void SetSamplerParameteriv(Sampler *sampler, GLenum pname, const GLint *params);
 void SetFramebufferParameteri(Framebuffer *framebuffer, GLenum pname, GLint param);
 
 void SetProgramParameteri(Program *program, GLenum pname, GLint value);
+
+GLint GetUniformResourceProperty(const Program *program, GLuint index, const GLenum prop);
 
 GLuint QueryProgramResourceIndex(const Program *program,
                                  GLenum programInterface,
@@ -140,6 +138,11 @@ void QueryProgramResourceiv(const Program *program,
                             GLsizei *length,
                             GLint *params);
 
+void QueryProgramInterfaceiv(const Program *program,
+                             GLenum programInterface,
+                             GLenum pname,
+                             GLint *params);
+
 }  // namespace gl
 
 namespace egl
@@ -148,6 +151,8 @@ struct Config;
 class Surface;
 
 void QueryConfigAttrib(const Config *config, EGLint attribute, EGLint *value);
+
+void QueryContextAttrib(const gl::Context *context, EGLint attribute, EGLint *value);
 
 void QuerySurfaceAttrib(const Surface *surface, EGLint attribute, EGLint *value);
 void SetSurfaceAttrib(Surface *surface, EGLint attribute, EGLint value);

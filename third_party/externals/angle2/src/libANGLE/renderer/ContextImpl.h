@@ -29,13 +29,15 @@ class ContextImpl : public GLImplFactory
 {
   public:
     ContextImpl(const gl::ContextState &state);
-    virtual ~ContextImpl();
+    ~ContextImpl() override;
+
+    virtual void onDestroy(const gl::Context *context) {}
 
     virtual gl::Error initialize() = 0;
 
     // Flush and finish.
-    virtual gl::Error flush()  = 0;
-    virtual gl::Error finish() = 0;
+    virtual gl::Error flush(const gl::Context *context)  = 0;
+    virtual gl::Error finish(const gl::Context *context) = 0;
 
     // Drawing methods.
     virtual gl::Error drawArrays(const gl::Context *context,
@@ -128,10 +130,14 @@ class ContextImpl : public GLImplFactory
     virtual std::string getVendorString() const        = 0;
     virtual std::string getRendererDescription() const = 0;
 
-    // Debug markers.
+    // EXT_debug_marker
     virtual void insertEventMarker(GLsizei length, const char *marker) = 0;
     virtual void pushGroupMarker(GLsizei length, const char *marker)   = 0;
     virtual void popGroupMarker() = 0;
+
+    // KHR_debug
+    virtual void pushDebugGroup(GLenum source, GLuint id, GLsizei length, const char *message) = 0;
+    virtual void popDebugGroup()                                                               = 0;
 
     // State sync with dirty bits.
     virtual void syncState(const gl::Context *context, const gl::State::DirtyBits &dirtyBits) = 0;
@@ -156,18 +162,6 @@ class ContextImpl : public GLImplFactory
                                       GLuint numGroupsY,
                                       GLuint numGroupsZ) = 0;
 
-    // This does not correspond to a GL API, but matches a common GL driver behaviour where
-    // draw call states can trigger dynamic shader recompilation. We pass the Program cache
-    // handle as a mutable pointer to this Impl method to both trigger dynamic recompilations
-    // and to allow the back-end to store the refreshed shaders in the cache.
-    virtual gl::Error triggerDrawCallProgramRecompilation(const gl::Context *context,
-                                                          gl::InfoLog *infoLog,
-                                                          gl::MemoryProgramCache *memoryCache,
-                                                          GLenum drawMode)
-    {
-        return gl::NoError();
-    }
-
     const gl::ContextState &getContextState() { return mState; }
     int getClientMajorVersion() const { return mState.getClientMajorVersion(); }
     int getClientMinorVersion() const { return mState.getClientMinorVersion(); }
@@ -177,8 +171,14 @@ class ContextImpl : public GLImplFactory
     const gl::Extensions &getExtensions() const { return mState.getExtensions(); }
     const gl::Limitations &getLimitations() const { return mState.getLimitations(); }
 
+    // A common GL driver behaviour is to trigger dynamic shader recompilation on a draw call,
+    // based on the current render states. We store a mutable pointer to the program cache so
+    // on draw calls we can store the refreshed shaders in the cache.
+    void setMemoryProgramCache(gl::MemoryProgramCache *memoryProgramCache);
+
   protected:
     const gl::ContextState &mState;
+    gl::MemoryProgramCache *mMemoryProgramCache;
 };
 
 }  // namespace rx

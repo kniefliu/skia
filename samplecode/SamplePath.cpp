@@ -197,7 +197,6 @@ protected:
 
     SkView::Click* onFindClickHandler(SkScalar x, SkScalar y, unsigned modi) override {
         fShowHairline = !fShowHairline;
-        this->inval(nullptr);
         return this->INHERITED::onFindClickHandler(x, y, modi);
     }
 
@@ -248,7 +247,6 @@ public:
 
     void toggle(bool& value) {
         value = !value;
-        this->inval(nullptr);
     }
 
 protected:
@@ -298,7 +296,6 @@ protected:
         if (click->fMeta.findS32("index", &index)) {
             SkASSERT((unsigned)index < N);
             fPts[index] = click->fCurr;
-            this->inval(nullptr);
             return true;
         }
         return false;
@@ -334,7 +331,7 @@ public:
         N = 4
     };
     SkPoint fPts[N];
-    
+
     FatStroke() : fClosed(false), fShowStroke(true), fShowHidden(false), fShowSkeleton(true),
                   fJoinType(0), fCapType(0)
     {
@@ -343,35 +340,33 @@ public:
             fPts[i].fX = 20 + rand.nextUScalar1() * 640;
             fPts[i].fY = 20 + rand.nextUScalar1() * 480;
         }
-        
+
         fPtsPaint.setAntiAlias(true);
         fPtsPaint.setStrokeWidth(10);
         fPtsPaint.setStrokeCap(SkPaint::kRound_Cap);
-        
+
         fHiddenPaint.setAntiAlias(true);
         fHiddenPaint.setStyle(SkPaint::kStroke_Style);
         fHiddenPaint.setColor(0xFF0000FF);
-        
+
         fStrokePaint.setAntiAlias(true);
         fStrokePaint.setStyle(SkPaint::kStroke_Style);
         fStrokePaint.setStrokeWidth(50);
         fStrokePaint.setColor(0x8000FF00);
-        
+
         fSkeletonPaint.setAntiAlias(true);
         fSkeletonPaint.setStyle(SkPaint::kStroke_Style);
         fSkeletonPaint.setColor(SK_ColorRED);
     }
-    
+
     void toggle(bool& value) {
         value = !value;
-        this->inval(nullptr);
     }
-    
+
     void toggle3(int& value) {
         value = (value + 1) % 3;
-        this->inval(nullptr);
     }
-    
+
 protected:
     // overrides from SkEventSink
     bool onQuery(SkEvent* evt) override {
@@ -388,14 +383,14 @@ protected:
                 case '4': this->toggle3(fJoinType); return true;
                 case '5': this->toggle3(fCapType); return true;
                 case '6': this->toggle(fClosed); return true;
-                case '-': fWidth -= 5; this->inval(nullptr); return true;
-                case '=': fWidth += 5; this->inval(nullptr); return true;
+                case '-': fWidth -= 5; return true;
+                case '=': fWidth += 5; return true;
                 default: break;
             }
         }
         return this->INHERITED::onQuery(evt);
     }
-    
+
     void makePath(SkPath* path) {
         path->moveTo(fPts[0]);
         for (int i = 1; i < N; ++i) {
@@ -405,7 +400,7 @@ protected:
             path->close();
         }
     }
-    
+
     void onDrawContent(SkCanvas* canvas) override {
         canvas->drawColor(0xFFEEEEEE);
 
@@ -429,18 +424,17 @@ protected:
         }
         canvas->drawPoints(SkCanvas::kPoints_PointMode, N, fPts, fPtsPaint);
     }
-    
+
     bool onClick(Click* click) override {
         int32_t index;
         if (click->fMeta.findS32("index", &index)) {
             SkASSERT((unsigned)index < N);
             fPts[index] = click->fCurr;
-            this->inval(nullptr);
             return true;
         }
         return false;
     }
-    
+
     SkView::Click* onFindClickHandler(SkScalar x, SkScalar y, unsigned modi) override {
         const SkScalar tol = 4;
         const SkRect r = SkRect::MakeXYWH(x - tol, y - tol, tol * 2, tol * 2);
@@ -453,7 +447,7 @@ protected:
         }
         return this->INHERITED::onFindClickHandler(x, y, modi);
     }
-    
+
 private:
     typedef SampleView INHERITED;
 };

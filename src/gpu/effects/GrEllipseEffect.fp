@@ -5,17 +5,17 @@
  * found in the LICENSE file.
  */
 
-layout(key) in int edgeType;
+layout(key) in GrClipEdgeType edgeType;
 in float2 center;
 in float2 radii;
 
 float2 prevCenter;
 float2 prevRadii = float2(-1);
 // The ellipse uniform is (center.x, center.y, 1 / rx^2, 1 / ry^2)
-// The last two terms can underflow on mediump, so we use highp.
-uniform highp float4 ellipse;
+// The last two terms can underflow when float != fp32, so we also provide a workaround.
+uniform float4 ellipse;
 
-bool useScale = sk_Caps.floatPrecisionVaries;
+bool useScale = !sk_Caps.floatIs32Bits;
 layout(when=useScale) uniform float2 scale;
 
 @optimizationFlags { kCompatibleWithCoverageAsAlpha_OptimizationFlag }
@@ -70,18 +70,18 @@ void main() {
         approx_dist *= scale.x;
     }
 
-    float alpha;
+    half alpha;
     @switch (edgeType) {
-        case 0 /* kFillBW_GrProcessorEdgeType */:
+        case GrClipEdgeType::kFillBW:
             alpha = approx_dist > 0.0 ? 0.0 : 1.0;
             break;
-        case 1 /* kFillAA_GrProcessorEdgeType */:
+        case GrClipEdgeType::kFillAA:
             alpha = clamp(0.5 - approx_dist, 0.0, 1.0);
             break;
-        case 2 /* kInverseFillBW_GrProcessorEdgeType */:
+        case GrClipEdgeType::kInverseFillBW:
             alpha = approx_dist > 0.0 ? 1.0 : 0.0;
             break;
-        case 3 /* kInverseFillAA_GrProcessorEdgeType */:
+        case GrClipEdgeType::kInverseFillAA:
             alpha = clamp(0.5 + approx_dist, 0.0, 1.0);
             break;
         default:
@@ -97,9 +97,9 @@ void main() {
     center.fY = testData->fRandom->nextRangeScalar(0.f, 1000.f);
     SkScalar rx = testData->fRandom->nextRangeF(0.f, 1000.f);
     SkScalar ry = testData->fRandom->nextRangeF(0.f, 1000.f);
-    GrPrimitiveEdgeType et;
+    GrClipEdgeType et;
     do {
-        et = (GrPrimitiveEdgeType) testData->fRandom->nextULessThan(kGrProcessorEdgeTypeCnt);
-    } while (kHairlineAA_GrProcessorEdgeType == et);
+        et = (GrClipEdgeType) testData->fRandom->nextULessThan(kGrClipEdgeTypeCnt);
+    } while (GrClipEdgeType::kHairlineAA == et);
     return GrEllipseEffect::Make(et, center, SkPoint::Make(rx, ry));
 }

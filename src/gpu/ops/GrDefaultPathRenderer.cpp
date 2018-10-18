@@ -180,7 +180,7 @@ public:
         SkPath::Verb verb;
 
         SkPoint pts[4];
-        while ((verb = iter.next(pts)) != SkPath::kDone_Verb) {
+        while ((verb = iter.next(pts, false)) != SkPath::kDone_Verb) {
             if (SkPath::kMove_Verb == verb && !first) {
                 return true;
             }
@@ -265,7 +265,7 @@ private:
         SkASSERT(vertexCount <= fVerticesInChunk);
         SkASSERT(indexCount <= fIndicesInChunk);
 
-        if (vertexCount > 0) {
+        if (this->isIndexed() ? SkToBool(indexCount) : SkToBool(vertexCount)) {
             if (!this->isIndexed()) {
                 fMesh.setNonIndexedNonInstanced(vertexCount);
             } else {
@@ -343,6 +343,10 @@ public:
 
     const char* name() const override { return "DefaultPathOp"; }
 
+    void visitProxies(const VisitProxyFunc& func) const override {
+        fHelper.visitProxies(func);
+    }
+
     SkString dumpInfo() const override {
         SkString string;
         string.appendf("Color: 0x%08x Count: %d\n", fColor, fPaths.count());
@@ -372,11 +376,12 @@ public:
 
     FixedFunctionFlags fixedFunctionFlags() const override { return fHelper.fixedFunctionFlags(); }
 
-    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip) override {
+    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip,
+                                GrPixelConfigIsClamped dstIsClamped) override {
         GrProcessorAnalysisCoverage gpCoverage =
                 this->coverage() == 0xFF ? GrProcessorAnalysisCoverage::kNone
                                          : GrProcessorAnalysisCoverage::kSingleChannel;
-        return fHelper.xpRequiresDstTexture(caps, clip, gpCoverage, &fColor);
+        return fHelper.xpRequiresDstTexture(caps, clip, dstIsClamped, gpCoverage, &fColor);
     }
 
 private:
@@ -563,8 +568,10 @@ bool GrDefaultPathRenderer::internalDrawPath(GrRenderTargetContext* renderTarget
     SkScalar srcSpaceTol = GrPathUtils::scaleToleranceToSrc(tol, viewMatrix, path.getBounds());
 
     SkRect devBounds;
-    GetPathDevBounds(path, renderTargetContext->width(), renderTargetContext->height(), viewMatrix,
-                     &devBounds);
+    GetPathDevBounds(path,
+                     renderTargetContext->asRenderTargetProxy()->worstCaseWidth(),
+                     renderTargetContext->asRenderTargetProxy()->worstCaseHeight(),
+                     viewMatrix, &devBounds);
 
     for (int p = 0; p < passCount; ++p) {
         if (lastPassIsBounds && (p == passCount-1)) {
@@ -609,15 +616,20 @@ bool GrDefaultPathRenderer::internalDrawPath(GrRenderTargetContext* renderTarget
     return true;
 }
 
-bool GrDefaultPathRenderer::onCanDrawPath(const CanDrawPathArgs& args) const {
+GrPathRenderer::CanDrawPath
+GrDefaultPathRenderer::onCanDrawPath(const CanDrawPathArgs& args) const {
     bool isHairline = IsStrokeHairlineOrEquivalent(args.fShape->style(), *args.fViewMatrix, nullptr);
     // If we aren't a single_pass_shape or hairline, we require stencil buffers.
     if (!(single_pass_shape(*args.fShape) || isHairline) && args.fCaps->avoidStencilBuffers()) {
-        return false;
+        return CanDrawPath::kNo;
     }
     // This can draw any path with any simple fill style but doesn't do coverage-based antialiasing.
-    return GrAAType::kCoverage != args.fAAType &&
-           (args.fShape->style().isSimpleFill() || isHairline);
+    if (GrAAType::kCoverage == args.fAAType ||
+        (!args.fShape->style().isSimpleFill() && !isHairline)) {
+        return CanDrawPath::kNo;
+    }
+    // This is the fallback renderer for when a path is too complicated for the others to draw.
+    return CanDrawPath::kAsBackup;
 }
 
 bool GrDefaultPathRenderer::onDrawPath(const DrawPathArgs& args) {

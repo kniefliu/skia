@@ -90,13 +90,17 @@ protected:
 
     void write(const String& s);
 
+    void write(StringFragment s);
+
     void writeLine(const String& s);
 
     virtual void writeHeader();
 
-    virtual void writePrecisionModifier();
+    virtual bool usesPrecisionModifiers() const;
 
-    virtual void writeType(const Type& type);
+    virtual String getTypeName(const Type& type);
+
+    void writeType(const Type& type);
 
     void writeExtension(const Extension& ext);
 
@@ -116,6 +120,8 @@ protected:
 
     virtual void writeVarInitializer(const Variable& var, const Expression& value);
 
+    const char* getTypePrecision(const Type& type);
+
     void writeTypePrecision(const Type& type);
 
     void writeVarDeclarations(const VarDeclarations& decl, bool global);
@@ -132,11 +138,11 @@ protected:
 
     virtual void writeFunctionCall(const FunctionCall& c);
 
-    void writeConstructor(const Constructor& c);
+    void writeConstructor(const Constructor& c, Precedence parentPrecedence);
 
     void writeFieldAccess(const FieldAccess& f);
 
-    void writeSwizzle(const Swizzle& swizzle);
+    virtual void writeSwizzle(const Swizzle& swizzle);
 
     static Precedence GetBinaryPrecedence(Token::Kind op);
 
@@ -193,6 +199,7 @@ protected:
     // true if we have run into usages of dFdx / dFdy
     bool fFoundDerivatives = false;
     bool fFoundImageDecl = false;
+    bool fFoundGSInvocations = false;
     bool fSetupFragPositionGlobal = false;
     bool fSetupFragPositionLocal = false;
 

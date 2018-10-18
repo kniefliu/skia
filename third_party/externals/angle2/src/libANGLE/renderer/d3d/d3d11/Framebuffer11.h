@@ -21,7 +21,7 @@ class Framebuffer11 : public FramebufferD3D, public OnRenderTargetDirtyReceiver
 {
   public:
     Framebuffer11(const gl::FramebufferState &data, Renderer11 *renderer);
-    virtual ~Framebuffer11();
+    ~Framebuffer11() override;
 
     gl::Error discard(const gl::Context *context, size_t count, const GLenum *attachments) override;
     gl::Error invalidate(const gl::Context *context,
@@ -52,7 +52,7 @@ class Framebuffer11 : public FramebufferD3D, public OnRenderTargetDirtyReceiver
     bool hasAnyInternalDirtyBit() const;
     void syncInternalState(const gl::Context *context);
 
-    void signal(size_t channelID) override;
+    void signal(size_t channelID, const gl::Context *context) override;
 
     gl::Error getSamplePosition(size_t index, GLfloat *xy) const override;
 
@@ -65,7 +65,7 @@ class Framebuffer11 : public FramebufferD3D, public OnRenderTargetDirtyReceiver
                              GLenum type,
                              size_t outputPitch,
                              const gl::PixelPackState &pack,
-                             uint8_t *pixels) const override;
+                             uint8_t *pixels) override;
 
     gl::Error blitImpl(const gl::Context *context,
                        const gl::Rectangle &sourceArea,

@@ -13,15 +13,15 @@
 // Keep it simple!
 
 // Externally facing functions (start_pipeline) are called a little specially on Windows.
-#if defined(JUMPER) && defined(WIN) && defined(__x86_64__)
+#if defined(JUMPER_IS_OFFLINE) && defined(WIN) && defined(__x86_64__)
     #define MAYBE_MSABI __attribute__((ms_abi))                   // Use MS' ABI, not System V.
-#elif defined(JUMPER) && defined(WIN) && defined(__i386__)
+#elif defined(JUMPER_IS_OFFLINE) && defined(WIN) && defined(__i386__)
     #define MAYBE_MSABI __attribute__((force_align_arg_pointer))  // Re-align stack 4 -> 16 bytes.
 #else
     #define MAYBE_MSABI
 #endif
 
-#if defined(JUMPER) && (defined(__aarch64__) || defined(__arm__))
+#if defined(JUMPER_IS_OFFLINE) && (defined(__aarch64__) || defined(__arm__))
     // To reduce SkJumper's dependency on the Android NDK,
     // we provide what we need from <string.h>, <stdint.h>, and <stddef.h> ourselves.
     #define memcpy __builtin_memcpy
@@ -50,16 +50,23 @@
     #include <stdint.h>
 #endif
 
-static const int SkJumper_kMaxStride = 8;
+// When compiled with Clang on ARM, we'll have 8-bit NEON stages.
+#if defined(__clang__) && defined(__ARM_NEON)
+    #define JUMPER_HAS_NEON_LOWP
+#endif
 
-struct SkJumper_constants {
-    float    iota_F  [SkJumper_kMaxStride];   //  0,1,2,3,4,...
-    uint32_t iota_U32[SkJumper_kMaxStride];   //  0,1,2,3,4,...
-};
+static const int SkJumper_kMaxStride = 16;
 
 struct SkJumper_MemoryCtx {
     void* pixels;
     int   stride;
+};
+
+struct SkJumper_GatherCtx {
+    void* pixels;
+    int   stride;
+    float width,
+          height;
 };
 
 // State shared by save_xy, accumulate, and bilinear_* / bicubic_*.
@@ -118,7 +125,7 @@ struct SkJumper_2PtConicalCtx {
 
 struct SkJumper_UniformColorCtx {
     float r,g,b,a;
-    uint32_t rgba;
+    uint16_t rgba[4];  // [0,255] in a 16-bit lane.
 };
 
 struct SkJumper_ColorLookupTableCtx {

@@ -10,7 +10,6 @@
  */
 #include "GrEllipseEffect.h"
 #if SK_SUPPORT_GPU
-#include "glsl/GrGLSLColorSpaceXformHelper.h"
 #include "glsl/GrGLSLFragmentProcessor.h"
 #include "glsl/GrGLSLFragmentShaderBuilder.h"
 #include "glsl/GrGLSLProgramBuilder.h"
@@ -23,12 +22,18 @@ public:
         GrGLSLFPFragmentBuilder* fragBuilder = args.fFragBuilder;
         const GrEllipseEffect& _outer = args.fFp.cast<GrEllipseEffect>();
         (void)_outer;
+        auto edgeType = _outer.edgeType();
+        (void)edgeType;
+        auto center = _outer.center();
+        (void)center;
+        auto radii = _outer.radii();
+        (void)radii;
         prevRadii = float2(-1.0);
-        useScale = sk_Caps.floatPrecisionVaries;
-        fEllipseVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kVec4f_GrSLType,
-                                                       kHigh_GrSLPrecision, "ellipse");
+        useScale = !sk_Caps.floatIs32Bits;
+        fEllipseVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kFloat4_GrSLType,
+                                                       kDefault_GrSLPrecision, "ellipse");
         if (useScale) {
-            fScaleVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kVec2f_GrSLType,
+            fScaleVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kFloat2_GrSLType,
                                                          kDefault_GrSLPrecision, "scale");
         }
         fragBuilder->codeAppendf(
@@ -37,21 +42,20 @@ public:
                 "%s.y;\n}\nfloat2 Z = d * %s.zw;\nfloat implicit = dot(Z, d) - 1.0;\nfloat "
                 "grad_dot = 4.0 * dot(Z, Z);\ngrad_dot = max(grad_dot, 0.0001);\nfloat approx_dist "
                 "= implicit * inversesqrt(grad_dot);\n@if (useScale) {\n    approx_dist *= "
-                "%s.x;\n}\nfloat alpha;\n@switch (%d) {\n    case 0:\n        alpha = approx_dist "
-                "> 0.0 ? 0.0 : 1.0;\n        break;\n    case 1:\n        alpha = clamp(0.5 - "
-                "approx_dist, 0.0, 1.0);\n        break;\n    case 2:\n        alpha = approx_dist "
-                "> 0.0 ? 1.0 : 0.0;\n        break;\n    case 3:\n        alpha = clamp(0.5 + "
-                "approx_dist, 0.0, 1.0);\n        break;\n    default:\n        discard;\n}\n%s = "
-                "%s * alpha;\n",
+                "%s.x;\n}\nhalf alpha;\n@switch (%d) {\n    case 0:\n        alpha = "
+                "half(approx_dist > 0.0 ? 0.0 : 1.0);\n        break;\n    case 1:\n      ",
                 prevRadii.fX, prevRadii.fY, (useScale ? "true" : "false"),
                 args.fUniformHandler->getUniformCStr(fEllipseVar),
-                fScaleVar.isValid() ? args.fUniformHandler->getUniformCStr(fScaleVar)
-                                    : "float2(0.0)",
+                fScaleVar.isValid() ? args.fUniformHandler->getUniformCStr(fScaleVar) : "float2(0)",
                 args.fUniformHandler->getUniformCStr(fEllipseVar),
-                fScaleVar.isValid() ? args.fUniformHandler->getUniformCStr(fScaleVar)
-                                    : "float2(0.0)",
-                _outer.edgeType(), args.fOutputColor,
-                args.fInputColor ? args.fInputColor : "float4(1)");
+                fScaleVar.isValid() ? args.fUniformHandler->getUniformCStr(fScaleVar) : "float2(0)",
+                (int)_outer.edgeType());
+        fragBuilder->codeAppendf(
+                "  alpha = half(clamp(0.5 - approx_dist, 0.0, 1.0));\n        break;\n    case "
+                "2:\n        alpha = half(approx_dist > 0.0 ? 1.0 : 0.0);\n        break;\n    "
+                "case 3:\n        alpha = half(clamp(0.5 + approx_dist, 0.0, 1.0));\n        "
+                "break;\n    default:\n        discard;\n}\n%s = %s * alpha;\n",
+                args.fOutputColor, args.fInputColor ? args.fInputColor : "half4(1)");
     }
 
 private:
@@ -72,7 +76,9 @@ private:
         if (radii != prevRadii || center != prevCenter) {
             float invRXSqd;
             float invRYSqd;
-
+            // If we're using a scale factor to work around precision issues, choose the larger
+            // radius as the scale factor. The inv radii need to be pre-adjusted by the scale
+            // factor.
             if (scale.isValid()) {
                 if (radii.fX > radii.fY) {
                     invRXSqd = 1.f;
@@ -92,9 +98,9 @@ private:
             prevRadii = radii;
         }
     }
-    SkPoint prevCenter;
-    SkPoint prevRadii;
-    bool useScale;
+    SkPoint prevCenter = float2(0);
+    SkPoint prevRadii = float2(0);
+    bool useScale = false;
     UniformHandle fEllipseVar;
     UniformHandle fScaleVar;
 };
@@ -103,7 +109,7 @@ GrGLSLFragmentProcessor* GrEllipseEffect::onCreateGLSLInstance() const {
 }
 void GrEllipseEffect::onGetGLSLProcessorKey(const GrShaderCaps& caps,
                                             GrProcessorKeyBuilder* b) const {
-    b->add32(fEdgeType);
+    b->add32((int32_t)fEdgeType);
 }
 bool GrEllipseEffect::onIsEqual(const GrFragmentProcessor& other) const {
     const GrEllipseEffect& that = other.cast<GrEllipseEffect>();
@@ -114,12 +120,10 @@ bool GrEllipseEffect::onIsEqual(const GrFragmentProcessor& other) const {
     return true;
 }
 GrEllipseEffect::GrEllipseEffect(const GrEllipseEffect& src)
-        : INHERITED(src.optimizationFlags())
+        : INHERITED(kGrEllipseEffect_ClassID, src.optimizationFlags())
         , fEdgeType(src.fEdgeType)
         , fCenter(src.fCenter)
-        , fRadii(src.fRadii) {
-    this->initClassID<GrEllipseEffect>();
-}
+        , fRadii(src.fRadii) {}
 std::unique_ptr<GrFragmentProcessor> GrEllipseEffect::clone() const {
     return std::unique_ptr<GrFragmentProcessor>(new GrEllipseEffect(*this));
 }
@@ -131,10 +135,10 @@ std::unique_ptr<GrFragmentProcessor> GrEllipseEffect::TestCreate(GrProcessorTest
     center.fY = testData->fRandom->nextRangeScalar(0.f, 1000.f);
     SkScalar rx = testData->fRandom->nextRangeF(0.f, 1000.f);
     SkScalar ry = testData->fRandom->nextRangeF(0.f, 1000.f);
-    GrPrimitiveEdgeType et;
+    GrClipEdgeType et;
     do {
-        et = (GrPrimitiveEdgeType)testData->fRandom->nextULessThan(kGrProcessorEdgeTypeCnt);
-    } while (kHairlineAA_GrProcessorEdgeType == et);
+        et = (GrClipEdgeType)testData->fRandom->nextULessThan(kGrClipEdgeTypeCnt);
+    } while (GrClipEdgeType::kHairlineAA == et);
     return GrEllipseEffect::Make(et, center, SkPoint::Make(rx, ry));
 }
 #endif

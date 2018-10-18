@@ -109,7 +109,9 @@ sk_sp<GrTextureProxy> GrYUVProvider::refAsTextureProxy(GrContext* ctx, const GrS
                 (yuvDesc.fHeight != yuvInfo.fSizeInfo.fSizes[SkYUVSizeInfo::kY].fHeight)
                     ? SkBackingFit::kExact : SkBackingFit::kApprox;
 
-        yuvTextureContexts[i] = ctx->contextPriv().makeDeferredSurfaceContext(yuvDesc, fit,
+        yuvTextureContexts[i] = ctx->contextPriv().makeDeferredSurfaceContext(yuvDesc,
+                                                                              GrMipMapped::kNo,
+                                                                              fit,
                                                                               SkBudgeted::kYes);
         if (!yuvTextureContexts[i]) {
             return nullptr;
@@ -123,11 +125,13 @@ sk_sp<GrTextureProxy> GrYUVProvider::refAsTextureProxy(GrContext* ctx, const GrS
     }
 
     // We never want to perform color-space conversion during the decode
+    // TODO: investigate preallocating mip maps here
     sk_sp<GrRenderTargetContext> renderTargetContext(ctx->makeDeferredRenderTargetContext(
                                                                     SkBackingFit::kExact,
                                                                     desc.fWidth, desc.fHeight,
                                                                     desc.fConfig, nullptr,
                                                                     desc.fSampleCnt,
+                                                                    GrMipMapped::kNo,
                                                                     kTopLeft_GrSurfaceOrigin));
     if (!renderTargetContext) {
         return nullptr;

@@ -29,21 +29,8 @@ static const char kFunctionMangledNameSeparator = '(';
 
 }  // anonymous namespace
 
-TSymbolUniqueId::TSymbolUniqueId(TSymbolTable *symbolTable) : mId(symbolTable->nextUniqueId())
-{
-}
-
-TSymbolUniqueId::TSymbolUniqueId(const TSymbol &symbol) : mId(symbol.getUniqueId())
-{
-}
-
-int TSymbolUniqueId::get() const
-{
-    return mId;
-}
-
-TSymbol::TSymbol(TSymbolTable *symbolTable, const TString *n)
-    : uniqueId(symbolTable->nextUniqueId()), name(n)
+TSymbol::TSymbol(TSymbolTable *symbolTable, const TString *name)
+    : mUniqueId(symbolTable->nextUniqueId()), mName(name), mExtension(TExtension::UNDEFINED)
 {
 }
 
@@ -74,12 +61,12 @@ void TFunction::swapParameters(const TFunction &parametersSource)
 
 const TString *TFunction::buildMangledName() const
 {
-    std::string newName = getName().c_str();
+    std::string newName = name().c_str();
     newName += kFunctionMangledNameSeparator;
 
     for (const auto &p : parameters)
     {
-        newName += p.type->getMangledName().c_str();
+        newName += p.type->getMangledName();
     }
     return NewPoolTString(newName.c_str());
 }
@@ -92,7 +79,7 @@ const TString &TFunction::GetMangledNameFromCall(const TString &functionName,
 
     for (TIntermNode *argument : arguments)
     {
-        newName += argument->getAsTyped()->getType().getMangledName().c_str();
+        newName += argument->getAsTyped()->getType().getMangledName();
     }
     return *NewPoolTString(newName.c_str());
 }
@@ -117,7 +104,7 @@ bool TSymbolTableLevel::insert(TSymbol *symbol)
 bool TSymbolTableLevel::insertUnmangled(TFunction *function)
 {
     // returning true means symbol was added to the table
-    tInsertResult result = level.insert(tLevelPair(function->getName(), function));
+    tInsertResult result = level.insert(tLevelPair(function->name(), function));
 
     return result.second;
 }
@@ -300,7 +287,7 @@ TInterfaceBlockName *TSymbolTable::declareInterfaceBlockName(const TString *name
 }
 
 TInterfaceBlockName *TSymbolTable::insertInterfaceBlockNameExt(ESymbolLevel level,
-                                                               const char *ext,
+                                                               TExtension ext,
                                                                const TString *name)
 {
     TInterfaceBlockName *blockNameSymbol = new TInterfaceBlockName(this, name);
@@ -332,7 +319,7 @@ TVariable *TSymbolTable::insertVariable(ESymbolLevel level, const TString *name,
 }
 
 TVariable *TSymbolTable::insertVariableExt(ESymbolLevel level,
-                                           const char *ext,
+                                           TExtension ext,
                                            const char *name,
                                            const TType &type)
 {
@@ -361,7 +348,7 @@ TVariable *TSymbolTable::insertStructType(ESymbolLevel level, TStructure *str)
 
 void TSymbolTable::insertBuiltIn(ESymbolLevel level,
                                  TOperator op,
-                                 const char *ext,
+                                 TExtension ext,
                                  const TType *rvalue,
                                  const char *name,
                                  const TType *ptype1,
@@ -530,12 +517,13 @@ void TSymbolTable::insertBuiltInOp(ESymbolLevel level,
     const char *name = GetOperatorString(op);
     ASSERT(strlen(name) > 0);
     insertUnmangledBuiltInName(name, level);
-    insertBuiltIn(level, op, "", rvalue, name, ptype1, ptype2, ptype3, ptype4, ptype5);
+    insertBuiltIn(level, op, TExtension::UNDEFINED, rvalue, name, ptype1, ptype2, ptype3, ptype4,
+                  ptype5);
 }
 
 void TSymbolTable::insertBuiltInOp(ESymbolLevel level,
                                    TOperator op,
-                                   const char *ext,
+                                   TExtension ext,
                                    const TType *rvalue,
                                    const TType *ptype1,
                                    const TType *ptype2,
@@ -555,6 +543,16 @@ void TSymbolTable::insertBuiltInFunctionNoParameters(ESymbolLevel level,
 {
     insertUnmangledBuiltInName(name, level);
     insert(level, new TFunction(this, NewPoolTString(name), rvalue, op));
+}
+
+void TSymbolTable::insertBuiltInFunctionNoParametersExt(ESymbolLevel level,
+                                                        TExtension ext,
+                                                        TOperator op,
+                                                        const TType *rvalue,
+                                                        const char *name)
+{
+    insertUnmangledBuiltInName(name, level);
+    insert(level, new TFunction(this, NewPoolTString(name), rvalue, op, ext));
 }
 
 TPrecision TSymbolTable::getDefaultPrecision(TBasicType type) const

@@ -12,7 +12,7 @@
 
 #if SK_SUPPORT_GPU
 #  include "GrAppliedClip.h"
-#  include "GrFixedClip.h"
+#  include "GrStencilClip.h"
 #  include "GrReducedClip.h"
 #  include "GrRenderTargetContext.h"
 #  include "GrRenderTargetContextPriv.h"
@@ -79,17 +79,17 @@ void WindowRectanglesGM::onCoverClipStack(const SkClipStack& stack, SkCanvas* ca
     for (const SkClipStack::Element* element = iter.next(); element; element = iter.next()) {
         SkClipOp op = element->getOp();
         bool isAA = element->isAA();
-        switch (element->getType()) {
-            case SkClipStack::Element::kPath_Type:
-                canvas->clipPath(element->getPath(), op, isAA);
+        switch (element->getDeviceSpaceType()) {
+            case SkClipStack::Element::DeviceSpaceType::kPath:
+                canvas->clipPath(element->getDeviceSpacePath(), op, isAA);
                 break;
-            case SkClipStack::Element::kRRect_Type:
-                canvas->clipRRect(element->getRRect(), op, isAA);
+            case SkClipStack::Element::DeviceSpaceType::kRRect:
+                canvas->clipRRect(element->getDeviceSpaceRRect(), op, isAA);
                 break;
-            case SkClipStack::Element::kRect_Type:
-                canvas->clipRect(element->getRect(), op, isAA);
+            case SkClipStack::Element::DeviceSpaceType::kRect:
+                canvas->clipRect(element->getDeviceSpaceRect(), op, isAA);
                 break;
-            case SkClipStack::Element::kEmpty_Type:
+            case SkClipStack::Element::DeviceSpaceType::kEmpty:
                 canvas->clipRect({ 0, 0, 0, 0 }, kIntersect_SkClipOp, false);
                 break;
         }
@@ -166,15 +166,10 @@ private:
 };
 
 /**
- * This class clips a cover by the stencil clip bit. We use it to visualize the stencil mask.
+ * Makes a clip object that enforces the stencil clip bit. Used to visualize the stencil mask.
  */
-class StencilOnlyClip final : public MaskOnlyClipBase {
-private:
-    bool apply(GrContext*, GrRenderTargetContext*, bool, bool, GrAppliedClip* out,
-               SkRect* bounds) const override {
-        out->addStencilClip(SkClipStack::kEmptyGenID);
-        return true;
-    }
+static GrStencilClip make_stencil_only_clip() {
+    return GrStencilClip(SkClipStack::kEmptyGenID);
 };
 
 void WindowRectanglesMaskGM::onCoverClipStack(const SkClipStack& stack, SkCanvas* canvas) {
@@ -207,8 +202,7 @@ void WindowRectanglesMaskGM::visualizeAlphaMask(GrContext* ctx, GrRenderTargetCo
                                                          kCoverRect.width() + padRight,
                                                          kCoverRect.height() + padBottom,
                                                          kAlpha_8_GrPixelConfig, nullptr));
-    if (!maskRTC ||
-        !ctx->resourceProvider()->attachStencilAttachment(maskRTC->accessRenderTarget())) {
+    if (!maskRTC) {
         return;
     }
 
@@ -216,7 +210,7 @@ void WindowRectanglesMaskGM::visualizeAlphaMask(GrContext* ctx, GrRenderTargetCo
     // the clip mask generation.
     this->stencilCheckerboard(maskRTC.get(), true);
     maskRTC->clear(nullptr, GrColorPackA4(0xff), true);
-    maskRTC->priv().drawAndStencilRect(StencilOnlyClip(), &GrUserStencilSettings::kUnused,
+    maskRTC->priv().drawAndStencilRect(make_stencil_only_clip(), &GrUserStencilSettings::kUnused,
                                        SkRegion::kDifference_Op, false, GrAA::kNo, SkMatrix::I(),
                                        SkRect::MakeIWH(maskRTC->width(), maskRTC->height()));
     reducedClip.drawAlphaClipMask(maskRTC.get());
@@ -235,10 +229,6 @@ void WindowRectanglesMaskGM::visualizeAlphaMask(GrContext* ctx, GrRenderTargetCo
 void WindowRectanglesMaskGM::visualizeStencilMask(GrContext* ctx, GrRenderTargetContext* rtc,
                                                   const GrReducedClip& reducedClip,
                                                   GrPaint&& paint) {
-    if (!ctx->resourceProvider()->attachStencilAttachment(rtc->accessRenderTarget())) {
-        return;
-    }
-
     // Draw a checker pattern into the stencil buffer so we can visualize the regions left untouched
     // by the clip mask generation.
     this->stencilCheckerboard(rtc, false);
@@ -247,7 +237,7 @@ void WindowRectanglesMaskGM::visualizeStencilMask(GrContext* ctx, GrRenderTarget
     // Now visualize the stencil mask by covering the entire render target. The regions inside
     // window rectangles or outside the scissor should still have the initial checkerboard intact.
     // (This verifies we didn't spend any time modifying those pixels in the mask.)
-    rtc->drawPaint(StencilOnlyClip(), std::move(paint), SkMatrix::I());
+    rtc->drawPaint(make_stencil_only_clip(), std::move(paint), SkMatrix::I());
 }
 
 void WindowRectanglesMaskGM::stencilCheckerboard(GrRenderTargetContext* rtc, bool flip) {

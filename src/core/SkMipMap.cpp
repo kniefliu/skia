@@ -7,7 +7,7 @@
 
 #include "SkMipMap.h"
 #include "SkBitmap.h"
-#include "SkColorPriv.h"
+#include "SkColorData.h"
 #include "SkHalf.h"
 #include "SkMathPriv.h"
 #include "SkNx.h"
@@ -791,7 +791,7 @@ int SkMipMap::countLevels() const {
 }
 
 bool SkMipMap::getLevel(int index, Level* levelPtr) const {
-    if (NULL == fLevels) {
+    if (nullptr == fLevels) {
         return false;
     }
     if (index < 0) {

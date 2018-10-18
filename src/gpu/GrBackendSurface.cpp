@@ -19,6 +19,7 @@ GrBackendTexture::GrBackendTexture(int width,
         : fWidth(width)
         , fHeight(height)
         , fConfig(GrVkFormatToPixelConfig(vkInfo.fFormat))
+        , fMipMapped(GrMipMapped(vkInfo.fLevelCount > 1))
         , fBackend(kVulkan_GrBackend)
         , fVkInfo(vkInfo) {}
 #endif
@@ -27,9 +28,17 @@ GrBackendTexture::GrBackendTexture(int width,
                                    int height,
                                    GrPixelConfig config,
                                    const GrGLTextureInfo& glInfo)
+        : GrBackendTexture(width, height, config, GrMipMapped::kNo, glInfo) {}
+
+GrBackendTexture::GrBackendTexture(int width,
+                                   int height,
+                                   GrPixelConfig config,
+                                   GrMipMapped mipMapped,
+                                   const GrGLTextureInfo& glInfo)
         : fWidth(width)
         , fHeight(height)
         , fConfig(config)
+        , fMipMapped(mipMapped)
         , fBackend(kOpenGL_GrBackend)
         , fGLInfo(glInfo) {}
 
@@ -37,9 +46,17 @@ GrBackendTexture::GrBackendTexture(int width,
                                    int height,
                                    GrPixelConfig config,
                                    const GrMockTextureInfo& mockInfo)
+        : GrBackendTexture(width, height, config, GrMipMapped::kNo, mockInfo) {}
+
+GrBackendTexture::GrBackendTexture(int width,
+                                   int height,
+                                   GrPixelConfig config,
+                                   GrMipMapped mipMapped,
+                                   const GrMockTextureInfo& mockInfo)
         : fWidth(width)
         , fHeight(height)
         , fConfig(config)
+        , fMipMapped(mipMapped)
         , fBackend(kMock_GrBackend)
         , fMockInfo(mockInfo) {}
 
@@ -96,29 +113,6 @@ GrBackendRenderTarget::GrBackendRenderTarget(int width,
         , fConfig(config)
         , fBackend(kOpenGL_GrBackend)
         , fGLInfo(glInfo) {}
-
-GrBackendRenderTarget::GrBackendRenderTarget(const GrBackendRenderTargetDesc& desc,
-                                             GrBackend backend)
-        : fWidth(desc.fWidth)
-        , fHeight(desc.fHeight)
-        , fSampleCnt(desc.fSampleCnt)
-        , fStencilBits(desc.fStencilBits)
-        , fConfig(desc.fConfig)
-        , fBackend(backend) {
-    if (kOpenGL_GrBackend == backend) {
-        fGLInfo.fFBOID = static_cast<GrGLuint>(desc.fRenderTargetHandle);
-    } else {
-        SkASSERT(kVulkan_GrBackend == backend);
-#ifdef SK_VULKAN
-        const GrVkImageInfo* vkInfo =
-                reinterpret_cast<const GrVkImageInfo*>(desc.fRenderTargetHandle);
-        fConfig = GrVkFormatToPixelConfig(vkInfo->fFormat);
-        fVkInfo = *vkInfo;
-#else
-        fConfig = kUnknown_GrPixelConfig;
-#endif
-    }
-}
 
 #ifdef SK_VULKAN
 const GrVkImageInfo* GrBackendRenderTarget::getVkImageInfo() const {

@@ -57,9 +57,9 @@ GrDrawAtlasOp::GrDrawAtlasOp(const Helper::MakeArgs& helperArgs, GrColor color,
     int paintAlpha = GrColorUnpackA(installedGeo.fColor);
     for (int spriteIndex = 0; spriteIndex < spriteCount; ++spriteIndex) {
         // Transform rect
-        SkPoint quad[4];
+        SkPoint strip[4];
         const SkRect& currRect = rects[spriteIndex];
-        xforms[spriteIndex].toQuad(currRect.width(), currRect.height(), quad);
+        xforms[spriteIndex].toTriStrip(currRect.width(), currRect.height(), strip);
 
         // Copy colors if necessary
         if (colors) {
@@ -79,28 +79,28 @@ GrDrawAtlasOp::GrDrawAtlasOp(const Helper::MakeArgs& helperArgs, GrColor color,
         }
 
         // Copy position and uv to verts
-        *(reinterpret_cast<SkPoint*>(currVertex)) = quad[0];
+        *(reinterpret_cast<SkPoint*>(currVertex)) = strip[0];
         *(reinterpret_cast<SkPoint*>(currVertex + texOffset)) =
                 SkPoint::Make(currRect.fLeft, currRect.fTop);
-        bounds.growToInclude(quad[0].fX, quad[0].fY);
+        bounds.growToInclude(strip[0]);
         currVertex += vertexStride;
 
-        *(reinterpret_cast<SkPoint*>(currVertex)) = quad[1];
-        *(reinterpret_cast<SkPoint*>(currVertex + texOffset)) =
-                SkPoint::Make(currRect.fRight, currRect.fTop);
-        bounds.growToInclude(quad[1].fX, quad[1].fY);
-        currVertex += vertexStride;
-
-        *(reinterpret_cast<SkPoint*>(currVertex)) = quad[2];
-        *(reinterpret_cast<SkPoint*>(currVertex + texOffset)) =
-                SkPoint::Make(currRect.fRight, currRect.fBottom);
-        bounds.growToInclude(quad[2].fX, quad[2].fY);
-        currVertex += vertexStride;
-
-        *(reinterpret_cast<SkPoint*>(currVertex)) = quad[3];
+        *(reinterpret_cast<SkPoint*>(currVertex)) = strip[1];
         *(reinterpret_cast<SkPoint*>(currVertex + texOffset)) =
                 SkPoint::Make(currRect.fLeft, currRect.fBottom);
-        bounds.growToInclude(quad[3].fX, quad[3].fY);
+        bounds.growToInclude(strip[1]);
+        currVertex += vertexStride;
+
+        *(reinterpret_cast<SkPoint*>(currVertex)) = strip[2];
+        *(reinterpret_cast<SkPoint*>(currVertex + texOffset)) =
+                SkPoint::Make(currRect.fRight, currRect.fTop);
+        bounds.growToInclude(strip[2]);
+        currVertex += vertexStride;
+
+        *(reinterpret_cast<SkPoint*>(currVertex)) = strip[3];
+        *(reinterpret_cast<SkPoint*>(currVertex + texOffset)) =
+                SkPoint::Make(currRect.fRight, currRect.fBottom);
+        bounds.growToInclude(strip[3]);
         currVertex += vertexStride;
     }
 
@@ -177,15 +177,16 @@ GrDrawOp::FixedFunctionFlags GrDrawAtlasOp::fixedFunctionFlags() const {
 }
 
 GrDrawOp::RequiresDstTexture GrDrawAtlasOp::finalize(const GrCaps& caps,
-                                                     const GrAppliedClip* clip) {
+                                                     const GrAppliedClip* clip,
+                                                     GrPixelConfigIsClamped dstIsClamped) {
     GrProcessorAnalysisColor gpColor;
     if (this->hasColors()) {
         gpColor.setToUnknown();
     } else {
         gpColor.setToConstant(fColor);
     }
-    auto result =
-            fHelper.xpRequiresDstTexture(caps, clip, GrProcessorAnalysisCoverage::kNone, &gpColor);
+    auto result = fHelper.xpRequiresDstTexture(caps, clip, dstIsClamped,
+                                               GrProcessorAnalysisCoverage::kNone, &gpColor);
     if (gpColor.isConstant(&fColor)) {
         fHasColors = false;
     }

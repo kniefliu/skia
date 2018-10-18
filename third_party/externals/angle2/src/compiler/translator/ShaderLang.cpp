@@ -112,6 +112,35 @@ TranslatorHLSL *GetTranslatorHLSLFromHandle(ShHandle handle)
 }
 #endif  // ANGLE_ENABLE_HLSL
 
+GLenum GetGeometryShaderPrimitiveTypeEnum(sh::TLayoutPrimitiveType primitiveType)
+{
+    switch (primitiveType)
+    {
+        case EptPoints:
+            return GL_POINTS;
+        case EptLines:
+            return GL_LINES;
+        case EptLinesAdjacency:
+            return GL_LINES_ADJACENCY_EXT;
+        case EptTriangles:
+            return GL_TRIANGLES;
+        case EptTrianglesAdjacency:
+            return GL_TRIANGLES_ADJACENCY_EXT;
+
+        case EptLineStrip:
+            return GL_LINE_STRIP;
+        case EptTriangleStrip:
+            return GL_TRIANGLE_STRIP;
+
+        case EptUndefined:
+            return GL_INVALID_VALUE;
+
+        default:
+            UNREACHABLE();
+            return GL_INVALID_VALUE;
+    }
+}
+
 }  // anonymous namespace
 
 //
@@ -202,6 +231,14 @@ void InitBuiltInResources(ShBuiltInResources *resources)
     resources->MaxFunctionParameters   = 1024;
 
     // ES 3.1 Revision 4, 7.2 Built-in Constants
+
+    // ES 3.1, Revision 4, 8.13 Texture minification
+    // "The value of MIN_PROGRAM_TEXTURE_GATHER_OFFSET must be less than or equal to the value of
+    // MIN_PROGRAM_TEXEL_OFFSET. The value of MAX_PROGRAM_TEXTURE_GATHER_OFFSET must be greater than
+    // or equal to the value of MAX_PROGRAM_TEXEL_OFFSET"
+    resources->MinProgramTextureGatherOffset = -8;
+    resources->MaxProgramTextureGatherOffset = 7;
+
     resources->MaxImageUnits            = 4;
     resources->MaxVertexImageUniforms   = 0;
     resources->MaxFragmentImageUniforms = 0;
@@ -235,11 +272,20 @@ void InitBuiltInResources(ShBuiltInResources *resources)
     resources->MaxAtomicCounterBufferSize      = 32;
 
     resources->MaxUniformBufferBindings = 32;
+    resources->MaxShaderStorageBufferBindings = 4;
 
-    // TODO(jiawei.shao@intel.com): add complete geometry shader constants.
-    resources->MaxGeometryUniformComponents = 1024;
-    resources->MaxGeometryOutputVertices    = 256;
-    resources->MaxGeometryShaderInvocations = 32;
+    resources->MaxGeometryUniformComponents     = 1024;
+    resources->MaxGeometryUniformBlocks         = 12;
+    resources->MaxGeometryInputComponents       = 64;
+    resources->MaxGeometryOutputComponents      = 64;
+    resources->MaxGeometryOutputVertices        = 256;
+    resources->MaxGeometryTotalOutputComponents = 1024;
+    resources->MaxGeometryTextureImageUnits     = 16;
+    resources->MaxGeometryAtomicCounterBuffers  = 0;
+    resources->MaxGeometryAtomicCounters        = 0;
+    resources->MaxGeometryShaderStorageBlocks   = 0;
+    resources->MaxGeometryShaderInvocations     = 32;
+    resources->MaxGeometryImageUniforms         = 0;
 }
 
 //
@@ -365,7 +411,7 @@ const std::vector<Uniform> *GetUniforms(const ShHandle handle)
     return GetShaderVariables<Uniform>(handle);
 }
 
-const std::vector<sh::Varying> *GetInputVaryings(const ShHandle handle)
+const std::vector<Varying> *GetInputVaryings(const ShHandle handle)
 {
     TCompiler *compiler = GetCompilerFromHandle(handle);
     if (compiler == nullptr)
@@ -375,7 +421,7 @@ const std::vector<sh::Varying> *GetInputVaryings(const ShHandle handle)
     return &compiler->getInputVaryings();
 }
 
-const std::vector<sh::Varying> *GetOutputVaryings(const ShHandle handle)
+const std::vector<Varying> *GetOutputVaryings(const ShHandle handle)
 {
     TCompiler *compiler = GetCompilerFromHandle(handle);
     if (compiler == nullptr)
@@ -483,6 +529,50 @@ const std::map<std::string, unsigned int> *GetUniformRegisterMap(const ShHandle 
 #else
     return nullptr;
 #endif  // ANGLE_ENABLE_HLSL
+}
+
+GLenum GetGeometryShaderInputPrimitiveType(const ShHandle handle)
+{
+    ASSERT(handle);
+
+    TShHandleBase *base = static_cast<TShHandleBase *>(handle);
+    TCompiler *compiler = base->getAsCompiler();
+    ASSERT(compiler);
+
+    return GetGeometryShaderPrimitiveTypeEnum(compiler->getGeometryShaderInputPrimitiveType());
+}
+
+GLenum GetGeometryShaderOutputPrimitiveType(const ShHandle handle)
+{
+    ASSERT(handle);
+
+    TShHandleBase *base = static_cast<TShHandleBase *>(handle);
+    TCompiler *compiler = base->getAsCompiler();
+    ASSERT(compiler);
+
+    return GetGeometryShaderPrimitiveTypeEnum(compiler->getGeometryShaderOutputPrimitiveType());
+}
+
+int GetGeometryShaderInvocations(const ShHandle handle)
+{
+    ASSERT(handle);
+
+    TShHandleBase *base = static_cast<TShHandleBase *>(handle);
+    TCompiler *compiler = base->getAsCompiler();
+    ASSERT(compiler);
+
+    return compiler->getGeometryShaderInvocations();
+}
+
+int GetGeometryShaderMaxVertices(const ShHandle handle)
+{
+    ASSERT(handle);
+
+    TShHandleBase *base = static_cast<TShHandleBase *>(handle);
+    TCompiler *compiler = base->getAsCompiler();
+    ASSERT(compiler);
+
+    return compiler->getGeometryShaderMaxVertices();
 }
 
 }  // namespace sh

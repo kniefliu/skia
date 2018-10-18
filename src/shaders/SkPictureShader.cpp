@@ -21,8 +21,9 @@
 #include "SkResourceCache.h"
 
 #if SK_SUPPORT_GPU
-#include "GrContext.h"
 #include "GrCaps.h"
+#include "GrColorSpaceInfo.h"
+#include "GrContext.h"
 #include "GrFragmentProcessor.h"
 #endif
 
@@ -233,11 +234,7 @@ sk_sp<SkShader> SkPictureShader::refBitmapShader(const SkMatrix& viewMatrix, con
     }
 #endif
 
-#ifdef SK_SUPPORT_LEGACY_PICTURESHADER_ROUNDING
-    const SkISize tileSize = scaledSize.toRound();
-#else
     const SkISize tileSize = scaledSize.toCeil();
-#endif
     if (tileSize.isEmpty()) {
         return SkShader::MakeEmptyShader();
     }
@@ -296,13 +293,11 @@ bool SkPictureShader::onIsRasterPipelineOnly(const SkMatrix& ctm) const {
                                                fTmx, fTmy, this->getLocalMatrix());
 }
 
-bool SkPictureShader::onAppendStages(SkRasterPipeline* p, SkColorSpace* cs, SkArenaAlloc* alloc,
-                                     const SkMatrix& ctm, const SkPaint& paint,
-                                     const SkMatrix* localMatrix) const {
+bool SkPictureShader::onAppendStages(const StageRec& rec) const {
     // Keep bitmapShader alive by using alloc instead of stack memory
-    auto& bitmapShader = *alloc->make<sk_sp<SkShader>>();
-    bitmapShader = this->refBitmapShader(ctm, localMatrix, cs);
-    return bitmapShader && as_SB(bitmapShader)->appendStages(p, cs, alloc, ctm, paint);
+    auto& bitmapShader = *rec.fAlloc->make<sk_sp<SkShader>>();
+    bitmapShader = this->refBitmapShader(rec.fCTM, rec.fLocalM, rec.fDstCS);
+    return bitmapShader && as_SB(bitmapShader)->appendStages(rec);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -380,11 +375,14 @@ std::unique_ptr<GrFragmentProcessor> SkPictureShader::asFragmentProcessor(
         maxTextureSize = args.fContext->caps()->maxTextureSize();
     }
     sk_sp<SkShader> bitmapShader(this->refBitmapShader(*args.fViewMatrix, args.fLocalMatrix,
-                                                       args.fDstColorSpace, maxTextureSize));
+                                                       args.fDstColorSpaceInfo->colorSpace(),
+                                                       maxTextureSize));
     if (!bitmapShader) {
         return nullptr;
     }
-    return as_SB(bitmapShader)->asFragmentProcessor(SkShaderBase::AsFPArgs(
-        args.fContext, args.fViewMatrix, nullptr, args.fFilterQuality, args.fDstColorSpace));
+    return as_SB(bitmapShader)
+            ->asFragmentProcessor(SkShaderBase::AsFPArgs(args.fContext, args.fViewMatrix, nullptr,
+                                                         args.fFilterQuality,
+                                                         args.fDstColorSpaceInfo));
 }
 #endif

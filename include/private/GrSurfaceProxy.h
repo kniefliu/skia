@@ -130,6 +130,7 @@ protected:
     void transferRefs() {
         SkASSERT(fTarget);
 
+        SkASSERT(fTarget->fRefCnt > 0);
         fTarget->fRefCnt += (fRefCnt-1); // don't xfer the proxy's creation ref
         fTarget->fPendingReads += fPendingReads;
         fTarget->fPendingWrites += fPendingWrites;
@@ -194,6 +195,15 @@ public:
                                                     SkDestinationSurfaceColorMode mipColorMode =
                                                            SkDestinationSurfaceColorMode::kLegacy);
 
+    /**
+     * Like the call above but there are no texels to upload. A texture proxy is returned that
+     * simply has space allocated for the mips. We will allocated the full amount of mip levels
+     * based on the width and height in the GrSurfaceDesc.
+     */
+    static sk_sp<GrTextureProxy> MakeDeferredMipMap(GrResourceProvider*,
+                                                    const GrSurfaceDesc& desc, SkBudgeted budgeted);
+
+
     // TODO: need to refine ownership semantics of 'srcData' if we're in completely
     // deferred mode
     static sk_sp<GrTextureProxy> MakeDeferred(GrResourceProvider*,
@@ -208,6 +218,8 @@ public:
     }
     int width() const { return fWidth; }
     int height() const { return fHeight; }
+    int worstCaseWidth() const;
+    int worstCaseHeight() const;
     GrPixelConfig config() const { return fConfig; }
 
     class UniqueID {
@@ -315,12 +327,12 @@ public:
     // Helper function that creates a temporary SurfaceContext to perform the copy
     // It always returns a kExact-backed proxy bc it is used when converting an SkSpecialImage
     // to an SkImage. The copy is is not a render target and not multisampled.
-    static sk_sp<GrTextureProxy> Copy(GrContext*, GrSurfaceProxy* src,
+    static sk_sp<GrTextureProxy> Copy(GrContext*, GrSurfaceProxy* src, GrMipMapped,
                                       SkIRect srcRect, SkBudgeted);
 
     // Copy the entire 'src'
     // It always returns a kExact-backed proxy bc it is used in SkGpuDevice::snapSpecial
-    static sk_sp<GrTextureProxy> Copy(GrContext* context, GrSurfaceProxy* src,
+    static sk_sp<GrTextureProxy> Copy(GrContext* context, GrSurfaceProxy* src, GrMipMapped,
                                       SkBudgeted budgeted);
 
     // Test-only entry point - should decrease in use as proxies propagate
@@ -332,8 +344,8 @@ public:
     SkDEBUGCODE(void validate(GrContext*) const;)
 
     // Provides access to functions that aren't part of the public API.
-    GrSurfaceProxyPriv priv();
-    const GrSurfaceProxyPriv priv() const;
+    inline GrSurfaceProxyPriv priv();
+    inline const GrSurfaceProxyPriv priv() const;
 
 protected:
     // Deferred version
@@ -373,12 +385,12 @@ protected:
     void assign(sk_sp<GrSurface> surface);
 
     sk_sp<GrSurface> createSurfaceImpl(GrResourceProvider*, int sampleCnt, bool needsStencil,
-                                       GrSurfaceFlags flags, bool isMipMapped,
+                                       GrSurfaceFlags flags, GrMipMapped mipMapped,
                                        SkDestinationSurfaceColorMode mipColorMode) const;
 
     bool instantiateImpl(GrResourceProvider* resourceProvider, int sampleCnt, bool needsStencil,
-                         GrSurfaceFlags flags, bool isMipMapped,
-                         SkDestinationSurfaceColorMode mipColorMode);
+                         GrSurfaceFlags flags, GrMipMapped mipMapped,
+                         SkDestinationSurfaceColorMode mipColorMode, const GrUniqueKey*);
 
     // For wrapped resources, 'fConfig', 'fWidth', 'fHeight', and 'fOrigin; will always be filled in
     // from the wrapped resource.

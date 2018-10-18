@@ -35,7 +35,7 @@ GrVkCaps::GrVkCaps(const GrContextOptions& contextOptions, const GrVkInterface* 
     fOversizedStencilSupport = false; //TODO: figure this out
     fInstanceAttribSupport = true;
 
-    fUseDrawInsteadOfClear = false;
+    fBlacklistCoverageCounting = true; // blacklisting ccpr until we work through a few issues.
     fFenceSyncSupport = true;   // always available in Vulkan
     fCrossContextTextureSupport = false;
 
@@ -208,7 +208,9 @@ void GrVkCaps::initShaderCaps(const VkPhysicalDeviceProperties& properties, uint
     // fConfigOutputSwizzle will default to RGBA so we only need to set it for alpha only config.
     for (int i = 0; i < kGrPixelConfigCnt; ++i) {
         GrPixelConfig config = static_cast<GrPixelConfig>(i);
-        if (GrPixelConfigIsAlphaOnly(config)) {
+        // Vulkan doesn't support a single channel format stored in alpha.
+        if (GrPixelConfigIsAlphaOnly(config) &&
+            kAlpha_8_as_Alpha_GrPixelConfig != config) {
             shaderCaps->fConfigTextureSwizzle[i] = GrSwizzle::RRRR();
             shaderCaps->fConfigOutputSwizzle[i] = GrSwizzle::AAAA();
         } else {
@@ -234,11 +236,16 @@ void GrVkCaps::initShaderCaps(const VkPhysicalDeviceProperties& properties, uint
     // Vulkan is based off ES 3.0 so the following should all be supported
     shaderCaps->fUsesPrecisionModifiers = true;
     shaderCaps->fFlatInterpolationSupport = true;
+    // Flat interpolation appears to be slow on Qualcomm GPUs. This was tested in GL and is assumed
+    // to be true with Vulkan as well.
+    shaderCaps->fPreferFlatInterpolation = kQualcomm_VkVendor != properties.vendorID;
 
     // GrShaderCaps
 
     shaderCaps->fShaderDerivativeSupport = true;
+
     shaderCaps->fGeometryShaderSupport = SkToBool(featureFlags & kGeometryShader_GrVkFeatureFlag);
+    shaderCaps->fGSInvocationsSupport = shaderCaps->fGeometryShaderSupport;
 
     shaderCaps->fDualSourceBlendingSupport = SkToBool(featureFlags & kDualSrcBlend_GrVkFeatureFlag);
     if (kAMD_VkVendor == properties.vendorID) {
@@ -254,19 +261,8 @@ void GrVkCaps::initShaderCaps(const VkPhysicalDeviceProperties& properties, uint
     shaderCaps->fVertexIDSupport = true;
 
     // Assume the minimum precisions mandated by the SPIR-V spec.
-    shaderCaps->fShaderPrecisionVaries = true;
-    for (int s = 0; s < kGrShaderTypeCount; ++s) {
-        auto& highp = shaderCaps->fFloatPrecisions[s][kHigh_GrSLPrecision];
-        highp.fLogRangeLow = highp.fLogRangeHigh = 127;
-        highp.fBits = 23;
-
-        auto& mediump = shaderCaps->fFloatPrecisions[s][kMedium_GrSLPrecision];
-        mediump.fLogRangeLow = mediump.fLogRangeHigh = 14;
-        mediump.fBits = 10;
-
-        shaderCaps->fFloatPrecisions[s][kLow_GrSLPrecision] = mediump;
-    }
-    shaderCaps->initSamplerPrecisionTable();
+    shaderCaps->fFloatIs32Bits = true;
+    shaderCaps->fHalfIs32Bits = false;
 
     shaderCaps->fMaxVertexSamplers =
     shaderCaps->fMaxGeometrySamplers =

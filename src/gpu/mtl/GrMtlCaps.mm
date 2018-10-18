@@ -160,7 +160,6 @@ void GrMtlCaps::initGrCaps(const id<MTLDevice> device) {
     fUsesMixedSamples = false;
     fGpuTracingSupport = false;
 
-    fUseDrawInsteadOfClear = false;
     fFenceSyncSupport = true;   // always available in Metal
     fCrossContextTextureSupport = false;
 
@@ -202,9 +201,11 @@ void GrMtlCaps::initShaderCaps() {
     }
 
     // Setting this true with the assumption that this cap will eventually mean we support varying
-    // percisions and not just via modifiers.
+    // precisions and not just via modifiers.
     shaderCaps->fUsesPrecisionModifiers = true;
     shaderCaps->fFlatInterpolationSupport = true;
+    // We haven't yet tested that using flat attributes perform well.
+    shaderCaps->fPreferFlatInterpolation = true;
 
     shaderCaps->fShaderDerivativeSupport = true;
     shaderCaps->fGeometryShaderSupport = false;
@@ -228,21 +229,10 @@ void GrMtlCaps::initShaderCaps() {
     shaderCaps->fTexelFetchSupport = false;
     shaderCaps->fVertexIDSupport = false;
     shaderCaps->fImageLoadStoreSupport = false;
-    shaderCaps->fShaderPrecisionVaries = false; // ???
 
-    // Metal uses IEEE float and half floats so using those values here.
-    for (int s = 0; s < kGrShaderTypeCount; ++s) {
-        auto& highp = shaderCaps->fFloatPrecisions[s][kHigh_GrSLPrecision];
-        highp.fLogRangeLow = highp.fLogRangeHigh = 127;
-        highp.fBits = 23;
-
-        auto& mediump = shaderCaps->fFloatPrecisions[s][kMedium_GrSLPrecision];
-        mediump.fLogRangeLow = mediump.fLogRangeHigh = 15;
-        mediump.fBits = 10;
-
-        shaderCaps->fFloatPrecisions[s][kLow_GrSLPrecision] = mediump;
-    }
-    shaderCaps->initSamplerPrecisionTable();
+    // Metal uses IEEE float and half floats so assuming those values here.
+    shaderCaps->fFloatIs32Bits = true;
+    shaderCaps->fHalfIs32Bits = false;
 
     shaderCaps->fMaxVertexSamplers =
     shaderCaps->fMaxFragmentSamplers = 16;

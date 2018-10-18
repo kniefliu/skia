@@ -8,13 +8,13 @@
 #include "SampleCode.h"
 #include "SkCanvas.h"
 #include "SkCommandLineFlags.h"
+#include "SkDOM.h"
+#include "SkSVGDOM.h"
 #include "SkOSPath.h"
 #include "SkPath.h"
 #include "SkPicture.h"
 #include "SkStream.h"
 #include <stack>
-
-DEFINE_string(pathfinderTrail, "", "List of keystrokes to execute upon loading a pathfinder.");
 
 /**
  * This is a simple utility designed to extract the paths from an SKP file and then isolate a single
@@ -32,20 +32,29 @@ public:
         , fFilename(name) {
         SkFILEStream stream(fFilename.c_str());
         if (!stream.isValid()) {
-            SkDebugf("couldn't load picture at \"%s\"\n", fFilename.c_str());
+            SkDebugf("invalid input file at \"%s\"\n", fFilename.c_str());
             return;
         }
-        sk_sp<SkPicture> pic = SkPicture::MakeFromStream(&stream);
-        if (!pic) {
-            SkDebugf("couldn't load picture at \"%s\"\n", fFilename.c_str());
-            return;
-        }
-        pic->playback(this);
-        for (int i = 0; i < FLAGS_pathfinderTrail.count(); ++i) {
-            const char* key = FLAGS_pathfinderTrail[i];
-            while (*key) {
-                this->handleKeystroke(*key++);
+        if (fFilename.endsWith(".svg")) {
+            SkDOM xml;
+            if (!xml.build(stream)) {
+                SkDebugf("XML parsing failed: \"%s\"\n", fFilename.c_str());
+                return;
             }
+            sk_sp<SkSVGDOM> svg = SkSVGDOM::MakeFromDOM(xml);
+            if (!svg) {
+                SkDebugf("couldn't load svg at \"%s\"\n", fFilename.c_str());
+                return;
+            }
+            svg->setContainerSize(SkSize::Make(500, 500));
+            svg->render(this);
+        } else {
+            sk_sp<SkPicture> pic = SkPicture::MakeFromStream(&stream);
+            if (!pic) {
+                SkDebugf("couldn't load skp at \"%s\"\n", fFilename.c_str());
+                return;
+            }
+            pic->playback(this);
         }
     }
 
@@ -85,7 +94,6 @@ private:
                     } else {
                         fTrail.push_back('X');
                     }
-                    this->inval(nullptr);
                 }
                 return true;
             case 'x':
@@ -95,7 +103,6 @@ private:
                     fTossedPaths.reset(fPaths.begin() + midpt, fPaths.count() - midpt);
                     fPaths.resize_back(midpt);
                     fTrail.push_back('x');
-                    this->inval(nullptr);
                 }
                 return true;
             case 'Z': {
@@ -108,14 +115,13 @@ private:
                         ch = fTrail.back();
                         fTrail.pop_back();
                     } while (ch != 'x');
-                    this->inval(nullptr);
                 }
                 return true;
             }
             case 'D':
                 SkDebugf("SampleApp --pathfinder %s", fFilename.c_str());
                 if (!fTrail.empty()) {
-                    SkDebugf(" --pathfinderTrail ", fFilename.c_str());
+                    SkDebugf(" --keys ");
                     for (char ch : fTrail) {
                         SkDebugf("%c", ch);
                     }

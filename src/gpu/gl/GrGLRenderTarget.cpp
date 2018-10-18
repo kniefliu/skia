@@ -75,7 +75,7 @@ sk_sp<GrGLRenderTarget> GrGLRenderTarget::MakeWrapped(GrGLGpu* gpu,
         format.fPacked = false;
         format.fStencilBits = stencilBits;
         format.fTotalBits = stencilBits;
-        // Owndership of sb is passed to the GrRenderTarget so doesn't need to be deleted
+        // Ownership of sb is passed to the GrRenderTarget so doesn't need to be deleted
         sb = new GrGLStencilAttachment(gpu, sbDesc, desc.fWidth, desc.fHeight,
                                        desc.fSampleCnt, format);
     }
@@ -84,7 +84,7 @@ sk_sp<GrGLRenderTarget> GrGLRenderTarget::MakeWrapped(GrGLGpu* gpu,
 
 size_t GrGLRenderTarget::onGpuMemorySize() const {
     return GrSurface::ComputeSize(this->config(), this->width(), this->height(),
-                                  fNumSamplesOwnedPerPixel, false);
+                                  fNumSamplesOwnedPerPixel, GrMipMapped::kNo);
 }
 
 bool GrGLRenderTarget::completeStencilAttachment() {
@@ -190,7 +190,7 @@ void GrGLRenderTarget::dumpMemoryStatistics(SkTraceMemoryDump* traceMemoryDump) 
     // (have a fMSColorRenderbufferID).
     if (fMSColorRenderbufferID) {
         size_t size = GrSurface::ComputeSize(this->config(), this->width(), this->height(),
-                                             this->msaaSamples(), false);
+                                             this->msaaSamples(), GrMipMapped::kNo);
 
         // Due to this resource having both a texture and a renderbuffer component, dump as
         // skia/gpu_resources/resource_#/renderbuffer

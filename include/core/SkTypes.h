@@ -79,27 +79,33 @@ inline void operator delete(void* p) {
     SK_API void SkDebugf(const char format[], ...);
 #endif
 
-#define SkREQUIRE_SEMICOLON_AFTER(code) do { code } while (false)
-
+// SkASSERT, SkASSERTF and SkASSERT_RELEASE can be used as stand alone assertion expressions, e.g.
+//    uint32_t foo(int x) {
+//        SkASSERT(x > 4);
+//        return x - 4;
+//    }
+// and are also written to be compatible with constexpr functions:
+//    constexpr uint32_t foo(int x) {
+//        return SkASSERT(x > 4),
+//               x - 4;
+//    }
 #define SkASSERT_RELEASE(cond) \
-    SkREQUIRE_SEMICOLON_AFTER(if (!(cond)) { SK_ABORT(#cond); } )
+        static_cast<void>( (cond) ? (void)0 : []{ SK_ABORT("assert(" #cond ")"); }() )
 
 #ifdef SK_DEBUG
-    #define SkASSERT(cond) \
-        SkREQUIRE_SEMICOLON_AFTER(if (!(cond)) { SK_ABORT("assert(" #cond ")"); })
-    #define SkASSERTF(cond, fmt, ...) \
-        SkREQUIRE_SEMICOLON_AFTER(if (!(cond)) { \
-                                      SkDebugf(fmt"\n", __VA_ARGS__); \
-                                      SK_ABORT("assert(" #cond ")"); \
-                                  })
+    #define SkASSERT(cond) SkASSERT_RELEASE(cond)
+    #define SkASSERTF(cond, fmt, ...) static_cast<void>( (cond) ? (void)0 : [&]{ \
+                                          SkDebugf(fmt"\n", __VA_ARGS__);        \
+                                          SK_ABORT("assert(" #cond ")");         \
+                                      }() )
     #define SkDEBUGFAIL(message)        SK_ABORT(message)
     #define SkDEBUGFAILF(fmt, ...)      SkASSERTF(false, fmt, ##__VA_ARGS__)
     #define SkDEBUGCODE(...)            __VA_ARGS__
     #define SkDEBUGF(args       )       SkDebugf args
     #define SkAssertResult(cond)        SkASSERT(cond)
 #else
-    #define SkASSERT(cond)
-    #define SkASSERTF(cond, fmt, ...)
+    #define SkASSERT(cond)            static_cast<void>(0)
+    #define SkASSERTF(cond, fmt, ...) static_cast<void>(0)
     #define SkDEBUGFAIL(message)
     #define SkDEBUGFAILF(fmt, ...)
     #define SkDEBUGCODE(...)
@@ -200,9 +206,9 @@ typedef unsigned U16CPU;
 typedef uint8_t SkBool8;
 
 #include "../private/SkTFitsIn.h"
-template <typename D, typename S> D SkTo(S s) {
-    SkASSERT(SkTFitsIn<D>(s));
-    return static_cast<D>(s);
+template <typename D, typename S> constexpr D SkTo(S s) {
+    return SkASSERT(SkTFitsIn<D>(s)),
+           static_cast<D>(s);
 }
 #define SkToS8(x)    SkTo<int8_t>(x)
 #define SkToU8(x)    SkTo<uint8_t>(x)
@@ -227,18 +233,7 @@ template <typename D, typename S> D SkTo(S s) {
 #define SK_MaxU32   0xFFFFFFFF
 #define SK_MinU32   0
 #define SK_NaN32    ((int) (1U << 31))
-
-/** Returns true if the value can be represented with signed 16bits
- */
-static inline bool SkIsS16(long x) {
-    return (int16_t)x == x;
-}
-
-/** Returns true if the value can be represented with unsigned 16bits
- */
-static inline bool SkIsU16(long x) {
-    return (uint16_t)x == x;
-}
+#define SK_MaxSizeT SIZE_MAX
 
 static inline int32_t SkLeftShift(int32_t value, int32_t shift) {
     return (int32_t) ((uint32_t) value << shift);

@@ -101,11 +101,10 @@ bool GrCCPRAtlas::internalPlaceRect(int w, int h, SkIPoint16* loc) {
 }
 
 sk_sp<GrRenderTargetContext> GrCCPRAtlas::finalize(GrOnFlushResourceProvider* onFlushRP,
-                                                     std::unique_ptr<GrDrawOp> atlasOp) {
+                                                   std::unique_ptr<GrDrawOp> atlasOp) {
     SkASSERT(!fTextureProxy);
 
     GrSurfaceDesc desc;
-    desc.fOrigin = GrCCPRCoverageProcessor::kAtlasOrigin;
     desc.fWidth = fWidth;
     desc.fHeight = fHeight;
     desc.fConfig = kAlpha_half_GrPixelConfig;

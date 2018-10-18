@@ -15,6 +15,7 @@
 #include "GrTypes.h"
 #include "SkMatrix.h"
 #include "SkRect.h"
+#include "SkPointPriv.h"
 #include "ops/GrSimpleMeshDrawOpHelper.h"
 
 GR_DECLARE_STATIC_UNIQUE_KEY(gAAFillRectIndexBufferKey);
@@ -25,14 +26,14 @@ static inline bool view_matrix_ok_for_aa_fill_rect(const SkMatrix& viewMatrix) {
 
 static inline void set_inset_fan(SkPoint* pts, size_t stride, const SkRect& r, SkScalar dx,
                                  SkScalar dy) {
-    pts->setRectFan(r.fLeft + dx, r.fTop + dy, r.fRight - dx, r.fBottom - dy, stride);
+    SkPointPriv::SetRectFan(pts, r.fLeft + dx, r.fTop + dy, r.fRight - dx, r.fBottom - dy, stride);
 }
 
 static const int kNumAAFillRectsInIndexBuffer = 256;
 static const int kVertsPerAAFillRect = 8;
 static const int kIndicesPerAAFillRect = 30;
 
-const GrBuffer* get_index_buffer(GrResourceProvider* resourceProvider) {
+static sk_sp<const GrBuffer> get_index_buffer(GrResourceProvider* resourceProvider) {
     GR_DEFINE_STATIC_UNIQUE_KEY(gAAFillRectIndexBufferKey);
 
     // clang-format off
@@ -84,7 +85,8 @@ static void generate_aa_fill_rect_geometry(intptr_t verts,
         inset = SK_ScalarHalf * SkMinScalar(inset, len2 * rect.height());
 
         // create the rotated rect
-        fan0Pos->setRectFan(rect.fLeft, rect.fTop, rect.fRight, rect.fBottom, vertexStride);
+        SkPointPriv::SetRectFan(fan0Pos, rect.fLeft, rect.fTop, rect.fRight, rect.fBottom,
+                vertexStride);
         viewMatrix.mapPointsWithStride(fan0Pos, vertexStride, 4);
 
         // Now create the inset points and then outset the original
@@ -201,6 +203,10 @@ public:
 
     const char* name() const override { return "AAFillRectOp"; }
 
+    void visitProxies(const VisitProxyFunc& func) const override {
+        fHelper.visitProxies(func);
+    }
+
     SkString dumpInfo() const override {
         SkString str;
         str.append(INHERITED::dumpInfo());
@@ -219,10 +225,11 @@ public:
 
     FixedFunctionFlags fixedFunctionFlags() const override { return fHelper.fixedFunctionFlags(); }
 
-    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip) override {
+    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip,
+                                GrPixelConfigIsClamped dstIsClamped) override {
         GrColor color = this->first()->color();
         auto result = fHelper.xpRequiresDstTexture(
-                caps, clip, GrProcessorAnalysisCoverage::kSingleChannel, &color);
+                caps, clip, dstIsClamped, GrProcessorAnalysisCoverage::kSingleChannel, &color);
         this->first()->setColor(color);
         return result;
     }
@@ -246,7 +253,7 @@ private:
 
         size_t vertexStride = gp->getVertexStride();
 
-        sk_sp<const GrBuffer> indexBuffer(get_index_buffer(target->resourceProvider()));
+        sk_sp<const GrBuffer> indexBuffer = get_index_buffer(target->resourceProvider());
         PatternHelper helper(GrPrimitiveType::kTriangles);
         void* vertices =
                 helper.init(target, vertexStride, indexBuffer.get(), kVertsPerAAFillRect,

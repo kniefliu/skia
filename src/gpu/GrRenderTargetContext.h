@@ -18,10 +18,12 @@
 #include "GrXferProcessor.h"
 #include "SkRefCnt.h"
 #include "SkSurfaceProps.h"
+#include "text/GrTextUtils.h"
 
 class GrBackendSemaphore;
 class GrCCPRAtlas;
 class GrClip;
+class GrColorSpaceXform;
 class GrCoverageCountingPathRenderer;
 class GrDrawingManager;
 class GrDrawOp;
@@ -133,6 +135,17 @@ public:
                                  const SkMatrix& viewMatrix,
                                  const SkRect& rect,
                                  const SkMatrix& localMatrix);
+
+    /**
+     * Creates an op that draws a subrectangle of a texture. The passed color is modulated by the
+     * texture's color. 'srcRect' specifies the rectangle of the texture to draw. 'dstRect'
+     * specifies the rectangle to draw in local coords which will be transformed by 'viewMatrix' to
+     * device space. The edges of the rendered rectangle are not antialiased. This asserts that the
+     * view matrix does not have perspective.
+     */
+    void drawTextureAffine(const GrClip& clip, sk_sp<GrTextureProxy>, GrSamplerState::Filter,
+                           GrColor, const SkRect& srcRect, const SkRect& dstRect,
+                           const SkMatrix& viewMatrix, sk_sp<GrColorSpaceXform>);
 
     /**
      * Draw a roundrect using a paint.
@@ -319,12 +332,11 @@ public:
     const GrCaps* caps() const { return fContext->caps(); }
     int width() const { return fRenderTargetProxy->width(); }
     int height() const { return fRenderTargetProxy->height(); }
-    GrPixelConfig config() const { return fRenderTargetProxy->config(); }
     int numColorSamples() const { return fRenderTargetProxy->numColorSamples(); }
     int numStencilSamples() const { return fRenderTargetProxy->numStencilSamples(); }
     const SkSurfaceProps& surfaceProps() const { return fSurfaceProps; }
-    GrColorSpaceXform* getColorXformFromSRGB() const { return fColorXformFromSRGB.get(); }
     GrSurfaceOrigin origin() const { return fRenderTargetProxy->origin(); }
+    GrMipMapped mipMapped() const;
 
     bool wasAbandoned() const;
 
@@ -344,6 +356,7 @@ public:
     sk_sp<GrSurfaceProxy> asSurfaceProxyRef() override { return fRenderTargetProxy; }
 
     GrTextureProxy* asTextureProxy() override;
+    const GrTextureProxy* asTextureProxy() const override;
     sk_sp<GrTextureProxy> asTextureProxyRef() override;
 
     GrRenderTargetProxy* asRenderTargetProxy() override { return fRenderTargetProxy.get(); }
@@ -355,6 +368,8 @@ public:
     GrRenderTargetContextPriv priv();
     const GrRenderTargetContextPriv priv() const;
 
+    GrTextUtils::Target* textTarget() { return fTextTarget.get(); }
+
     bool isWrapped_ForTesting() const;
 
 protected:
@@ -365,12 +380,15 @@ protected:
     SkDEBUGCODE(void validate() const override;)
 
 private:
+    class TextTarget;
+
     inline GrAAType chooseAAType(GrAA aa, GrAllowMixedSamples allowMixedSamples) {
         return GrChooseAAType(aa, this->fsaaType(), allowMixedSamples, *this->caps());
     }
 
     friend class GrAtlasTextBlob;               // for access to add[Mesh]DrawOp
     friend class GrStencilAndCoverTextContext;  // for access to add[Mesh]DrawOp
+    friend class GrClipStackClip;               // for access to getOpList
 
     friend class GrDrawingManager; // for ctor
     friend class GrRenderTargetContextPriv;
@@ -429,16 +447,16 @@ private:
     GrRenderTargetOpList* getRTOpList();
     GrOpList* getOpList() override;
 
-    sk_sp<GrRenderTargetProxy>        fRenderTargetProxy;
+    std::unique_ptr<GrTextUtils::Target> fTextTarget;
+    sk_sp<GrRenderTargetProxy> fRenderTargetProxy;
 
     // In MDB-mode the GrOpList can be closed by some other renderTargetContext that has picked
     // it up. For this reason, the GrOpList should only ever be accessed via 'getOpList'.
-    sk_sp<GrRenderTargetOpList>       fOpList;
-    GrInstancedPipelineInfo           fInstancedPipelineInfo;
+    sk_sp<GrRenderTargetOpList> fOpList;
+    GrInstancedPipelineInfo fInstancedPipelineInfo;
 
-    sk_sp<GrColorSpaceXform>          fColorXformFromSRGB;
-    SkSurfaceProps                    fSurfaceProps;
-    bool                              fManagedOpList;
+    SkSurfaceProps fSurfaceProps;
+    bool fManagedOpList;
 
     typedef GrSurfaceContext INHERITED;
 };

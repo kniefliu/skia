@@ -55,8 +55,6 @@ public:
     bool usesMixedSamples() const { return fUsesMixedSamples; }
     bool preferClientSideDynamicBuffers() const { return fPreferClientSideDynamicBuffers; }
 
-    bool useDrawInsteadOfClear() const { return fUseDrawInsteadOfClear; }
-
     bool preferVRAMUseOverFlushes() const { return fPreferVRAMUseOverFlushes; }
 
     /**
@@ -73,6 +71,8 @@ public:
     InstancedSupport instancedSupport() const { return fInstancedSupport; }
 
     bool avoidInstancedDrawsToFPTargets() const { return fAvoidInstancedDrawsToFPTargets; }
+
+    bool blacklistCoverageCounting() const { return fBlacklistCoverageCounting; }
 
     bool avoidStencilBuffers() const { return fAvoidStencilBuffers; }
 
@@ -113,7 +113,7 @@ public:
         kNone_MapFlags   = 0x0,       //<! Cannot map the resource.
 
         kCanMap_MapFlag  = 0x1,       //<! The resource can be mapped. Must be set for any of
-                                      //   the other flags to have meaning.k
+                                      //   the other flags to have meaning.
         kSubset_MapFlag  = 0x2,       //<! The resource can be partially mapped.
     };
 
@@ -143,9 +143,14 @@ public:
 
     int maxWindowRectangles() const { return fMaxWindowRectangles; }
 
+    // A tuned, platform-specific value for the maximum number of analytic fragment processors we
+    // should use to implement a clip, before falling back on a mask.
+    int maxClipAnalyticFPs() const { return fMaxClipAnalyticFPs; }
+
     virtual bool isConfigTexturable(GrPixelConfig) const = 0;
     virtual bool isConfigRenderable(GrPixelConfig config, bool withMSAA) const = 0;
-    virtual bool canConfigBeImageStorage(GrPixelConfig config) const = 0;
+    // Returns whether a texture of the given config can be copied to a texture of the same config.
+    virtual bool isConfigCopyable(GrPixelConfig config) const = 0;
 
     bool suppressPrints() const { return fSuppressPrints; }
 
@@ -206,8 +211,8 @@ protected:
     bool fMustClearUploadedBufferData                : 1;
 
     // Driver workaround
-    bool fUseDrawInsteadOfClear                      : 1;
     bool fAvoidInstancedDrawsToFPTargets             : 1;
+    bool fBlacklistCoverageCounting                  : 1;
     bool fAvoidStencilBuffers                        : 1;
 
     // ANGLE workaround
@@ -219,6 +224,9 @@ protected:
 
     // Vulkan doesn't support this (yet) and some drivers have issues, too
     bool fCrossContextTextureSupport                 : 1;
+
+    // Disables using multiple texture units to batch multiple SkImages at once.
+    bool fDisableImageMultitexturingSupport          : 1;
 
     InstancedSupport fInstancedSupport;
 
@@ -237,6 +245,7 @@ protected:
     int fMaxStencilSampleCount;
     int fMaxRasterSamples;
     int fMaxWindowRectangles;
+    int fMaxClipAnalyticFPs;
 
 private:
     virtual void onApplyOptionsOverrides(const GrContextOptions&) {}

@@ -8,8 +8,6 @@ _samplecode = get_path_info("../samplecode", "abspath")
 
 samples_sources = [
   "$_samplecode/ClockFaceView.cpp",
-  "$_samplecode/GMSampleView.cpp",
-  "$_samplecode/OverView.cpp",
   "$_samplecode/PerlinPatch.cpp",
   "$_samplecode/Sample2PtRadial.cpp",
   "$_samplecode/SampleAAClip.cpp",
@@ -38,6 +36,7 @@ samples_sources = [
   "$_samplecode/SampleColorFilter.cpp",
   "$_samplecode/SampleComplexClip.cpp",
   "$_samplecode/SampleConcavePaths.cpp",
+  "$_samplecode/SampleCowboy.cpp",
   "$_samplecode/SampleDegenerateTwoPtRadials.cpp",
   "$_samplecode/SampleDither.cpp",
   "$_samplecode/SampleEffects.cpp",

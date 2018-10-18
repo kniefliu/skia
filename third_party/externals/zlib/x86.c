@@ -9,8 +9,9 @@
  */
 
 #include "x86.h"
+#include "zutil.h"
 
-int x86_cpu_enable_simd = 0;
+int ZLIB_INTERNAL x86_cpu_enable_simd = 0;
 
 #ifndef _MSC_VER
 #include <pthread.h>
@@ -54,7 +55,6 @@ static void _x86_check_features(void)
                           x86_cpu_has_pclmulqdq;
 }
 #else
-#ifndef _MSC_PLATFORM_TOOLSET_SUPPORT_XP
 #include <intrin.h>
 #include <windows.h>
 
@@ -89,61 +89,4 @@ static BOOL CALLBACK _x86_check_features(PINIT_ONCE once,
                           x86_cpu_has_pclmulqdq;
     return TRUE;
 }
-#else 
-#include <intrin.h>
-#include <windows.h>
-#include <stdint.h>
-
-static volatile int32_t once_control = 0;
-static void _x86_check_features(void);
-static int fake_pthread_once(volatile int32_t *once_control,
-	void(*init_routine)(void));
-
-void x86_check_features(void)
-{
-	fake_pthread_once(&once_control, _x86_check_features);
-}
-
-/* Copied from "perftools_pthread_once" in tcmalloc */
-static int fake_pthread_once(volatile int32_t *once_control,
-	void(*init_routine)(void)) {
-	// Try for a fast path first. Note: this should be an acquire semantics read
-	// It is on x86 and x64, where Windows runs.
-	if (*once_control != 1) {
-		while (1) {
-			switch (InterlockedCompareExchange(once_control, 2, 0)) {
-			case 0:
-				init_routine();
-				InterlockedExchange(once_control, 1);
-				return 0;
-			case 1:
-				// The initializer has already been executed
-				return 0;
-			default:
-				// The initializer is being processed by another thread
-				SwitchToThread();
-			}
-		}
-	}
-	return 0;
-}
-
-static void _x86_check_features(void)
-{
-	int x86_cpu_has_sse2;
-	int x86_cpu_has_sse42;
-	int x86_cpu_has_pclmulqdq;
-	int regs[4];
-
-	__cpuid(regs, 1);
-
-	x86_cpu_has_sse2 = regs[3] & 0x4000000;
-	x86_cpu_has_sse42 = regs[2] & 0x100000;
-	x86_cpu_has_pclmulqdq = regs[2] & 0x2;
-
-	x86_cpu_enable_simd = x86_cpu_has_sse2 &&
-		x86_cpu_has_sse42 &&
-		x86_cpu_has_pclmulqdq;
-}
-#endif
 #endif  /* _MSC_VER */

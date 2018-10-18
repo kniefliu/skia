@@ -30,7 +30,8 @@ public:
 
     // Copy src into current surface owned by either a GrGpuTextureCommandBuffer or
     // GrGpuRenderTargetCommandBuffer.
-    virtual void copy(GrSurface* src, const SkIRect& srcRect, const SkIPoint& dstPoint) = 0;
+    virtual void copy(GrSurface* src, GrSurfaceOrigin srcOrigin,
+                      const SkIRect& srcRect, const SkIPoint& dstPoint) = 0;
 
     virtual void insertEventMarker(const char*) = 0;
 
@@ -71,28 +72,17 @@ private:
  */
 class GrGpuRTCommandBuffer : public GrGpuCommandBuffer {
 public:
-    enum class LoadOp {
-        kLoad,
-        kClear,
-        kDiscard,
-    };
-
-    enum class StoreOp {
-        kStore,
-        kDiscard,
-    };
-
     struct LoadAndStoreInfo {
-        LoadOp  fLoadOp;
-        StoreOp fStoreOp;
-        GrColor fClearColor;
+        GrLoadOp  fLoadOp;
+        GrStoreOp fStoreOp;
+        GrColor   fClearColor;
     };
 
     // Load-time clears of the stencil buffer are always to 0 so we don't store
     // an 'fStencilClearValue'
     struct StencilLoadAndStoreInfo {
-        LoadOp fLoadOp;
-        StoreOp fStoreOp;
+        GrLoadOp  fLoadOp;
+        GrStoreOp fStoreOp;
     };
 
     virtual ~GrGpuRTCommandBuffer() {}
@@ -115,7 +105,7 @@ public:
               const SkRect& bounds);
 
     // Performs an upload of vertex data in the middle of a set of a set of draws
-    virtual void inlineUpload(GrOpFlushState*, GrDrawOp::DeferredUploadFn&) = 0;
+    virtual void inlineUpload(GrOpFlushState*, GrDeferredTextureUploadFn&) = 0;
 
     /**
      * Clear the owned render target. Ignores the draw state and clip.

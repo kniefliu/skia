@@ -68,7 +68,7 @@ class FramebufferVk : public FramebufferImpl, public ResourceVk
                          const gl::Rectangle &area,
                          GLenum format,
                          GLenum type,
-                         void *pixels) const override;
+                         void *pixels) override;
 
     gl::Error blit(const gl::Context *context,
                    const gl::Rectangle &sourceArea,
@@ -76,7 +76,7 @@ class FramebufferVk : public FramebufferImpl, public ResourceVk
                    GLbitfield mask,
                    GLenum filter) override;
 
-    bool checkStatus() const override;
+    bool checkStatus(const gl::Context *context) const override;
 
     void syncState(const gl::Context *context,
                    const gl::Framebuffer::DirtyBits &dirtyBits) override;
@@ -86,8 +86,7 @@ class FramebufferVk : public FramebufferImpl, public ResourceVk
     gl::Error beginRenderPass(const gl::Context *context,
                               VkDevice device,
                               vk::CommandBuffer *commandBuffer,
-                              Serial queueSerial,
-                              const gl::State &glState);
+                              Serial queueSerial);
 
     gl::ErrorOrResult<vk::RenderPass *> getRenderPass(const gl::Context *context, VkDevice device);
 

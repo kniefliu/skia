@@ -64,7 +64,7 @@ bool SkColorSpaceXformImageGenerator::onGetPixels(const SkImageInfo& info, void*
 
 sk_sp<GrTextureProxy> SkColorSpaceXformImageGenerator::onGenerateTexture(
         GrContext* ctx, const SkImageInfo& info, const SkIPoint& origin,
-        SkTransferFunctionBehavior) {
+        SkTransferFunctionBehavior, bool willNeedMipMaps) {
     // FIXME:
     // This always operates as if SkTranferFunctionBehavior is kIgnore.  Should we add
     // options so that caller can also request kRespect?
@@ -85,17 +85,18 @@ sk_sp<GrTextureProxy> SkColorSpaceXformImageGenerator::onGenerateTexture(
         return nullptr;
     }
 
+    GrMipMapped mipMapped = willNeedMipMaps ? GrMipMapped::kYes : GrMipMapped::kNo;
+
     sk_sp<GrRenderTargetContext> renderTargetContext = ctx->makeDeferredRenderTargetContext(
             SkBackingFit::kExact, info.width(), info.height(), kRGBA_8888_GrPixelConfig, nullptr,
-            0, kTopLeft_GrSurfaceOrigin);
+            0, mipMapped, kTopLeft_GrSurfaceOrigin);
     if (!renderTargetContext) {
         return nullptr;
     }
 
     GrPaint paint;
     paint.setPorterDuffXPFactory(SkBlendMode::kSrc);
-    paint.addColorTextureProcessor(std::move(proxy), nullptr,
-                                   SkMatrix::MakeTrans(origin.fX, origin.fY));
+    paint.addColorTextureProcessor(std::move(proxy), SkMatrix::MakeTrans(origin.fX, origin.fY));
     paint.addColorFragmentProcessor(std::move(xform));
 
     const SkRect rect = SkRect::MakeWH(info.width(), info.height());

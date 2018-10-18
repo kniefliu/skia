@@ -13,6 +13,7 @@
 #include "SkShader.h"
 
 class GrContext;
+class GrColorSpaceInfo;
 class GrFragmentProcessor;
 class SkArenaAlloc;
 class SkColorSpace;
@@ -140,18 +141,18 @@ public:
                  const SkMatrix* viewMatrix,
                  const SkMatrix* localMatrix,
                  SkFilterQuality filterQuality,
-                 SkColorSpace* dstColorSpace)
-            : fContext(context)
-            , fViewMatrix(viewMatrix)
-            , fLocalMatrix(localMatrix)
-            , fFilterQuality(filterQuality)
-            , fDstColorSpace(dstColorSpace) {}
+                 const GrColorSpaceInfo* dstColorSpaceInfo)
+                : fContext(context)
+                , fViewMatrix(viewMatrix)
+                , fLocalMatrix(localMatrix)
+                , fFilterQuality(filterQuality)
+                , fDstColorSpaceInfo(dstColorSpaceInfo) {}
 
-        GrContext*                    fContext;
-        const SkMatrix*               fViewMatrix;
-        const SkMatrix*               fLocalMatrix;
-        SkFilterQuality               fFilterQuality;
-        SkColorSpace*                 fDstColorSpace;
+        GrContext* fContext;
+        const SkMatrix* fViewMatrix;
+        const SkMatrix* fLocalMatrix;
+        SkFilterQuality fFilterQuality;
+        const GrColorSpaceInfo* fDstColorSpaceInfo;
     };
 
     /**
@@ -193,9 +194,17 @@ public:
                                     || this->onIsRasterPipelineOnly(ctm);
     }
 
+    struct StageRec {
+        SkRasterPipeline*   fPipeline;
+        SkArenaAlloc*       fAlloc;
+        SkColorSpace*       fDstCS;         // may be nullptr
+        const SkPaint&      fPaint;
+        const SkMatrix*     fLocalM;        // may be nullptr
+        SkMatrix            fCTM;
+    };
+
     // If this returns false, then we draw nothing (do not fall back to shader context)
-    bool appendStages(SkRasterPipeline*, SkColorSpace* dstCS, SkArenaAlloc*,
-                      const SkMatrix& ctm, const SkPaint&, const SkMatrix* localM=nullptr) const;
+    bool appendStages(const StageRec&) const;
 
     bool computeTotalInverse(const SkMatrix& ctm,
                              const SkMatrix* outerLocalMatrix,
@@ -245,8 +254,7 @@ protected:
     }
 
     // Default impl creates shadercontext and calls that (not very efficient)
-    virtual bool onAppendStages(SkRasterPipeline*, SkColorSpace* dstCS, SkArenaAlloc*,
-                                const SkMatrix&, const SkPaint&, const SkMatrix* localM) const;
+    virtual bool onAppendStages(const StageRec&) const;
 
     virtual bool onIsRasterPipelineOnly(const SkMatrix& ctm) const { return false; }
 

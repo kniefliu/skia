@@ -35,52 +35,38 @@
 #include <set>
 
 #include "common/angleutils.h"
+#include "compiler/translator/ExtensionBehavior.h"
 #include "compiler/translator/InfoSink.h"
 #include "compiler/translator/IntermNode.h"
+#include "compiler/translator/SymbolUniqueId.h"
 
 namespace sh
 {
-
-// Encapsulates a unique id for a symbol.
-class TSymbolUniqueId
-{
-  public:
-    POOL_ALLOCATOR_NEW_DELETE();
-    TSymbolUniqueId(TSymbolTable *symbolTable);
-    TSymbolUniqueId(const TSymbol &symbol);
-    TSymbolUniqueId(const TSymbolUniqueId &) = default;
-    TSymbolUniqueId &operator=(const TSymbolUniqueId &) = default;
-
-    int get() const;
-
-  private:
-    int mId;
-};
 
 // Symbol base class. (Can build functions or variables out of these...)
 class TSymbol : angle::NonCopyable
 {
   public:
     POOL_ALLOCATOR_NEW_DELETE();
-    TSymbol(TSymbolTable *symbolTable, const TString *n);
+    TSymbol(TSymbolTable *symbolTable, const TString *name);
 
     virtual ~TSymbol()
     {
         // don't delete name, it's from the pool
     }
 
-    const TString &getName() const { return *name; }
-    virtual const TString &getMangledName() const { return getName(); }
+    const TString &name() const { return *mName; }
+    virtual const TString &getMangledName() const { return name(); }
     virtual bool isFunction() const { return false; }
     virtual bool isVariable() const { return false; }
-    int getUniqueId() const { return uniqueId; }
-    void relateToExtension(const TString &ext) { extension = ext; }
-    const TString &getExtension() const { return extension; }
+    const TSymbolUniqueId &uniqueId() const { return mUniqueId; }
+    void relateToExtension(TExtension ext) { mExtension = ext; }
+    TExtension extension() const { return mExtension; }
 
   private:
-    const int uniqueId;
-    const TString *name;
-    TString extension;
+    const TSymbolUniqueId mUniqueId;
+    const TString *mName;
+    TExtension mExtension;
 };
 
 // Variable, meaning a symbol that's not a function.
@@ -165,8 +151,8 @@ class TFunction : public TSymbol
     TFunction(TSymbolTable *symbolTable,
               const TString *name,
               const TType *retType,
-              TOperator tOp   = EOpNull,
-              const char *ext = "")
+              TOperator tOp  = EOpNull,
+              TExtension ext = TExtension::UNDEFINED)
         : TSymbol(symbolTable, name),
           returnType(retType),
           mangledName(nullptr),
@@ -241,7 +227,7 @@ class TInterfaceBlockName : public TSymbol
 class TSymbolTableLevel
 {
   public:
-    typedef TMap<TString, TSymbol *> tLevel;
+    typedef TUnorderedMap<TString, TSymbol *> tLevel;
     typedef tLevel::const_iterator const_iterator;
     typedef const tLevel::value_type tLevelPair;
     typedef std::pair<tLevel::iterator, bool> tInsertResult;
@@ -301,7 +287,7 @@ const int GLOBAL_LEVEL       = 5;
 class TSymbolTable : angle::NonCopyable
 {
   public:
-    TSymbolTable() : mUniqueIdCounter(0)
+    TSymbolTable() : mUniqueIdCounter(0), mEmptySymbolId(this)
     {
         // The symbol table cannot be used until push() is called, but
         // the lack of an initial call to push() can be used to detect
@@ -343,12 +329,12 @@ class TSymbolTable : angle::NonCopyable
     // declaration failed due to redefinition.
     TVariable *insertVariable(ESymbolLevel level, const char *name, const TType &type);
     TVariable *insertVariableExt(ESymbolLevel level,
-                                 const char *ext,
+                                 TExtension ext,
                                  const char *name,
                                  const TType &type);
     TVariable *insertStructType(ESymbolLevel level, TStructure *str);
     TInterfaceBlockName *insertInterfaceBlockNameExt(ESymbolLevel level,
-                                                     const char *ext,
+                                                     TExtension ext,
                                                      const TString *name);
 
     bool insertConstInt(ESymbolLevel level, const char *name, int value, TPrecision precision)
@@ -361,10 +347,14 @@ class TSymbolTable : angle::NonCopyable
         return insert(level, constant);
     }
 
-    bool insertConstIntExt(ESymbolLevel level, const char *ext, const char *name, int value)
+    bool insertConstIntExt(ESymbolLevel level,
+                           TExtension ext,
+                           const char *name,
+                           int value,
+                           TPrecision precision)
     {
         TVariable *constant =
-            new TVariable(this, NewPoolTString(name), TType(EbtInt, EbpUndefined, EvqConst, 1));
+            new TVariable(this, NewPoolTString(name), TType(EbtInt, precision, EvqConst, 1));
         TConstantUnion *unionArray = new TConstantUnion[1];
         unionArray[0].setIConst(value);
         constant->shareConstPointer(unionArray);
@@ -391,7 +381,7 @@ class TSymbolTable : angle::NonCopyable
 
     void insertBuiltIn(ESymbolLevel level,
                        TOperator op,
-                       const char *ext,
+                       TExtension ext,
                        const TType *rvalue,
                        const char *name,
                        const TType *ptype1,
@@ -410,11 +400,12 @@ class TSymbolTable : angle::NonCopyable
                        const TType *ptype5 = 0)
     {
         insertUnmangledBuiltInName(name, level);
-        insertBuiltIn(level, EOpNull, "", rvalue, name, ptype1, ptype2, ptype3, ptype4, ptype5);
+        insertBuiltIn(level, EOpNull, TExtension::UNDEFINED, rvalue, name, ptype1, ptype2, ptype3,
+                      ptype4, ptype5);
     }
 
     void insertBuiltIn(ESymbolLevel level,
-                       const char *ext,
+                       TExtension ext,
                        const TType *rvalue,
                        const char *name,
                        const TType *ptype1,
@@ -438,7 +429,7 @@ class TSymbolTable : angle::NonCopyable
 
     void insertBuiltInOp(ESymbolLevel level,
                          TOperator op,
-                         const char *ext,
+                         TExtension ext,
                          const TType *rvalue,
                          const TType *ptype1,
                          const TType *ptype2 = 0,
@@ -450,6 +441,12 @@ class TSymbolTable : angle::NonCopyable
                                            TOperator op,
                                            const TType *rvalue,
                                            const char *name);
+
+    void insertBuiltInFunctionNoParametersExt(ESymbolLevel level,
+                                              TExtension ext,
+                                              TOperator op,
+                                              const TType *rvalue,
+                                              const char *name);
 
     TSymbol *find(const TString &name,
                   int shaderVersion,
@@ -502,19 +499,27 @@ class TSymbolTable : angle::NonCopyable
         table[currentLevel()]->setGlobalInvariant(invariant);
     }
 
-    int nextUniqueId() { return ++mUniqueIdCounter; }
+    const TSymbolUniqueId nextUniqueId() { return TSymbolUniqueId(this); }
+
+    // The empty symbol id is shared between all empty string ("") symbols. They are used in the
+    // AST for unused function parameters and struct type declarations that don't declare a
+    // variable, for example.
+    const TSymbolUniqueId &getEmptySymbolId() { return mEmptySymbolId; }
 
     // Checks whether there is a built-in accessible by a shader with the specified version.
     bool hasUnmangledBuiltInForShaderVersion(const char *name, int shaderVersion);
 
   private:
+    friend class TSymbolUniqueId;
+    int nextUniqueIdValue() { return ++mUniqueIdCounter; }
+
     ESymbolLevel currentLevel() const { return static_cast<ESymbolLevel>(table.size() - 1); }
 
     TVariable *insertVariable(ESymbolLevel level, const TString *name, const TType &type);
 
     bool insert(ESymbolLevel level, TSymbol *symbol) { return table[level]->insert(symbol); }
 
-    bool insert(ESymbolLevel level, const char *ext, TSymbol *symbol)
+    bool insert(ESymbolLevel level, TExtension ext, TSymbol *symbol)
     {
         symbol->relateToExtension(ext);
         return table[level]->insert(symbol);
@@ -531,6 +536,8 @@ class TSymbolTable : angle::NonCopyable
     std::vector<PrecisionStackLevel *> precisionStack;
 
     int mUniqueIdCounter;
+
+    const TSymbolUniqueId mEmptySymbolId;
 };
 
 }  // namespace sh

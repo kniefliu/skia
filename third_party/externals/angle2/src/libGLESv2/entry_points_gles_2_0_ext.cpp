@@ -12,6 +12,7 @@
 #include "libANGLE/Buffer.h"
 #include "libANGLE/Context.h"
 #include "libANGLE/Error.h"
+#include "libANGLE/ErrorStrings.h"
 #include "libANGLE/Fence.h"
 #include "libANGLE/Framebuffer.h"
 #include "libANGLE/Query.h"
@@ -52,15 +53,12 @@ void GL_APIENTRY GenQueriesEXT(GLsizei n, GLuint *ids)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!context->skipValidation() && !ValidateGenQueriesEXT(context, n))
+        if (!context->skipValidation() && !ValidateGenQueriesEXT(context, n, ids))
         {
             return;
         }
 
-        for (GLsizei i = 0; i < n; i++)
-        {
-            ids[i] = context->createQuery();
-        }
+        context->genQueries(n, ids);
     }
 }
 
@@ -71,15 +69,12 @@ void GL_APIENTRY DeleteQueriesEXT(GLsizei n, const GLuint *ids)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!context->skipValidation() && !ValidateDeleteQueriesEXT(context, n))
+        if (!context->skipValidation() && !ValidateDeleteQueriesEXT(context, n, ids))
         {
             return;
         }
 
-        for (int i = 0; i < n; i++)
-        {
-            context->deleteQuery(ids[i]);
-        }
+        context->deleteQueries(n, ids);
     }
 }
 
@@ -90,7 +85,12 @@ GLboolean GL_APIENTRY IsQueryEXT(GLuint id)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        return (context->getQuery(id, false, GL_NONE) != nullptr) ? GL_TRUE : GL_FALSE;
+        if (!context->skipValidation() && !ValidateIsQueryEXT(context, id))
+        {
+            return GL_FALSE;
+        }
+
+        return context->isQuery(id);
     }
 
     return GL_FALSE;
@@ -103,17 +103,12 @@ void GL_APIENTRY BeginQueryEXT(GLenum target, GLuint id)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!ValidateBeginQueryEXT(context, target, id))
+        if (!context->skipValidation() && !ValidateBeginQueryEXT(context, target, id))
         {
             return;
         }
 
-        Error error = context->beginQuery(target, id);
-        if (error.isError())
-        {
-            context->handleError(error);
-            return;
-        }
+        context->beginQuery(target, id);
     }
 }
 
@@ -124,17 +119,12 @@ void GL_APIENTRY EndQueryEXT(GLenum target)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!ValidateEndQueryEXT(context, target))
+        if (!context->skipValidation() && !ValidateEndQueryEXT(context, target))
         {
             return;
         }
 
-        Error error = context->endQuery(target);
-        if (error.isError())
-        {
-            context->handleError(error);
-            return;
-        }
+        context->endQuery(target);
     }
 }
 
@@ -145,17 +135,12 @@ void GL_APIENTRY QueryCounterEXT(GLuint id, GLenum target)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!ValidateQueryCounterEXT(context, id, target))
+        if (!context->skipValidation() && !ValidateQueryCounterEXT(context, id, target))
         {
             return;
         }
 
-        Error error = context->queryCounter(id, target);
-        if (error.isError())
-        {
-            context->handleError(error);
-            return;
-        }
+        context->queryCounter(id, target);
     }
 }
 
@@ -328,7 +313,7 @@ void GL_APIENTRY FinishFenceNV(GLuint fence)
             return;
         }
 
-        fenceObject->finish();
+        context->handleError(fenceObject->finish());
     }
 }
 
@@ -474,7 +459,7 @@ void GL_APIENTRY GetnUniformfvEXT(GLuint program, GLint location, GLsizei bufSiz
         Program *programObject = context->getProgram(program);
         ASSERT(programObject);
 
-        programObject->getUniformfv(location, params);
+        programObject->getUniformfv(context, location, params);
     }
 }
 
@@ -495,7 +480,7 @@ void GL_APIENTRY GetnUniformivEXT(GLuint program, GLint location, GLsizei bufSiz
         Program *programObject = context->getProgram(program);
         ASSERT(programObject);
 
-        programObject->getUniformiv(location, params);
+        programObject->getUniformiv(context, location, params);
     }
 }
 
@@ -681,6 +666,12 @@ void GL_APIENTRY VertexAttribDivisorANGLE(GLuint index, GLuint divisor)
     Context *context = GetValidGlobalContext();
     if (context)
     {
+        if (!context->getExtensions().instancedArrays)
+        {
+            ANGLE_VALIDATION_ERR(context, InvalidOperation(), ExtensionNotEnabled);
+            return;
+        }
+
         if (index >= MAX_VERTEX_ATTRIBS)
         {
             context->handleError(InvalidValue());
@@ -706,7 +697,7 @@ void GL_APIENTRY VertexAttribDivisorANGLE(GLuint index, GLuint divisor)
             }
         }
 
-        context->setVertexAttribDivisor(index, divisor);
+        context->vertexAttribDivisor(index, divisor);
     }
 }
 
@@ -851,13 +842,15 @@ void GL_APIENTRY GetBufferPointervOES(GLenum target, GLenum pname, void **params
     Context *context = GetValidGlobalContext();
     if (context)
     {
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
         if (!context->skipValidation() &&
-            !ValidateGetBufferPointervOES(context, target, pname, params))
+            !ValidateGetBufferPointervOES(context, targetPacked, pname, params))
         {
             return;
         }
 
-        context->getBufferPointerv(target, pname, params);
+        context->getBufferPointerv(targetPacked, pname, params);
     }
 }
 
@@ -868,12 +861,14 @@ void *GL_APIENTRY MapBufferOES(GLenum target, GLenum access)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!context->skipValidation() && !ValidateMapBufferOES(context, target, access))
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
+        if (!context->skipValidation() && !ValidateMapBufferOES(context, targetPacked, access))
         {
             return nullptr;
         }
 
-        return context->mapBuffer(target, access);
+        return context->mapBuffer(targetPacked, access);
     }
 
     return nullptr;
@@ -886,12 +881,14 @@ GLboolean GL_APIENTRY UnmapBufferOES(GLenum target)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!context->skipValidation() && !ValidateUnmapBufferOES(context, target))
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
+        if (!context->skipValidation() && !ValidateUnmapBufferOES(context, targetPacked))
         {
             return GL_FALSE;
         }
 
-        return context->unmapBuffer(target);
+        return context->unmapBuffer(targetPacked);
     }
 
     return GL_FALSE;
@@ -910,13 +907,15 @@ void *GL_APIENTRY MapBufferRangeEXT(GLenum target,
     Context *context = GetValidGlobalContext();
     if (context)
     {
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
         if (!context->skipValidation() &&
-            !ValidateMapBufferRangeEXT(context, target, offset, length, access))
+            !ValidateMapBufferRangeEXT(context, targetPacked, offset, length, access))
         {
             return nullptr;
         }
 
-        return context->mapBufferRange(target, offset, length, access);
+        return context->mapBufferRange(targetPacked, offset, length, access);
     }
 
     return nullptr;
@@ -930,13 +929,15 @@ void GL_APIENTRY FlushMappedBufferRangeEXT(GLenum target, GLintptr offset, GLsiz
     Context *context = GetValidGlobalContext();
     if (context)
     {
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
         if (!context->skipValidation() &&
-            !ValidateFlushMappedBufferRangeEXT(context, target, offset, length))
+            !ValidateFlushMappedBufferRangeEXT(context, targetPacked, offset, length))
         {
             return;
         }
 
-        context->flushMappedBufferRange(target, offset, length);
+        context->flushMappedBufferRange(targetPacked, offset, length);
     }
 }
 
@@ -1073,7 +1074,7 @@ void GL_APIENTRY BindVertexArrayOES(GLuint array)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!ValidateBindVertexArrayOES(context, array))
+        if (!context->skipValidation() && !ValidateBindVertexArrayOES(context, array))
         {
             return;
         }
@@ -1089,18 +1090,12 @@ void GL_APIENTRY DeleteVertexArraysOES(GLsizei n, const GLuint *arrays)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!ValidateDeleteVertexArraysOES(context, n))
+        if (!context->skipValidation() && !ValidateDeleteVertexArraysOES(context, n, arrays))
         {
             return;
         }
 
-        for (int arrayIndex = 0; arrayIndex < n; arrayIndex++)
-        {
-            if (arrays[arrayIndex] != 0)
-            {
-                context->deleteVertexArray(arrays[arrayIndex]);
-            }
-        }
+        context->deleteVertexArrays(n, arrays);
     }
 }
 
@@ -1111,15 +1106,12 @@ void GL_APIENTRY GenVertexArraysOES(GLsizei n, GLuint *arrays)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!ValidateGenVertexArraysOES(context, n))
+        if (!context->skipValidation() && !ValidateGenVertexArraysOES(context, n, arrays))
         {
             return;
         }
 
-        for (int arrayIndex = 0; arrayIndex < n; arrayIndex++)
-        {
-            arrays[arrayIndex] = context->createVertexArray();
-        }
+        context->genVertexArrays(n, arrays);
     }
 }
 
@@ -1130,19 +1122,12 @@ GLboolean GL_APIENTRY IsVertexArrayOES(GLuint array)
     Context *context = GetValidGlobalContext();
     if (context)
     {
-        if (!ValidateIsVertexArrayOES(context))
+        if (!context->skipValidation() && !ValidateIsVertexArrayOES(context, array))
         {
             return GL_FALSE;
         }
 
-        if (array == 0)
-        {
-            return GL_FALSE;
-        }
-
-        VertexArray *vao = context->getVertexArray(array);
-
-        return (vao != nullptr ? GL_TRUE : GL_FALSE);
+        return context->isVertexArray(array);
     }
 
     return GL_FALSE;
@@ -2043,14 +2028,16 @@ ANGLE_EXPORT void GL_APIENTRY GetBufferParameterivRobustANGLE(GLenum target,
     Context *context = GetValidGlobalContext();
     if (context)
     {
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
         GLsizei numParams = 0;
-        if (!ValidateGetBufferParameterivRobustANGLE(context, target, pname, bufSize, &numParams,
-                                                     params))
+        if (!ValidateGetBufferParameterivRobustANGLE(context, targetPacked, pname, bufSize,
+                                                     &numParams, params))
         {
             return;
         }
 
-        Buffer *buffer = context->getGLState().getTargetBuffer(target);
+        Buffer *buffer = context->getGLState().getTargetBuffer(targetPacked);
         QueryBufferParameteriv(buffer, pname, params);
         SetRobustLengthParam(length, numParams);
     }
@@ -2288,7 +2275,7 @@ ANGLE_EXPORT void GL_APIENTRY GetUniformfvRobustANGLE(GLuint program,
         Program *programObject = context->getProgram(program);
         ASSERT(programObject);
 
-        programObject->getUniformfv(location, params);
+        programObject->getUniformfv(context, location, params);
         SetRobustLengthParam(length, writeLength);
     }
 }
@@ -2317,7 +2304,7 @@ ANGLE_EXPORT void GL_APIENTRY GetUniformivRobustANGLE(GLuint program,
         Program *programObject = context->getProgram(program);
         ASSERT(programObject);
 
-        programObject->getUniformiv(location, params);
+        programObject->getUniformiv(context, location, params);
         SetRobustLengthParam(length, writeLength);
     }
 }
@@ -2808,14 +2795,16 @@ ANGLE_EXPORT void GL_APIENTRY GetBufferPointervRobustANGLE(GLenum target,
     Context *context = GetValidGlobalContext();
     if (context)
     {
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
         GLsizei numParams = 0;
-        if (!ValidateGetBufferPointervRobustANGLE(context, target, pname, bufSize, &numParams,
+        if (!ValidateGetBufferPointervRobustANGLE(context, targetPacked, pname, bufSize, &numParams,
                                                   params))
         {
             return;
         }
 
-        context->getBufferPointerv(target, pname, params);
+        context->getBufferPointerv(targetPacked, pname, params);
         SetRobustLengthParam(length, numParams);
     }
 }
@@ -2946,7 +2935,7 @@ ANGLE_EXPORT void GL_APIENTRY GetUniformuivRobustANGLE(GLuint program,
         Program *programObject = context->getProgram(program);
         ASSERT(programObject);
 
-        programObject->getUniformuiv(location, params);
+        programObject->getUniformuiv(context, location, params);
         SetRobustLengthParam(length, writeLength);
     }
 }
@@ -3048,14 +3037,16 @@ ANGLE_EXPORT void GL_APIENTRY GetBufferParameteri64vRobustANGLE(GLenum target,
     Context *context = GetValidGlobalContext();
     if (context)
     {
+        BufferBinding targetPacked = FromGLenum<BufferBinding>(target);
+
         GLsizei numParams = 0;
-        if (!ValidateGetBufferParameteri64vRobustANGLE(context, target, pname, bufSize, &numParams,
-                                                       params))
+        if (!ValidateGetBufferParameteri64vRobustANGLE(context, targetPacked, pname, bufSize,
+                                                       &numParams, params))
         {
             return;
         }
 
-        Buffer *buffer = context->getGLState().getTargetBuffer(target);
+        Buffer *buffer = context->getGLState().getTargetBuffer(targetPacked);
         QueryBufferParameteri64v(buffer, pname, params);
         SetRobustLengthParam(length, numParams);
     }

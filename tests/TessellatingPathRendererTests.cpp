@@ -379,8 +379,9 @@ static std::unique_ptr<GrFragmentProcessor> create_linear_gradient_processor(GrC
     SkColor colors[2] = { SK_ColorGREEN, SK_ColorBLUE };
     sk_sp<SkShader> shader = SkGradientShader::MakeLinear(
         pts, colors, nullptr, SK_ARRAY_COUNT(colors), SkShader::kClamp_TileMode);
-    SkShaderBase::AsFPArgs args(
-        ctx, &SkMatrix::I(), &SkMatrix::I(), SkFilterQuality::kLow_SkFilterQuality, nullptr);
+    GrColorSpaceInfo colorSpaceInfo(nullptr, kRGBA_8888_GrPixelConfig);
+    SkShaderBase::AsFPArgs args(ctx, &SkMatrix::I(), &SkMatrix::I(),
+                                SkFilterQuality::kLow_SkFilterQuality, &colorSpaceInfo);
     return as_SB(shader)->asFragmentProcessor(args);
 }
 
@@ -399,6 +400,8 @@ static void test_path(GrContext* ctx,
     }
 
     GrNoClip noClip;
+    SkIRect clipConservativeBounds = SkIRect::MakeWH(renderTargetContext->width(),
+                                                     renderTargetContext->height());
     GrStyle style(SkStrokeRec::kFill_InitStyle);
     GrShape shape(path, style);
     GrPathRenderer::DrawPathArgs args{ctx,
@@ -406,6 +409,7 @@ static void test_path(GrContext* ctx,
                                       &GrUserStencilSettings::kUnused,
                                       renderTargetContext,
                                       &noClip,
+                                      &clipConservativeBounds,
                                       &matrix,
                                       &shape,
                                       aaType,
@@ -421,6 +425,7 @@ DEF_GPUTEST_FOR_ALL_CONTEXTS(TessellatingPathRendererTests, reporter, ctxInfo) {
                                                                   kRGBA_8888_GrPixelConfig,
                                                                   nullptr,
                                                                   0,
+                                                                  GrMipMapped::kNo,
                                                                   kTopLeft_GrSurfaceOrigin));
     if (!rtc) {
         return;
@@ -454,9 +459,6 @@ DEF_GPUTEST_FOR_ALL_CONTEXTS(TessellatingPathRendererTests, reporter, ctxInfo) {
     test_path(ctx, rtc.get(), create_path_21(), SkMatrix(), GrAAType::kCoverage);
     test_path(ctx, rtc.get(), create_path_22());
     test_path(ctx, rtc.get(), create_path_23());
-    // TODO: implement large buffer uploads in VK and remove this check.
-    if (ctx->contextPriv().getBackend() != kVulkan_GrBackend) {
-        test_path(ctx, rtc.get(), create_path_24());
-    }
+    test_path(ctx, rtc.get(), create_path_24());
 }
 #endif

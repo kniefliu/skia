@@ -8,7 +8,7 @@
 #include "SkAdvancedTypefaceMetrics.h"
 #include "SkBitmap.h"
 #include "SkCanvas.h"
-#include "SkColorPriv.h"
+#include "SkColorData.h"
 #include "SkDescriptor.h"
 #include "SkFDot6.h"
 #include "SkFontDescriptor.h"
@@ -75,7 +75,7 @@
 //#define SK_FONTHOST_FREETYPE_RUNTIME_VERSION
 //#define SK_GAMMA_APPLY_TO_A8
 
-static bool isLCD(const SkScalerContext::Rec& rec) {
+static bool isLCD(const SkScalerContextRec& rec) {
     return SkMask::kLCD16_Format == rec.fMaskFormat;
 }
 
@@ -574,7 +574,7 @@ std::unique_ptr<SkAdvancedTypefaceMetrics> SkTypeface_FreeType::onGetAdvancedMet
     if (FT_Get_PS_Font_Info(face, &psFontInfo) == 0) {
         info->fItalicAngle = psFontInfo.italic_angle;
     } else if ((postTable = (TT_Postscript*)FT_Get_Sfnt_Table(face, ft_sfnt_post)) != nullptr) {
-        info->fItalicAngle = SkFixedToScalar(postTable->italicAngle);
+        info->fItalicAngle = SkFixedFloorToInt(postTable->italicAngle);
     } else {
         info->fItalicAngle = 0;
     }
@@ -633,7 +633,7 @@ static bool bothZero(SkScalar a, SkScalar b) {
 }
 
 // returns false if there is any non-90-rotation or skew
-static bool isAxisAligned(const SkScalerContext::Rec& rec) {
+static bool isAxisAligned(const SkScalerContextRec& rec) {
     return 0 == rec.fPreSkewX &&
            (bothZero(rec.fPost2x2[0][1], rec.fPost2x2[1][0]) ||
             bothZero(rec.fPost2x2[0][0], rec.fPost2x2[1][1]));
@@ -674,11 +674,6 @@ void SkTypeface_FreeType::onFilterRec(SkScalerContextRec* rec) const {
     if (SkPaint::kFull_Hinting == h && !isLCD(*rec)) {
         // collapse full->normal hinting if we're not doing LCD
         h = SkPaint::kNormal_Hinting;
-    }
-    if ((rec->fFlags & SkScalerContext::kSubpixelPositioning_Flag)) {
-        if (SkPaint::kNo_Hinting != h) {
-            h = SkPaint::kSlight_Hinting;
-        }
     }
 
     // rotated text looks bad with hinting, so we disable it as needed

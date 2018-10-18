@@ -17,8 +17,11 @@ struct GrVkImageInfo;
 
 class GrVkTexture : public GrTexture, public virtual GrVkImage {
 public:
-    static sk_sp<GrVkTexture> CreateNewTexture(GrVkGpu*, SkBudgeted budgeted, const GrSurfaceDesc&,
-                                               const GrVkImage::ImageDesc&);
+    static sk_sp<GrVkTexture> CreateNewTexture(GrVkGpu*,
+                                               SkBudgeted budgeted,
+                                               const GrSurfaceDesc&,
+                                               const GrVkImage::ImageDesc&,
+                                               GrMipMapsStatus);
 
     static sk_sp<GrVkTexture> MakeWrappedTexture(GrVkGpu*, const GrSurfaceDesc&,
                                                  GrWrapOwnership, const GrVkImageInfo*);
@@ -42,19 +45,25 @@ public:
 
 protected:
     GrVkTexture(GrVkGpu*, const GrSurfaceDesc&, const GrVkImageInfo&, const GrVkImageView*,
-                GrBackendObjectOwnership);
+                GrMipMapsStatus, GrBackendObjectOwnership);
 
     GrVkGpu* getVkGpu() const;
 
     void onAbandon() override;
     void onRelease() override;
 
+    bool onStealBackendTexture(GrBackendTexture*, SkImage::BackendTextureReleaseProc*) override {
+        return false;
+    }
+
 private:
     enum Wrapped { kWrapped };
     GrVkTexture(GrVkGpu*, SkBudgeted, const GrSurfaceDesc&,
-                const GrVkImageInfo&, const GrVkImageView* imageView);
+                const GrVkImageInfo&, const GrVkImageView* imageView,
+                GrMipMapsStatus);
     GrVkTexture(GrVkGpu*, Wrapped, const GrSurfaceDesc&,
-                const GrVkImageInfo&, const GrVkImageView* imageView, GrBackendObjectOwnership);
+                const GrVkImageInfo&, const GrVkImageView* imageView, GrMipMapsStatus,
+                GrBackendObjectOwnership);
 
     const GrVkImageView*     fTextureView;
     const GrVkImageView*     fLinearTextureView;

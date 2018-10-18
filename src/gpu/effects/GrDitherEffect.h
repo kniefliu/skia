@@ -14,7 +14,6 @@
 #if SK_SUPPORT_GPU
 #include "GrFragmentProcessor.h"
 #include "GrCoordTransform.h"
-#include "GrColorSpaceXform.h"
 class GrDitherEffect : public GrFragmentProcessor {
 public:
     int rangeType() const { return fRangeType; }
@@ -37,11 +36,14 @@ public:
                 break;
             case kUnknown_GrPixelConfig:
             case kAlpha_half_GrPixelConfig:
+            case kAlpha_half_as_Red_GrPixelConfig:
             case kRGBA_8888_sint_GrPixelConfig:
             case kRGBA_float_GrPixelConfig:
             case kRG_float_GrPixelConfig:
             case kRGBA_half_GrPixelConfig:
             case kAlpha_8_GrPixelConfig:
+            case kAlpha_8_as_Alpha_GrPixelConfig:
+            case kAlpha_8_as_Red_GrPixelConfig:
                 return nullptr;
         }
         return std::unique_ptr<GrFragmentProcessor>(new GrDitherEffect(rangeType));
@@ -51,9 +53,8 @@ public:
     const char* name() const override { return "DitherEffect"; }
 
 private:
-    GrDitherEffect(int rangeType) : INHERITED(kNone_OptimizationFlags), fRangeType(rangeType) {
-        this->initClassID<GrDitherEffect>();
-    }
+    GrDitherEffect(int rangeType)
+            : INHERITED(kGrDitherEffect_ClassID, kNone_OptimizationFlags), fRangeType(rangeType) {}
     GrGLSLFragmentProcessor* onCreateGLSLInstance() const override;
     void onGetGLSLProcessorKey(const GrShaderCaps&, GrProcessorKeyBuilder*) const override;
     bool onIsEqual(const GrFragmentProcessor&) const override;

@@ -301,6 +301,8 @@ InternalFormat::InternalFormat()
 {
 }
 
+InternalFormat::InternalFormat(const InternalFormat &other) = default;
+
 bool InternalFormat::isLUMA() const
 {
     return ((redBits + greenBits + blueBits + depthBits + stencilBits) == 0 &&
@@ -312,15 +314,24 @@ GLenum InternalFormat::getReadPixelsFormat() const
     return format;
 }
 
-GLenum InternalFormat::getReadPixelsType() const
+GLenum InternalFormat::getReadPixelsType(const Version &version) const
 {
     switch (type)
     {
         case GL_HALF_FLOAT:
-            // The internal format may have a type of GL_HALF_FLOAT but when exposing this type as
-            // the IMPLEMENTATION_READ_TYPE, only HALF_FLOAT_OES is allowed by
-            // OES_texture_half_float
-            return GL_HALF_FLOAT_OES;
+        case GL_HALF_FLOAT_OES:
+            if (version < Version(3, 0))
+            {
+                // The internal format may have a type of GL_HALF_FLOAT but when exposing this type
+                // as the IMPLEMENTATION_READ_TYPE, only HALF_FLOAT_OES is allowed by
+                // OES_texture_half_float.  HALF_FLOAT becomes core in ES3 and is acceptable to use
+                // as an IMPLEMENTATION_READ_TYPE.
+                return GL_HALF_FLOAT_OES;
+            }
+            else
+            {
+                return GL_HALF_FLOAT;
+            }
 
         default:
             return type;
@@ -757,7 +768,7 @@ static InternalFormatInfoMap BuildInternalFormatInfoMap()
     AddCompressedFormat(&map, GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,   4, 4,  64, 4, GL_RGBA, GL_UNSIGNED_BYTE, false, RequireExt<&Extensions::textureCompressionDXT1>,    NeverSupported, AlwaysSupported);
 
     // From GL_ANGLE_texture_compression_dxt3
-    AddCompressedFormat(&map, GL_COMPRESSED_RGBA_S3TC_DXT3_ANGLE, 4, 4, 128, 4, GL_RGBA, GL_UNSIGNED_BYTE, false, RequireExt<&Extensions::textureCompressionDXT5>,    NeverSupported, AlwaysSupported);
+    AddCompressedFormat(&map, GL_COMPRESSED_RGBA_S3TC_DXT3_ANGLE, 4, 4, 128, 4, GL_RGBA, GL_UNSIGNED_BYTE, false, RequireExt<&Extensions::textureCompressionDXT3>,    NeverSupported, AlwaysSupported);
 
     // From GL_ANGLE_texture_compression_dxt5
     AddCompressedFormat(&map, GL_COMPRESSED_RGBA_S3TC_DXT5_ANGLE, 4, 4, 128, 4, GL_RGBA, GL_UNSIGNED_BYTE, false, RequireExt<&Extensions::textureCompressionDXT5>,    NeverSupported, AlwaysSupported);
@@ -836,7 +847,7 @@ static InternalFormatInfoMap BuildInternalFormatInfoMap()
     AddRGBAFormat(&map, GL_RED,              false,  8,  0,  0,  0, 0, GL_RED,          GL_BYTE,                         GL_SIGNED_NORMALIZED,   false, NeverSupported,                               NeverSupported,                               NeverSupported );
     AddRGBAFormat(&map, GL_RG,               false,  8,  8,  0,  0, 0, GL_RG,           GL_UNSIGNED_BYTE,                GL_UNSIGNED_NORMALIZED, false, RequireExt<&Extensions::textureRG>,           AlwaysSupported,                              AlwaysSupported);
     AddRGBAFormat(&map, GL_RG,               false,  8,  8,  0,  0, 0, GL_RG,           GL_BYTE,                         GL_SIGNED_NORMALIZED,   false, NeverSupported,                               NeverSupported,                               NeverSupported );
-    AddRGBAFormat(&map, GL_RGB,              false,  8,  8,  8,  0, 0, GL_RGB,          GL_UNSIGNED_BYTE,                GL_UNSIGNED_NORMALIZED, false, RequireESOrExt<3, 0, &Extensions::rgb8rgba8>, RequireESOrExt<3, 0, &Extensions::rgb8rgba8>, AlwaysSupported);
+    AddRGBAFormat(&map, GL_RGB,              false,  8,  8,  8,  0, 0, GL_RGB,          GL_UNSIGNED_BYTE,                GL_UNSIGNED_NORMALIZED, false, RequireES<2, 0>,                              AlwaysSupported,                              AlwaysSupported);
     AddRGBAFormat(&map, GL_RGB,              false,  5,  6,  5,  0, 0, GL_RGB,          GL_UNSIGNED_SHORT_5_6_5,         GL_UNSIGNED_NORMALIZED, false, RequireES<2, 0>,                              RequireES<2, 0>,                              AlwaysSupported);
     AddRGBAFormat(&map, GL_RGB,              false,  8,  8,  8,  0, 0, GL_RGB,          GL_BYTE,                         GL_SIGNED_NORMALIZED,   false, NeverSupported,                               NeverSupported,                               NeverSupported );
     AddRGBAFormat(&map, GL_RGBA,             false,  4,  4,  4,  4, 0, GL_RGBA,         GL_UNSIGNED_SHORT_4_4_4_4,       GL_UNSIGNED_NORMALIZED, false, RequireES<2, 0>,                              RequireES<2, 0>,                              AlwaysSupported);
@@ -1066,7 +1077,7 @@ ErrorOrResult<GLuint> InternalFormat::computeRowPitch(GLenum formatType,
     if (compressed)
     {
         ASSERT(rowLength == 0);
-        return computeCompressedImageSize(formatType, Extents(width, 1, 1));
+        return computeCompressedImageSize(Extents(width, 1, 1));
     }
 
     CheckedNumeric<GLuint> checkedWidth(rowLength > 0 ? rowLength : width);
@@ -1104,8 +1115,7 @@ ErrorOrResult<GLuint> InternalFormat::computeDepthPitch(GLenum formatType,
     return computeDepthPitch(height, imageHeight, rowPitch);
 }
 
-ErrorOrResult<GLuint> InternalFormat::computeCompressedImageSize(GLenum formatType,
-                                                                     const Extents &size) const
+ErrorOrResult<GLuint> InternalFormat::computeCompressedImageSize(const Extents &size) const
 {
     CheckedNumeric<GLuint> checkedWidth(size.width);
     CheckedNumeric<GLuint> checkedHeight(size.height);
@@ -1162,7 +1172,7 @@ ErrorOrResult<GLuint> InternalFormat::computePackUnpackEndByte(
     CheckedNumeric<GLuint> checkedCopyBytes = 0;
     if (compressed)
     {
-        ANGLE_TRY_RESULT(computeCompressedImageSize(formatType, size), checkedCopyBytes);
+        ANGLE_TRY_RESULT(computeCompressedImageSize(size), checkedCopyBytes);
     }
     else if (size.height != 0 && (!is3D || size.depth != 0))
     {

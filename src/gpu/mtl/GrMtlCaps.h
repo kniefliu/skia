@@ -39,7 +39,9 @@ public:
         }
     }
 
-    bool canConfigBeImageStorage(GrPixelConfig) const override { return false; }
+    bool isConfigCopyable(GrPixelConfig config) const override {
+        return true;
+    }
 
 #if 0
     /**
@@ -56,7 +58,7 @@ public:
 
 private:
     void initFeatureSet(MTLFeatureSet featureSet);
- 
+
     void initGrCaps(const id<MTLDevice> device);
     void initShaderCaps();
     void initSampleCount();

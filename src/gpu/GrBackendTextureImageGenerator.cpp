@@ -10,10 +10,12 @@
 #include "GrContext.h"
 #include "GrContextPriv.h"
 #include "GrGpu.h"
+#include "GrRenderTargetContext.h"
 #include "GrResourceCache.h"
 #include "GrResourceProvider.h"
 #include "GrSemaphore.h"
 #include "GrTexture.h"
+#include "GrTexturePriv.h"
 
 #include "SkGr.h"
 #include "SkMessageBus.h"
@@ -32,11 +34,12 @@ GrBackendTextureImageGenerator::RefHelper::~RefHelper() {
 static GrBackendTexture make_backend_texture_from_handle(GrBackend backend,
                                                          int width, int height,
                                                          GrPixelConfig config,
+                                                         GrMipMapped mipMapped,
                                                          GrBackendObject handle) {
     switch (backend) {
         case kOpenGL_GrBackend: {
             const GrGLTextureInfo* glInfo = (const GrGLTextureInfo*)(handle);
-            return GrBackendTexture(width, height, config, *glInfo);
+            return GrBackendTexture(width, height, config, mipMapped, *glInfo);
         }
 #ifdef SK_VULKAN
         case kVulkan_GrBackend: {
@@ -46,7 +49,7 @@ static GrBackendTexture make_backend_texture_from_handle(GrBackend backend,
 #endif
         case kMock_GrBackend: {
             const GrMockTextureInfo* mockInfo = (const GrMockTextureInfo*)(handle);
-            return GrBackendTexture(width, height, config, *mockInfo);
+            return GrBackendTexture(width, height, config, mipMapped, *mockInfo);
         }
         default:
             return GrBackendTexture();
@@ -54,7 +57,8 @@ static GrBackendTexture make_backend_texture_from_handle(GrBackend backend,
 }
 
 std::unique_ptr<SkImageGenerator>
-GrBackendTextureImageGenerator::Make(sk_sp<GrTexture> texture, sk_sp<GrSemaphore> semaphore,
+GrBackendTextureImageGenerator::Make(sk_sp<GrTexture> texture, GrSurfaceOrigin origin,
+                                     sk_sp<GrSemaphore> semaphore,
                                      SkAlphaType alphaType, sk_sp<SkColorSpace> colorSpace) {
     if (colorSpace && (!colorSpace->gammaCloseToSRGB() && !colorSpace->gammaIsLinear())) {
         return nullptr;
@@ -73,20 +77,23 @@ GrBackendTextureImageGenerator::Make(sk_sp<GrTexture> texture, sk_sp<GrSemaphore
     context->getResourceCache()->insertCrossContextGpuResource(texture.get());
 
     GrBackend backend = context->contextPriv().getBackend();
+    GrMipMapped mipMapped = texture->texturePriv().mipMapped();
     GrBackendTexture backendTexture = make_backend_texture_from_handle(backend,
                                                                        texture->width(),
                                                                        texture->height(),
                                                                        texture->config(),
+                                                                       mipMapped,
                                                                        texture->getTextureHandle());
 
     SkImageInfo info = SkImageInfo::Make(texture->width(), texture->height(), colorType, alphaType,
                                          std::move(colorSpace));
     return std::unique_ptr<SkImageGenerator>(new GrBackendTextureImageGenerator(
-            info, texture.get(), context->uniqueID(), std::move(semaphore), backendTexture));
+          info, texture.get(), origin, context->uniqueID(), std::move(semaphore), backendTexture));
 }
 
 GrBackendTextureImageGenerator::GrBackendTextureImageGenerator(const SkImageInfo& info,
                                                                GrTexture* texture,
+                                                               GrSurfaceOrigin origin,
                                                                uint32_t owningContextID,
                                                                sk_sp<GrSemaphore> semaphore,
                                                                const GrBackendTexture& backendTex)
@@ -95,7 +102,7 @@ GrBackendTextureImageGenerator::GrBackendTextureImageGenerator(const SkImageInfo
     , fSemaphore(std::move(semaphore))
     , fLastBorrowingContextID(SK_InvalidGenID)
     , fBackendTexture(backendTex)
-    , fSurfaceOrigin(texture->origin()) { }
+    , fSurfaceOrigin(origin) { }
 
 GrBackendTextureImageGenerator::~GrBackendTextureImageGenerator() {
     fRefHelper->unref();
@@ -116,7 +123,7 @@ void GrBackendTextureImageGenerator::ReleaseRefHelper_TextureReleaseProc(void* c
 
 sk_sp<GrTextureProxy> GrBackendTextureImageGenerator::onGenerateTexture(
         GrContext* context, const SkImageInfo& info, const SkIPoint& origin,
-        SkTransferFunctionBehavior) {
+        SkTransferFunctionBehavior, bool willNeedMipMaps) {
     SkASSERT(context);
 
     if (context->contextPriv().getBackend() != fBackendTexture.backend()) {
@@ -151,7 +158,7 @@ sk_sp<GrTextureProxy> GrBackendTextureImageGenerator::onGenerateTexture(
         // always make a wrapped copy, where the release proc informs us that the context is done
         // with it. This is unfortunate - we'll have two texture objects referencing the same GPU
         // object. However, no client can ever see the original texture, so this should be safe.
-        tex = context->resourceProvider()->wrapBackendTexture(fBackendTexture, fSurfaceOrigin,
+        tex = context->resourceProvider()->wrapBackendTexture(fBackendTexture,
                                                               kBorrow_GrWrapOwnership);
         if (!tex) {
             fRefHelper->fBorrowingContextID = SK_InvalidGenID;
@@ -168,32 +175,30 @@ sk_sp<GrTextureProxy> GrBackendTextureImageGenerator::onGenerateTexture(
     sk_sp<GrTextureProxy> proxy = GrSurfaceProxy::MakeWrapped(std::move(tex), fSurfaceOrigin);
 
     if (0 == origin.fX && 0 == origin.fY &&
-        info.width() == fBackendTexture.width() && info.height() == fBackendTexture.height()) {
-        // If the caller wants the entire texture, we're done
+        info.width() == fBackendTexture.width() && info.height() == fBackendTexture.height() &&
+        (!willNeedMipMaps || GrMipMapped::kYes == proxy->mipMapped())) {
+        // If the caller wants the entire texture and we have the correct mip support, we're done
         return proxy;
     } else {
         // Otherwise, make a copy of the requested subset. Make sure our temporary is renderable,
-        // because Vulkan will want to do the copy as a draw.
-        GrSurfaceDesc desc;
-        desc.fFlags = kRenderTarget_GrSurfaceFlag;
-        desc.fOrigin = proxy->origin();
-        desc.fWidth = info.width();
-        desc.fHeight = info.height();
-        desc.fConfig = proxy->config();
-        desc.fIsMipMapped = proxy->isMipMapped();
+        // because Vulkan will want to do the copy as a draw. All other copies would require a
+        // layout change in Vulkan and we do not change the layout of borrowed images.
+        GrMipMapped mipMapped = willNeedMipMaps ? GrMipMapped::kYes : GrMipMapped::kNo;
 
-        sk_sp<GrSurfaceContext> sContext(context->contextPriv().makeDeferredSurfaceContext(
-            desc, SkBackingFit::kExact, SkBudgeted::kYes));
-        if (!sContext) {
+        sk_sp<GrRenderTargetContext> rtContext(context->makeDeferredRenderTargetContext(
+                SkBackingFit::kExact, info.width(), info.height(), proxy->config(), nullptr,
+                0, mipMapped, proxy->origin(), nullptr, SkBudgeted::kYes));
+
+        if (!rtContext) {
             return nullptr;
         }
 
         SkIRect subset = SkIRect::MakeXYWH(origin.fX, origin.fY, info.width(), info.height());
-        if (!sContext->copy(proxy.get(), subset, SkIPoint::Make(0, 0))) {
+        if (!rtContext->copy(proxy.get(), subset, SkIPoint::Make(0, 0))) {
             return nullptr;
         }
 
-        return sContext->asTextureProxyRef();
+        return rtContext->asTextureProxyRef();
     }
 }
 #endif

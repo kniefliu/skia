@@ -14,7 +14,6 @@
 #if SK_SUPPORT_GPU
 #include "GrFragmentProcessor.h"
 #include "GrCoordTransform.h"
-#include "GrColorSpaceXform.h"
 class GrCircleBlurFragmentProcessor : public GrFragmentProcessor {
 public:
     SkRect circleRect() const { return fCircleRect; }
@@ -31,13 +30,13 @@ private:
     GrCircleBlurFragmentProcessor(SkRect circleRect, float textureRadius, float solidRadius,
                                   sk_sp<GrTextureProxy> blurProfileSampler,
                                   GrResourceProvider* resourceProvider)
-            : INHERITED((OptimizationFlags)kCompatibleWithCoverageAsAlpha_OptimizationFlag)
+            : INHERITED(kGrCircleBlurFragmentProcessor_ClassID,
+                        (OptimizationFlags)kCompatibleWithCoverageAsAlpha_OptimizationFlag)
             , fCircleRect(circleRect)
             , fTextureRadius(textureRadius)
             , fSolidRadius(solidRadius)
             , fBlurProfileSampler(std::move(blurProfileSampler)) {
         this->addTextureSampler(&fBlurProfileSampler);
-        this->initClassID<GrCircleBlurFragmentProcessor>();
     }
     GrGLSLFragmentProcessor* onCreateGLSLInstance() const override;
     void onGetGLSLProcessorKey(const GrShaderCaps&, GrProcessorKeyBuilder*) const override;

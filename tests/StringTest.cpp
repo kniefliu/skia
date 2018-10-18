@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "SkString.h"
 #include "Test.h"
+#include <thread>
 
 // Windows vsnprintf doesn't 0-terminate safely), but is so far
 // encapsulated in SkString that we can't test it directly.
@@ -286,4 +287,20 @@ DEF_TEST(String_SkStrSplit_All, r) {
     REPORTER_ASSERT(r, results[1].equals("a"));
     REPORTER_ASSERT(r, results[2].equals("b"));
     REPORTER_ASSERT(r, results[3].equals(""));
+}
+
+// https://bugs.chromium.org/p/skia/issues/detail?id=7107
+DEF_TEST(String_Threaded, r) {
+    SkString str("foo");
+
+    std::thread threads[5];
+    for (auto& thread : threads) {
+        thread = std::thread([&] {
+            SkString copy = str;
+            (void)copy.equals("test");
+        });
+    }
+    for (auto& thread : threads) {
+        thread.join();
+    }
 }

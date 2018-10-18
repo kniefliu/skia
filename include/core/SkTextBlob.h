@@ -50,10 +50,6 @@ public:
      */
     static sk_sp<SkTextBlob> MakeFromBuffer(SkReadBuffer&);
 
-    static const SkTextBlob* CreateFromBuffer(SkReadBuffer& buffer) {
-        return MakeFromBuffer(buffer).release();
-    }
-
     enum GlyphPositioning : uint8_t {
         kDefault_Positioning      = 0, // Default glyph advances -- zero scalars per glyph.
         kHorizontal_Positioning   = 1, // Horizontal positioning -- one scalar per glyph.
@@ -185,9 +181,9 @@ public:
                                   SkScalar y,
                                   int textByteCount,
                                   SkString lang,
-                                  const SkRect* bounds = NULL);
+                                  const SkRect* bounds = nullptr);
     const RunBuffer& allocRun(const SkPaint& font, int count, SkScalar x, SkScalar y,
-                              const SkRect* bounds = NULL) {
+                              const SkRect* bounds = nullptr) {
         return this->allocRunText(font, count, x, y, 0, SkString(), bounds);
     }
 
@@ -210,9 +206,9 @@ public:
      */
     const RunBuffer& allocRunTextPosH(const SkPaint& font, int count, SkScalar y,
                                       int textByteCount, SkString lang,
-                                      const SkRect* bounds = NULL);
+                                      const SkRect* bounds = nullptr);
     const RunBuffer& allocRunPosH(const SkPaint& font, int count, SkScalar y,
-                                  const SkRect* bounds = NULL) {
+                                  const SkRect* bounds = nullptr) {
         return this->allocRunTextPosH(font, count, y, 0, SkString(), bounds);
     }
 
@@ -235,9 +231,9 @@ public:
      */
     const RunBuffer& allocRunTextPos(const SkPaint& font, int count,
                                      int textByteCount, SkString lang,
-                                     const SkRect* bounds = NULL);
+                                     const SkRect* bounds = nullptr);
     const RunBuffer& allocRunPos(const SkPaint& font, int count,
-                                 const SkRect* bounds = NULL) {
+                                 const SkRect* bounds = nullptr) {
         return this->allocRunTextPos(font, count, 0, SkString(), bounds);
     }
 
@@ -246,7 +242,7 @@ private:
     void allocInternal(const SkPaint& font, SkTextBlob::GlyphPositioning positioning,
                        int count, int textBytes, SkPoint offset, const SkRect* bounds);
     bool mergeRun(const SkPaint& font, SkTextBlob::GlyphPositioning positioning,
-                  int count, SkPoint offset);
+                  uint32_t count, SkPoint offset);
     void updateDeferredBounds();
 
     static SkRect ConservativeRunBounds(const SkTextBlob::RunRecord&);

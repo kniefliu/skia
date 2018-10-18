@@ -17,12 +17,13 @@
 #include "GrProcessor.h"
 #include "GrStyle.h"
 #include "SkGr.h"
+#include "SkPointPriv.h"
 #include "glsl/GrGLSLFragmentShaderBuilder.h"
 #include "glsl/GrGLSLGeometryProcessor.h"
 #include "glsl/GrGLSLProgramDataManager.h"
 #include "glsl/GrGLSLUniformHandler.h"
 #include "glsl/GrGLSLVarying.h"
-#include "glsl/GrGLSLVertexShaderBuilder.h"
+#include "glsl/GrGLSLVertexGeoBuilder.h"
 #include "ops/GrMeshDrawOp.h"
 
 using AAMode = GrDashOp::AAMode;
@@ -92,7 +93,7 @@ static void calc_dash_scaling(SkScalar* parallelScale, SkScalar* perpScale,
     vecSrc.scale(invSrc);
 
     SkVector vecSrcPerp;
-    vecSrc.rotateCW(&vecSrcPerp);
+    SkPointPriv::RotateCW(vecSrc, &vecSrcPerp);
     viewMatrix.mapVectors(&vecSrc, 1);
     viewMatrix.mapVectors(&vecSrcPerp, 1);
 
@@ -166,13 +167,13 @@ void setup_dashed_rect_common(const SkRect& rect, const SkMatrix& matrix, T* ver
     SkScalar endDashY = stroke + bloatY;
     vertices[idx].fDashPos = SkPoint::Make(startDashX , startDashY);
     vertices[idx + 1].fDashPos = SkPoint::Make(startDashX, endDashY);
-    vertices[idx + 2].fDashPos = SkPoint::Make(endDashX, endDashY);
-    vertices[idx + 3].fDashPos = SkPoint::Make(endDashX, startDashY);
+    vertices[idx + 2].fDashPos = SkPoint::Make(endDashX, startDashY);
+    vertices[idx + 3].fDashPos = SkPoint::Make(endDashX, endDashY);
 
     vertices[idx].fPos = SkPoint::Make(rect.fLeft, rect.fTop);
     vertices[idx + 1].fPos = SkPoint::Make(rect.fLeft, rect.fBottom);
-    vertices[idx + 2].fPos = SkPoint::Make(rect.fRight, rect.fBottom);
-    vertices[idx + 3].fPos = SkPoint::Make(rect.fRight, rect.fTop);
+    vertices[idx + 2].fPos = SkPoint::Make(rect.fRight, rect.fTop);
+    vertices[idx + 3].fPos = SkPoint::Make(rect.fRight, rect.fBottom);
 
     matrix.mapPointsWithStride(&vertices[idx].fPos, sizeof(T), 4);
 }
@@ -222,8 +223,8 @@ static void setup_dashed_rect_pos(const SkRect& rect, int idx, const SkMatrix& m
                                   SkPoint* verts) {
     verts[idx] = SkPoint::Make(rect.fLeft, rect.fTop);
     verts[idx + 1] = SkPoint::Make(rect.fLeft, rect.fBottom);
-    verts[idx + 2] = SkPoint::Make(rect.fRight, rect.fBottom);
-    verts[idx + 3] = SkPoint::Make(rect.fRight, rect.fTop);
+    verts[idx + 2] = SkPoint::Make(rect.fRight, rect.fTop);
+    verts[idx + 3] = SkPoint::Make(rect.fRight, rect.fBottom);
     matrix.mapPoints(&verts[idx], 4);
 }
 
@@ -243,6 +244,7 @@ static sk_sp<GrGeometryProcessor> make_dash_gp(GrColor,
 class DashOp final : public GrMeshDrawOp {
 public:
     DEFINE_OP_CLASS_ID
+
     struct LineData {
         SkMatrix fViewMatrix;
         SkMatrix fSrcRotInv;
@@ -262,6 +264,10 @@ public:
     }
 
     const char* name() const override { return "DashOp"; }
+
+    void visitProxies(const VisitProxyFunc& func) const override {
+        fProcessorSet.visitProxies(func);
+    }
 
     SkString dumpInfo() const override {
         SkString string;
@@ -291,14 +297,16 @@ public:
         return flags;
     }
 
-    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip) override {
+    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip,
+                                GrPixelConfigIsClamped dstIsClamped) override {
         GrProcessorAnalysisCoverage coverage;
-        if (AAMode::kNone == fAAMode && !clip->clipCoverageFragmentProcessor()) {
+        if (AAMode::kNone == fAAMode && !clip->numClipCoverageFragmentProcessors()) {
             coverage = GrProcessorAnalysisCoverage::kNone;
         } else {
             coverage = GrProcessorAnalysisCoverage::kSingleChannel;
         }
-        auto analysis = fProcessorSet.finalize(fColor, coverage, clip, false, caps, &fColor);
+        auto analysis = fProcessorSet.finalize(fColor, coverage, clip, false, caps, dstIsClamped,
+                                               &fColor);
         fDisallowCombineOnTouchOrOverlap = analysis.requiresDstTexture() ||
                                            (fProcessorSet.xferProcessor() &&
                                             fProcessorSet.xferProcessor()->xferBarrierType(caps));
@@ -882,12 +890,12 @@ void GLDashingCircleEffect::onEmitCode(EmitArgs& args, GrGPArgs* gpArgs) {
     varyingHandler->emitAttributes(dce);
 
     // XY are dashPos, Z is dashInterval
-    GrGLSLVertToFrag dashParams(kVec3f_GrSLType);
+    GrGLSLVertToFrag dashParams(kHalf3_GrSLType);
     varyingHandler->addVarying("DashParam", &dashParams);
     vertBuilder->codeAppendf("%s = %s;", dashParams.vsOut(), dce.inDashParams()->fName);
 
     // x refers to circle radius - 0.5, y refers to cicle's center x coord
-    GrGLSLVertToFrag circleParams(kVec2f_GrSLType);
+    GrGLSLVertToFrag circleParams(kHalf2_GrSLType);
     varyingHandler->addVarying("CircleParams", &circleParams);
     vertBuilder->codeAppendf("%s = %s;", circleParams.vsOut(), dce.inCircleParams()->fName);
 
@@ -908,21 +916,21 @@ void GLDashingCircleEffect::onEmitCode(EmitArgs& args, GrGPArgs* gpArgs) {
                          args.fFPCoordTransformHandler);
 
     // transforms all points so that we can compare them to our test circle
-    fragBuilder->codeAppendf("float xShifted = %s.x - floor(%s.x / %s.z) * %s.z;",
+    fragBuilder->codeAppendf("half xShifted = %s.x - floor(%s.x / %s.z) * %s.z;",
                              dashParams.fsIn(), dashParams.fsIn(), dashParams.fsIn(),
                              dashParams.fsIn());
-    fragBuilder->codeAppendf("float2 fragPosShifted = float2(xShifted, %s.y);", dashParams.fsIn());
-    fragBuilder->codeAppendf("float2 center = float2(%s.y, 0.0);", circleParams.fsIn());
-    fragBuilder->codeAppend("float dist = length(center - fragPosShifted);");
+    fragBuilder->codeAppendf("half2 fragPosShifted = half2(xShifted, %s.y);", dashParams.fsIn());
+    fragBuilder->codeAppendf("half2 center = half2(%s.y, 0.0);", circleParams.fsIn());
+    fragBuilder->codeAppend("half dist = length(center - fragPosShifted);");
     if (dce.aaMode() != AAMode::kNone) {
-        fragBuilder->codeAppendf("float diff = dist - %s.x;", circleParams.fsIn());
+        fragBuilder->codeAppendf("half diff = dist - %s.x;", circleParams.fsIn());
         fragBuilder->codeAppend("diff = 1.0 - diff;");
-        fragBuilder->codeAppend("float alpha = clamp(diff, 0.0, 1.0);");
+        fragBuilder->codeAppend("half alpha = clamp(diff, 0.0, 1.0);");
     } else {
-        fragBuilder->codeAppendf("float alpha = 1.0;");
+        fragBuilder->codeAppendf("half alpha = 1.0;");
         fragBuilder->codeAppendf("alpha *=  dist < %s.x + 0.5 ? 1.0 : 0.0;", circleParams.fsIn());
     }
-    fragBuilder->codeAppendf("%s = float4(alpha);", args.fOutputCoverage);
+    fragBuilder->codeAppendf("%s = half4(alpha);", args.fOutputCoverage);
 }
 
 void GLDashingCircleEffect::setData(const GrGLSLProgramDataManager& pdman,
@@ -971,14 +979,14 @@ DashingCircleEffect::DashingCircleEffect(GrColor color,
                                          AAMode aaMode,
                                          const SkMatrix& localMatrix,
                                          bool usesLocalCoords)
-    : fColor(color)
+    : INHERITED(kDashingCircleEffect_ClassID)
+    , fColor(color)
     , fLocalMatrix(localMatrix)
     , fUsesLocalCoords(usesLocalCoords)
     , fAAMode(aaMode) {
-    this->initClassID<DashingCircleEffect>();
-    fInPosition = &this->addVertexAttrib("inPosition", kVec2f_GrVertexAttribType);
-    fInDashParams = &this->addVertexAttrib("inDashParams", kVec3f_GrVertexAttribType);
-    fInCircleParams = &this->addVertexAttrib("inCircleParams", kVec2f_GrVertexAttribType);
+    fInPosition = &this->addVertexAttrib("inPosition", kFloat2_GrVertexAttribType);
+    fInDashParams = &this->addVertexAttrib("inDashParams", kHalf3_GrVertexAttribType);
+    fInCircleParams = &this->addVertexAttrib("inCircleParams", kHalf2_GrVertexAttribType);
 }
 
 GR_DEFINE_GEOMETRY_PROCESSOR_TEST(DashingCircleEffect);
@@ -1085,14 +1093,14 @@ void GLDashingLineEffect::onEmitCode(EmitArgs& args, GrGPArgs* gpArgs) {
     varyingHandler->emitAttributes(de);
 
     // XY refers to dashPos, Z is the dash interval length
-    GrGLSLVertToFrag inDashParams(kVec3f_GrSLType);
-    varyingHandler->addVarying("DashParams", &inDashParams, GrSLPrecision::kHigh_GrSLPrecision);
+    GrGLSLVertToFrag inDashParams(kFloat3_GrSLType);
+    varyingHandler->addVarying("DashParams", &inDashParams);
     vertBuilder->codeAppendf("%s = %s;", inDashParams.vsOut(), de.inDashParams()->fName);
 
     // The rect uniform's xyzw refer to (left + 0.5, top + 0.5, right - 0.5, bottom - 0.5),
     // respectively.
-    GrGLSLVertToFrag inRectParams(kVec4f_GrSLType);
-    varyingHandler->addVarying("RectParams", &inRectParams, GrSLPrecision::kHigh_GrSLPrecision);
+    GrGLSLVertToFrag inRectParams(kFloat4_GrSLType);
+    varyingHandler->addVarying("RectParams", &inRectParams);
     vertBuilder->codeAppendf("%s = %s;", inRectParams.vsOut(), de.inRectParams()->fName);
 
     GrGLSLPPFragmentBuilder* fragBuilder = args.fFragBuilder;
@@ -1112,14 +1120,14 @@ void GLDashingLineEffect::onEmitCode(EmitArgs& args, GrGPArgs* gpArgs) {
                          args.fFPCoordTransformHandler);
 
     // transforms all points so that we can compare them to our test rect
-    fragBuilder->codeAppendf("float xShifted = %s.x - floor(%s.x / %s.z) * %s.z;",
+    fragBuilder->codeAppendf("half xShifted = %s.x - floor(%s.x / %s.z) * %s.z;",
                              inDashParams.fsIn(), inDashParams.fsIn(), inDashParams.fsIn(),
                              inDashParams.fsIn());
-    fragBuilder->codeAppendf("float2 fragPosShifted = float2(xShifted, %s.y);", inDashParams.fsIn());
+    fragBuilder->codeAppendf("half2 fragPosShifted = half2(xShifted, %s.y);", inDashParams.fsIn());
     if (de.aaMode() == AAMode::kCoverage) {
         // The amount of coverage removed in x and y by the edges is computed as a pair of negative
         // numbers, xSub and ySub.
-        fragBuilder->codeAppend("float xSub, ySub;");
+        fragBuilder->codeAppend("half xSub, ySub;");
         fragBuilder->codeAppendf("xSub = min(fragPosShifted.x - %s.x, 0.0);", inRectParams.fsIn());
         fragBuilder->codeAppendf("xSub += min(%s.z - fragPosShifted.x, 0.0);", inRectParams.fsIn());
         fragBuilder->codeAppendf("ySub = min(fragPosShifted.y - %s.y, 0.0);", inRectParams.fsIn());
@@ -1127,24 +1135,24 @@ void GLDashingLineEffect::onEmitCode(EmitArgs& args, GrGPArgs* gpArgs) {
         // Now compute coverage in x and y and multiply them to get the fraction of the pixel
         // covered.
         fragBuilder->codeAppendf(
-            "float alpha = (1.0 + max(xSub, -1.0)) * (1.0 + max(ySub, -1.0));");
+            "half alpha = (1.0 + max(xSub, -1.0)) * (1.0 + max(ySub, -1.0));");
     } else if (de.aaMode() == AAMode::kCoverageWithMSAA) {
         // For MSAA, we don't modulate the alpha by the Y distance, since MSAA coverage will handle
         // AA on the the top and bottom edges. The shader is only responsible for intra-dash alpha.
-        fragBuilder->codeAppend("float xSub;");
+        fragBuilder->codeAppend("half xSub;");
         fragBuilder->codeAppendf("xSub = min(fragPosShifted.x - %s.x, 0.0);", inRectParams.fsIn());
         fragBuilder->codeAppendf("xSub += min(%s.z - fragPosShifted.x, 0.0);", inRectParams.fsIn());
         // Now compute coverage in x to get the fraction of the pixel covered.
-        fragBuilder->codeAppendf("float alpha = (1.0 + max(xSub, -1.0));");
+        fragBuilder->codeAppendf("half alpha = (1.0 + max(xSub, -1.0));");
     } else {
         // Assuming the bounding geometry is tight so no need to check y values
-        fragBuilder->codeAppendf("float alpha = 1.0;");
+        fragBuilder->codeAppendf("half alpha = 1.0;");
         fragBuilder->codeAppendf("alpha *= (fragPosShifted.x - %s.x) > -0.5 ? 1.0 : 0.0;",
                                  inRectParams.fsIn());
         fragBuilder->codeAppendf("alpha *= (%s.z - fragPosShifted.x) >= -0.5 ? 1.0 : 0.0;",
                                  inRectParams.fsIn());
     }
-    fragBuilder->codeAppendf("%s = float4(alpha);", args.fOutputCoverage);
+    fragBuilder->codeAppendf("%s = half4(alpha);", args.fOutputCoverage);
 }
 
 void GLDashingLineEffect::setData(const GrGLSLProgramDataManager& pdman,
@@ -1193,14 +1201,14 @@ DashingLineEffect::DashingLineEffect(GrColor color,
                                      AAMode aaMode,
                                      const SkMatrix& localMatrix,
                                      bool usesLocalCoords)
-    : fColor(color)
+    : INHERITED(kDashingLineEffect_ClassID)
+    , fColor(color)
     , fLocalMatrix(localMatrix)
     , fUsesLocalCoords(usesLocalCoords)
     , fAAMode(aaMode) {
-    this->initClassID<DashingLineEffect>();
-    fInPosition = &this->addVertexAttrib("inPosition", kVec2f_GrVertexAttribType);
-    fInDashParams = &this->addVertexAttrib("inDashParams", kVec3f_GrVertexAttribType);
-    fInRectParams = &this->addVertexAttrib("inRect", kVec4f_GrVertexAttribType);
+    fInPosition = &this->addVertexAttrib("inPosition", kFloat2_GrVertexAttribType);
+    fInDashParams = &this->addVertexAttrib("inDashParams", kHalf3_GrVertexAttribType);
+    fInRectParams = &this->addVertexAttrib("inRect", kHalf4_GrVertexAttribType);
 }
 
 GR_DEFINE_GEOMETRY_PROCESSOR_TEST(DashingLineEffect);

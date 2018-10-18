@@ -41,14 +41,19 @@ class ResourceSerial
 {
   public:
     constexpr ResourceSerial() : mValue(kDirty) {}
-    constexpr ResourceSerial(uintptr_t value) : mValue(value) {}
+    explicit constexpr ResourceSerial(uintptr_t value) : mValue(value) {}
     constexpr bool operator==(ResourceSerial other) const { return mValue == other.mValue; }
     constexpr bool operator!=(ResourceSerial other) const { return mValue != other.mValue; }
 
     void dirty() { mValue = kDirty; }
+    void clear() { mValue = kEmpty; }
+
+    constexpr bool valid() const { return mValue != kEmpty && mValue != kDirty; }
+    constexpr bool empty() const { return mValue == kEmpty; }
 
   private:
     constexpr static uintptr_t kDirty = std::numeric_limits<uintptr_t>::max();
+    constexpr static uintptr_t kEmpty = 0;
 
     uintptr_t mValue;
 };
@@ -58,12 +63,18 @@ class SerialFactory;
 class Serial final
 {
   public:
-    constexpr Serial() : mValue(0) {}
+    constexpr Serial() : mValue(kInvalid) {}
     constexpr Serial(const Serial &other) = default;
     Serial &operator=(const Serial &other) = default;
 
-    constexpr bool operator==(const Serial &other) const { return mValue == other.mValue; }
-    constexpr bool operator!=(const Serial &other) const { return mValue != other.mValue; }
+    constexpr bool operator==(const Serial &other) const
+    {
+        return mValue != kInvalid && mValue == other.mValue;
+    }
+    constexpr bool operator!=(const Serial &other) const
+    {
+        return mValue == kInvalid || mValue != other.mValue;
+    }
     constexpr bool operator>(const Serial &other) const { return mValue > other.mValue; }
     constexpr bool operator>=(const Serial &other) const { return mValue >= other.mValue; }
     constexpr bool operator<(const Serial &other) const { return mValue < other.mValue; }
@@ -73,6 +84,7 @@ class Serial final
     friend class SerialFactory;
     constexpr explicit Serial(uint64_t value) : mValue(value) {}
     uint64_t mValue;
+    static constexpr uint64_t kInvalid = 0;
 };
 
 class SerialFactory final : angle::NonCopyable
@@ -126,7 +138,7 @@ class FastCopyFunctionMap
     const Entry *mData;
 };
 
-struct PackPixelsParams : private angle::NonCopyable
+struct PackPixelsParams
 {
     PackPixelsParams();
     PackPixelsParams(const gl::Rectangle &area,
@@ -134,8 +146,8 @@ struct PackPixelsParams : private angle::NonCopyable
                      GLenum type,
                      GLuint outputPitch,
                      const gl::PixelPackState &pack,
+                     gl::Buffer *packBufferIn,
                      ptrdiff_t offset);
-    PackPixelsParams(const gl::Context *context, const PackPixelsParams &other);
 
     gl::Rectangle area;
     GLenum format;
@@ -204,6 +216,38 @@ void CopyImageCHROMIUM(const uint8_t *sourceData,
                        bool unpackFlipY,
                        bool unpackPremultiplyAlpha,
                        bool unpackUnmultiplyAlpha);
+
+// Incomplete textures are 1x1 textures filled with black, used when samplers are incomplete.
+// This helper class encapsulates handling incomplete textures. Because the GL back-end
+// can take advantage of the driver's incomplete textures, and because clearing multisample
+// textures is so difficult, we can keep an instance of this class in the back-end instead
+// of moving the logic to the Context front-end.
+
+// This interface allows us to call-back to init a multisample texture.
+class MultisampleTextureInitializer
+{
+  public:
+    virtual ~MultisampleTextureInitializer() {}
+    virtual gl::Error initializeMultisampleTextureToBlack(const gl::Context *context,
+                                                          gl::Texture *glTexture) = 0;
+};
+
+class IncompleteTextureSet final : angle::NonCopyable
+{
+  public:
+    IncompleteTextureSet();
+    ~IncompleteTextureSet();
+
+    void onDestroy(const gl::Context *context);
+
+    gl::Error getIncompleteTexture(const gl::Context *context,
+                                   GLenum type,
+                                   MultisampleTextureInitializer *multisampleInitializer,
+                                   gl::Texture **textureOut);
+
+  private:
+    gl::TextureMap mIncompleteTextures;
+};
 
 }  // namespace rx
 

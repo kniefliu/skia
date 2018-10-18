@@ -107,6 +107,18 @@ class GeometryShaderValidationTest : public ShaderCompileTreeTest
     ShShaderSpec getShaderSpec() const override { return SH_GLES3_1_SPEC; }
 };
 
+class FragmentShaderOESGeometryShaderValidationTest : public FragmentShaderValidationTest
+{
+  public:
+    FragmentShaderOESGeometryShaderValidationTest() {}
+
+  protected:
+    void initResources(ShBuiltInResources *resources) override
+    {
+        resources->OES_geometry_shader = 1;
+    }
+};
+
 // This is a test for a bug that used to exist in ANGLE:
 // Calling a function with all parameters missing should not succeed.
 TEST_F(FragmentShaderValidationTest, FunctionParameterMismatch)
@@ -2327,17 +2339,19 @@ TEST_F(ComputeShaderValidationTest, InvalidUsageOfWorkGroupSize)
 TEST_F(ComputeShaderValidationTest, CorrectUsageOfComputeBuiltins)
 {
     const std::string &shaderString =
-        "#version 310 es\n"
-        "layout(local_size_x = 12) in;\n"
-        "void main()\n"
-        "{\n"
-        "   uvec3 NumWorkGroups = gl_NumWorkGroups;\n"
-        "   uvec3 WorkGroupSize = gl_WorkGroupSize;\n"
-        "   uvec3 WorkGroupID = gl_WorkGroupID;\n"
-        "   uvec3 GlobalInvocationID = gl_GlobalInvocationID;\n"
-        "   uvec3 LocalInvocationID = gl_LocalInvocationID;\n"
-        "   uint LocalInvocationIndex = gl_LocalInvocationIndex;\n"
-        "}\n";
+        R"(#version 310 es
+        layout(local_size_x=4, local_size_y=3, local_size_z=2) in;
+        layout(rgba32ui) uniform highp writeonly uimage2D imageOut;
+        void main()
+        {
+            uvec3 temp1 = gl_NumWorkGroups;
+            uvec3 temp2 = gl_WorkGroupSize;
+            uvec3 temp3 = gl_WorkGroupID;
+            uvec3 temp4 = gl_LocalInvocationID;
+            uvec3 temp5 = gl_GlobalInvocationID;
+            uint  temp6 = gl_LocalInvocationIndex;
+            imageStore(imageOut, ivec2(0), uvec4(temp1 + temp2 + temp3 + temp4 + temp5, temp6));
+        })";
     if (!compile(shaderString))
     {
         FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
@@ -2577,11 +2591,12 @@ TEST_F(FragmentShaderValidationTest, VariableDeclarationWithInvariantAndLayoutQu
 TEST_F(FragmentShaderValidationTest, ShiftBy32)
 {
     const std::string &shaderString =
-        "#version 300 es\n"
-        "precision mediump float;\n"
-        "void main() {\n"
-        "   uint u = 1u << 32u;\n"
-        "}\n";
+        R"(#version 300 es
+        precision mediump float;
+        out uint my_out;
+        void main() {
+           my_out = 1u << 32u;
+        })";
     if (compile(shaderString))
     {
         if (!hasWarning())
@@ -2602,11 +2617,12 @@ TEST_F(FragmentShaderValidationTest, ShiftBy32)
 TEST_F(FragmentShaderValidationTest, ShiftByNegative)
 {
     const std::string &shaderString =
-        "#version 300 es\n"
-        "precision mediump float;\n"
-        "void main() {\n"
-        "   uint u = 1u << (-1);\n"
-        "}\n";
+        R"(#version 300 es
+        precision mediump float;
+        out uint my_out;
+        void main() {
+           my_out = 1u << (-1);
+        })";
     if (compile(shaderString))
     {
         if (!hasWarning())
@@ -4005,12 +4021,15 @@ TEST_F(FragmentShaderValidationTest, InvalidInterfaceBlockTernaryExpression)
 TEST_F(FragmentShaderValidationTest, BufferAndSharedAsIdentifierOnES3)
 {
     const std::string &shaderString =
-        "#version 300 es\n"
-        "void main()\n"
-        "{\n"
-        "    int buffer;\n"
-        "    int shared;\n"
-        "}\n";
+        R"(#version 300 es
+        precision highp float;
+        out vec4 my_out;
+        void main()
+        {
+            int buffer = 1;
+            int shared = 2;
+            my_out = vec4(buffer + shared);
+        })";
 
     if (!compile(shaderString))
     {
@@ -4412,6 +4431,1141 @@ TEST_F(VertexShaderValidationTest, ViewportIndexInESSL310)
         "{\n"
         "    gl_Position = vec4(gl_ViewportIndex);\n"
         "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that gl_PrimitiveID is valid in fragment shader with 'GL_OES_geometry_shader' declared.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest, PrimitiveIDWithExtension)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "precision mediump float;\n"
+        "layout(location = 0) out mediump vec4 fragColor;\n"
+        "void main(void)\n"
+        "{\n"
+        "    vec4 data = vec4(0.1, 0.2, 0.3, 0.4);\n"
+        "    float value = data[gl_PrimitiveID % 4];\n"
+        "    fragColor = vec4(value, 0, 0, 1);\n"
+        "}\n";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that gl_PrimitiveID is invalid in fragment shader without 'GL_OES_geometry_shader' declared.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest, PrimitiveIDWithoutExtension)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "layout(location = 0) out mediump vec4 fragColor;\n"
+        "void main(void)\n"
+        "{\n"
+        "    vec4 data = vec4(0.1, 0.2, 0.3, 0.4);\n"
+        "    float value = data[gl_PrimitiveID % 4];\n"
+        "    fragColor = vec4(value, 0, 0, 1);\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that gl_PrimitiveID cannot be l-value in fragment shader.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest, AssignValueToPrimitiveID)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "precision mediump float;\n"
+        "layout(location = 0) out mediump vec4 fragColor;\n"
+        "void main(void)\n"
+        "{\n"
+        "    gl_PrimitiveID = 1;\n"
+        "    fragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that gl_Layer is valid in fragment shader with 'GL_OES_geometry_shader' declared.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest, LayerWithExtension)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "precision mediump float;\n"
+        "layout(location = 0) out mediump vec4 fragColor;\n"
+        "void main(void)\n"
+        "{\n"
+        "    vec4 data = vec4(0.1, 0.2, 0.3, 0.4);\n"
+        "    float value = data[gl_Layer % 4];\n"
+        "    fragColor = vec4(value, 0, 0, 1);\n"
+        "}\n";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that gl_Layer is invalid in fragment shader without 'GL_OES_geometry_shader' declared.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest, LayerWithoutExtension)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "layout(location = 0) out mediump vec4 fragColor;\n"
+        "void main(void)\n"
+        "{\n"
+        "    vec4 data = vec4(0.1, 0.2, 0.3, 0.4);\n"
+        "    float value = data[gl_Layer % 4];\n"
+        "    fragColor = vec4(value, 0, 0, 1);\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that gl_Layer cannot be l-value in fragment shader.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest, AssignValueToLayer)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "#extension GL_OES_geometry_shader : require\n"
+        "precision mediump float;\n"
+        "layout(location = 0) out mediump vec4 fragColor;\n"
+        "void main(void)\n"
+        "{\n"
+        "    gl_Layer = 1;\n"
+        "    fragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that all built-in constants defined in GL_OES_geometry_shader can be used in fragment shader
+// with 'GL_OES_geometry_shader' declared.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest, GeometryShaderBuiltInConstants)
+{
+    const std::string &kShaderHeader =
+        R"(#version 310 es
+        #extension GL_OES_geometry_shader : require
+        precision mediump float;
+        layout(location = 0) out mediump vec4 fragColor;
+        void main(void)
+        {
+            int val = )";
+
+    const std::array<std::string, 9> kGeometryShaderBuiltinConstants = {{
+        "gl_MaxGeometryInputComponents", "gl_MaxGeometryOutputComponents",
+        "gl_MaxGeometryImageUniforms", "gl_MaxGeometryTextureImageUnits",
+        "gl_MaxGeometryOutputVertices", "gl_MaxGeometryTotalOutputComponents",
+        "gl_MaxGeometryUniformComponents", "gl_MaxGeometryAtomicCounters",
+        "gl_MaxGeometryAtomicCounterBuffers",
+    }};
+
+    const std::string &kShaderTail =
+        R"(;
+            fragColor = vec4(val, 0, 0, 1);
+        })";
+
+    for (const std::string &kGSBuiltinConstant : kGeometryShaderBuiltinConstants)
+    {
+        std::ostringstream ostream;
+        ostream << kShaderHeader << kGSBuiltinConstant << kShaderTail;
+        if (!compile(ostream.str()))
+        {
+            FAIL() << "Shader compilation failed, expecting success: \n" << mInfoLog;
+        }
+    }
+}
+
+// Test that any built-in constants defined in GL_OES_geometry_shader cannot be used in fragment
+// shader without 'GL_OES_geometry_shader' declared.
+TEST_F(FragmentShaderOESGeometryShaderValidationTest,
+       GeometryShaderBuiltInConstantsWithoutExtension)
+{
+    const std::string &kShaderHeader =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "layout(location = 0) out mediump vec4 fragColor;\n"
+        "void main(void)\n"
+        "{\n"
+        "    int val = ";
+
+    const std::array<std::string, 9> kGeometryShaderBuiltinConstants = {{
+        "gl_MaxGeometryInputComponents", "gl_MaxGeometryOutputComponents",
+        "gl_MaxGeometryImageUniforms", "gl_MaxGeometryTextureImageUnits",
+        "gl_MaxGeometryOutputVertices", "gl_MaxGeometryTotalOutputComponents",
+        "gl_MaxGeometryUniformComponents", "gl_MaxGeometryAtomicCounters",
+        "gl_MaxGeometryAtomicCounterBuffers",
+    }};
+
+    const std::string &kShaderTail =
+        ";\n"
+        "    fragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"
+        "}\n";
+
+    for (const std::string &kGSBuiltinConstant : kGeometryShaderBuiltinConstants)
+    {
+        std::ostringstream ostream;
+        ostream << kShaderHeader << kGSBuiltinConstant << kShaderTail;
+        if (compile(ostream.str()))
+        {
+            FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+        }
+    }
+}
+
+// Test that declaring and using an interface block with 'const' qualifier is not allowed.
+TEST_F(VertexShaderValidationTest, InterfaceBlockUsingConstQualifier)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "const block\n"
+        "{\n"
+        "    vec2 value;\n"
+        "} ConstBlock[2];\n"
+        "void main()\n"
+        "{\n"
+        "    int i = 0;\n"
+        "    vec2 value1 = ConstBlock[i].value;\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that using shader io blocks without declaration of GL_OES_shader_io_block is not allowed.
+TEST_F(VertexShaderValidationTest, IOBlockWithoutExtension)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "out block\n"
+        "{\n"
+        "    vec2 value;\n"
+        "} VSOutput[2];\n"
+        "void main()\n"
+        "{\n"
+        "    int i = 0;\n"
+        "    vec2 value1 = VSOutput[i].value;\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that using shader io blocks without declaration of GL_OES_shader_io_block is not allowed.
+TEST_F(FragmentShaderValidationTest, IOBlockWithoutExtension)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "in block\n"
+        "{\n"
+        "    vec4 i_color;\n"
+        "} FSInput[2];\n"
+        "out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    int i = 0;\n"
+        "    o_color = FSInput[i].i_color;"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that a shader input with 'flat' qualifier cannot be used as l-value.
+TEST_F(FragmentShaderValidationTest, AssignValueToFlatIn)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "flat in float value;\n"
+        "out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    value = 1.0;\n"
+        "    o_color = vec4(1.0, 0.0, 0.0, 1.0);"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that a shader input with 'smooth' qualifier cannot be used as l-value.
+TEST_F(FragmentShaderValidationTest, AssignValueToSmoothIn)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "smooth in float value;\n"
+        "out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    value = 1.0;\n"
+        "    o_color = vec4(1.0, 0.0, 0.0, 1.0);"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that a shader input with 'centroid' qualifier cannot be used as l-value.
+TEST_F(FragmentShaderValidationTest, AssignValueToCentroidIn)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "centroid in float value;\n"
+        "out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    value = 1.0;\n"
+        "    o_color = vec4(1.0, 0.0, 0.0, 1.0);"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that shader compilation fails if the component argument is dynamic.
+TEST_F(FragmentShaderValidationTest, DynamicComponentTextureGather)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "precision mediump sampler2D;\n"
+        "uniform sampler2D tex;\n"
+        "out vec4 o_color;\n"
+        "uniform int uComp;\n"
+        "void main()\n"
+        "{\n"
+        "    o_color = textureGather(tex, vec2(0), uComp);"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that shader compilation fails if the component argument to textureGather has a negative
+// value.
+TEST_F(FragmentShaderValidationTest, TextureGatherNegativeComponent)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "precision mediump sampler2D;\n"
+        "uniform sampler2D tex;\n"
+        "out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    o_color = textureGather(tex, vec2(0), -1);"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that shader compilation fails if the component argument to textureGather has a value greater
+// than 3.
+TEST_F(FragmentShaderValidationTest, TextureGatherTooGreatComponent)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "precision mediump sampler2D;\n"
+        "uniform sampler2D tex;\n"
+        "out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    o_color = textureGather(tex, vec2(0), 4);"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that shader compilation fails if the offset is less than the minimum value.
+TEST_F(FragmentShaderValidationTest, TextureGatherTooGreatOffset)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "precision mediump sampler2D;\n"
+        "uniform sampler2D tex;\n"
+        "out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "    o_color = textureGatherOffset(tex, vec2(0), ivec2(-100), 2);"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that it isn't allowed to use 'location' layout qualifier on GLSL ES 3.0 vertex shader
+// outputs.
+TEST_F(VertexShaderValidationTest, UseLocationOnVertexOutES30)
+{
+    const std::string &shaderString =
+        "#version 300 es\n"
+        "in vec4 v1;\n"
+        "layout (location = 1) out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that using 'location' layout qualifier on vertex shader outputs is legal in GLSL ES 3.1
+// shaders.
+TEST_F(VertexShaderValidationTest, UseLocationOnVertexOutES31)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "in vec4 v1;\n"
+        "layout (location = 1) out vec4 o_color1;\n"
+        "layout (location = 2) out vec4 o_color2;\n"
+        "out vec3 v3;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it isn't allowed to use 'location' layout qualifier on GLSL ES 3.0 fragment shader
+// inputs.
+TEST_F(FragmentShaderValidationTest, UseLocationOnFragmentInES30)
+{
+    const std::string &shaderString =
+        "#version 300 es\n"
+        "precision mediump float;\n"
+        "layout (location = 0) in vec4 v_color1;\n"
+        "layout (location = 0) out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that using 'location' layout qualifier on fragment shader inputs is legal in GLSL ES 3.1
+// shaders.
+TEST_F(FragmentShaderValidationTest, UseLocationOnFragmentInES31)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "layout (location = 0) in mat4 v_mat;\n"
+        "layout (location = 4) in vec4 v_color1;\n"
+        "in vec2 v_color2;\n"
+        "layout (location = 0) out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that declaring outputs of a vertex shader with same location causes a compile error.
+TEST_F(VertexShaderValidationTest, DeclareSameLocationOnVertexOut)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "in float i_value;\n"
+        "layout (location = 1) out vec4 o_color1;\n"
+        "layout (location = 1) out vec4 o_color2;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that declaring inputs of a fragment shader with same location causes a compile error.
+TEST_F(FragmentShaderValidationTest, DeclareSameLocationOnFragmentIn)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "in float i_value;\n"
+        "layout (location = 1) in vec4 i_color1;\n"
+        "layout (location = 1) in vec4 i_color2;\n"
+        "layout (location = 0) out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that the location of an element of an array conflicting with other output varyings in a
+// vertex shader causes a compile error.
+TEST_F(VertexShaderValidationTest, LocationConflictsnOnArrayElement)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "in float i_value;\n"
+        "layout (location = 0) out vec4 o_color1[3];\n"
+        "layout (location = 1) out vec4 o_color2;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that the location of an element of a matrix conflicting with other output varyings in a
+// vertex shader causes a compile error.
+TEST_F(VertexShaderValidationTest, LocationConflictsOnMatrixElement)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "in float i_value;\n"
+        "layout (location = 0) out mat4 o_mvp;\n"
+        "layout (location = 2) out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that the location of an element of a struct conflicting with other output varyings in a
+// vertex shader causes a compile error.
+TEST_F(VertexShaderValidationTest, LocationConflictsOnStructElement)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "in float i_value;\n"
+        "struct S\n"
+        "{\n"
+        "    float value1;\n"
+        "    vec3 value2;\n"
+        "};\n"
+        "layout (location = 0) out S s_in;"
+        "layout (location = 1) out vec4 o_color;\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that a block can follow the final case in a switch statement.
+// GLSL ES 3.00.5 section 6 and the grammar suggest that an empty block is a statement.
+TEST_F(FragmentShaderValidationTest, SwitchFinalCaseHasEmptyBlock)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision mediump float;
+        uniform int i;
+        void main()
+        {
+            switch (i)
+            {
+                case 0:
+                    break;
+                default:
+                    {}
+            }
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that an empty declaration can follow the final case in a switch statement.
+TEST_F(FragmentShaderValidationTest, SwitchFinalCaseHasEmptyDeclaration)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision mediump float;
+        uniform int i;
+        void main()
+        {
+            switch (i)
+            {
+                case 0:
+                    break;
+                default:
+                    float;
+            }
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that nothing is needed after the final case in a switch statement in ESSL 3.10.
+TEST_F(FragmentShaderValidationTest, SwitchFinalCaseEmptyESSL310)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        precision mediump float;
+        uniform int i;
+        void main()
+        {
+            switch (i)
+            {
+                case 0:
+                    break;
+                default:
+            }
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that fragment shader cannot declare unsized inputs.
+TEST_F(FragmentShaderValidationTest, UnsizedInputs)
+{
+    const std::string &shaderString =
+        "#version 310 es\n"
+        "precision mediump float;\n"
+        "in float i_value[];\n"
+        "void main()\n"
+        "{\n"
+        "}\n";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that unsized struct members are not allowed.
+TEST_F(FragmentShaderValidationTest, UnsizedStructMember)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision highp float;
+        out vec4 color;
+
+        struct S
+        {
+            int[] foo;
+        };
+
+        void main()
+        {
+            color = vec4(1.0);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that unsized parameters without a name are not allowed.
+// GLSL ES 3.10 section 6.1 Function Definitions.
+TEST_F(FragmentShaderValidationTest, UnsizedNamelessParameter)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision highp float;
+        out vec4 color;
+
+        void foo(int[]);
+
+        void main()
+        {
+            color = vec4(1.0);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that partially unsized array of arrays constructor sizes are validated.
+TEST_F(FragmentShaderValidationTest, PartiallyUnsizedArrayOfArraysConstructor)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        precision highp float;
+        out vec4 color;
+
+        void main()
+        {
+            int a[][] = int[2][](int[1](1));
+            color = vec4(a[0][0]);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that duplicate field names in a struct declarator list are validated.
+TEST_F(FragmentShaderValidationTest, DuplicateFieldNamesInStructDeclaratorList)
+{
+    const std::string &shaderString =
+        R"(precision mediump float;
+
+        struct S {
+            float f, f;
+        };
+
+        void main()
+        {
+            gl_FragColor = vec4(1.0);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that an empty statement is not allowed in switch before the first case.
+TEST_F(FragmentShaderValidationTest, EmptyStatementInSwitchBeforeFirstCase)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision mediump float;
+        uniform int u_zero;
+        out vec4 my_FragColor;
+
+        void main()
+        {
+            switch(u_zero)
+            {
+                    ;
+                case 0:
+                    my_FragColor = vec4(0.0);
+                default:
+                    my_FragColor = vec4(1.0);
+            }
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that a nameless struct definition is not allowed as a function parameter type.
+// ESSL 3.00.6 section 12.10. ESSL 3.10 January 2016 section 13.10.
+TEST_F(FragmentShaderValidationTest, NamelessStructDefinitionAsParameterType)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision highp float;
+        out vec4 my_FragColor;
+
+        float foo(struct { float field; } f)
+        {
+            return f.field;
+        }
+
+        void main()
+        {
+            my_FragColor = vec4(0, 1, 0, 1);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that a named struct definition is not allowed as a function parameter type.
+// ESSL 3.00.6 section 12.10. ESSL 3.10 January 2016 section 13.10.
+TEST_F(FragmentShaderValidationTest, NamedStructDefinitionAsParameterType)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision highp float;
+        out vec4 my_FragColor;
+
+        float foo(struct S { float field; } f)
+        {
+            return f.field;
+        }
+
+        void main()
+        {
+            my_FragColor = vec4(0, 1, 0, 1);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that a named struct definition is not allowed as a function parameter type.
+// ESSL 3.00.6 section 12.10. ESSL 3.10 January 2016 section 13.10.
+TEST_F(FragmentShaderValidationTest, StructDefinitionAsTypeOfParameterWithoutName)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        precision highp float;
+        out vec4 my_FragColor;
+
+        float foo(struct S { float field; } /* no parameter name */)
+        {
+            return 1.0;
+        }
+
+        void main()
+        {
+            my_FragColor = vec4(0, 1, 0, 1);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that an unsized const array doesn't assert.
+TEST_F(FragmentShaderValidationTest, UnsizedConstArray)
+{
+    const std::string &shaderString =
+        R"(#version 300 es
+
+        void main()
+        {
+            const int t[];
+            t[0];
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that the value passed to the mem argument of an atomic memory function can be a shared
+// variable.
+TEST_F(ComputeShaderValidationTest, AtomicAddWithSharedVariable)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(local_size_x = 5) in;
+        shared uint myShared;
+
+        void main() {
+            atomicAdd(myShared, 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it is acceptable to pass an element of an array to the mem argument of an atomic memory
+// function, as long as the underlying array is a buffer or shared variable.
+TEST_F(ComputeShaderValidationTest, AtomicAddWithSharedVariableArray)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(local_size_x = 5) in;
+        shared uint myShared[2];
+
+        void main() {
+            atomicAdd(myShared[0], 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it is acceptable to pass a single component of a vector to the mem argument of an
+// atomic memory function, as long as the underlying vector is a buffer or shared variable.
+TEST_F(ComputeShaderValidationTest, AtomicAddWithSharedVariableVector)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(local_size_x = 5) in;
+        shared uvec4 myShared;
+
+        void main() {
+            atomicAdd(myShared[0], 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that the value passed to the mem argument of an atomic memory function can be a buffer
+// variable.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithBufferVariable)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(std140) buffer bufferName1{
+            uint u1;
+        };
+
+        void main()
+        {
+            atomicAdd(u1, 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it is acceptable to pass an element of an array to the mem argument of an atomic memory
+// function, as long as the underlying array is a buffer or shared variable.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithBufferVariableArrayElement)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(std140) buffer bufferName1{
+            uint u1[2];
+        };
+
+        void main()
+        {
+            atomicAdd(u1[0], 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it is acceptable to pass a member of a shader storage block instance to the mem
+// argument of an atomic memory function.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithBufferVariableInBlockInstance)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(std140) buffer bufferName{
+            uint u1;
+        } instanceName;
+
+        void main()
+        {
+            atomicAdd(instanceName.u1, 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it is acceptable to pass a member of a shader storage block instance array to the mem
+// argument of an atomic memory function.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithBufferVariableInBlockInstanceArray)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(std140) buffer bufferName{
+            uint u1;
+        } instanceName[1];
+
+        void main()
+        {
+            atomicAdd(instanceName[0].u1, 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it is acceptable to pass an element of an array  of a shader storage block instance to
+// the mem argument of an atomic memory function.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithElementOfArrayInBlockInstance)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(std140) buffer blockName {
+            uint data[2];
+        } instanceName;
+
+        void main()
+        {
+            atomicAdd(instanceName.data[0], 2u);
+        })";
+
+    if (!compile(shaderString))
+    {
+        FAIL() << "Shader compilation failed, expecting success:\n" << mInfoLog;
+    }
+}
+
+// Test that it is not allowed to pass an atomic counter variable to the mem argument of an atomic
+// memory function.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithAtomicCounter)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(binding = 0, offset = 4) uniform atomic_uint ac;
+
+        void main()
+        {
+            atomicAdd(ac, 2u);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that it is not allowed to pass an element of an atomic counter array to the mem argument of
+// an atomic memory function.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithAtomicCounterArray)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        layout(binding = 0, offset = 4) uniform atomic_uint ac[2];
+
+        void main()
+        {
+            atomicAdd(ac[0], 2u);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that it is not allowed to pass a local uint value to the mem argument of an atomic memory
+// function.
+TEST_F(FragmentShaderValidationTest, AtomicAddWithNonStorageVariable)
+{
+    const std::string &shaderString =
+        R"(#version 310 es
+
+        void main()
+        {
+            uint test = 1u;
+            atomicAdd(test, 2u);
+        })";
+
+    if (compile(shaderString))
+    {
+        FAIL() << "Shader compilation succeeded, expecting failure:\n" << mInfoLog;
+    }
+}
+
+// Test that negative indexing of a matrix doesn't result in an assert.
+TEST_F(FragmentShaderValidationTest, MatrixNegativeIndex)
+{
+    const std::string &shaderString =
+        R"(
+        precision mediump float;
+
+        void main()
+        {
+            gl_FragColor = mat4(1.0)[-1];
+        })";
 
     if (compile(shaderString))
     {

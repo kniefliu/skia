@@ -75,6 +75,8 @@ public:
         kNoModesInMergeImageFilter_Verison = 55,
         kTileModeInBlurImageFilter_Version = 56,
         kTileInfoInSweepGradient_Version   = 57,
+        k2PtConicalNoFlip_Version          = 58,
+        kRemovePictureImageFilterLocalSpace = 59,
     };
 
     /**
@@ -165,18 +167,17 @@ public:
 
     sk_sp<SkData> readByteArrayAsData() {
         size_t len = this->getArrayCount();
-        if (!this->validateAvailable(len)) {
+        void* buffer = sk_malloc_throw(len);
+        if (!this->readByteArray(buffer, len)) {
+            sk_free(buffer);
             return SkData::MakeEmpty();
         }
-        void* buffer = sk_malloc_throw(len);
-        this->readByteArray(buffer, len);
         return SkData::MakeFromMalloc(buffer, len);
     }
 
     // helpers to get info about arrays and binary data
     virtual uint32_t getArrayCount();
 
-    sk_sp<SkImage> readBitmapAsImage();
     sk_sp<SkImage> readImage();
     virtual sk_sp<SkTypeface> readTypeface();
 
@@ -215,7 +216,6 @@ public:
     // Default impelementations don't check anything.
     virtual bool validate(bool isValid) { return isValid; }
     virtual bool isValid() const { return true; }
-    virtual bool validateAvailable(size_t size) { return true; }
     bool validateIndex(int index, int count) {
         return this->validate(index >= 0 && index < count);
     }
@@ -223,8 +223,19 @@ public:
     SkInflator* getInflator() const { return fInflator; }
     void setInflator(SkInflator* inf) { fInflator = inf; }
 
-//    sk_sp<SkImage> inflateImage();
-    
+    // Utilities that mark the buffer invalid if the requested value is out-of-range
+
+    // If the read value is outside of the range, validate(false) is called, and min
+    // is returned, else the value is returned.
+    int32_t checkInt(int min, int max);
+
+    template <typename T> T checkRange(T min, T max) {
+        return static_cast<T>(this->checkInt(static_cast<int32_t>(min),
+                                             static_cast<int32_t>(max)));
+    }
+
+    SkFilterQuality checkFilterQuality();
+
 protected:
     /**
      *  Allows subclass to check if we are using factories for expansion

@@ -134,7 +134,7 @@ public:
 // We need this mask blitter because it significantly accelerates small path filling.
 class MaskAdditiveBlitter : public AdditiveBlitter {
 public:
-    MaskAdditiveBlitter(SkBlitter* realBlitter, const SkIRect& ir, const SkRegion& clip,
+    MaskAdditiveBlitter(SkBlitter* realBlitter, const SkIRect& ir, const SkIRect& clipBounds,
             bool isInverse);
     ~MaskAdditiveBlitter() override {
         fRealBlitter->blitMask(fMask, fClipRect);
@@ -202,7 +202,7 @@ private:
 };
 
 MaskAdditiveBlitter::MaskAdditiveBlitter(
-        SkBlitter* realBlitter, const SkIRect& ir, const SkRegion& clip, bool isInverse) {
+        SkBlitter* realBlitter, const SkIRect& ir, const SkIRect& clipBounds, bool isInverse) {
     SkASSERT(canHandleRect(ir));
     SkASSERT(!isInverse);
 
@@ -217,7 +217,7 @@ MaskAdditiveBlitter::MaskAdditiveBlitter(
     fRow = nullptr;
 
     fClipRect = ir;
-    if (!fClipRect.intersect(clip.getBounds())) {
+    if (!fClipRect.intersect(clipBounds)) {
         SkASSERT(0);
         fClipRect.setEmpty();
     }
@@ -276,7 +276,7 @@ void MaskAdditiveBlitter::blitAntiRect(int x, int y, int width, int height,
 
 class RunBasedAdditiveBlitter : public AdditiveBlitter {
 public:
-    RunBasedAdditiveBlitter(SkBlitter* realBlitter, const SkIRect& ir, const SkRegion& clip,
+    RunBasedAdditiveBlitter(SkBlitter* realBlitter, const SkIRect& ir, const SkIRect& clipBounds,
             bool isInverse);
     ~RunBasedAdditiveBlitter() override;
 
@@ -372,16 +372,16 @@ protected:
 };
 
 RunBasedAdditiveBlitter::RunBasedAdditiveBlitter(
-        SkBlitter* realBlitter, const SkIRect& ir, const SkRegion& clip, bool isInverse) {
+        SkBlitter* realBlitter, const SkIRect& ir, const SkIRect& clipBounds, bool isInverse) {
     fRealBlitter = realBlitter;
 
     SkIRect sectBounds;
     if (isInverse) {
         // We use the clip bounds instead of the ir, since we may be asked to
         //draw outside of the rect when we're a inverse filltype
-        sectBounds = clip.getBounds();
+        sectBounds = clipBounds;
     } else {
-        if (!sectBounds.intersect(ir, clip.getBounds())) {
+        if (!sectBounds.intersect(ir, clipBounds)) {
             sectBounds.setEmpty();
         }
     }
@@ -471,8 +471,8 @@ int RunBasedAdditiveBlitter::getWidth() { return fWidth; }
 // In those cases, we can easily accumulate alpha greater than 0xFF.
 class SafeRLEAdditiveBlitter : public RunBasedAdditiveBlitter {
 public:
-    SafeRLEAdditiveBlitter(SkBlitter* realBlitter, const SkIRect& ir, const SkRegion& clip,
-            bool isInverse) : RunBasedAdditiveBlitter(realBlitter, ir, clip, isInverse) {}
+    SafeRLEAdditiveBlitter(SkBlitter* realBlitter, const SkIRect& ir, const SkIRect& clipBounds,
+            bool isInverse) : RunBasedAdditiveBlitter(realBlitter, ir, clipBounds, isInverse) {}
 
     void blitAntiH(int x, int y, const SkAlpha antialias[], int len) override;
     void blitAntiH(int x, int y, const SkAlpha alpha) override;
@@ -1282,15 +1282,27 @@ static void validate_edges_for_y(const SkAnalyticEdge* edge, SkFixed y) {
 
 // Return true if prev->fX, next->fX are too close in the current pixel row.
 static inline bool edges_too_close(SkAnalyticEdge* prev, SkAnalyticEdge* next, SkFixed lowerY) {
+    // When next->fDX == 0, prev->fX >= next->fX - SkAbs32(next->fDX) would be false
+    // even if prev->fX and next->fX are close and within one pixel (e.g., prev->fX == 0.1,
+    // next->fX == 0.9). Adding SLACK = 1 to the formula would guarantee it to be true if two
+    // edges prev and next are within one pixel.
+    constexpr SkFixed SLACK =
+#ifdef SK_SUPPORT_LEGACY_AA_BEHAVIOR
+    0;
+#else
+    SK_Fixed1;
+#endif
+
     // Note that even if the following test failed, the edges might still be very close to each
     // other at some point within the current pixel row because of prev->fDX and next->fDX.
     // However, to handle that case, we have to sacrafice more performance.
     // I think the current quality is good enough (mainly by looking at Nebraska-StateSeal.svg)
     // so I'll ignore fDX for performance tradeoff.
-    return next && prev && next->fUpperY < lowerY && prev->fX >= next->fX - SkAbs32(next->fDX);
+    return next && prev && next->fUpperY < lowerY && prev->fX + SLACK >=
+                                                     next->fX - SkAbs32(next->fDX);
     // The following is more accurate but also slower.
     // return (prev && prev->fPrev && next && next->fNext != nullptr && next->fUpperY < lowerY &&
-    //     prev->fX + SkAbs32(prev->fDX) >= next->fX - SkAbs32(next->fDX));
+    //     prev->fX + SkAbs32(prev->fDX) + SLACK >= next->fX - SkAbs32(next->fDX));
 }
 
 // This function exists for the case where the previous rite edge is removed because
@@ -1672,36 +1684,48 @@ static SK_ALWAYS_INLINE void aaa_fill_path(const SkPath& path, const SkIRect& cl
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkScan::AAAFillPath(const SkPath& path, const SkRegion& origClip, SkBlitter* blitter,
-                         bool forceRLE) {
-    FillPathFunc fillPathFunc = [](const SkPath& path, SkBlitter* blitter, bool isInverse,
-            const SkIRect& ir, const SkRegion* clipRgn, const SkIRect* clipRect, bool forceRLE){
-        // The mask blitter (where we store intermediate alpha values directly in a mask, and then
-        // call the real blitter once in the end to blit the whole mask) is faster than the RLE
-        // blitter when the blit region is small enough (i.e., canHandleRect(ir)).
-        // When isInverse is true, the blit region is no longer ir so we won't use the mask blitter.
-        // The caller may also use the forceRLE flag to force not using the mask blitter.
-        if (MaskAdditiveBlitter::canHandleRect(ir) && !isInverse && !forceRLE) {
-            MaskAdditiveBlitter additiveBlitter(blitter, ir, *clipRgn, isInverse);
-            aaa_fill_path(path, clipRgn->getBounds(), &additiveBlitter, ir.fTop, ir.fBottom,
-                    clipRect == nullptr, true, forceRLE);
-        } else if (!isInverse && path.isConvex()) {
-            // If the filling area is convex (i.e., path.isConvex && !isInverse), our simpler
-            // aaa_walk_convex_edges won't generate alphas above 255. Hence we don't need
-            // SafeRLEAdditiveBlitter (which is slow due to clamping). The basic RLE blitter
-            // RunBasedAdditiveBlitter would suffice.
-            RunBasedAdditiveBlitter additiveBlitter(blitter, ir, *clipRgn, isInverse);
-            aaa_fill_path(path, clipRgn->getBounds(), &additiveBlitter, ir.fTop, ir.fBottom,
-                    clipRect == nullptr, false, forceRLE);
-        } else {
-            // If the filling area might not be convex, the more involved aaa_walk_edges would
-            // be called and we have to clamp the alpha downto 255. The SafeRLEAdditiveBlitter
-            // does that at a cost of performance.
-            SafeRLEAdditiveBlitter additiveBlitter(blitter, ir, *clipRgn, isInverse);
-            aaa_fill_path(path, clipRgn->getBounds(), &additiveBlitter, ir.fTop, ir.fBottom,
-                    clipRect == nullptr, false, forceRLE);
-        }
-    };
+void SkScan::AAAFillPath(const SkPath& path, SkBlitter* blitter, const SkIRect& ir,
+                         const SkIRect& clipBounds, bool containedInClip, bool forceRLE) {
+#if !defined(SK_SUPPORT_LEGACY_AA_BEHAVIOR)
+    containedInClip = clipBounds.contains(ir);
+#endif
+    bool isInverse = path.isInverseFillType();
 
-    do_fill_path(path, origClip, blitter, forceRLE, 2, std::move(fillPathFunc));
+    // The mask blitter (where we store intermediate alpha values directly in a mask, and then call
+    // the real blitter once in the end to blit the whole mask) is faster than the RLE blitter when
+    // the blit region is small enough (i.e., canHandleRect(ir)). When isInverse is true, the blit
+    // region is no longer the rectangle ir so we won't use the mask blitter. The caller may also
+    // use the forceRLE flag to force not using the mask blitter. Also, when the path is a simple
+    // rect, preparing a mask and blitting it might have too much overhead. Hence we'll use
+    // blitFatAntiRect to avoid the mask and its overhead.
+    if (MaskAdditiveBlitter::canHandleRect(ir) && !isInverse && !forceRLE) {
+#ifdef SK_SUPPORT_LEGACY_SMALLRECT_AA
+        MaskAdditiveBlitter additiveBlitter(blitter, ir, clipBounds, isInverse);
+        aaa_fill_path(path, clipBounds, &additiveBlitter, ir.fTop, ir.fBottom,
+                containedInClip, true, forceRLE);
+#else
+        // blitFatAntiRect is slower than the normal AAA flow without MaskAdditiveBlitter.
+        // Hence only tryBlitFatAntiRect when MaskAdditiveBlitter would have been used.
+        if (!TryBlitFatAntiRect(blitter, path, clipBounds)) {
+            MaskAdditiveBlitter additiveBlitter(blitter, ir, clipBounds, isInverse);
+            aaa_fill_path(path, clipBounds, &additiveBlitter, ir.fTop, ir.fBottom,
+                    containedInClip, true, forceRLE);
+        }
+#endif
+    } else if (!isInverse && path.isConvex()) {
+        // If the filling area is convex (i.e., path.isConvex && !isInverse), our simpler
+        // aaa_walk_convex_edges won't generate alphas above 255. Hence we don't need
+        // SafeRLEAdditiveBlitter (which is slow due to clamping). The basic RLE blitter
+        // RunBasedAdditiveBlitter would suffice.
+        RunBasedAdditiveBlitter additiveBlitter(blitter, ir, clipBounds, isInverse);
+        aaa_fill_path(path, clipBounds, &additiveBlitter, ir.fTop, ir.fBottom,
+                containedInClip, false, forceRLE);
+    } else {
+        // If the filling area might not be convex, the more involved aaa_walk_edges would
+        // be called and we have to clamp the alpha downto 255. The SafeRLEAdditiveBlitter
+        // does that at a cost of performance.
+        SafeRLEAdditiveBlitter additiveBlitter(blitter, ir, clipBounds, isInverse);
+        aaa_fill_path(path, clipBounds, &additiveBlitter, ir.fTop, ir.fBottom,
+                containedInClip, false, forceRLE);
+    }
 }

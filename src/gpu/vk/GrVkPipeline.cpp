@@ -17,24 +17,32 @@
 static inline VkFormat attrib_type_to_vkformat(GrVertexAttribType type) {
     switch (type) {
         case kFloat_GrVertexAttribType:
+        case kHalf_GrVertexAttribType:
             return VK_FORMAT_R32_SFLOAT;
-        case kVec2f_GrVertexAttribType:
+        case kFloat2_GrVertexAttribType:
+        case kHalf2_GrVertexAttribType:
             return VK_FORMAT_R32G32_SFLOAT;
-        case kVec3f_GrVertexAttribType:
+        case kFloat3_GrVertexAttribType:
+        case kHalf3_GrVertexAttribType:
             return VK_FORMAT_R32G32B32_SFLOAT;
-        case kVec4f_GrVertexAttribType:
+        case kFloat4_GrVertexAttribType:
+        case kHalf4_GrVertexAttribType:
             return VK_FORMAT_R32G32B32A32_SFLOAT;
-        case kVec2i_GrVertexAttribType:
+        case kInt2_GrVertexAttribType:
             return VK_FORMAT_R32G32_SINT;
-        case kVec3i_GrVertexAttribType:
+        case kInt3_GrVertexAttribType:
             return VK_FORMAT_R32G32B32_SINT;
-        case kVec4i_GrVertexAttribType:
+        case kInt4_GrVertexAttribType:
             return VK_FORMAT_R32G32B32A32_SINT;
-        case kUByte_GrVertexAttribType:
+        case kUByte_norm_GrVertexAttribType:
             return VK_FORMAT_R8_UNORM;
-        case kVec4ub_GrVertexAttribType:
+        case kUByte4_norm_GrVertexAttribType:
             return VK_FORMAT_R8G8B8A8_UNORM;
-        case kVec2us_GrVertexAttribType:
+        case kShort2_GrVertexAttribType:
+            return VK_FORMAT_R16G16_SINT;
+        case kUShort2_GrVertexAttribType:
+            return VK_FORMAT_R16G16_UINT;
+        case kUShort2_norm_GrVertexAttribType:
             return VK_FORMAT_R16G16_UNORM;
         case kInt_GrVertexAttribType:
             return VK_FORMAT_R32_SINT;
@@ -495,6 +503,7 @@ void GrVkPipeline::freeGPUData(const GrVkGpu* gpu) const {
 void GrVkPipeline::SetDynamicScissorRectState(GrVkGpu* gpu,
                                               GrVkCommandBuffer* cmdBuffer,
                                               const GrRenderTarget* renderTarget,
+                                              GrSurfaceOrigin rtOrigin,
                                               SkIRect scissorRect) {
     if (!scissorRect.intersect(SkIRect::MakeWH(renderTarget->width(), renderTarget->height()))) {
         scissorRect.setEmpty();
@@ -503,10 +512,10 @@ void GrVkPipeline::SetDynamicScissorRectState(GrVkGpu* gpu,
     VkRect2D scissor;
     scissor.offset.x = scissorRect.fLeft;
     scissor.extent.width = scissorRect.width();
-    if (kTopLeft_GrSurfaceOrigin == renderTarget->origin()) {
+    if (kTopLeft_GrSurfaceOrigin == rtOrigin) {
         scissor.offset.y = scissorRect.fTop;
     } else {
-        SkASSERT(kBottomLeft_GrSurfaceOrigin == renderTarget->origin());
+        SkASSERT(kBottomLeft_GrSurfaceOrigin == rtOrigin);
         scissor.offset.y = renderTarget->height() - scissorRect.fBottom;
     }
     scissor.extent.height = scissorRect.height();

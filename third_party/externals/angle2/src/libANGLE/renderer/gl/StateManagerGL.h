@@ -40,6 +40,7 @@ class StateManagerGL final : angle::NonCopyable
     StateManagerGL(const FunctionsGL *functions,
                    const gl::Caps &rendererCaps,
                    const gl::Extensions &extensions);
+    ~StateManagerGL();
 
     void deleteProgram(GLuint program);
     void deleteVertexArray(GLuint vao);
@@ -54,9 +55,13 @@ class StateManagerGL final : angle::NonCopyable
     void useProgram(GLuint program);
     void forceUseProgram(GLuint program);
     void bindVertexArray(GLuint vao, GLuint elementArrayBuffer);
-    void bindBuffer(GLenum type, GLuint buffer);
-    void bindBufferBase(GLenum type, size_t index, GLuint buffer);
-    void bindBufferRange(GLenum type, size_t index, GLuint buffer, size_t offset, size_t size);
+    void bindBuffer(gl::BufferBinding target, GLuint buffer);
+    void bindBufferBase(gl::BufferBinding target, size_t index, GLuint buffer);
+    void bindBufferRange(gl::BufferBinding target,
+                         size_t index,
+                         GLuint buffer,
+                         size_t offset,
+                         size_t size);
     void activeTexture(size_t unit);
     void bindTexture(GLenum type, GLuint texture);
     void bindSampler(size_t unit, GLuint sampler);
@@ -99,6 +104,8 @@ class StateManagerGL final : angle::NonCopyable
     void setSampleAlphaToCoverageEnabled(bool enabled);
     void setSampleCoverageEnabled(bool enabled);
     void setSampleCoverage(float value, bool invert);
+    void setSampleMaskEnabled(bool enabled);
+    void setSampleMaski(GLuint maskNumber, GLbitfield mask);
 
     void setDepthTestEnabled(bool enabled);
     void setDepthFunc(GLenum depthFunc);
@@ -112,7 +119,7 @@ class StateManagerGL final : angle::NonCopyable
     void setStencilBackOps(GLenum sfail, GLenum dpfail, GLenum dppass);
 
     void setCullFaceEnabled(bool enabled);
-    void setCullFace(GLenum cullFace);
+    void setCullFace(gl::CullFaceMode cullFace);
     void setFrontFace(GLenum frontFace);
     void setPolygonOffsetFillEnabled(bool enabled);
     void setPolygonOffset(float factor, float units);
@@ -126,19 +133,9 @@ class StateManagerGL final : angle::NonCopyable
     void setClearStencil(GLint clearStencil);
 
     void setPixelUnpackState(const gl::PixelUnpackState &unpack);
-    void setPixelUnpackState(GLint alignment,
-                             GLint rowLength,
-                             GLint skipRows,
-                             GLint skipPixels,
-                             GLint imageHeight,
-                             GLint skipImages,
-                             GLuint unpackBuffer);
+    void setPixelUnpackBuffer(const gl::Buffer *pixelBuffer);
     void setPixelPackState(const gl::PixelPackState &pack);
-    void setPixelPackState(GLint alignment,
-                           GLint rowLength,
-                           GLint skipRows,
-                           GLint skipPixels,
-                           GLuint packBuffer);
+    void setPixelPackBuffer(const gl::Buffer *pixelBuffer);
 
     void setFramebufferSRGBEnabled(const gl::Context *context, bool enabled);
     void setFramebufferSRGBEnabledForFramebuffer(const gl::Context *context,
@@ -173,10 +170,10 @@ class StateManagerGL final : angle::NonCopyable
     gl::Error setDispatchComputeState(const gl::Context *context);
 
     void pauseTransformFeedback();
-    void pauseAllQueries();
-    void pauseQuery(GLenum type);
-    void resumeAllQueries();
-    void resumeQuery(GLenum type);
+    gl::Error pauseAllQueries();
+    gl::Error pauseQuery(GLenum type);
+    gl::Error resumeAllQueries();
+    gl::Error resumeQuery(GLenum type);
     gl::Error onMakeCurrent(const gl::Context *context);
 
     void syncState(const gl::Context *context, const gl::State::DirtyBits &glDirtyBits);
@@ -200,6 +197,8 @@ class StateManagerGL final : angle::NonCopyable
                                              const gl::Framebuffer &drawFramebuffer);
     void propagateNumViewsToVAO(const gl::Program *program, VertexArrayGL *vao);
 
+    void updateProgramTextureAndSamplerBindings(const gl::Context *context);
+
     enum MultiviewDirtyBitType
     {
         MULTIVIEW_DIRTY_BIT_SIDE_BY_SIDE_LAYOUT,
@@ -214,7 +213,7 @@ class StateManagerGL final : angle::NonCopyable
     GLuint mVAO;
     std::vector<gl::VertexAttribCurrentValueData> mVertexAttribCurrentValues;
 
-    std::map<GLenum, GLuint> mBuffers;
+    angle::PackedEnumMap<gl::BufferBinding, GLuint> mBuffers;
 
     struct IndexedBufferBinding
     {
@@ -224,7 +223,7 @@ class StateManagerGL final : angle::NonCopyable
         size_t size;
         GLuint buffer;
     };
-    std::map<GLenum, std::vector<IndexedBufferBinding>> mIndexedBuffers;
+    angle::PackedEnumMap<gl::BufferBinding, std::vector<IndexedBufferBinding>> mIndexedBuffers;
 
     size_t mTextureUnitIndex;
     std::map<GLenum, std::vector<GLuint>> mTextures;
@@ -293,6 +292,8 @@ class StateManagerGL final : angle::NonCopyable
     bool mSampleCoverageEnabled;
     float mSampleCoverageValue;
     bool mSampleCoverageInvert;
+    bool mSampleMaskEnabled;
+    std::array<GLbitfield, gl::MAX_SAMPLE_MASK_WORDS> mSampleMaskValues;
 
     bool mDepthTestEnabled;
     GLenum mDepthFunc;
@@ -314,7 +315,7 @@ class StateManagerGL final : angle::NonCopyable
     GLuint mStencilBackWritemask;
 
     bool mCullFaceEnabled;
-    GLenum mCullFace;
+    gl::CullFaceMode mCullFace;
     GLenum mFrontFace;
     bool mPolygonOffsetFillEnabled;
     GLfloat mPolygonOffsetFactor;
@@ -347,9 +348,12 @@ class StateManagerGL final : angle::NonCopyable
     const bool mIsMultiviewEnabled;
 
     gl::State::DirtyBits mLocalDirtyBits;
+    gl::AttributesMask mLocalDirtyCurrentValues;
 
     // ANGLE_multiview dirty bits.
     angle::BitSet<MULTIVIEW_DIRTY_BIT_MAX> mMultiviewDirtyBits;
+
+    bool mProgramTexturesAndSamplersDirty;
 };
 }
 

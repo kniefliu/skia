@@ -32,9 +32,9 @@ class Renderbuffer final : public egl::ImageSibling,
 {
   public:
     Renderbuffer(rx::RenderbufferImpl *impl, GLuint id);
-    virtual ~Renderbuffer();
+    ~Renderbuffer() override;
 
-    void onDestroy(const Context *context) override;
+    Error onDestroy(const Context *context) override;
 
     void setLabel(const std::string &label) override;
     const std::string &getLabel() const override;
@@ -62,22 +62,18 @@ class Renderbuffer final : public egl::ImageSibling,
 
     // FramebufferAttachmentObject Impl
     Extents getAttachmentSize(const ImageIndex &imageIndex) const override;
-    const Format &getAttachmentFormat(GLenum /*binding*/,
-                                      const ImageIndex & /*imageIndex*/) const override
-    {
-        return getFormat();
-    }
-    GLsizei getAttachmentSamples(const ImageIndex & /*imageIndex*/) const override
-    {
-        return getSamples();
-    }
+    const Format &getAttachmentFormat(GLenum binding, const ImageIndex &imageIndex) const override;
+    GLsizei getAttachmentSamples(const ImageIndex &imageIndex) const override;
 
     void onAttach(const Context *context) override;
     void onDetach(const Context *context) override;
     GLuint getId() const override;
 
+    InitState initState(const ImageIndex &imageIndex) const override;
+    void setInitState(const ImageIndex &imageIndex, InitState initState) override;
+
   private:
-    rx::FramebufferAttachmentObjectImpl *getAttachmentImpl() const override { return mRenderbuffer; }
+    rx::FramebufferAttachmentObjectImpl *getAttachmentImpl() const override;
 
     rx::RenderbufferImpl *mRenderbuffer;
 
@@ -87,8 +83,11 @@ class Renderbuffer final : public egl::ImageSibling,
     GLsizei mHeight;
     Format mFormat;
     GLsizei mSamples;
+
+    // For robust resource init.
+    InitState mInitState;
 };
 
-}
+}  // namespace gl
 
 #endif   // LIBANGLE_RENDERBUFFER_H_

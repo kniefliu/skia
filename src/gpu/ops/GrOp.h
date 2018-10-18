@@ -65,6 +65,12 @@ public:
 
     virtual const char* name() const = 0;
 
+    typedef std::function<void(GrSurfaceProxy*)> VisitProxyFunc;
+
+    virtual void visitProxies(const VisitProxyFunc&) const {
+        // This default implementation assumes the op has no proxies
+    }
+
     bool combineIfPossible(GrOp* that, const GrCaps& caps) {
         if (this->classID() != that->classID()) {
             return false;
@@ -158,17 +164,17 @@ protected:
      * purpose of ensuring that the fragment shader runs on partially covered pixels for
      * non-MSAA antialiasing.
      */
-    enum class HasAABloat {
-        kYes,
-        kNo
+    enum class HasAABloat : bool {
+        kNo = false,
+        kYes = true
     };
     /**
      * Indicates that the geometry represented by the op has zero area (e.g. it is hairline or
      * points).
      */
-    enum class IsZeroArea {
-        kYes,
-        kNo
+    enum class IsZeroArea : bool {
+        kNo = false,
+        kYes = true
     };
 
     void setBounds(const SkRect& newBounds, HasAABloat aabloat, IsZeroArea zeroArea) {

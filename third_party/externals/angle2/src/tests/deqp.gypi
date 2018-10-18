@@ -17,7 +17,7 @@
         'angle_build_winrt%': '<(angle_build_winrt)',
 
         'deqp_path': '<(DEPTH)/third_party/deqp/src',
-        'libpng_path': '<(DEPTH)/third_party/libpng',
+        'libpng_path': '<(DEPTH)/third_party/libpng/src',
         'zlib_path': '<(DEPTH)/third_party/zlib',
 
         'angle_build_deqp_libraries%' : 0,
@@ -108,8 +108,6 @@
             '<(deqp_path)/modules/gles31/stress',
             '<(deqp_path)/modules/glshared',
             '<(deqp_path)/modules/glusecases',
-            '<(libpng_path)',
-            '<(zlib_path)',
         ],
         'deqp_gles2_sources':
         [
@@ -229,7 +227,6 @@
             '<(deqp_path)/modules/gles2/functional/es2fShaderInvarianceTests.hpp',
             '<(deqp_path)/modules/gles2/functional/es2fShaderLoopTests.cpp',
             '<(deqp_path)/modules/gles2/functional/es2fShaderLoopTests.hpp',
-            '<(deqp_path)/modules/gles2/functional/es2fShaderMatrixTests.cpp',
             '<(deqp_path)/modules/gles2/functional/es2fShaderMatrixTests.hpp',
             '<(deqp_path)/modules/gles2/functional/es2fShaderOperatorTests.cpp',
             '<(deqp_path)/modules/gles2/functional/es2fShaderOperatorTests.hpp',
@@ -324,6 +321,10 @@
             '<(deqp_path)/modules/gles2/tes2TestPackage.cpp',
             '<(deqp_path)/modules/gles2/tes2TestPackage.hpp',
             '<(deqp_path)/modules/gles2/tes2TestPackageEntry.cpp',
+            # TODO(geofflang): Remove this once the test is updated in dEQP or the VC++2017
+            # compiler is fixed (crbug.com/759402)
+            #'<(deqp_path)/modules/gles2/functional/es2fShaderMatrixTests.cpp',
+            '<(angle_path)/src/tests/deqp_support/es2fShaderMatrixTests.cpp',
         ],
         'deqp_gles3_sources':
         [
@@ -487,7 +488,6 @@
             '<(deqp_path)/modules/gles3/functional/es3fShaderInvarianceTests.hpp',
             '<(deqp_path)/modules/gles3/functional/es3fShaderLoopTests.cpp',
             '<(deqp_path)/modules/gles3/functional/es3fShaderLoopTests.hpp',
-            '<(deqp_path)/modules/gles3/functional/es3fShaderMatrixTests.cpp',
             '<(deqp_path)/modules/gles3/functional/es3fShaderMatrixTests.hpp',
             '<(deqp_path)/modules/gles3/functional/es3fShaderOperatorTests.cpp',
             '<(deqp_path)/modules/gles3/functional/es3fShaderOperatorTests.hpp',
@@ -604,6 +604,10 @@
             '<(deqp_path)/modules/gles3/tes3TestPackage.cpp',
             '<(deqp_path)/modules/gles3/tes3TestPackage.hpp',
             '<(deqp_path)/modules/gles3/tes3TestPackageEntry.cpp',
+            # TODO(jmadill): Remove this once the test is updated in dEQP or the VC++2017
+            # compiler is fixed (crbug.com/759402)
+            #'<(deqp_path)/modules/gles3/functional/es3fShaderMatrixTests.cpp',
+            '<(angle_path)/src/tests/deqp_support/es3fShaderMatrixTests.cpp',
         ],
         'deqp_gles31_sources':
         [
@@ -1194,6 +1198,11 @@
             'third_party/gpu_test_expectations/gpu_test_expectations_parser.cc',
             'third_party/gpu_test_expectations/gpu_test_expectations_parser.h',
         ],
+        'deqp_gpu_test_expectations_sources_mac':
+        [
+            'third_party/gpu_test_expectations/gpu_test_config_mac.mm',
+            'third_party/gpu_test_expectations/gpu_test_config_mac.h',
+        ],
         'conditions':
         [
             ['(OS=="win" or OS=="linux" or OS=="mac")',
@@ -1462,7 +1471,12 @@
                             '-fno-exceptions',
                             '-fno-rtti',
                         ],
-                        'include_dirs': ['<@(deqp_include_dirs)'],
+                        'include_dirs':
+                        [
+                            '<@(deqp_include_dirs)',
+                            '<(libpng_path)',
+                            '<(zlib_path)',
+                        ],
                         'defines': ['<@(deqp_defines)'],
                         'defines!': [ '<@(deqp_undefines)' ],
                         'msvs_settings':
@@ -1628,6 +1642,12 @@
                         'deqp_support/angle_deqp_libtester_main.cpp',
                         'deqp_support/tcuANGLEPlatform.cpp',
                         'deqp_support/tcuANGLEPlatform.h',
+                    ],
+                    # TODO(geofflang): Remove once es2fShaderMatrixTests.cpp no longer requires
+                    # a local copy (crbug.com/759402)
+                    'include_dirs':
+                    [
+                        '<(deqp_path)/modules/gles2/functional',
                     ],
                 },
 
@@ -1797,7 +1817,16 @@
                         'angle_test_support',
                         '<(angle_path)/util/util.gyp:angle_util',
                     ],
-
+                    'conditions':
+                    [
+                        ['OS!="android"',
+                        {
+                            'dependencies':
+                            [
+                                '<(angle_path)/src/angle.gyp:angle_gpu_info_util',
+                            ],
+                        }],
+                    ],
                     'direct_dependent_settings':
                     {
                         'include_dirs':
@@ -1827,35 +1856,14 @@
                                 ],
                             },
                         },
-
                         'conditions':
                         [
-                            # NOTE(smcgruer): Guarding with use_libpci allows gyp to run successfully
-                            # on systems without libpci, but the test targets will not compile or link.
-                            ['OS=="linux" and use_libpci==1',
-                            {
-                                'ldflags':
-                                [
-                                    '<!@(<(pkg-config) --libs-only-L --libs-only-other libpci)',
-                                ],
-                                'libraries':
-                                [
-                                    '<!@(<(pkg-config) --libs-only-l libpci)',
-                                ],
-                            }],
                             ['OS=="mac"',
                             {
                                 'sources':
                                 [
-                                    'third_party/gpu_test_expectations/gpu_test_config_mac.mm',
+                                    '<@(deqp_gpu_test_expectations_sources_mac)',
                                 ],
-                                'link_settings':
-                                {
-                                    'libraries':
-                                    [
-                                        '$(SDKROOT)/System/Library/Frameworks/IOKit.framework',
-                                    ],
-                                },
                             }],
                         ],
                     },

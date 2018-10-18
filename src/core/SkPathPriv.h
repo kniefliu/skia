@@ -12,6 +12,12 @@
 
 class SkPathPriv {
 public:
+#ifdef SK_BUILD_FOR_ANDROID_FRAMEWORK
+    static const int kPathRefGenIDBitCnt = 30; // leave room for the fill type (skbug.com/1762)
+#else
+    static const int kPathRefGenIDBitCnt = 32;
+#endif
+
     enum FirstDirection {
         kCW_FirstDirection,         // == SkPath::kCW_Direction
         kCCW_FirstDirection,        // == SkPath::kCCW_Direction
@@ -145,6 +151,12 @@ public:
     static const SkScalar* ConicWeightData(const SkPath& path) {
         return path.fPathRef->conicWeights();
     }
+
+    /** Returns true if the underlying SkPathRef has one single owner. */
+    static bool TestingOnly_unique(const SkPath& path) {
+        return path.fPathRef->unique();
+    }
+
 };
 
 #endif

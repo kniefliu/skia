@@ -48,7 +48,7 @@ sk_sp<SkTypeface> create_font(const char* name, SkFontStyle style) {
             // If we called SkTypeface::CreateFromName() here we'd recurse infinitely,
             // so we reimplement its core logic here inline without the recursive aspect.
             sk_sp<SkFontMgr> fm(SkFontMgr::RefDefault());
-            return sk_sp<SkTypeface>(fm->legacyCreateTypeface(name, style));
+            return fm->legacyMakeTypeface(name, style);
         }
     } else {
         sub = &gSubFonts[gDefaultFontIndex];
@@ -61,8 +61,6 @@ sk_sp<SkTypeface> create_font(const char* name, SkFontStyle style) {
             font = fontData->fCachedFont;
         } else {
             font = sk_make_sp<SkTestFont>(*fontData);
-            SkDEBUGCODE(font->fDebugName = sub->fName);
-            SkDEBUGCODE(font->fDebugStyle = sub->fStyle);
             fontData->fCachedFont = font;
         }
     }

@@ -155,7 +155,7 @@ class TextureGL : public TextureImpl
                                     GLsizei samples,
                                     GLint internalFormat,
                                     const gl::Extents &size,
-                                    GLboolean fixedSampleLocations) override;
+                                    bool fixedSampleLocations) override;
 
     gl::Error setImageExternal(const gl::Context *context,
                                GLenum target,
@@ -178,6 +178,9 @@ class TextureGL : public TextureImpl
     bool hasAnyDirtyBit() const;
 
     gl::Error setBaseLevel(const gl::Context *context, GLuint baseLevel) override;
+
+    gl::Error initializeContents(const gl::Context *context,
+                                 const gl::ImageIndex &imageIndex) override;
 
     void setMinFilter(GLenum filter);
     void setMagFilter(GLenum filter);
@@ -206,6 +209,7 @@ class TextureGL : public TextureImpl
                                             GLenum format,
                                             GLenum type,
                                             const gl::PixelUnpackState &unpack,
+                                            const gl::Buffer *unpackBuffer,
                                             const uint8_t *pixels);
 
     gl::Error setSubImagePaddingWorkaround(const gl::Context *context,
@@ -215,6 +219,7 @@ class TextureGL : public TextureImpl
                                            GLenum format,
                                            GLenum type,
                                            const gl::PixelUnpackState &unpack,
+                                           const gl::Buffer *unpackBuffer,
                                            const uint8_t *pixels);
 
     void syncTextureStateSwizzle(const FunctionsGL *functions,

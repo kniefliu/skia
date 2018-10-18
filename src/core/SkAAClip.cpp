@@ -8,7 +8,7 @@
 #include "SkAAClip.h"
 #include "SkAtomics.h"
 #include "SkBlitter.h"
-#include "SkColorPriv.h"
+#include "SkColorData.h"
 #include "SkPath.h"
 #include "SkScan.h"
 #include "SkUtils.h"
@@ -805,7 +805,7 @@ bool SkAAClip::setRegion(const SkRegion& rgn) {
     SkTDArray<uint8_t> xArray;
 
     yArray.setReserve(SkMin32(bounds.height(), 1024));
-    xArray.setReserve(SkMin32(bounds.width() * 128, 64 * 1024));
+    xArray.setReserve(SkMin32(bounds.width(), 512) * 128);
 
     SkRegion::Iterator iter(rgn);
     int prevRight = 0;
@@ -1420,15 +1420,7 @@ bool SkAAClip::setPath(const SkPath& path, const SkRegion* clip, bool doAA) {
     BuilderBlitter blitter(&builder);
 
     if (doAA) {
-#ifdef SK_SUPPORT_LEGACY_DELTA_AA
-        if (gSkUseAnalyticAA.load()) {
-            SkScan::AAAFillPath(path, snugClip, &blitter, true);
-        } else {
-            SkScan::AntiFillPath(path, snugClip, &blitter, true);
-        }
-#else
         SkScan::AntiFillPath(path, snugClip, &blitter, true);
-#endif
     } else {
         SkScan::FillPath(path, snugClip, &blitter);
     }

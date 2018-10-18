@@ -16,24 +16,27 @@
 #include "GrResourceProvider.h"
 #include "SampleCode.h"
 #include "SkCanvas.h"
-#include "SkGeometry.h"
 #include "SkMakeUnique.h"
 #include "SkPaint.h"
 #include "SkPath.h"
 #include "SkView.h"
 #include "ccpr/GrCCPRCoverageProcessor.h"
+#include "ccpr/GrCCPRGeometry.h"
 #include "gl/GrGLGpu.cpp"
 #include "ops/GrDrawOp.h"
 
-using PrimitiveInstance = GrCCPRCoverageProcessor::PrimitiveInstance;
-using Mode = GrCCPRCoverageProcessor::Mode;
+using TriangleInstance = GrCCPRCoverageProcessor::TriangleInstance;
+using CurveInstance = GrCCPRCoverageProcessor::CurveInstance;
+using RenderPass = GrCCPRCoverageProcessor::RenderPass;
 
-static int num_points(Mode mode)  {
-    return mode >= GrCCPRCoverageProcessor::Mode::kSerpentineInsets ? 4 : 3;
+static constexpr float kDebugBloat = 40;
+
+static int num_points(RenderPass renderPass)  {
+    return renderPass >= RenderPass::kSerpentineHulls ? 4 : 3;
 }
 
-static int is_curve(Mode mode)  {
-    return mode >= GrCCPRCoverageProcessor::Mode::kQuadraticHulls;
+static int is_quadratic(RenderPass renderPass)  {
+    return renderPass >= RenderPass::kQuadraticHulls && renderPass < RenderPass::kSerpentineHulls;
 }
 
 /**
@@ -57,22 +60,23 @@ private:
 
     void updateAndInval() {
         this->updateGpuData();
-        this->inval(nullptr);
     }
 
     void updateGpuData();
 
-    Mode fMode = Mode::kTriangleHulls;
+    RenderPass fRenderPass = RenderPass::kTriangleHulls;
+    SkMatrix fCubicKLM;
 
     SkPoint fPoints[4] = {
         {100.05f, 100.05f},
-        {100.05f, 300.95f},
+        {400.75f, 100.05f},
         {400.75f, 300.95f},
-        {400.75f, 100.05f}
+        {100.05f, 300.95f}
     };
 
-    SkSTArray<16, SkPoint>            fGpuPoints;
-    SkSTArray<3, PrimitiveInstance>   fGpuInstances;
+    SkTArray<SkPoint>   fGpuPoints;
+    SkTArray<int32_t>   fInstanceData;
+    int                 fInstanceCount;
 
     typedef SampleView INHERITED;
 };
@@ -91,7 +95,8 @@ public:
 
 private:
     FixedFunctionFlags fixedFunctionFlags() const override { return FixedFunctionFlags::kNone; }
-    RequiresDstTexture finalize(const GrCaps&, const GrAppliedClip*) override {
+    RequiresDstTexture finalize(const GrCaps&, const GrAppliedClip*,
+                                GrPixelConfigIsClamped) override {
         return RequiresDstTexture::kNo;
     }
     bool onCombineIfPossible(GrOp* other, const GrCaps& caps) override { return false; }
@@ -103,36 +108,70 @@ private:
     typedef GrDrawOp INHERITED;
 };
 
+static void draw_klm_line(int w, int h, SkCanvas* canvas, const SkScalar line[3], SkColor color) {
+    SkPoint p1, p2;
+    if (SkScalarAbs(line[1]) > SkScalarAbs(line[0])) {
+        // Draw from vertical edge to vertical edge.
+        p1 = {0, -line[2] / line[1]};
+        p2 = {(SkScalar) w, (-line[2] - w * line[0]) / line[1]};
+    } else {
+        // Draw from horizontal edge to horizontal edge.
+        p1 = {-line[2] / line[0], 0};
+        p2 = {(-line[2] - h * line[1]) / line[0], (SkScalar) h};
+    }
+
+    SkPaint linePaint;
+    linePaint.setColor(color);
+    linePaint.setAlpha(128);
+    linePaint.setStyle(SkPaint::kStroke_Style);
+    linePaint.setStrokeWidth(0);
+    linePaint.setAntiAlias(true);
+    canvas->drawLine(p1, p2, linePaint);
+}
+
 void CCPRGeometryView::onDrawContent(SkCanvas* canvas) {
     SkAutoCanvasRestore acr(canvas, true);
     canvas->setMatrix(SkMatrix::I());
 
     SkPath outline;
     outline.moveTo(fPoints[0]);
-    if (4 == num_points(fMode)) {
+    if (4 == num_points(fRenderPass)) {
         outline.cubicTo(fPoints[1], fPoints[2], fPoints[3]);
-    } else if (is_curve(fMode)) {
+    } else if (is_quadratic(fRenderPass)) {
         outline.quadTo(fPoints[1], fPoints[3]);
     } else {
         outline.lineTo(fPoints[1]);
         outline.lineTo(fPoints[3]);
+        outline.close();
     }
-    outline.close();
 
     SkPaint outlinePaint;
     outlinePaint.setColor(0x30000000);
     outlinePaint.setStyle(SkPaint::kStroke_Style);
     outlinePaint.setStrokeWidth(0);
     outlinePaint.setAntiAlias(true);
-
     canvas->drawPath(outline, outlinePaint);
+
+#if 0
+    SkPaint gridPaint;
+    gridPaint.setColor(0x10000000);
+    gridPaint.setStyle(SkPaint::kStroke_Style);
+    gridPaint.setStrokeWidth(0);
+    gridPaint.setAntiAlias(true);
+    for (int y = 0; y < this->height(); y += kDebugBloat) {
+        canvas->drawLine(0, y, this->width(), y, gridPaint);
+    }
+    for (int x = 0; x < this->width(); x += kDebugBloat) {
+        canvas->drawLine(x, 0, x, this->height(), outlinePaint);
+    }
+#endif
 
     const char* caption = "Use GPU backend to visualize geometry.";
 
     if (GrRenderTargetContext* rtc =
         canvas->internal_private_accessTopLayerRenderTargetContext()) {
         rtc->priv().testingOnly_addDrawOp(skstd::make_unique<Op>(this));
-        caption = GrCCPRCoverageProcessor::GetProcessorName(fMode);
+        caption = GrCCPRCoverageProcessor::GetRenderPassName(fRenderPass);
     }
 
     SkPaint pointsPaint;
@@ -140,8 +179,12 @@ void CCPRGeometryView::onDrawContent(SkCanvas* canvas) {
     pointsPaint.setStrokeWidth(8);
     pointsPaint.setAntiAlias(true);
 
-    if (4 == num_points(fMode)) {
+    if (4 == num_points(fRenderPass)) {
+        int w = this->width(), h = this->height();
         canvas->drawPoints(SkCanvas::kPoints_PointMode, 4, fPoints, pointsPaint);
+        draw_klm_line(w, h, canvas, &fCubicKLM[0], SK_ColorYELLOW);
+        draw_klm_line(w, h, canvas, &fCubicKLM[3], SK_ColorBLUE);
+        draw_klm_line(w, h, canvas, &fCubicKLM[6], SK_ColorRED);
     } else {
         canvas->drawPoints(SkCanvas::kPoints_PointMode, 2, fPoints, pointsPaint);
         canvas->drawPoints(SkCanvas::kPoints_PointMode, 1, fPoints + 3, pointsPaint);
@@ -155,88 +198,90 @@ void CCPRGeometryView::onDrawContent(SkCanvas* canvas) {
 }
 
 void CCPRGeometryView::updateGpuData() {
-    int vertexCount = num_points(fMode);
+    int vertexCount = num_points(fRenderPass);
 
     fGpuPoints.reset();
-    fGpuInstances.reset();
+    fInstanceData.reset();
+    fInstanceCount = 0;
 
     if (4 == vertexCount) {
         double t[2], s[2];
-        SkCubicType type = SkClassifyCubic(fPoints, t, s);
-        SkSTArray<2, float> chops;
-        for (int i = 0; i < 2; ++i) {
-            float chop = t[i] / s[i];
-            if (chop > 0 && chop < 1) {
-                chops.push_back(chop);
+        SkCubicType type = GrPathUtils::getCubicKLM(fPoints, &fCubicKLM, t, s);
+        if (RenderPass::kSerpentineHulls == fRenderPass && SkCubicType::kLoop == type) {
+            fRenderPass = RenderPass::kLoopHulls;
+        }
+        if (RenderPass::kSerpentineCorners == fRenderPass && SkCubicType::kLoop == type) {
+            fRenderPass = RenderPass::kLoopCorners;
+        }
+        if (RenderPass::kLoopHulls == fRenderPass && SkCubicType::kLoop != type) {
+            fRenderPass = RenderPass::kSerpentineHulls;
+        }
+        if (RenderPass::kLoopCorners == fRenderPass && SkCubicType::kLoop != type) {
+            fRenderPass = RenderPass::kSerpentineCorners;
+        }
+
+        GrCCPRGeometry geometry;
+        geometry.beginContour(fPoints[0]);
+        geometry.cubicTo(fPoints[1], fPoints[2], fPoints[3], kDebugBloat/2, kDebugBloat/2);
+        geometry.endContour();
+        fGpuPoints.push_back_n(geometry.points().count(), geometry.points().begin());
+        int ptsIdx = 0;
+        for (GrCCPRGeometry::Verb verb : geometry.verbs()) {
+            switch (verb) {
+                case GrCCPRGeometry::Verb::kLineTo:
+                    ++ptsIdx;
+                    continue;
+                case GrCCPRGeometry::Verb::kMonotonicQuadraticTo:
+                    ptsIdx += 2;
+                    continue;
+                case GrCCPRGeometry::Verb::kMonotonicSerpentineTo:
+                case GrCCPRGeometry::Verb::kMonotonicLoopTo:
+                    fInstanceData.push_back(ptsIdx);
+                    fInstanceData.push_back(0); // Atlas offset.
+                    ptsIdx += 3;
+                    ++fInstanceCount;
+                    continue;
+                default: continue;
             }
         }
-
-        int instanceCount = chops.count() + 1;
-        SkPoint chopped[10];
-        SkChopCubicAt(fPoints, chopped, chops.begin(), chops.count());
-
-        // Endpoints first, then control points.
-        for (int i = 0; i <= instanceCount; ++i) {
-            fGpuPoints.push_back(chopped[3*i]);
-        }
-        if (3 == instanceCount && SkCubicType::kLoop == type) {
-            fGpuPoints[2] = fGpuPoints[1]; // Account for floating point error.
-        }
-        for (int i = 0; i < instanceCount; ++i) {
-            fGpuPoints.push_back(chopped[3*i + 1]);
-            fGpuPoints.push_back(chopped[3*i + 2]);
-            // FIXME: we don't bother to send down the correct KLM t,s roots.
-            fGpuPoints.push_back({0, 0});
-            fGpuPoints.push_back({0, 0});
-        }
-
-        if (fMode < Mode::kLoopInsets && SkCubicType::kLoop == type) {
-            fMode = (Mode) ((int) fMode + 2);
-        }
-        if (fMode >= Mode::kLoopInsets && SkCubicType::kLoop != type) {
-            fMode = (Mode) ((int) fMode - 2);
-        }
-
-        int controlPointsIdx = instanceCount + 1;
-        for (int i = 0; i < instanceCount; ++i) {
-            fGpuInstances.push_back().fCubicData = {controlPointsIdx + i * 4, i};
-        }
-    } else if (is_curve(fMode)) {
-        SkPoint P[3] = {fPoints[0], fPoints[1], fPoints[3]};
-        SkPoint chopped[5];
-        fGpuPoints.push_back(P[0]);
-        if (GrPathUtils::chopMonotonicQuads(P, chopped)) {
-            // Endpoints.
-            fGpuPoints.push_back(chopped[2]);
-            fGpuPoints.push_back(chopped[4]);
-            // Control points.
-            fGpuPoints.push_back(chopped[1]);
-            fGpuPoints.push_back(chopped[3]);
-            fGpuInstances.push_back().fQuadraticData = {3, 0};
-            fGpuInstances.push_back().fQuadraticData = {4, 1};
-        } else {
-            fGpuPoints.push_back(P[2]);
-            fGpuPoints.push_back(P[1]);
-            fGpuInstances.push_back().fQuadraticData = {2, 0};
+    } else if (is_quadratic(fRenderPass)) {
+        GrCCPRGeometry geometry;
+        geometry.beginContour(fPoints[0]);
+        geometry.quadraticTo(fPoints[1], fPoints[3]);
+        geometry.endContour();
+        fGpuPoints.push_back_n(geometry.points().count(), geometry.points().begin());
+        for (GrCCPRGeometry::Verb verb : geometry.verbs()) {
+            if (GrCCPRGeometry::Verb::kBeginContour == verb ||
+                GrCCPRGeometry::Verb::kEndOpenContour == verb ||
+                GrCCPRGeometry::Verb::kEndClosedContour == verb) {
+                continue;
+            }
+            SkASSERT(GrCCPRGeometry::Verb::kMonotonicQuadraticTo == verb);
+            fInstanceData.push_back(2 * fInstanceCount++); // Pts idx.
+            fInstanceData.push_back(0); // Atlas offset.
         }
     } else {
         fGpuPoints.push_back(fPoints[0]);
-        fGpuPoints.push_back(fPoints[3]);
         fGpuPoints.push_back(fPoints[1]);
-        fGpuInstances.push_back().fTriangleData = {0, 2, 1}; // Texel buffer has endpoints first.
-    }
-
-    for (PrimitiveInstance& instance : fGpuInstances) {
-        instance.fPackedAtlasOffset = 0;
+        fGpuPoints.push_back(fPoints[3]);
+        fInstanceData.push_back(0);
+        fInstanceData.push_back(1);
+        fInstanceData.push_back(2);
+        fInstanceData.push_back(0); // Atlas offset.
+        fInstanceCount = 1;
     }
 }
 
 void CCPRGeometryView::Op::onExecute(GrOpFlushState* state) {
+    if (fView->fInstanceData.empty()) {
+        return;
+    }
+
     GrResourceProvider* rp = state->resourceProvider();
     GrContext* context = state->gpu()->getContext();
     GrGLGpu* glGpu = kOpenGL_GrBackend == context->contextPriv().getBackend() ?
                      static_cast<GrGLGpu*>(state->gpu()) : nullptr;
-    int vertexCount = num_points(fView->fMode);
+    int vertexCount = num_points(fView->fRenderPass);
 
     sk_sp<GrBuffer> pointsBuffer(rp->createBuffer(fView->fGpuPoints.count() * sizeof(SkPoint),
                                                   kTexel_GrBufferType, kDynamic_GrAccessPattern,
@@ -247,11 +292,11 @@ void CCPRGeometryView::Op::onExecute(GrOpFlushState* state) {
         return;
     }
 
-    sk_sp<GrBuffer> instanceBuffer(rp->createBuffer(fView->fGpuInstances.count() * 4 * sizeof(int),
+    sk_sp<GrBuffer> instanceBuffer(rp->createBuffer(fView->fInstanceData.count() * sizeof(int),
                                                     kVertex_GrBufferType, kDynamic_GrAccessPattern,
                                                     GrResourceProvider::kNoPendingIO_Flag |
                                                     GrResourceProvider::kRequireGpuMemory_Flag,
-                                                    fView->fGpuInstances.begin()));
+                                                    fView->fInstanceData.begin()));
     if (!instanceBuffer) {
         return;
     }
@@ -259,11 +304,11 @@ void CCPRGeometryView::Op::onExecute(GrOpFlushState* state) {
     GrPipeline pipeline(state->drawOpArgs().fProxy, GrPipeline::ScissorState::kDisabled,
                         SkBlendMode::kSrcOver);
 
-    GrCCPRCoverageProcessor ccprProc(fView->fMode, pointsBuffer.get());
-    SkDEBUGCODE(ccprProc.enableDebugVisualizations();)
+    GrCCPRCoverageProcessor ccprProc(fView->fRenderPass, pointsBuffer.get());
+    SkDEBUGCODE(ccprProc.enableDebugVisualizations(kDebugBloat);)
 
     GrMesh mesh(4 == vertexCount ?  GrPrimitiveType::kLinesAdjacency : GrPrimitiveType::kTriangles);
-    mesh.setInstanced(instanceBuffer.get(), fView->fGpuInstances.count(), 0, vertexCount);
+    mesh.setInstanced(instanceBuffer.get(), fView->fInstanceCount, 0, vertexCount);
 
     if (glGpu) {
         glGpu->handleDirtyContext();
@@ -303,7 +348,7 @@ private:
 
 SkView::Click* CCPRGeometryView::onFindClickHandler(SkScalar x, SkScalar y, unsigned) {
     for (int i = 0; i < 4; ++i) {
-        if (4 != num_points(fMode) && 2 == i) {
+        if (4 != num_points(fRenderPass) && 2 == i) {
             continue;
         }
         if (fabs(x - fPoints[i].x()) < 20 && fabsf(y - fPoints[i].y()) < 20) {
@@ -328,19 +373,21 @@ bool CCPRGeometryView::onQuery(SkEvent* evt) {
     SkUnichar unichar;
     if (SampleCode::CharQ(*evt, &unichar)) {
         if (unichar >= '1' && unichar <= '7') {
-            fMode = Mode(unichar - '1');
-            if (fMode >= Mode::kCombinedTriangleHullsAndEdges) {
-                fMode = Mode(int(fMode) + 1);
+            fRenderPass = RenderPass(unichar - '1');
+            if (fRenderPass >= RenderPass::kLoopHulls) {
+                // '6' -> kSerpentineHulls, '7' -> kSerpentineCorners. updateGpuData converts to
+                // kLoop* if needed.
+                fRenderPass = RenderPass(int(fRenderPass) + 1);
             }
             this->updateAndInval();
             return true;
         }
         if (unichar == 'D') {
             SkDebugf("    SkPoint fPoints[4] = {\n");
-            SkDebugf("        {%f, %f},\n", fPoints[0].x(), fPoints[0].y());
-            SkDebugf("        {%f, %f},\n", fPoints[1].x(), fPoints[1].y());
-            SkDebugf("        {%f, %f},\n", fPoints[2].x(), fPoints[2].y());
-            SkDebugf("        {%f, %f}\n", fPoints[3].x(), fPoints[3].y());
+            SkDebugf("        {%ff, %ff},\n", fPoints[0].x(), fPoints[0].y());
+            SkDebugf("        {%ff, %ff},\n", fPoints[1].x(), fPoints[1].y());
+            SkDebugf("        {%ff, %ff},\n", fPoints[2].x(), fPoints[2].y());
+            SkDebugf("        {%ff, %ff}\n", fPoints[3].x(), fPoints[3].y());
             SkDebugf("    };\n");
             return true;
         }

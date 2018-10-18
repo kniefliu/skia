@@ -119,24 +119,23 @@ public:
     /**
      * Implements GrResourceProvider::wrapBackendTexture
      */
-    sk_sp<GrTexture> wrapBackendTexture(const GrBackendTexture&, GrSurfaceOrigin, GrWrapOwnership);
+    sk_sp<GrTexture> wrapBackendTexture(const GrBackendTexture&, GrWrapOwnership);
 
     /**
      * Implements GrResourceProvider::wrapRenderableBackendTexture
      */
-    sk_sp<GrTexture> wrapRenderableBackendTexture(const GrBackendTexture&, GrSurfaceOrigin,
+    sk_sp<GrTexture> wrapRenderableBackendTexture(const GrBackendTexture&,
                                                   int sampleCnt, GrWrapOwnership);
 
     /**
      * Implements GrResourceProvider::wrapBackendRenderTarget
      */
-    sk_sp<GrRenderTarget> wrapBackendRenderTarget(const GrBackendRenderTarget&, GrSurfaceOrigin);
+    sk_sp<GrRenderTarget> wrapBackendRenderTarget(const GrBackendRenderTarget&);
 
     /**
      * Implements GrResourceProvider::wrapBackendTextureAsRenderTarget
      */
     sk_sp<GrRenderTarget> wrapBackendTextureAsRenderTarget(const GrBackendTexture&,
-                                                           GrSurfaceOrigin,
                                                            int sampleCnt);
 
     /**
@@ -161,7 +160,7 @@ public:
     /**
      * Resolves MSAA.
      */
-    void resolveRenderTarget(GrRenderTarget* target);
+    void resolveRenderTarget(GrRenderTarget*, GrSurfaceOrigin);
 
     /** Info struct returned by getReadPixelsInfo about performing intermediate draws before
         reading pixels for performance or correctness. */
@@ -211,7 +210,8 @@ public:
      * that would allow a successful readPixels call. The passed width, height, and rowBytes,
      * must be non-zero and already reflect clipping to the src bounds.
      */
-    bool getReadPixelsInfo(GrSurface* srcSurface, int readWidth, int readHeight, size_t rowBytes,
+    bool getReadPixelsInfo(GrSurface* srcSurface, GrSurfaceOrigin srcOrigin,
+                           int readWidth, int readHeight, size_t rowBytes,
                            GrPixelConfig readConfig, DrawPreference*, ReadPixelTempDrawInfo*);
 
     /** Info struct returned by getWritePixelsInfo about performing an intermediate draw in order
@@ -237,7 +237,7 @@ public:
      * that would allow a successful transfer of the src pixels to the dst. The passed width,
      * height, and rowBytes, must be non-zero and already reflect clipping to the dst bounds.
      */
-    bool getWritePixelsInfo(GrSurface* dstSurface, int width, int height,
+    bool getWritePixelsInfo(GrSurface* dstSurface, GrSurfaceOrigin dstOrigin, int width, int height,
                             GrPixelConfig srcConfig, DrawPreference*, WritePixelTempDrawInfo*);
 
     /**
@@ -259,7 +259,7 @@ public:
      *              because of a unsupported pixel config or because no render
      *              target is currently set.
      */
-    bool readPixels(GrSurface* surface,
+    bool readPixels(GrSurface* surface, GrSurfaceOrigin,
                     int left, int top, int width, int height,
                     GrPixelConfig config, void* buffer, size_t rowBytes);
 
@@ -275,7 +275,7 @@ public:
      * @param texels        array of mipmap levels containing texture data
      * @param mipLevelCount number of levels in 'texels'
      */
-    bool writePixels(GrSurface* surface,
+    bool writePixels(GrSurface* surface, GrSurfaceOrigin origin,
                      int left, int top, int width, int height,
                      GrPixelConfig config,
                      const GrMipLevel texels[], int mipLevelCount);
@@ -288,7 +288,7 @@ public:
      * @param rowBytes number of bytes between consecutive rows. Zero
      *                 means rows are tightly packed.
      */
-    bool writePixels(GrSurface* surface,
+    bool writePixels(GrSurface* surface, GrSurfaceOrigin origin,
                      int left, int top, int width, int height,
                      GrPixelConfig config, const void* buffer,
                      size_t rowBytes);
@@ -334,8 +334,8 @@ public:
     // take place at the GrOpList level and this function implement faster copy paths. The rect
     // and point are pre-clipped. The src rect and implied dst rect are guaranteed to be within the
     // src/dst bounds and non-empty.
-    bool copySurface(GrSurface* dst,
-                     GrSurface* src,
+    bool copySurface(GrSurface* dst, GrSurfaceOrigin dstOrigin,
+                     GrSurface* src, GrSurfaceOrigin srcOrigin,
                      const SkIRect& srcRect,
                      const SkIPoint& dstPoint);
 
@@ -465,9 +465,11 @@ public:
     /** Creates a texture directly in the backend API without wrapping it in a GrTexture. This is
         only to be used for testing (particularly for testing the methods that import an externally
         created texture into Skia. Must be matched with a call to deleteTestingOnlyTexture(). */
-    virtual GrBackendObject createTestingOnlyBackendTexture(void* pixels, int w, int h,
-                                                            GrPixelConfig config,
-                                                            bool isRenderTarget = false) = 0;
+    virtual GrBackendObject createTestingOnlyBackendTexture(
+                                                      void* pixels, int w, int h,
+                                                      GrPixelConfig config,
+                                                      bool isRenderTarget = false,
+                                                      GrMipMapped mipMapped = GrMipMapped::kNo) = 0;
     /** Check a handle represents an actual texture in the backend API that has not been freed. */
     virtual bool isTestingOnlyBackendTexture(GrBackendObject) const = 0;
     /** If ownership of the backend texture has been transferred pass true for abandonTexture. This
@@ -486,9 +488,9 @@ public:
     virtual void clearStencil(GrRenderTarget* target, int clearValue) = 0;
 
     // Determines whether a texture will need to be rescaled in order to be used with the
-    // GrSamplerParams. This variation is called when the caller will create a new texture using the
+    // GrSamplerState. This variation is called when the caller will create a new texture using the
     // resource provider from a non-texture src (cpu-backed image, ...).
-    bool isACopyNeededForTextureParams(int width, int height, const GrSamplerParams&,
+    bool isACopyNeededForTextureParams(int width, int height, const GrSamplerState&,
                                        GrTextureProducer::CopyParams*,
                                        SkScalar scaleAdjust[2]) const;
 
@@ -496,7 +498,7 @@ public:
     // original texture but rather was handed the original texture. It adds additional checks
     // relevant to original textures that were created external to Skia via
     // GrResourceProvider::wrap methods.
-    bool isACopyNeededForTextureParams(GrTextureProxy* proxy, const GrSamplerParams& params,
+    bool isACopyNeededForTextureParams(GrTextureProxy* proxy, const GrSamplerState& params,
                                        GrTextureProducer::CopyParams* copyParams,
                                        SkScalar scaleAdjust[2]) const {
         if (this->isACopyNeededForTextureParams(proxy->width(), proxy->height(), params,
@@ -554,18 +556,13 @@ private:
                                              const GrMipLevel texels[],
                                              int mipLevelCount) = 0;
 
-    virtual sk_sp<GrTexture> onWrapBackendTexture(const GrBackendTexture&,
-                                                  GrSurfaceOrigin,
-                                                  GrWrapOwnership) = 0;
+    virtual sk_sp<GrTexture> onWrapBackendTexture(const GrBackendTexture&, GrWrapOwnership) = 0;
     virtual sk_sp<GrTexture> onWrapRenderableBackendTexture(const GrBackendTexture&,
-                                                            GrSurfaceOrigin,
                                                             int sampleCnt,
                                                             GrWrapOwnership) = 0;
-    virtual sk_sp<GrRenderTarget> onWrapBackendRenderTarget(const GrBackendRenderTarget&,
-                                                            GrSurfaceOrigin) = 0;
+    virtual sk_sp<GrRenderTarget> onWrapBackendRenderTarget(const GrBackendRenderTarget&) = 0;
     virtual sk_sp<GrRenderTarget> onWrapBackendTextureAsRenderTarget(const GrBackendTexture&,
-                                                                     GrSurfaceOrigin,
-                                                                     int sampleCnt)=0;
+                                                                     int sampleCnt) = 0;
     virtual GrBuffer* onCreateBuffer(size_t size, GrBufferType intendedType, GrAccessPattern,
                                      const void* data) = 0;
 
@@ -574,21 +571,23 @@ private:
         return nullptr;
     }
 
-    virtual bool onIsACopyNeededForTextureParams(GrTextureProxy* proxy, const GrSamplerParams&,
+    virtual bool onIsACopyNeededForTextureParams(GrTextureProxy* proxy, const GrSamplerState&,
                                                  GrTextureProducer::CopyParams*,
                                                  SkScalar scaleAdjust[2]) const {
         return false;
     }
 
-    virtual bool onGetReadPixelsInfo(GrSurface* srcSurface, int readWidth, int readHeight,
+    virtual bool onGetReadPixelsInfo(GrSurface* srcSurface, GrSurfaceOrigin srcOrigin,
+                                     int readWidth, int readHeight,
                                      size_t rowBytes, GrPixelConfig readConfig, DrawPreference*,
                                      ReadPixelTempDrawInfo*) = 0;
-    virtual bool onGetWritePixelsInfo(GrSurface* dstSurface, int width, int height,
+    virtual bool onGetWritePixelsInfo(GrSurface* dstSurface, GrSurfaceOrigin dstOrigin,
+                                      int width, int height,
                                       GrPixelConfig srcConfig, DrawPreference*,
                                       WritePixelTempDrawInfo*) = 0;
 
     // overridden by backend-specific derived class to perform the surface read
-    virtual bool onReadPixels(GrSurface*,
+    virtual bool onReadPixels(GrSurface*, GrSurfaceOrigin,
                               int left, int top,
                               int width, int height,
                               GrPixelConfig,
@@ -596,7 +595,7 @@ private:
                               size_t rowBytes) = 0;
 
     // overridden by backend-specific derived class to perform the surface write
-    virtual bool onWritePixels(GrSurface*,
+    virtual bool onWritePixels(GrSurface*, GrSurfaceOrigin,
                                int left, int top, int width, int height,
                                GrPixelConfig config,
                                const GrMipLevel texels[], int mipLevelCount) = 0;
@@ -608,16 +607,16 @@ private:
                                   size_t offset, size_t rowBytes) = 0;
 
     // overridden by backend-specific derived class to perform the resolve
-    virtual void onResolveRenderTarget(GrRenderTarget* target) = 0;
+    virtual void onResolveRenderTarget(GrRenderTarget* target, GrSurfaceOrigin) = 0;
 
     // overridden by backend specific derived class to perform the copy surface
-    virtual bool onCopySurface(GrSurface* dst,
-                               GrSurface* src,
-                               const SkIRect& srcRect,
-                               const SkIPoint& dstPoint) = 0;
+    virtual bool onCopySurface(GrSurface* dst, GrSurfaceOrigin dstOrigin,
+                               GrSurface* src, GrSurfaceOrigin srcOrigin,
+                               const SkIRect& srcRect, const SkIPoint& dstPoint) = 0;
 
     // overridden by backend specific derived class to perform the multisample queries
-    virtual void onQueryMultisampleSpecs(GrRenderTarget*, const GrStencilSettings&,
+    virtual void onQueryMultisampleSpecs(GrRenderTarget*, GrSurfaceOrigin rtOrigin,
+                                         const GrStencilSettings&,
                                          int* effectiveSampleCnt, SamplePattern*) = 0;
 
     virtual void onFinishFlush(bool insertedSemaphores) = 0;

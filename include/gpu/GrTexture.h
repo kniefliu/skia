@@ -9,10 +9,13 @@
 #ifndef GrTexture_DEFINED
 #define GrTexture_DEFINED
 
+#include "GrBackendSurface.h"
+#include "GrSamplerState.h"
 #include "GrSurface.h"
-#include "GrSamplerParams.h"
+#include "SkImage.h"
 #include "SkPoint.h"
 #include "SkRefCnt.h"
+#include "../private/GrTypesPriv.h"
 
 class GrTexturePriv;
 
@@ -33,6 +36,17 @@ public:
      */
     virtual void textureParamsModified() = 0;
 
+    /**
+     * This function steals the backend texture from a uniquely owned GrTexture with no pending
+     * IO, passing it out to the caller. The GrTexture is deleted in the process.
+     * 
+     * Note that if the GrTexture is not uniquely owned (no other refs), or has pending IO, this
+     * function will fail.
+     */
+    static bool StealBackendTexture(sk_sp<GrTexture>&&,
+                                    GrBackendTexture*,
+                                    SkImage::BackendTextureReleaseProc*);
+
 #ifdef SK_DEBUG
     void validate() const {
         this->INHERITED::validate();
@@ -51,22 +65,19 @@ public:
 
 protected:
     GrTexture(GrGpu*, const GrSurfaceDesc&, GrSLType samplerType,
-              GrSamplerParams::FilterMode highestFilterMode, bool wasMipMapDataProvided);
+              GrSamplerState::Filter highestFilterMode, GrMipMapsStatus);
+
+    virtual bool onStealBackendTexture(GrBackendTexture*, SkImage::BackendTextureReleaseProc*) = 0;
 
 private:
     void computeScratchKey(GrScratchKey*) const override;
     size_t onGpuMemorySize() const override;
-    void dirtyMipMaps(bool mipMapsDirty);
-
-    enum MipMapsStatus {
-        kNotAllocated_MipMapsStatus,
-        kAllocated_MipMapsStatus,
-        kValid_MipMapsStatus
-    };
+    void markMipMapsDirty();
+    void markMipMapsClean();
 
     GrSLType                      fSamplerType;
-    GrSamplerParams::FilterMode   fHighestFilterMode;
-    MipMapsStatus                 fMipMapsStatus;
+    GrSamplerState::Filter        fHighestFilterMode;
+    GrMipMapsStatus               fMipMapsStatus;
     int                           fMaxMipMapLevel;
     SkDestinationSurfaceColorMode fMipColorMode;
     friend class GrTexturePriv;

@@ -117,13 +117,13 @@ void test_sampleLocations(skiatest::Reporter* reporter, TestSampleLocationsInter
     for (int i = 0; i < numTestPatterns; ++i) {
         int numSamples = (int)kTestPatterns[i].size();
         GrAlwaysAssert(numSamples > 1 && SkIsPow2(numSamples));
-        bottomUps[i] = ctx->makeDeferredRenderTargetContextWithFallback(
+        bottomUps[i] = ctx->makeDeferredRenderTargetContext(
                            SkBackingFit::kExact, 100, 100, kRGBA_8888_GrPixelConfig, nullptr,
-                           rand.nextRangeU(1 + numSamples / 2, numSamples),
+                           rand.nextRangeU(1 + numSamples / 2, numSamples), GrMipMapped::kNo,
                            kBottomLeft_GrSurfaceOrigin);
-        topDowns[i] = ctx->makeDeferredRenderTargetContextWithFallback(
+        topDowns[i] = ctx->makeDeferredRenderTargetContext(
                           SkBackingFit::kExact, 100, 100, kRGBA_8888_GrPixelConfig, nullptr,
-                          rand.nextRangeU(1 + numSamples / 2, numSamples),
+                          rand.nextRangeU(1 + numSamples / 2, numSamples), GrMipMapped::kNo,
                           kTopLeft_GrSurfaceOrigin);
     }
 
@@ -184,7 +184,7 @@ private:
     SamplePattern                               fSamplePattern;
 };
 
-DEF_GPUTEST(GLSampleLocations, reporter, /*factory*/) {
+DEF_GPUTEST(GLSampleLocations, reporter, /* options */) {
     GLTestSampleLocationsInterface testInterface;
     sk_sp<GrContext> ctx(GrContext::MakeGL(&testInterface));
 

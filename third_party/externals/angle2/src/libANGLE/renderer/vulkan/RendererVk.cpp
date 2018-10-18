@@ -41,7 +41,7 @@ VkResult VerifyExtensionsPresent(const std::vector<VkExtensionProperties> &exten
         extensionNames.insert(extensionProp.extensionName);
     }
 
-    for (const auto &extensionName : enabledExtensionNames)
+    for (const char *extensionName : enabledExtensionNames)
     {
         if (extensionNames.count(extensionName) == 0)
         {
@@ -93,11 +93,11 @@ RendererVk::RendererVk()
       mQueue(VK_NULL_HANDLE),
       mCurrentQueueFamilyIndex(std::numeric_limits<uint32_t>::max()),
       mDevice(VK_NULL_HANDLE),
-      mHostVisibleMemoryIndex(std::numeric_limits<uint32_t>::max()),
       mGlslangWrapper(nullptr),
       mLastCompletedQueueSerial(mQueueSerialFactory.generate()),
       mCurrentQueueSerial(mQueueSerialFactory.generate()),
-      mInFlightCommands()
+      mInFlightCommands(),
+      mCurrentRenderPassFramebuffer(nullptr)
 {
 }
 
@@ -120,7 +120,7 @@ RendererVk::~RendererVk()
 
     if (mCommandBuffer.valid())
     {
-        mCommandBuffer.destroy(mDevice);
+        mCommandBuffer.destroy(mDevice, mCommandPool);
     }
 
     if (mCommandPool.valid())
@@ -172,9 +172,23 @@ vk::Error RendererVk::initialize(const egl::AttributeMap &attribs, const char *w
         else
         {
             previousCWD = cwd.value();
+            const char *exeDir = angle::GetExecutableDirectory();
+            if (!angle::SetCWD(exeDir))
+            {
+                ERR() << "Error setting CWD for Vulkan layers init.";
+                mEnableValidationLayers = false;
+            }
         }
-        const char *exeDir = angle::GetExecutableDirectory();
-        angle::SetCWD(exeDir);
+    }
+
+    // Override environment variable to use the ANGLE layers.
+    if (mEnableValidationLayers)
+    {
+        if (!angle::SetEnvironmentVar(g_VkLoaderLayersPathEnv, ANGLE_VK_LAYERS_DIR))
+        {
+            ERR() << "Error setting environment for Vulkan layers init.";
+            mEnableValidationLayers = false;
+        }
     }
 
     // Gather global layer properties.
@@ -324,23 +338,13 @@ vk::Error RendererVk::initialize(const egl::AttributeMap &attribs, const char *w
         ANGLE_TRY(initializeDevice(firstGraphicsQueueFamily));
     }
 
-    VkPhysicalDeviceMemoryProperties memoryProperties;
-    vkGetPhysicalDeviceMemoryProperties(mPhysicalDevice, &memoryProperties);
-
-    for (uint32_t memoryIndex = 0; memoryIndex < memoryProperties.memoryTypeCount; ++memoryIndex)
-    {
-        if ((memoryProperties.memoryTypes[memoryIndex].propertyFlags &
-             VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) != 0)
-        {
-            mHostVisibleMemoryIndex = memoryIndex;
-            break;
-        }
-    }
-
-    ANGLE_VK_CHECK(mHostVisibleMemoryIndex < std::numeric_limits<uint32_t>::max(),
-                   VK_ERROR_INITIALIZATION_FAILED);
+    // Store the physical device memory properties so we can find the right memory pools.
+    mMemoryProperties.init(mPhysicalDevice);
 
     mGlslangWrapper = GlslangWrapper::GetReference();
+
+    // Initialize the format table.
+    mFormatTable.initialize(mPhysicalDevice, &mNativeTextureCaps);
 
     return vk::NoError();
 }
@@ -424,8 +428,6 @@ vk::Error RendererVk::initializeDevice(uint32_t queueFamilyIndex)
     commandPoolInfo.queueFamilyIndex = mCurrentQueueFamilyIndex;
 
     ANGLE_TRY(mCommandPool.init(mDevice, commandPoolInfo));
-
-    mCommandBuffer.setCommandPool(&mCommandPool);
 
     return vk::NoError();
 }
@@ -526,6 +528,14 @@ void RendererVk::generateCaps(gl::Caps *outCaps,
     outCaps->maxDrawBuffers      = 1;
     outCaps->maxVertexAttributes     = gl::MAX_VERTEX_ATTRIBS;
     outCaps->maxVertexAttribBindings = gl::MAX_VERTEX_ATTRIB_BINDINGS;
+    outCaps->maxVaryingVectors            = 16;
+    outCaps->maxTextureImageUnits         = 1;
+    outCaps->maxCombinedTextureImageUnits = 1;
+    outCaps->max2DTextureSize             = 1024;
+    outCaps->maxElementIndex              = std::numeric_limits<GLuint>::max() - 1;
+    outCaps->maxFragmentUniformVectors    = 8;
+    outCaps->maxVertexUniformVectors      = 8;
+    outCaps->maxColorAttachments          = 1;
 
     // Enable this for simple buffer readback testing, but some functionality is missing.
     // TODO(jmadill): Support full mapBufferRange extension.
@@ -557,16 +567,16 @@ const gl::Limitations &RendererVk::getNativeLimitations() const
     return mNativeLimitations;
 }
 
-vk::Error RendererVk::getStartedCommandBuffer(vk::CommandBuffer **commandBufferOut)
+vk::Error RendererVk::getStartedCommandBuffer(vk::CommandBufferAndState **commandBufferOut)
 {
-    ANGLE_TRY(mCommandBuffer.begin(mDevice));
+    ANGLE_TRY(mCommandBuffer.ensureStarted(mDevice, mCommandPool, VK_COMMAND_BUFFER_LEVEL_PRIMARY));
     *commandBufferOut = &mCommandBuffer;
     return vk::NoError();
 }
 
-vk::Error RendererVk::submitCommandBuffer(vk::CommandBuffer *commandBuffer)
+vk::Error RendererVk::submitCommandBuffer(vk::CommandBufferAndState *commandBuffer)
 {
-    ANGLE_TRY(commandBuffer->end());
+    ANGLE_TRY(commandBuffer->ensureFinished());
 
     VkFenceCreateInfo fenceInfo;
     fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -590,7 +600,7 @@ vk::Error RendererVk::submitCommandBuffer(vk::CommandBuffer *commandBuffer)
     return vk::NoError();
 }
 
-vk::Error RendererVk::submitAndFinishCommandBuffer(vk::CommandBuffer *commandBuffer)
+vk::Error RendererVk::submitAndFinishCommandBuffer(vk::CommandBufferAndState *commandBuffer)
 {
     ANGLE_TRY(submitCommandBuffer(commandBuffer));
     ANGLE_TRY(finish());
@@ -598,7 +608,7 @@ vk::Error RendererVk::submitAndFinishCommandBuffer(vk::CommandBuffer *commandBuf
     return vk::NoError();
 }
 
-vk::Error RendererVk::submitCommandsWithSync(vk::CommandBuffer *commandBuffer,
+vk::Error RendererVk::submitCommandsWithSync(vk::CommandBufferAndState *commandBuffer,
                                              const vk::Semaphore &waitSemaphore,
                                              const vk::Semaphore &signalSemaphore)
 {
@@ -635,19 +645,19 @@ void RendererVk::freeAllInFlightResources()
 {
     for (auto &fence : mInFlightFences)
     {
-        fence.destroy(mDevice);
+        fence.get().destroy(mDevice);
     }
     mInFlightFences.clear();
 
     for (auto &command : mInFlightCommands)
     {
-        command.destroy(mDevice);
+        command.get().destroy(mDevice, mCommandPool);
     }
     mInFlightCommands.clear();
 
     for (auto &garbage : mGarbage)
     {
-        garbage->destroy(mDevice);
+        garbage.destroy(mDevice);
     }
     mGarbage.clear();
 }
@@ -669,7 +679,7 @@ vk::Error RendererVk::checkInFlightCommands()
 
         // Release the fence handle.
         // TODO(jmadill): Re-use fences.
-        inFlightFence->destroy(mDevice);
+        inFlightFence->get().destroy(mDevice);
     }
 
     if (finishedIndex == 0)
@@ -686,7 +696,7 @@ vk::Error RendererVk::checkInFlightCommands()
             break;
 
         completedCBIndex = cbIndex + 1;
-        inFlightCB->destroy(mDevice);
+        inFlightCB->get().destroy(mDevice, mCommandPool);
     }
 
     if (completedCBIndex == 0)
@@ -698,7 +708,7 @@ vk::Error RendererVk::checkInFlightCommands()
     size_t freeIndex = 0;
     for (; freeIndex < mGarbage.size(); ++freeIndex)
     {
-        if (!mGarbage[freeIndex]->destroyIfComplete(mDevice, finishedSerial))
+        if (!mGarbage[freeIndex].destroyIfComplete(mDevice, finishedSerial))
             break;
     }
 
@@ -759,13 +769,11 @@ vk::Error RendererVk::submitFrame(const VkSubmitInfo &submitInfo)
 vk::Error RendererVk::createStagingImage(TextureDimension dimension,
                                          const vk::Format &format,
                                          const gl::Extents &extent,
+                                         vk::StagingUsage usage,
                                          vk::StagingImage *imageOut)
 {
-    ASSERT(mHostVisibleMemoryIndex != std::numeric_limits<uint32_t>::max());
-
-    ANGLE_TRY(imageOut->init(mDevice, mCurrentQueueFamilyIndex, mHostVisibleMemoryIndex, dimension,
-                             format.native, extent));
-
+    ANGLE_TRY(imageOut->init(mDevice, mCurrentQueueFamilyIndex, mMemoryProperties, dimension,
+                             format.vkTextureFormat, extent, usage));
     return vk::NoError();
 }
 
@@ -777,6 +785,51 @@ GlslangWrapper *RendererVk::getGlslangWrapper()
 Serial RendererVk::getCurrentQueueSerial() const
 {
     return mCurrentQueueSerial;
+}
+
+gl::Error RendererVk::ensureInRenderPass(const gl::Context *context, FramebufferVk *framebufferVk)
+{
+    if (mCurrentRenderPassFramebuffer == framebufferVk)
+    {
+        return gl::NoError();
+    }
+
+    if (mCurrentRenderPassFramebuffer)
+    {
+        endRenderPass();
+    }
+    ANGLE_TRY(
+        framebufferVk->beginRenderPass(context, mDevice, &mCommandBuffer, mCurrentQueueSerial));
+    mCurrentRenderPassFramebuffer = framebufferVk;
+    return gl::NoError();
+}
+
+void RendererVk::endRenderPass()
+{
+    if (mCurrentRenderPassFramebuffer)
+    {
+        ASSERT(mCommandBuffer.started());
+        mCommandBuffer.endRenderPass();
+        mCurrentRenderPassFramebuffer = nullptr;
+    }
+}
+
+void RendererVk::onReleaseRenderPass(const FramebufferVk *framebufferVk)
+{
+    if (mCurrentRenderPassFramebuffer == framebufferVk)
+    {
+        endRenderPass();
+    }
+}
+
+bool RendererVk::isResourceInUse(const ResourceVk &resource)
+{
+    return isSerialInUse(resource.getQueueSerial());
+}
+
+bool RendererVk::isSerialInUse(Serial serial)
+{
+    return serial > mLastCompletedQueueSerial;
 }
 
 }  // namespace rx

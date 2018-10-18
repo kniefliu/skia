@@ -50,7 +50,8 @@ Compiler::Compiler(rx::GLImplFactory *implFactory, const ContextState &state)
       mResources(),
       mFragmentCompiler(nullptr),
       mVertexCompiler(nullptr),
-      mComputeCompiler(nullptr)
+      mComputeCompiler(nullptr),
+      mGeometryCompiler(nullptr)
 {
     ASSERT(state.getClientMajorVersion() == 2 || state.getClientMajorVersion() == 3);
 
@@ -88,6 +89,8 @@ Compiler::Compiler(rx::GLImplFactory *implFactory, const ContextState &state)
     mResources.MaxProgramTexelOffset   = caps.maxProgramTexelOffset;
 
     // GLSL ES 3.1 constants
+    mResources.MaxProgramTextureGatherOffset    = caps.maxProgramTextureGatherOffset;
+    mResources.MinProgramTextureGatherOffset    = caps.minProgramTextureGatherOffset;
     mResources.MaxImageUnits                    = caps.maxImageUnits;
     mResources.MaxVertexImageUniforms           = caps.maxVertexImageUniforms;
     mResources.MaxFragmentImageUniforms         = caps.maxFragmentImageUniforms;
@@ -118,6 +121,7 @@ Compiler::Compiler(rx::GLImplFactory *implFactory, const ContextState &state)
     mResources.MaxAtomicCounterBufferSize      = caps.maxAtomicCounterBufferSize;
 
     mResources.MaxUniformBufferBindings = caps.maxUniformBufferBindings;
+    mResources.MaxShaderStorageBufferBindings = caps.maxShaderStorageBufferBindings;
 
     // Needed by point size clamping workaround
     mResources.MaxPointSize = caps.maxAliasedPointSize;
@@ -126,6 +130,12 @@ Compiler::Compiler(rx::GLImplFactory *implFactory, const ContextState &state)
     {
         mResources.MaxDrawBuffers = 1;
     }
+
+    // Geometry Shader constants
+    mResources.OES_geometry_shader = extensions.geometryShader;
+    // TODO(jiawei.shao@intel.com): initialize all implementation dependent geometry shader limits.
+    mResources.MaxGeometryOutputVertices    = extensions.maxGeometryOutputVertices;
+    mResources.MaxGeometryShaderInvocations = extensions.maxGeometryShaderInvocations;
 }
 
 Compiler::~Compiler()
@@ -162,7 +172,7 @@ Compiler::~Compiler()
         sh::Finalize();
     }
 
-    mImplementation->release();
+    ANGLE_SWALLOW_ERR(mImplementation->release());
 }
 
 ShHandle Compiler::getCompilerHandle(GLenum type)
@@ -179,6 +189,9 @@ ShHandle Compiler::getCompilerHandle(GLenum type)
             break;
         case GL_COMPUTE_SHADER:
             compiler = &mComputeCompiler;
+            break;
+        case GL_GEOMETRY_SHADER_EXT:
+            compiler = &mGeometryCompiler;
             break;
         default:
             UNREACHABLE();

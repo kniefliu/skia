@@ -71,10 +71,9 @@ ANGLE_INLINE void ParamsBase::Factory(EntryPointParamType<EP> *objBuffer, ArgsT.
 class HasIndexRange : public ParamsBase
 {
   public:
-    HasIndexRange(Context *context, GLsizei count, GLenum type, const void *indices)
-        : ParamsBase(context), mContext(context), mCount(count), mType(type), mIndices(indices)
-    {
-    }
+    // Dummy placeholder that can't generate an index range.
+    HasIndexRange();
+    HasIndexRange(Context *context, GLsizei count, GLenum type, const void *indices);
 
     template <EntryPoint EP, typename... ArgsT>
     static void Factory(HasIndexRange *objBuffer, ArgsT... args);
@@ -166,6 +165,63 @@ struct EntryPointParam
 {
     using Type = ParamsBase;
 };
+
+// A template struct for determining the default value to return for each entry point.
+template <EntryPoint EP, typename ReturnType>
+struct DefaultReturnValue;
+
+// Default return values for each basic return type.
+template <EntryPoint EP>
+struct DefaultReturnValue<EP, GLint>
+{
+    static constexpr GLint kValue = -1;
+};
+
+// This doubles as the GLenum return value.
+template <EntryPoint EP>
+struct DefaultReturnValue<EP, GLuint>
+{
+    static constexpr GLuint kValue = 0;
+};
+
+template <EntryPoint EP>
+struct DefaultReturnValue<EP, GLboolean>
+{
+    static constexpr GLboolean kValue = GL_FALSE;
+};
+
+// Catch-all rules for pointer types.
+template <EntryPoint EP, typename PointerType>
+struct DefaultReturnValue<EP, const PointerType *>
+{
+    static constexpr const PointerType *kValue = nullptr;
+};
+
+template <EntryPoint EP, typename PointerType>
+struct DefaultReturnValue<EP, PointerType *>
+{
+    static constexpr PointerType *kValue = nullptr;
+};
+
+// Overloaded to return invalid index
+template <>
+struct DefaultReturnValue<EntryPoint::GetUniformBlockIndex, GLuint>
+{
+    static constexpr GLuint kValue = GL_INVALID_INDEX;
+};
+
+// Specialized enum error value.
+template <>
+struct DefaultReturnValue<EntryPoint::ClientWaitSync, GLenum>
+{
+    static constexpr GLenum kValue = GL_WAIT_FAILED;
+};
+
+template <EntryPoint EP, typename ReturnType>
+constexpr ANGLE_INLINE ReturnType GetDefaultReturnValue()
+{
+    return DefaultReturnValue<EP, ReturnType>::kValue;
+}
 
 }  // namespace gl
 

@@ -27,7 +27,8 @@ class GrVkTextureRenderTarget: public GrVkTexture, public GrVkRenderTarget {
 public:
     static sk_sp<GrVkTextureRenderTarget> CreateNewTextureRenderTarget(GrVkGpu*, SkBudgeted,
                                                                        const GrSurfaceDesc&,
-                                                                       const GrVkImage::ImageDesc&);
+                                                                       const GrVkImage::ImageDesc&,
+                                                                       GrMipMapsStatus);
 
     static sk_sp<GrVkTextureRenderTarget> MakeWrappedTextureRenderTarget(GrVkGpu*,
                                                                          const GrSurfaceDesc&,
@@ -56,6 +57,7 @@ private:
                             const GrVkImageInfo& msaaInfo,
                             const GrVkImageView* colorAttachmentView,
                             const GrVkImageView* resolveAttachmentView,
+                            GrMipMapsStatus,
                             GrBackendObjectOwnership);
 
     GrVkTextureRenderTarget(GrVkGpu* gpu,
@@ -64,6 +66,7 @@ private:
                             const GrVkImageInfo& info,
                             const GrVkImageView* texView,
                             const GrVkImageView* colorAttachmentView,
+                            GrMipMapsStatus,
                             GrBackendObjectOwnership);
 
     GrVkTextureRenderTarget(GrVkGpu* gpu,
@@ -73,6 +76,7 @@ private:
                             const GrVkImageInfo& msaaInfo,
                             const GrVkImageView* colorAttachmentView,
                             const GrVkImageView* resolveAttachmentView,
+                            GrMipMapsStatus,
                             GrBackendObjectOwnership);
 
     GrVkTextureRenderTarget(GrVkGpu* gpu,
@@ -80,11 +84,13 @@ private:
                             const GrVkImageInfo& info,
                             const GrVkImageView* texView,
                             const GrVkImageView* colorAttachmentView,
+                            GrMipMapsStatus,
                             GrBackendObjectOwnership);
 
     static sk_sp<GrVkTextureRenderTarget> Make(GrVkGpu*,
                                                const GrSurfaceDesc&,
                                                const GrVkImageInfo&,
+                                               GrMipMapsStatus,
                                                SkBudgeted budgeted,
                                                GrBackendObjectOwnership,
                                                bool isWrapped);

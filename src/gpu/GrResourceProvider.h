@@ -10,6 +10,7 @@
 
 #include "GrBuffer.h"
 #include "GrPathRange.h"
+#include "GrResourceCache.h"
 #include "SkImageInfo.h"
 #include "SkScalerContext.h"
 
@@ -41,21 +42,41 @@ class GrResourceProvider {
 public:
     GrResourceProvider(GrGpu* gpu, GrResourceCache* cache, GrSingleOwner* owner);
 
-    template <typename T> T* findAndRefTByUniqueKey(const GrUniqueKey& key) {
-        return static_cast<T*>(this->findAndRefResourceByUniqueKey(key));
+    /**
+     * Finds a resource in the cache, based on the specified key. Prior to calling this, the caller
+     * must be sure that if a resource of exists in the cache with the given unique key then it is
+     * of type T.
+     */
+    template <typename T>
+    sk_sp<T> findByUniqueKey(const GrUniqueKey& key) {
+        return sk_sp<T>(static_cast<T*>(this->findResourceByUniqueKey(key).release()));
     }
+
+    /*
+     * Assigns a unique key to a proxy. The proxy will be findable via this key using
+     * findProxyByUniqueKey(). It is an error if an existing proxy already has a key.
+     */
+    void assignUniqueKeyToProxy(const GrUniqueKey&, GrTextureProxy*);
+
+    /*
+     * Removes a unique key from a proxy. If the proxy has already been instantiated, it will
+     * also remove the unique key from the target GrSurface.
+     */
+    void removeUniqueKeyFromProxy(const GrUniqueKey&, GrTextureProxy*);
+
+    /*
+     * Finds a proxy by unique key.
+     */
+    sk_sp<GrTextureProxy> findProxyByUniqueKey(const GrUniqueKey&, GrSurfaceOrigin);
+
+    /*
+     * Finds a proxy by unique key or creates a new one that wraps a resource matching the unique
+     * key.
+     */
+    sk_sp<GrTextureProxy> findOrCreateProxyByUniqueKey(const GrUniqueKey&, GrSurfaceOrigin);
 
     ///////////////////////////////////////////////////////////////////////////
     // Textures
-
-    /** Assigns a unique key to the texture. The texture will be findable via this key using
-    findTextureByUniqueKey(). If an existing texture has this key, it's key will be removed. */
-    void assignUniqueKeyToProxy(const GrUniqueKey& key, GrTextureProxy*);
-
-    /** Finds a texture by unique key. If the texture is found it is ref'ed and returned. */
-    // MDB TODO (caching): If this were actually caching proxies (rather than shallowly 
-    // wrapping GrSurface caching) we would not need the origin parameter.
-    sk_sp<GrTextureProxy> findProxyByUniqueKey(const GrUniqueKey& key, GrSurfaceOrigin);
 
     /**
      * Finds a texture that approximately matches the descriptor. Will be at least as large in width
@@ -87,7 +108,6 @@ public:
      * @return GrTexture object or NULL on failure.
      */
     sk_sp<GrTexture> wrapBackendTexture(const GrBackendTexture& tex,
-                                        GrSurfaceOrigin origin,
                                         GrWrapOwnership = kBorrow_GrWrapOwnership);
 
     /**
@@ -96,7 +116,6 @@ public:
      * to the texture.
      */
     sk_sp<GrTexture> wrapRenderableBackendTexture(const GrBackendTexture& tex,
-                                                  GrSurfaceOrigin origin,
                                                   int sampleCnt,
                                                   GrWrapOwnership = kBorrow_GrWrapOwnership);
 
@@ -109,7 +128,7 @@ public:
      *
      * @return GrRenderTarget object or NULL on failure.
      */
-    sk_sp<GrRenderTarget> wrapBackendRenderTarget(const GrBackendRenderTarget&, GrSurfaceOrigin);
+    sk_sp<GrRenderTarget> wrapBackendRenderTarget(const GrBackendRenderTarget&);
 
     static const uint32_t kMinScratchTextureSize;
 
@@ -126,12 +145,12 @@ public:
      *
      * @return The index buffer if successful, otherwise nullptr.
      */
-    const GrBuffer* findOrCreatePatternedIndexBuffer(const uint16_t* pattern,
-                                                     int patternSize,
-                                                     int reps,
-                                                     int vertCount,
-                                                     const GrUniqueKey& key) {
-        if (GrBuffer* buffer = this->findAndRefTByUniqueKey<GrBuffer>(key)) {
+    sk_sp<const GrBuffer> findOrCreatePatternedIndexBuffer(const uint16_t* pattern,
+                                                           int patternSize,
+                                                           int reps,
+                                                           int vertCount,
+                                                           const GrUniqueKey& key) {
+        if (auto buffer = this->findByUniqueKey<GrBuffer>(key)) {
             return buffer;
         }
         return this->createPatternedIndexBuffer(pattern, patternSize, reps, vertCount, key);
@@ -139,18 +158,19 @@ public:
 
     /**
      * Returns an index buffer that can be used to render quads.
-     * Six indices per quad: 0, 1, 2, 0, 2, 3, etc.
+     * Six indices per quad: 0, 1, 2, 2, 1, 3, etc.
      * The max number of quads is the buffer's index capacity divided by 6.
      * Draw with GrPrimitiveType::kTriangles
      * @ return the quad index buffer
      */
-    const GrBuffer* refQuadIndexBuffer() {
-        if (GrBuffer* buffer =
-            this->findAndRefTByUniqueKey<GrBuffer>(fQuadIndexBufferKey)) {
+    sk_sp<const GrBuffer> refQuadIndexBuffer() {
+        if (auto buffer = this->findByUniqueKey<const GrBuffer>(fQuadIndexBufferKey)) {
             return buffer;
         }
         return this->createQuadIndexBuffer();
     }
+
+    static int QuadCountOfQuadBuffer();
 
     /**
      * Factories for GrPath and GrPathRange objects. It's an error to call these if path rendering
@@ -163,22 +183,18 @@ public:
 
     /** These flags govern which scratch resources we are allowed to return */
     enum Flags {
-        kExact_Flag           = 0x1,
-
         /** If the caller intends to do direct reads/writes to/from the CPU then this flag must be
          *  set when accessing resources during a GrOpList flush. This includes the execution of
          *  GrOp objects. The reason is that these memory operations are done immediately and
          *  will occur out of order WRT the operations being flushed.
          *  Make this automatic: https://bug.skia.org/4156
          */
-        kNoPendingIO_Flag     = 0x2,
-
-        kNoCreate_Flag        = 0x4,
+        kNoPendingIO_Flag     = 0x1,
 
         /** Normally the caps may indicate a preference for client-side buffers. Set this flag when
          *  creating a buffer to guarantee it resides in GPU memory.
          */
-        kRequireGpuMemory_Flag = 0x8,
+        kRequireGpuMemory_Flag = 0x2,
     };
 
     /**
@@ -197,10 +213,10 @@ public:
 
 
     /**
-     * If passed in render target already has a stencil buffer, return it. Otherwise attempt to
-     * attach one.
+     * If passed in render target already has a stencil buffer, return true. Otherwise attempt to
+     * attach one and return true on success.
      */
-    GrStencilAttachment* attachStencilAttachment(GrRenderTarget* rt);
+    bool attachStencilAttachment(GrRenderTarget* rt);
 
      /**
       * Wraps an existing texture with a GrRenderTarget object. This is useful when the provided
@@ -212,7 +228,6 @@ public:
       * @return GrRenderTarget object or NULL on failure.
       */
      sk_sp<GrRenderTarget> wrapBackendTextureAsRenderTarget(const GrBackendTexture&,
-                                                            GrSurfaceOrigin origin,
                                                             int sampleCnt);
 
     /**
@@ -220,13 +235,6 @@ public:
      * association is removed and replaced by this resource.
      */
     void assignUniqueKeyToResource(const GrUniqueKey&, GrGpuResource*);
-
-    /**
-     * Finds a resource in the cache, based on the specified key. This is intended for use in
-     * conjunction with addResourceToCache(). The return value will be NULL if not found. The
-     * caller must balance with a call to unref().
-     */
-    GrGpuResource* findAndRefResourceByUniqueKey(const GrUniqueKey&);
 
     sk_sp<GrSemaphore> SK_WARN_UNUSED_RESULT makeSemaphore(bool isOwned = true);
 
@@ -252,11 +260,13 @@ public:
     static bool IsFunctionallyExact(GrSurfaceProxy* proxy);
 
     const GrCaps* caps() const { return fCaps.get(); }
+    bool overBudget() const { return fCache->overBudget(); }
 
 private:
-    GrTexture* findAndRefTextureByUniqueKey(const GrUniqueKey& key);
-    void assignUniqueKeyToTexture(const GrUniqueKey& key, GrTexture* texture);
+    sk_sp<GrGpuResource> findResourceByUniqueKey(const GrUniqueKey&);
 
+    // Attempts to find a resource in the cache that exactly matches the GrSurfaceDesc. Failing that
+    // it returns null. If non-null, the resulting texture is always budgeted.
     sk_sp<GrTexture> refScratchTexture(const GrSurfaceDesc&, uint32_t scratchTextureFlags);
 
     /*
@@ -276,13 +286,13 @@ private:
         return !SkToBool(fCache);
     }
 
-    const GrBuffer* createPatternedIndexBuffer(const uint16_t* pattern,
-                                               int patternSize,
-                                               int reps,
-                                               int vertCount,
-                                               const GrUniqueKey& key);
+    sk_sp<const GrBuffer> createPatternedIndexBuffer(const uint16_t* pattern,
+                                                     int patternSize,
+                                                     int reps,
+                                                     int vertCount,
+                                                     const GrUniqueKey& key);
 
-    const GrBuffer* createQuadIndexBuffer();
+    sk_sp<const GrBuffer> createQuadIndexBuffer();
 
     GrResourceCache*    fCache;
     GrGpu*              fGpu;

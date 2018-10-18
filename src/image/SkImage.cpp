@@ -354,6 +354,13 @@ sk_sp<SkImage> SkImage::MakeFromDeferredTextureImageData(GrContext* context, con
     return nullptr;
 }
 
+bool SkImage::MakeBackendTextureFromSkImage(GrContext*,
+                                            sk_sp<SkImage>,
+                                            GrBackendTexture*,
+                                            BackendTextureReleaseProc*) {
+    return false;
+}
+
 sk_sp<SkImage> SkImage::MakeFromAdoptedTexture(GrContext* ctx,
                                                const GrBackendTexture& tex, GrSurfaceOrigin origin,
                                                SkAlphaType at, sk_sp<SkColorSpace> cs) {
@@ -422,7 +429,10 @@ sk_sp<SkImage> SkImageMakeRasterCopyAndAssignColorSpace(const SkImage* src,
     }
 
     size_t rowBytes = info.minRowBytes();
-    size_t size = info.getSafeSize(rowBytes);
+    size_t size = info.computeByteSize(rowBytes);
+    if (SkImageInfo::ByteSizeOverflowed(size)) {
+        return nullptr;
+    }
     auto data = SkData::MakeUninitialized(size);
     if (!data) {
         return nullptr;

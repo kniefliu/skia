@@ -116,11 +116,9 @@ can be in any gamut, but must have a linear transfer function.
 	sk_sp<SkImage> MakeFromEncoded(sk_sp<SkData> encoded);
 	
 	// Create an image from a texture in a particular color space
-	// Caution: There are versions of this constructor that do not take an
-	//          SkColorSpace.  But without an SkColorSpace, Skia does not have
-	//          enough information to draw correctly.
-	sk_sp<SkImage> MakeFromTexture(GrContext*, const GrBackendTextureDesc&,
-	                               SkAlphaType, sk_sp<SkColorSpace>, ...);
+	sk_sp<SkImage> MakeFromTexture(GrContext*, const GrBackendTexture&,
+                                       GrSurfaceOrigin, SkAlphaType, sk_sp<SkColorSpace>,
+                                       ...);
 
 **SkBitmap** is another (not preferred) representation for image sources.  Be careful to not forget
 the color space.
@@ -166,7 +164,7 @@ Opting In To Color Correct Skia
 -------------------------------
 
 By itself, **adding a color space tag to a source will not change draw behavior**.  In fact,
-tagging sources with color spaces is always a best practice, regardless of whether we want Skia’s
+tagging sources with color spaces is always a best practice, regardless of whether we want Skia's
 color correct behavior.
 
 Adding a color space tag to the **destination is the trigger that turns on Skia color correct
@@ -191,3 +189,4 @@ It is possible to create **an object that is both a source and destination**, if
 draw into it and then draw it somewhere else.  The same rules from above still apply, but it is
 subtle that the color space tag could have an effect (or no effect) depending on how the object is
 used.
+

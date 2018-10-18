@@ -27,7 +27,30 @@
 
 namespace rx
 {
-struct PackedAttributeLayout;
+class DrawCallVertexParams;
+struct PackedAttributeLayout
+{
+    PackedAttributeLayout();
+    PackedAttributeLayout(const PackedAttributeLayout &other);
+
+    void addAttributeData(GLenum glType,
+                          UINT semanticIndex,
+                          gl::VertexFormatType vertexFormatType,
+                          unsigned int divisor);
+
+    bool operator==(const PackedAttributeLayout &other) const;
+
+    enum Flags
+    {
+        FLAG_USES_INSTANCED_SPRITES     = 0x1,
+        FLAG_INSTANCED_SPRITES_ACTIVE   = 0x2,
+        FLAG_INSTANCED_RENDERING_ACTIVE = 0x4,
+    };
+
+    uint32_t numAttributes;
+    uint32_t flags;
+    gl::AttribArray<uint32_t> attributeData;
+};
 }  // namespace rx
 
 namespace std
@@ -55,28 +78,6 @@ struct SourceIndexData;
 class ProgramD3D;
 class Renderer11;
 
-struct PackedAttributeLayout
-{
-    PackedAttributeLayout();
-    void addAttributeData(GLenum glType,
-                          UINT semanticIndex,
-                          gl::VertexFormatType vertexFormatType,
-                          unsigned int divisor);
-
-    bool operator==(const PackedAttributeLayout &other) const;
-
-    enum Flags
-    {
-        FLAG_USES_INSTANCED_SPRITES     = 0x1,
-        FLAG_INSTANCED_SPRITES_ACTIVE   = 0x2,
-        FLAG_INSTANCED_RENDERING_ACTIVE = 0x4,
-    };
-
-    size_t numAttributes;
-    unsigned int flags;
-    std::array<uint32_t, gl::MAX_VERTEX_ATTRIBS> attributeData;
-};
-
 class InputLayoutCache : angle::NonCopyable
 {
   public:
@@ -85,12 +86,11 @@ class InputLayoutCache : angle::NonCopyable
 
     void clear();
 
-    gl::Error applyVertexBuffers(Renderer11 *renderer,
-                                 const gl::State &state,
+    gl::Error applyVertexBuffers(const gl::Context *context,
                                  const std::vector<const TranslatedAttribute *> &currentAttributes,
                                  GLenum mode,
                                  GLint start,
-                                 TranslatedIndexData *indexInfo);
+                                 bool isIndexedRendering);
 
     gl::Error updateVertexOffsetsForPointSpritesEmulation(
         Renderer11 *renderer,
@@ -106,7 +106,7 @@ class InputLayoutCache : angle::NonCopyable
                                 const std::vector<const TranslatedAttribute *> &currentAttributes,
                                 GLenum mode,
                                 const AttribIndexArray &sortedSemanticIndices,
-                                GLsizei numIndicesPerInstance);
+                                const DrawCallVertexParams &vertexParams);
 
   private:
     gl::Error createInputLayout(Renderer11 *renderer,
@@ -114,7 +114,7 @@ class InputLayoutCache : angle::NonCopyable
                                 const std::vector<const TranslatedAttribute *> &currentAttributes,
                                 GLenum mode,
                                 gl::Program *program,
-                                GLsizei numIndicesPerInstance,
+                                const DrawCallVertexParams &vertexParams,
                                 d3d11::InputLayout *inputLayoutOut);
 
     // Starting cache size.

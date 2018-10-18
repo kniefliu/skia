@@ -30,7 +30,8 @@ public:
 
     ~GrVkGpuTextureCommandBuffer() override;
 
-    void copy(GrSurface* src, const SkIRect& srcRect, const SkIPoint& dstPoint) override;
+    void copy(GrSurface* src, GrSurfaceOrigin srcOrigin, const SkIRect& srcRect,
+              const SkIPoint& dstPoint) override;
 
     void insertEventMarker(const char*) override;
 
@@ -38,12 +39,14 @@ private:
     void submit() override;
 
     struct CopyInfo {
-        CopyInfo(GrSurface* src, const SkIRect& srcRect, const SkIPoint& dstPoint)
-            : fSrc(src), fSrcRect(srcRect), fDstPoint(dstPoint) {}
+        CopyInfo(GrSurface* src, GrSurfaceOrigin srcOrigin, const SkIRect& srcRect,
+                 const SkIPoint& dstPoint)
+            : fSrc(src), fSrcOrigin(srcOrigin), fSrcRect(srcRect), fDstPoint(dstPoint) {}
 
-        GrSurface* fSrc;
-        SkIRect    fSrcRect;
-        SkIPoint   fDstPoint;
+        GrSurface*      fSrc;
+        GrSurfaceOrigin fSrcOrigin;
+        SkIRect         fSrcRect;
+        SkIPoint        fDstPoint;
     };
 
     GrVkGpu*                    fGpu;
@@ -66,9 +69,10 @@ public:
     void discard() override;
     void insertEventMarker(const char*) override;
 
-    void inlineUpload(GrOpFlushState* state, GrDrawOp::DeferredUploadFn& upload) override;
+    void inlineUpload(GrOpFlushState* state, GrDeferredTextureUploadFn& upload) override;
 
-    void copy(GrSurface* src, const SkIRect& srcRect, const SkIPoint& dstPoint) override;
+    void copy(GrSurface* src, GrSurfaceOrigin srcOrigin, const SkIRect& srcRect,
+              const SkIPoint& dstPoint) override;
 
     void submit() override;
 
@@ -83,10 +87,10 @@ private:
                       const GrBuffer* vertexBuffer,
                       const GrBuffer* instanceBuffer);
 
-    sk_sp<GrVkPipelineState> prepareDrawState(const GrPipeline&,
-                                              const GrPrimitiveProcessor&,
-                                              GrPrimitiveType,
-                                              bool hasDynamicState);
+    GrVkPipelineState* prepareDrawState(const GrPipeline&,
+                                        const GrPrimitiveProcessor&,
+                                        GrPrimitiveType,
+                                        bool hasDynamicState);
 
     void onDraw(const GrPipeline& pipeline,
                 const GrPrimitiveProcessor& primProc,
@@ -130,20 +134,22 @@ private:
     void addAdditionalRenderPass();
 
     struct InlineUploadInfo {
-        InlineUploadInfo(GrOpFlushState* state, const GrDrawOp::DeferredUploadFn& upload)
-            : fFlushState(state), fUpload(upload) {}
+        InlineUploadInfo(GrOpFlushState* state, const GrDeferredTextureUploadFn& upload)
+                : fFlushState(state), fUpload(upload) {}
 
         GrOpFlushState* fFlushState;
-        GrDrawOp::DeferredUploadFn fUpload;
+        GrDeferredTextureUploadFn fUpload;
     };
 
     struct CopyInfo {
-        CopyInfo(GrSurface* src, const SkIRect& srcRect, const SkIPoint& dstPoint)
-            : fSrc(src), fSrcRect(srcRect), fDstPoint(dstPoint) {}
+        CopyInfo(GrSurface* src, GrSurfaceOrigin srcOrigin, const SkIRect& srcRect,
+                 const SkIPoint& dstPoint)
+            : fSrc(src), fSrcOrigin(srcOrigin), fSrcRect(srcRect), fDstPoint(dstPoint) {}
 
-        GrSurface* fSrc;
-        SkIRect    fSrcRect;
-        SkIPoint   fDstPoint;
+        GrSurface*      fSrc;
+        GrSurfaceOrigin fSrcOrigin;
+        SkIRect         fSrcRect;
+        SkIPoint        fDstPoint;
     };
 
     struct CommandBufferInfo {

@@ -37,7 +37,7 @@ ERRMSG(ExtensionNotEnabled, "Extension is not enabled.");
 ERRMSG(FeedbackLoop, "Feedback loop formed between Framebuffer and active Texture.");
 ERRMSG(FramebufferIncompleteAttachment,
        "Attachment type must be compatible with attachment object.");
-ERRMSG(GenerateMipmapNotAllowed, "Compressed textures do not support mipmap generation.");
+ERRMSG(GenerateMipmapNotAllowed, "Texture format does not support mipmap generation.");
 ERRMSG(IndexExceedsMaxActiveUniform, "Index exceeds program active uniform count.");
 ERRMSG(IndexExceedsMaxDrawBuffer, "Index exceeds MAX_DRAW_BUFFERS.");
 ERRMSG(IndexExceedsMaxVertexAttribute, "Index exceeds MAX_VERTEX_ATTRIBS.");
@@ -69,7 +69,7 @@ ERRMSG(InvalidFilterTexture, "Texture only supports NEAREST and LINEAR filtering
 ERRMSG(InvalidFormat, "Invalid format.");
 ERRMSG(InvalidFramebufferTarget, "Invalid framebuffer target.");
 ERRMSG(InvalidFramebufferTextureLevel, "Mipmap level must be 0 when attaching a texture.");
-ERRMSG(InvalidFramebufferTextureParameter, "Invalid parameter name for framebuffer attachment.");
+ERRMSG(InvalidFramebufferAttachmentParameter, "Invalid parameter name for framebuffer attachment.");
 ERRMSG(InvalidInternalFormat, "Invalid internal format.");
 ERRMSG(InvalidMatrixMode, "Invalid matrix mode.");
 ERRMSG(InvalidMipLevel, "Level of detail outside of range.");
@@ -87,6 +87,8 @@ ERRMSG(InvalidRenderbufferTarget, "Invalid renderbuffer target.");
 ERRMSG(InvalidRenderbufferTextureParameter, "Invalid parameter name for renderbuffer attachment.");
 ERRMSG(InvalidRenderbufferWidthHeight,
        "Renderbuffer width and height cannot be negative and cannot exceed maximum texture size.");
+ERRMSG(InvalidSampleMaskNumber,
+       "MaskNumber cannot be greater than or equal to the value of MAX_SAMPLE_MASK_WORDS.");
 ERRMSG(InvalidSampler, "Sampler is not valid");
 ERRMSG(InvalidShaderName, "Shader object expected.");
 ERRMSG(InvalidShaderType, "Invalid shader type.");
@@ -104,6 +106,7 @@ ERRMSG(InvalidVertexAttrSize, "Vertex attribute size must be 1, 2, 3, or 4.");
 ERRMSG(InvalidWidth, "Invalid width.");
 ERRMSG(InvalidWrapModeTexture, "Invalid wrap mode for texture type.");
 ERRMSG(LevelNotZero, "Texture level must be zero.");
+ERRMSG(MismatchedByteCountType, "Buffer size does not align with data type.");
 ERRMSG(MismatchedFormat, "Format must match internal format.");
 ERRMSG(MismatchedTargetAndFormat, "Invalid texture target and format combination.");
 ERRMSG(MismatchedTypeAndFormat, "Invalid format and type combination.");
@@ -122,12 +125,15 @@ ERRMSG(NegativeSize, "Cannot have negative height or width.");
 ERRMSG(NegativeStart, "Cannot have negative start.");
 ERRMSG(NegativeStride, "Cannot have negative stride.");
 ERRMSG(NoSuchPath, "No such path object.");
+ERRMSG(NoTransformFeedbackOutputVariables,
+    "The active program has specified no output variables to record.");
 ERRMSG(NoZeroDivisor, "At least one enabled attribute must have a divisor of zero.");
 ERRMSG(ObjectNotGenerated, "Object cannot be used because it has not been generated.");
 ERRMSG(OffsetMustBeMultipleOfType, "Offset must be a multiple of the passed in datatype.");
 ERRMSG(OutsideOfBounds, "Parameter outside of bounds.");
 ERRMSG(ParamOverflow, "The provided parameters overflow with the provided buffer.");
 ERRMSG(PixelDataNotNull, "Pixel data must be null.");
+ERRMSG(PixelDataNull, "Pixel data cannot be null.");
 ERRMSG(ProgramDoesNotExist, "Program doesn't exist.");
 ERRMSG(ProgramNotBound, "A program must be bound.");
 ERRMSG(ProgramNotLinked, "Program not linked.");
@@ -147,6 +153,7 @@ ERRMSG(StencilReferenceMaskOrMismatch,
 ERRMSG(StrideMustBeMultipleOfType, "Stride must be a multiple of the passed in datatype.");
 ERRMSG(TextureNotBound, "A texture must be bound.");
 ERRMSG(TextureNotPow2, "The texture is a non-power-of-two texture.");
+ERRMSG(TransformFeedbackDoesNotExist, "Transform feedback object that does not exist.");
 ERRMSG(TypeMismatch,
        "Passed in texture target and format must match the one originally used to define the "
        "texture.");
@@ -156,8 +163,11 @@ ERRMSG(UnknownParameter, "Unknown parameter value.");
 ERRMSG(VertexArrayNoBuffer, "An enabled vertex array has no buffer.");
 ERRMSG(VertexArrayNoBufferPointer, "An enabled vertex array has no buffer and no pointer.");
 ERRMSG(ViewportNegativeSize, "Viewport size cannot be negative.");
+ERRMSG(Webgl2NameLengthLimitExceeded, "Location lengths must not be greater than 1024 characters.");
 ERRMSG(WebglBindAttribLocationReservedPrefix,
        "Attributes that begin with 'webgl_', or '_webgl_' are not allowed.");
+ERRMSG(WebglNameLengthLimitExceeded,
+       "Location name lengths must not be greater than 256 characters.");
 }
 #undef ERRMSG
 #endif  // LIBANGLE_ERRORSTRINGS_H_

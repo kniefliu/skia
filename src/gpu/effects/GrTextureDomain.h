@@ -10,12 +10,10 @@
 
 #include "GrCoordTransform.h"
 #include "GrFragmentProcessor.h"
-#include "GrColorSpaceXform.h"
 #include "glsl/GrGLSLFragmentProcessor.h"
 #include "glsl/GrGLSLProgramDataManager.h"
 
 class GrGLProgramBuilder;
-class GrGLSLColorSpaceXformHelper;
 class GrGLSLShaderBuilder;
 class GrInvariantOutput;
 class GrGLSLUniformHandler;
@@ -23,7 +21,7 @@ struct SkRect;
 
 /**
  * Limits a texture's lookup coordinates to a domain. Samples outside the domain are either clamped
- * the edge of the domain or result in a float4 of zeros (decal mode). The domain is clipped to
+ * the edge of the domain or result in a half4 of zeros (decal mode). The domain is clipped to
  * normalized texture coords ([0,1]x[0,1] square). Bilinear filtering can cause texels outside the
  * domain to affect the read value unless the caller considers this when calculating the domain.
  */
@@ -98,7 +96,7 @@ public:
          * Call this from GrGLSLFragmentProcessor::emitCode() to sample the texture W.R.T. the
          * domain and mode.
          *
-         * @param outcolor  name of float4 variable to hold the sampled color.
+         * @param outcolor  name of half4 variable to hold the sampled color.
          * @param inCoords  name of float2 variable containing the coords to be used with the domain.
          *                  It is assumed that this is a variable and not an expression.
          * @param inModulateColor   if non-nullptr the sampled color will be modulated with this
@@ -111,8 +109,7 @@ public:
                            const char* outColor,
                            const SkString& inCoords,
                            GrGLSLFragmentProcessor::SamplerHandle sampler,
-                           const char* inModulateColor = nullptr,
-                           GrGLSLColorSpaceXformHelper* colorXformHelper = nullptr);
+                           const char* inModulateColor = nullptr);
 
         /**
          * Call this from GrGLSLFragmentProcessor::setData() to upload uniforms necessary for the
@@ -154,11 +151,10 @@ protected:
 class GrTextureDomainEffect : public GrFragmentProcessor {
 public:
     static std::unique_ptr<GrFragmentProcessor> Make(sk_sp<GrTextureProxy>,
-                                                     sk_sp<GrColorSpaceXform>,
                                                      const SkMatrix&,
                                                      const SkRect& domain,
                                                      GrTextureDomain::Mode,
-                                                     GrSamplerParams::FilterMode filterMode);
+                                                     GrSamplerState::Filter filterMode);
 
     const char* name() const override { return "TextureDomain"; }
 
@@ -179,14 +175,12 @@ private:
     GrCoordTransform fCoordTransform;
     GrTextureDomain fTextureDomain;
     TextureSampler fTextureSampler;
-    sk_sp<GrColorSpaceXform> fColorSpaceXform;
 
     GrTextureDomainEffect(sk_sp<GrTextureProxy>,
-                          sk_sp<GrColorSpaceXform>,
                           const SkMatrix&,
                           const SkRect& domain,
                           GrTextureDomain::Mode,
-                          GrSamplerParams::FilterMode);
+                          GrSamplerState::Filter);
 
     explicit GrTextureDomainEffect(const GrTextureDomainEffect&);
 
@@ -197,8 +191,6 @@ private:
     void onGetGLSLProcessorKey(const GrShaderCaps&, GrProcessorKeyBuilder*) const override;
 
     bool onIsEqual(const GrFragmentProcessor&) const override;
-
-    const GrColorSpaceXform* colorSpaceXform() const { return fColorSpaceXform.get(); }
 
     GR_DECLARE_FRAGMENT_PROCESSOR_TEST
 

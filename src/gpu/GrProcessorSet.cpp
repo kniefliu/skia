@@ -159,14 +159,15 @@ bool GrProcessorSet::operator==(const GrProcessorSet& that) const {
 GrProcessorSet::Analysis GrProcessorSet::finalize(const GrProcessorAnalysisColor& colorInput,
                                                   const GrProcessorAnalysisCoverage coverageInput,
                                                   const GrAppliedClip* clip, bool isMixedSamples,
-                                                  const GrCaps& caps, GrColor* overrideInputColor) {
+                                                  const GrCaps& caps,
+                                                  GrPixelConfigIsClamped dstIsClamped,
+                                                  GrColor* overrideInputColor) {
     SkASSERT(!this->isFinalized());
     SkASSERT(!fFragmentProcessorOffset);
 
     GrProcessorSet::Analysis analysis;
     analysis.fCompatibleWithCoverageAsAlpha = GrProcessorAnalysisCoverage::kLCD != coverageInput;
 
-    const GrFragmentProcessor* clipFP = clip ? clip->clipCoverageFragmentProcessor() : nullptr;
     const std::unique_ptr<const GrFragmentProcessor>* fps =
             fFragmentProcessors.get() + fFragmentProcessorOffset;
     GrColorFragmentProcessorAnalysis colorAnalysis(
@@ -186,11 +187,13 @@ GrProcessorSet::Analysis GrProcessorSet::finalize(const GrProcessorAnalysisColor
         }
         coverageUsesLocalCoords |= fps[i]->usesLocalCoords();
     }
-
-    if (clipFP) {
-        analysis.fCompatibleWithCoverageAsAlpha &= clipFP->compatibleWithCoverageAsAlpha();
-        coverageUsesLocalCoords |= clipFP->usesLocalCoords();
-        hasCoverageFP = true;
+    if (clip) {
+        hasCoverageFP = hasCoverageFP || clip->numClipCoverageFragmentProcessors();
+        for (int i = 0; i < clip->numClipCoverageFragmentProcessors(); ++i) {
+            const GrFragmentProcessor* clipFP = clip->clipCoverageFragmentProcessor(i);
+            analysis.fCompatibleWithCoverageAsAlpha &= clipFP->compatibleWithCoverageAsAlpha();
+            coverageUsesLocalCoords |= clipFP->usesLocalCoords();
+        }
     }
     int colorFPsToEliminate = colorAnalysis.initialProcessorsToEliminate(overrideInputColor);
     analysis.fInputColorType = static_cast<Analysis::PackedInputColorType>(
@@ -207,7 +210,7 @@ GrProcessorSet::Analysis GrProcessorSet::finalize(const GrProcessorAnalysisColor
     }
 
     GrXPFactory::AnalysisProperties props = GrXPFactory::GetAnalysisProperties(
-            this->xpFactory(), colorAnalysis.outputColor(), outputCoverage, caps);
+            this->xpFactory(), colorAnalysis.outputColor(), outputCoverage, caps, dstIsClamped);
     if (!this->numCoverageFragmentProcessors() &&
         GrProcessorAnalysisCoverage::kNone == coverageInput) {
         analysis.fCanCombineOverlappedStencilAndCover = SkToBool(
@@ -241,7 +244,7 @@ GrProcessorSet::Analysis GrProcessorSet::finalize(const GrProcessorAnalysisColor
     fColorFragmentProcessorCnt -= colorFPsToEliminate;
 
     auto xp = GrXPFactory::MakeXferProcessor(this->xpFactory(), colorAnalysis.outputColor(),
-                                             outputCoverage, isMixedSamples, caps);
+                                             outputCoverage, isMixedSamples, caps, dstIsClamped);
     fXP.fProcessor = xp.release();
 
     fFlags |= kFinalized_Flag;

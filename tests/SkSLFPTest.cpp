@@ -62,7 +62,7 @@ static void test(skiatest::Reporter* r, const char* src, const GrShaderCaps& cap
 DEF_TEST(SkSLFPHelloWorld, r) {
     test(r,
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
@@ -82,7 +82,6 @@ DEF_TEST(SkSLFPHelloWorld, r) {
              "#if SK_SUPPORT_GPU\n"
              "#include \"GrFragmentProcessor.h\"\n"
              "#include \"GrCoordTransform.h\"\n"
-             "#include \"GrColorSpaceXform.h\"\n"
              "class GrTest : public GrFragmentProcessor {\n"
              "public:\n"
              "    static std::unique_ptr<GrFragmentProcessor> Make() {\n"
@@ -93,8 +92,7 @@ DEF_TEST(SkSLFPHelloWorld, r) {
              "    const char* name() const override { return \"Test\"; }\n"
              "private:\n"
              "    GrTest()\n"
-             "    : INHERITED(kNone_OptimizationFlags) {\n"
-             "        this->initClassID<GrTest>();\n"
+             "    : INHERITED(kGrTest_ClassID, kNone_OptimizationFlags) {\n"
              "    }\n"
              "    GrGLSLFragmentProcessor* onCreateGLSLInstance() const override;\n"
              "    void onGetGLSLProcessorKey(const GrShaderCaps&,GrProcessorKeyBuilder*) "
@@ -119,7 +117,6 @@ DEF_TEST(SkSLFPHelloWorld, r) {
              " */\n"
              "#include \"GrTest.h\"\n"
              "#if SK_SUPPORT_GPU\n"
-             "#include \"glsl/GrGLSLColorSpaceXformHelper.h\"\n"
              "#include \"glsl/GrGLSLFragmentProcessor.h\"\n"
              "#include \"glsl/GrGLSLFragmentShaderBuilder.h\"\n"
              "#include \"glsl/GrGLSLProgramBuilder.h\"\n"
@@ -132,7 +129,7 @@ DEF_TEST(SkSLFPHelloWorld, r) {
              "        GrGLSLFPFragmentBuilder* fragBuilder = args.fFragBuilder;\n"
              "        const GrTest& _outer = args.fFp.cast<GrTest>();\n"
              "        (void) _outer;\n"
-             "        fragBuilder->codeAppendf(\"%s = float4(1.0);\\n\", args.fOutputColor);\n"
+             "        fragBuilder->codeAppendf(\"%s = half4(1.0);\\n\", args.fOutputColor);\n"
              "    }\n"
              "private:\n"
              "    void onSetData(const GrGLSLProgramDataManager& pdman, "
@@ -151,8 +148,7 @@ DEF_TEST(SkSLFPHelloWorld, r) {
              "    return true;\n"
              "}\n"
              "GrTest::GrTest(const GrTest& src)\n"
-             ": INHERITED(src.optimizationFlags()) {\n"
-             "    this->initClassID<GrTest>();\n"
+             ": INHERITED(kGrTest_ClassID, src.optimizationFlags()) {\n"
              "}\n"
              "std::unique_ptr<GrFragmentProcessor> GrTest::clone() const {\n"
              "    return std::unique_ptr<GrFragmentProcessor>(new GrTest(*this));\n"
@@ -163,9 +159,9 @@ DEF_TEST(SkSLFPHelloWorld, r) {
 
 DEF_TEST(SkSLFPInput, r) {
     test(r,
-         "in float2 point;"
+         "in half2 point;"
          "void main() {"
-         "sk_OutColor = float4(point, point);"
+         "sk_OutColor = half4(point, point);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
@@ -176,7 +172,7 @@ DEF_TEST(SkSLFPInput, r) {
              ", fPoint(point)"
          },
          {
-             "fragBuilder->codeAppendf(\"%s = float4(float2(%f, %f), float2(%f, %f));\\n\", "
+             "fragBuilder->codeAppendf(\"%s = half4(half2(%f, %f), half2(%f, %f));\\n\", "
                                       "args.fOutputColor, _outer.point().fX, _outer.point().fY, "
                                       "_outer.point().fX, _outer.point().fY);",
              "if (fPoint != that.fPoint) return false;"
@@ -185,7 +181,7 @@ DEF_TEST(SkSLFPInput, r) {
 
 DEF_TEST(SkSLFPUniform, r) {
     test(r,
-         "uniform float4 color;"
+         "uniform half4 color;"
          "void main() {"
          "sk_OutColor = color;"
          "}",
@@ -194,14 +190,14 @@ DEF_TEST(SkSLFPUniform, r) {
              "static std::unique_ptr<GrFragmentProcessor> Make()"
          },
          {
-            "fColorVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kVec4f_GrSLType, "
+            "fColorVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kHalf4_GrSLType, "
                                                          "kDefault_GrSLPrecision, \"color\");",
          });
 }
 
 DEF_TEST(SkSLFPInUniform, r) {
     test(r,
-         "in uniform float4 color;"
+         "in uniform half4 color;"
          "void main() {"
          "sk_OutColor = color;"
          "}",
@@ -210,7 +206,7 @@ DEF_TEST(SkSLFPInUniform, r) {
              "static std::unique_ptr<GrFragmentProcessor> Make(SkRect color) {",
          },
          {
-            "fColorVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kVec4f_GrSLType, "
+            "fColorVar = args.fUniformHandler->addUniform(kFragment_GrShaderFlag, kHalf4_GrSLType, "
                                                          "kDefault_GrSLPrecision, \"color\");",
             "const SkRect colorValue = _outer.color();",
             "pdman.set4fv(fColorVar, 1, (float*) &colorValue);"
@@ -221,7 +217,7 @@ DEF_TEST(SkSLFPSections, r) {
     test(r,
          "@header { header section }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
@@ -231,7 +227,7 @@ DEF_TEST(SkSLFPSections, r) {
     test(r,
          "@class { class section }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
@@ -243,7 +239,7 @@ DEF_TEST(SkSLFPSections, r) {
     test(r,
          "@cpp { cpp section }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {},
@@ -265,7 +261,7 @@ DEF_TEST(SkSLFPSections, r) {
     test(r,
          "@constructor { constructor section }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
@@ -275,30 +271,30 @@ DEF_TEST(SkSLFPSections, r) {
     test(r,
          "@initializers { initializers section }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
-             ": INHERITED(kNone_OptimizationFlags)\n    ,  initializers section"
+             ": INHERITED(kGrTest_ClassID, kNone_OptimizationFlags)\n    ,  initializers section"
          },
          {});
     test(r,
-         "float x = 10;"
-         "@emitCode { fragBuilder->codeAppendf(\"float y = %d\\n\", x * 2); }"
+         "half x = 10;"
+         "@emitCode { fragBuilder->codeAppendf(\"half y = %d\\n\", x * 2); }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {},
          {
             "x = 10.0;\n"
-            " fragBuilder->codeAppendf(\"float y = %d\\n\", x * 2);"
+            " fragBuilder->codeAppendf(\"half y = %d\\n\", x * 2);"
          });
     test(r,
          "@fields { fields section }"
          "@clone { }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
@@ -309,7 +305,7 @@ DEF_TEST(SkSLFPSections, r) {
     test(r,
          "@make { make section }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {
@@ -318,11 +314,11 @@ DEF_TEST(SkSLFPSections, r) {
          },
          {});
     test(r,
-         "uniform float calculated;"
-         "in float provided;"
+         "uniform half calculated;"
+         "in half provided;"
          "@setData(varName) { varName.set1f(calculated, provided * 2); }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {},
@@ -336,7 +332,7 @@ DEF_TEST(SkSLFPSections, r) {
     test(r,
          "@test(testDataName) { testDataName section }"
          "void main() {"
-         "sk_OutColor = float4(1);"
+         "sk_OutColor = half4(1);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {},
@@ -348,43 +344,17 @@ DEF_TEST(SkSLFPSections, r) {
          });
 }
 
-DEF_TEST(SkSLFPColorSpaceXform, r) {
-    test(r,
-         "in uniform sampler2D image;"
-         "in uniform colorSpaceXform colorXform;"
-         "void main() {"
-         "sk_OutColor = sk_InColor * texture(image, float2(0, 0), colorXform);"
-         "}",
-         *SkSL::ShaderCapsFactory::Default(),
-         {
-             "sk_sp<GrColorSpaceXform> colorXform() const { return fColorXform; }",
-             "GrTest(sk_sp<GrTextureProxy> image, sk_sp<GrColorSpaceXform> colorXform)",
-             "this->addTextureSampler(&fImage);",
-             "sk_sp<GrColorSpaceXform> fColorXform;"
-         },
-         {
-             "fragBuilder->codeAppendf(\"float4 _tmpVar1;%s = %s * %stexture(%s, "
-             "float2(0.0, 0.0)).%s%s;\\n\", args.fOutputColor, args.fInputColor ? args.fInputColor : "
-             "\"float4(1)\", fColorSpaceHelper.isValid() ? \"(_tmpVar1 = \" : \"\", "
-             "fragBuilder->getProgramBuilder()->samplerVariable(args.fTexSamplers[0]).c_str(), "
-             "fragBuilder->getProgramBuilder()->samplerSwizzle(args.fTexSamplers[0]).c_str(), "
-             "fColorSpaceHelper.isValid() ? SkStringPrintf(\", float4(clamp((%s * float4(_tmpVar1.rgb, "
-             "1.0)).rgb, 0.0, _tmpVar1.a), _tmpVar1.a))\", args.fUniformHandler->getUniformCStr("
-             "fColorSpaceHelper.gamutXformUniform())).c_str() : \"\");"
-         });
-}
-
 DEF_TEST(SkSLFPTransformedCoords, r) {
     test(r,
          "void main() {"
-         "sk_OutColor = float4(sk_TransformedCoords2D[0], sk_TransformedCoords2D[0]);"
+         "sk_OutColor = half4(sk_TransformedCoords2D[0], sk_TransformedCoords2D[0]);"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
          {},
          {
             "SkString sk_TransformedCoords2D_0 = "
                                          "fragBuilder->ensureCoords2D(args.fTransformedCoords[0]);",
-            "fragBuilder->codeAppendf(\"%s = float4(%s, %s);\\n\", args.fOutputColor, "
+            "fragBuilder->codeAppendf(\"%s = half4(%s, %s);\\n\", args.fOutputColor, "
                               "sk_TransformedCoords2D_0.c_str(), sk_TransformedCoords2D_0.c_str());"
          });
 
@@ -392,7 +362,7 @@ DEF_TEST(SkSLFPTransformedCoords, r) {
 
 DEF_TEST(SkSLFPLayoutWhen, r) {
     test(r,
-         "layout(when=someExpression(someOtherExpression())) uniform float sometimes;"
+         "layout(when=someExpression(someOtherExpression())) uniform half sometimes;"
          "void main() {"
          "}",
          *SkSL::ShaderCapsFactory::Default(),
@@ -402,6 +372,28 @@ DEF_TEST(SkSLFPLayoutWhen, r) {
             "            fSometimesVar = args.fUniformHandler->addUniform"
          });
 
+}
+
+DEF_TEST(SkSLFPChildProcessors, r) {
+    test(r,
+         "in fragmentProcessor child1;"
+         "in fragmentProcessor child2;"
+         "void main() {"
+         "    sk_OutColor = process(child1) * process(child2);"
+         "}",
+         *SkSL::ShaderCapsFactory::Default(),
+         {
+            "this->registerChildProcessor(std::move(child1));",
+            "this->registerChildProcessor(std::move(child2));"
+         },
+         {
+            "SkString _child0(\"_child0\");",
+            "this->emitChild(0, &_child0, args);",
+            "SkString _child1(\"_child1\");",
+            "this->emitChild(1, &_child1, args);",
+            "this->registerChildProcessor(src.childProcessor(0).clone());",
+            "this->registerChildProcessor(src.childProcessor(1).clone());"
+         });
 }
 
 #endif

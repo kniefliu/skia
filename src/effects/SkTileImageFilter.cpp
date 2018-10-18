@@ -9,6 +9,7 @@
 #include "SkColorSpaceXformer.h"
 #include "SkCanvas.h"
 #include "SkImage.h"
+#include "SkImageFilterPriv.h"
 #include "SkMatrix.h"
 #include "SkOffsetImageFilter.h"
 #include "SkPaint.h"
@@ -89,7 +90,7 @@ sk_sp<SkSpecialImage> SkTileImageFilter::onFilterImage(SkSpecialImage* source,
         SkPaint paint;
         paint.setBlendMode(SkBlendMode::kSrc);
 
-        input->draw(canvas, 
+        input->draw(canvas,
                     SkIntToScalar(inputOffset.x()), SkIntToScalar(inputOffset.y()),
                     &paint);
 

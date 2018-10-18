@@ -40,7 +40,7 @@ class TOutputGLSLBase : public TIntermTraverser
     TInfoSinkBase &objSink() { return mObjSink; }
     void writeFloat(TInfoSinkBase &out, float f);
     void writeTriplet(Visit visit, const char *preStr, const char *inStr, const char *postStr);
-    virtual void writeLayoutQualifier(const TType &type);
+    virtual void writeLayoutQualifier(TIntermTyped *variable);
     void writeInvariantQualifier(const TType &type);
     void writeVariableType(const TType &type);
     virtual bool writeVariablePrecision(TPrecision precision) = 0;
@@ -88,7 +88,7 @@ class TOutputGLSLBase : public TIntermTraverser
     const char *mapQualifierToString(TQualifier qialifier);
 
     TInfoSinkBase &mObjSink;
-    bool mDeclaringVariables;
+    bool mDeclaringVariable;
 
     // This set contains all the ids of the structs from every scope.
     std::set<int> mDeclaredStructs;
@@ -114,6 +114,8 @@ void WriteGeometryShaderLayoutQualifiers(TInfoSinkBase &out,
                                          int invocations,
                                          sh::TLayoutPrimitiveType outputPrimitive,
                                          int maxVertices);
+
+bool NeedsToWriteLayoutQualifier(const TType &type);
 
 }  // namespace sh
 

@@ -8,7 +8,7 @@
 #include "SkBitmapCache.h"
 #include "SkBitmapController.h"
 #include "SkBitmapProcState.h"
-#include "SkColorPriv.h"
+#include "SkColorData.h"
 #include "SkPaint.h"
 #include "SkShader.h"   // for tilemodes
 #include "SkUtilsArm.h"
@@ -155,7 +155,7 @@ bool SkBitmapProcInfo::init(const SkMatrix& inv, const SkPaint& paint) {
  *    and may be removed.
  */
 bool SkBitmapProcState::chooseProcs() {
-    fInvProc            = fInvMatrix.getMapXYProc();
+    fInvProc            = SkMatrixPriv::GetMapXYProc(fInvMatrix);
     fInvSx              = SkScalarToFixed(fInvMatrix.getScaleX());
     fInvSxFractionalInt = SkScalarToFractionalInt(fInvMatrix.getScaleX());
     fInvKy              = SkScalarToFixed(fInvMatrix.getSkewY());

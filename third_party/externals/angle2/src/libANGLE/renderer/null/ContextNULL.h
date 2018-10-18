@@ -39,8 +39,8 @@ class ContextNULL : public ContextImpl
     gl::Error initialize() override;
 
     // Flush and finish.
-    gl::Error flush() override;
-    gl::Error finish() override;
+    gl::Error flush(const gl::Context *context) override;
+    gl::Error finish(const gl::Context *context) override;
 
     // Drawing methods.
     gl::Error drawArrays(const gl::Context *context,
@@ -132,10 +132,14 @@ class ContextNULL : public ContextImpl
     std::string getVendorString() const override;
     std::string getRendererDescription() const override;
 
-    // Debug markers.
+    // EXT_debug_marker
     void insertEventMarker(GLsizei length, const char *marker) override;
     void pushGroupMarker(GLsizei length, const char *marker) override;
     void popGroupMarker() override;
+
+    // KHR_debug
+    void pushDebugGroup(GLenum source, GLuint id, GLsizei length, const char *message) override;
+    void popDebugGroup() override;
 
     // State sync with dirty bits.
     void syncState(const gl::Context *context, const gl::State::DirtyBits &dirtyBits) override;
@@ -176,14 +180,17 @@ class ContextNULL : public ContextImpl
     // Query and Fence creation
     QueryImpl *createQuery(GLenum type) override;
     FenceNVImpl *createFenceNV() override;
-    FenceSyncImpl *createFenceSync() override;
+    SyncImpl *createSync() override;
 
     // Transform Feedback creation
     TransformFeedbackImpl *createTransformFeedback(
         const gl::TransformFeedbackState &state) override;
 
     // Sampler object creation
-    SamplerImpl *createSampler() override;
+    SamplerImpl *createSampler(const gl::SamplerState &state) override;
+
+    // Program Pipeline object creation
+    ProgramPipelineImpl *createProgramPipeline(const gl::ProgramPipelineState &data) override;
 
     std::vector<PathImpl *> createPaths(GLsizei range) override;
 

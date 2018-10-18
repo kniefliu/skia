@@ -52,9 +52,13 @@ protected:
         fTexture = nil;
     }
 
+     bool onStealBackendTexture(GrBackendTexture*, SkImage::BackendTextureReleaseProc*) override {
+         return false;
+     }
+
 private:
     enum Wrapped { kWrapped };
-    GrMtlTexture(GrMtlGpu*, SkBudgeted, const GrSurfaceDesc&, id<MTLTexture>, bool isMipMapped);
+    GrMtlTexture(GrMtlGpu*, SkBudgeted, const GrSurfaceDesc&, id<MTLTexture>, GrMipMapsStatus);
    // GrMtlTexture(GrMtlGpu*, Wrapped, const GrSurfaceDesc&, GrMtlImage::Wrapped wrapped);
 
     id<MTLTexture> fTexture;

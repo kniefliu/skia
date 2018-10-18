@@ -20,40 +20,6 @@ class SkJSONWriter;
 
 class GrShaderCaps : public SkRefCnt {
 public:
-    /** Info about shader variable precision within a given shader stage. That is, this info
-        is relevant to a float (or vecNf) variable declared with a GrSLPrecision
-        in a given GrShaderType. The info here is hoisted from the OpenGL spec. */
-    struct PrecisionInfo {
-        PrecisionInfo() {
-            fLogRangeLow = 0;
-            fLogRangeHigh = 0;
-            fBits = 0;
-        }
-
-        /** Is this precision level allowed in the shader stage? */
-        bool supported() const { return 0 != fBits; }
-
-        bool operator==(const PrecisionInfo& that) const {
-            return fLogRangeLow == that.fLogRangeLow && fLogRangeHigh == that.fLogRangeHigh &&
-                   fBits == that.fBits;
-        }
-        bool operator!=(const PrecisionInfo& that) const { return !(*this == that); }
-
-        /** floor(log2(|min_value|)) */
-        int fLogRangeLow;
-        /** floor(log2(|max_value|)) */
-        int fLogRangeHigh;
-        /** Number of bits of precision. As defined in OpenGL (with names modified to reflect this
-            struct) :
-            """
-            If the smallest representable value greater than 1 is 1 + e, then fBits will
-            contain floor(log2(e)), and every value in the range [2^fLogRangeLow,
-            2^fLogRangeHigh] can be represented to at least one part in 2^fBits.
-            """
-          */
-        int fBits;
-    };
-
     /**
     * Indicates how GLSL must interact with advanced blend equations. The KHR extension requires
     * special layout qualifiers in the fragment shader.
@@ -73,30 +39,13 @@ public:
 
     bool shaderDerivativeSupport() const { return fShaderDerivativeSupport; }
     bool geometryShaderSupport() const { return fGeometryShaderSupport; }
+    bool gsInvocationsSupport() const { return fGSInvocationsSupport; }
     bool pathRenderingSupport() const { return fPathRenderingSupport; }
     bool dstReadInShaderSupport() const { return fDstReadInShaderSupport; }
     bool dualSourceBlendingSupport() const { return fDualSourceBlendingSupport; }
     bool integerSupport() const { return fIntegerSupport; }
     bool texelBufferSupport() const { return fTexelBufferSupport; }
     int imageLoadStoreSupport() const { return fImageLoadStoreSupport; }
-
-    /**
-    * Get the precision info for a variable of type kFloat_GrSLType, kVec2f_GrSLType, etc in a
-    * given shader type. If the shader type is not supported or the precision level is not
-    * supported in that shader type then the returned struct will report false when supported() is
-    * called.
-    */
-    const PrecisionInfo& getFloatShaderPrecisionInfo(GrShaderType shaderType,
-                                                     GrSLPrecision precision) const {
-        return fFloatPrecisions[shaderType][precision];
-    }
-
-    /**
-    * Is there any difference between the float shader variable precision types? If this is true
-    * then unless the shader type is not supported, any call to getFloatShaderPrecisionInfo() would
-    * report the same info for all precisions in all shader types.
-    */
-    bool floatPrecisionVaries() const { return fShaderPrecisionVaries; }
 
     /**
      * Some helper functions for encapsulating various extensions to read FB Buffer on openglES
@@ -119,6 +68,8 @@ public:
 
     bool flatInterpolationSupport() const { return fFlatInterpolationSupport; }
 
+    bool preferFlatInterpolation() const { return fPreferFlatInterpolation; }
+
     bool noperspectiveInterpolationSupport() const { return fNoPerspectiveInterpolationSupport; }
 
     bool multisampleInterpolationSupport() const { return fMultisampleInterpolationSupport; }
@@ -132,6 +83,10 @@ public:
     bool texelFetchSupport() const { return fTexelFetchSupport; }
 
     bool vertexIDSupport() const { return fVertexIDSupport; }
+
+    bool floatIs32Bits() const { return fFloatIs32Bits; }
+
+    bool halfIs32Bits() const { return fHalfIs32Bits; }
 
     AdvBlendEqInteraction advBlendEqInteraction() const { return fAdvBlendEqInteraction; }
 
@@ -163,9 +118,6 @@ public:
 
     bool requiresLocalOutputColorForFBFetch() const { return fRequiresLocalOutputColorForFBFetch; }
 
-    // On MacBook, geometry shaders break if they have more than one invocation.
-    bool mustImplementGSInvocationsWithLoop() const { return fMustImplementGSInvocationsWithLoop; }
-
     bool mustObfuscateUniformColor() const { return fMustObfuscateUniformColor; }
 
     // The D3D shader compiler, when targeting PS 3.0 (ie within ANGLE) fails to compile certain
@@ -180,6 +132,14 @@ public:
     const char* shaderDerivativeExtensionString() const {
         SkASSERT(this->shaderDerivativeSupport());
         return fShaderDerivativeExtensionString;
+    }
+
+    // Returns the string of an extension that must be enabled in the shader to support
+    // geometry shader invocations. If nullptr is returned then no extension needs to be enabled.
+    // Before calling this function, the caller must verify that gsInvocationsSupport exists.
+    const char* gsInvocationsExtensionString() const {
+        SkASSERT(this->gsInvocationsSupport());
+        return fGSInvocationsExtensionString;
     }
 
     // Returns the string of an extension that will do all necessary coord transfomations needed
@@ -236,13 +196,7 @@ public:
 
     int maxCombinedSamplers() const { return fMaxCombinedSamplers; }
 
-    int maxVertexImageStorages() const { return fMaxVertexImageStorages; }
-
-    int maxGeometryImageStorages() const { return fMaxGeometryImageStorages; }
-
-    int maxFragmentImageStorages() const { return fMaxFragmentImageStorages; }
-
-    int maxCombinedImageStorages() const { return fMaxCombinedImageStorages; }
+    bool disableImageMultitexturingSupport() const { return fDisableImageMultitexturing; }
 
     /**
      * Given a texture's config, this determines what swizzle must be appended to accesses to the
@@ -258,30 +212,22 @@ public:
         return fConfigOutputSwizzle[config];
     }
 
-    /** Precision qualifier that should be used with a sampler, given its config and visibility. */
-    GrSLPrecision samplerPrecision(GrPixelConfig config, GrShaderFlags visibility) const {
-        return static_cast<GrSLPrecision>(fSamplerPrecisions[visibility][config]);
-    }
-
     GrGLSLGeneration generation() const { return fGLSLGeneration; }
 
 private:
-    /** GrCaps subclasses must call this after filling in the shader precision table. */
-    void initSamplerPrecisionTable();
-
     void applyOptionsOverrides(const GrContextOptions& options);
 
     GrGLSLGeneration fGLSLGeneration;
 
     bool fShaderDerivativeSupport   : 1;
     bool fGeometryShaderSupport     : 1;
+    bool fGSInvocationsSupport      : 1;
     bool fPathRenderingSupport      : 1;
     bool fDstReadInShaderSupport    : 1;
     bool fDualSourceBlendingSupport : 1;
     bool fIntegerSupport            : 1;
     bool fTexelBufferSupport        : 1;
     bool fImageLoadStoreSupport     : 1;
-    bool fShaderPrecisionVaries     : 1;
     bool fDropsTileOnZeroDivide : 1;
     bool fFBFetchSupport : 1;
     bool fFBFetchNeedsCustomOutput : 1;
@@ -289,6 +235,7 @@ private:
     bool fUsesPrecisionModifiers : 1;
     bool fCanUseAnyFunctionInShader : 1;
     bool fFlatInterpolationSupport : 1;
+    bool fPreferFlatInterpolation : 1;
     bool fNoPerspectiveInterpolationSupport : 1;
     bool fMultisampleInterpolationSupport : 1;
     bool fSampleVariablesSupport : 1;
@@ -296,6 +243,9 @@ private:
     bool fExternalTextureSupport : 1;
     bool fTexelFetchSupport : 1;
     bool fVertexIDSupport : 1;
+    bool fFloatIs32Bits : 1;
+    bool fHalfIs32Bits : 1;
+    bool fDisableImageMultitexturing : 1;
 
     // Used for specific driver bug work arounds
     bool fCanUseMinAndAbsTogether : 1;
@@ -303,15 +253,13 @@ private:
     bool fMustForceNegatedAtanParamToFloat : 1;
     bool fAtan2ImplementedAsAtanYOverX : 1;
     bool fRequiresLocalOutputColorForFBFetch : 1;
-    bool fMustImplementGSInvocationsWithLoop : 1;
     bool fMustObfuscateUniformColor : 1;
     bool fMustGuardDivisionEvenAfterExplicitZeroCheck : 1;
-
-    PrecisionInfo fFloatPrecisions[kGrShaderTypeCount][kGrSLPrecisionCount];
 
     const char* fVersionDeclString;
 
     const char* fShaderDerivativeExtensionString;
+    const char* fGSInvocationsExtensionString;
     const char* fFragCoordConventionsExtensionString;
     const char* fSecondaryOutputExtensionString;
     const char* fExternalTextureExtensionString;
@@ -329,19 +277,13 @@ private:
     int fMaxFragmentSamplers;
     int fMaxCombinedSamplers;
 
-    int fMaxVertexImageStorages;
-    int fMaxGeometryImageStorages;
-    int fMaxFragmentImageStorages;
-    int fMaxCombinedImageStorages;
-
     AdvBlendEqInteraction fAdvBlendEqInteraction;
 
     GrSwizzle fConfigTextureSwizzle[kGrPixelConfigCnt];
     GrSwizzle fConfigOutputSwizzle[kGrPixelConfigCnt];
 
-    uint8_t fSamplerPrecisions[(1 << kGrShaderTypeCount)][kGrPixelConfigCnt];
-
     friend class GrGLCaps;  // For initialization.
+    friend class GrMockCaps;
     friend class GrMtlCaps;
     friend class GrVkCaps;
     friend class SkSL::ShaderCapsFactory;

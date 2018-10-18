@@ -186,11 +186,11 @@ class VertexArray final : public LabeledObject
 
     static size_t GetVertexIndexFromDirtyBit(size_t dirtyBit);
 
-    void syncImplState(const Context *context);
+    void syncState(const Context *context);
     bool hasAnyDirtyBit() const { return mDirtyBits.any(); }
 
   private:
-    ~VertexArray();
+    ~VertexArray() override;
 
     GLuint mId;
 

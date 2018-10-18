@@ -13,6 +13,7 @@
 #include "GrResourceProvider.h"
 #include "GrSimpleMeshDrawOpHelper.h"
 #include "SkMatrixPriv.h"
+#include "SkPointPriv.h"
 #include "SkRegion.h"
 
 static const int kVertsPerInstance = 4;
@@ -34,7 +35,8 @@ static void tesselate_region(intptr_t vertices,
     while (!iter.done()) {
         SkRect rect = SkRect::Make(iter.rect());
         SkPoint* position = (SkPoint*)verts;
-        position->setRectFan(rect.fLeft, rect.fTop, rect.fRight, rect.fBottom, vertexStride);
+        SkPointPriv::SetRectTriStrip(position, rect.fLeft, rect.fTop, rect.fRight, rect.fBottom,
+                vertexStride);
 
         static const int kColorOffset = sizeof(SkPoint);
         GrColor* vertColor = reinterpret_cast<GrColor*>(verts + kColorOffset);
@@ -79,6 +81,10 @@ public:
 
     const char* name() const override { return "GrRegionOp"; }
 
+    void visitProxies(const VisitProxyFunc& func) const override {
+        fHelper.visitProxies(func);
+    }
+
     SkString dumpInfo() const override {
         SkString str;
         str.appendf("# combined: %d\n", fRegions.count());
@@ -94,9 +100,10 @@ public:
 
     FixedFunctionFlags fixedFunctionFlags() const override { return fHelper.fixedFunctionFlags(); }
 
-    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip) override {
-        return fHelper.xpRequiresDstTexture(caps, clip, GrProcessorAnalysisCoverage::kNone,
-                                            &fRegions[0].fColor);
+    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip,
+                                GrPixelConfigIsClamped dstIsClamped) override {
+        return fHelper.xpRequiresDstTexture(caps, clip, dstIsClamped,
+                                            GrProcessorAnalysisCoverage::kNone, &fRegions[0].fColor);
     }
 
 private:
@@ -118,7 +125,7 @@ private:
             return;
         }
         size_t vertexStride = gp->getVertexStride();
-        sk_sp<const GrBuffer> indexBuffer(target->resourceProvider()->refQuadIndexBuffer());
+        sk_sp<const GrBuffer> indexBuffer = target->resourceProvider()->refQuadIndexBuffer();
         PatternHelper helper(GrPrimitiveType::kTriangles);
         void* vertices =
                 helper.init(target, vertexStride, indexBuffer.get(), kVertsPerInstance,

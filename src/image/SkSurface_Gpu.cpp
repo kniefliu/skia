@@ -15,11 +15,13 @@
 
 #include "SkCanvas.h"
 #include "SkColorSpace_Base.h"
+#include "SkDeferredDisplayList.h"
 #include "SkGpuDevice.h"
 #include "SkImage_Base.h"
 #include "SkImage_Gpu.h"
 #include "SkImagePriv.h"
 #include "SkSurface_Base.h"
+#include "SkSurfaceCharacterization.h"
 
 #if SK_SUPPORT_GPU
 
@@ -108,7 +110,7 @@ sk_sp<SkImage> SkSurface_Gpu::onNewImageSnapshot() {
     if (!srcProxy || rtc->priv().refsWrappedObjects()) {
         SkASSERT(rtc->origin() == rtc->asSurfaceProxy()->origin());
 
-        srcProxy = GrSurfaceProxy::Copy(ctx, rtc->asSurfaceProxy(), budgeted);
+        srcProxy = GrSurfaceProxy::Copy(ctx, rtc->asSurfaceProxy(), rtc->mipMapped(), budgeted);
     }
 
     const SkImageInfo info = fDevice->imageInfo();
@@ -158,6 +160,33 @@ bool SkSurface_Gpu::onWait(int numSemaphores, const GrBackendSemaphore* waitSema
     return fDevice->wait(numSemaphores, waitSemaphores);
 }
 
+bool SkSurface_Gpu::onCharacterize(SkSurfaceCharacterization* data) const {
+    GrRenderTargetContext* rtc = fDevice->accessRenderTargetContext();
+
+    data->set(rtc->origin(), rtc->width(), rtc->height(), rtc->colorSpaceInfo().config(),
+              rtc->numColorSamples());
+    return true;
+}
+
+bool SkSurface_Gpu::isCompatible(const SkSurfaceCharacterization& data) const {
+    GrRenderTargetContext* rtc = fDevice->accessRenderTargetContext();
+
+    return data.origin() == rtc->origin() && data.width() == rtc->width() &&
+           data.height() == rtc->height() && data.config() == rtc->colorSpaceInfo().config() &&
+           data.sampleCount() == rtc->numColorSamples();
+}
+
+void SkSurface_Gpu::onDraw(SkDeferredDisplayList* dl) {
+    if (!this->isCompatible(dl->characterization())) {
+        return;
+    }
+
+    // Ultimately need to pass opLists from the DeferredDisplayList on to the
+    // SkGpuDevice's renderTargetContext.
+    dl->draw(this);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 bool SkSurface_Gpu::Valid(const SkImageInfo& info) {
@@ -192,13 +221,24 @@ bool SkSurface_Gpu::Valid(GrContext* context, GrPixelConfig config, SkColorSpace
 
 sk_sp<SkSurface> SkSurface::MakeRenderTarget(GrContext* ctx, SkBudgeted budgeted,
                                              const SkImageInfo& info, int sampleCount,
-                                             GrSurfaceOrigin origin, const SkSurfaceProps* props) {
+                                             GrSurfaceOrigin origin, const SkSurfaceProps* props,
+                                             bool shouldCreateWithMips) {
+    if (!ctx) {
+        return nullptr;
+    }
     if (!SkSurface_Gpu::Valid(info)) {
         return nullptr;
     }
 
+    GrMipMapped mipMapped = shouldCreateWithMips ? GrMipMapped::kYes : GrMipMapped::kNo;
+
+    if (!ctx->caps()->mipMapSupport()) {
+        mipMapped = GrMipMapped::kNo;
+    }
+
     sk_sp<SkGpuDevice> device(SkGpuDevice::Make(
-            ctx, budgeted, info, sampleCount, origin, props, SkGpuDevice::kClear_InitContents));
+            ctx, budgeted, info, sampleCount, origin, props, mipMapped,
+            SkGpuDevice::kClear_InitContents));
     if (!device) {
         return nullptr;
     }
@@ -232,20 +272,6 @@ sk_sp<SkSurface> SkSurface::MakeFromBackendTexture(GrContext* context, const GrB
         return nullptr;
     }
     return sk_make_sp<SkSurface_Gpu>(std::move(device));
-}
-
-sk_sp<SkSurface> SkSurface::MakeFromBackendRenderTarget(GrContext* context,
-                                                        const GrBackendRenderTargetDesc& desc,
-                                                        sk_sp<SkColorSpace> colorSpace,
-                                                        const SkSurfaceProps* props) {
-    if (!context) {
-        return nullptr;
-    }
-
-    GrBackendRenderTarget backendRT(desc, context->contextPriv().getBackend());
-    return MakeFromBackendRenderTarget(context, backendRT, desc.fOrigin,
-                                       std::move(colorSpace), props);
-
 }
 
 sk_sp<SkSurface> SkSurface::MakeFromBackendRenderTarget(GrContext* context,

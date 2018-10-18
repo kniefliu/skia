@@ -12,6 +12,8 @@
 #include "text/GrAtlasTextContext.h"
 #include "text/GrDistanceFieldAdjustTable.h"
 
+class SkAtlasTextTarget;
+
 class GrAtlasTextOp final : public GrMeshDrawOp {
 public:
     DEFINE_OP_CLASS_ID
@@ -28,12 +30,13 @@ public:
     typedef GrAtlasTextBlob Blob;
     struct Geometry {
         SkMatrix fViewMatrix;
-        Blob* fBlob;
+        SkIRect  fClipRect;
+        Blob*    fBlob;
         SkScalar fX;
         SkScalar fY;
-        int fRun;
-        int fSubRun;
-        GrColor fColor;
+        uint16_t fRun;
+        uint16_t fSubRun;
+        GrColor  fColor;
     };
 
     static std::unique_ptr<GrAtlasTextOp> MakeBitmap(GrPaint&& paint, GrMaskFormat maskFormat,
@@ -97,15 +100,46 @@ public:
 
     const char* name() const override { return "AtlasTextOp"; }
 
+    void visitProxies(const VisitProxyFunc& func) const override {
+        fProcessors.visitProxies(func);
+
+        const sk_sp<GrTextureProxy>* proxies = fFontCache->getProxies(this->maskFormat());
+        for (int i = 0; i < kMaxTextures; ++i) {
+            if (proxies[i]) {
+                func(proxies[i].get());
+            }
+        }
+    }
+
     SkString dumpInfo() const override;
 
     FixedFunctionFlags fixedFunctionFlags() const override;
 
-    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip) override;
+    RequiresDstTexture finalize(const GrCaps& caps, const GrAppliedClip* clip,
+                                GrPixelConfigIsClamped dstIsClamped) override;
+
+    enum MaskType {
+        kGrayscaleCoverageMask_MaskType,
+        kLCDCoverageMask_MaskType,
+        kColorBitmapMask_MaskType,
+        kAliasedDistanceField_MaskType,
+        kGrayscaleDistanceField_MaskType,
+        kLCDDistanceField_MaskType,
+        kLCDBGRDistanceField_MaskType,
+    };
+
+    MaskType maskType() const { return fMaskType; }
+
+    void finalizeForTextTarget(uint32_t color, const GrCaps&);
+    void executeForTextTarget(SkAtlasTextTarget*);
 
 private:
+    // The minimum number of Geometry we will try to allocate.
+    static constexpr auto kMinGeometryAllocated = 12;
+
     GrAtlasTextOp(GrPaint&& paint)
             : INHERITED(ClassID())
+            , fGeoDataAllocSize(kMinGeometryAllocated)
             , fColor(paint.getColor())
             , fSRGBFlags(GrPipeline::SRGBFlagsFromPaint(paint))
             , fProcessors(std::move(paint)) {}
@@ -159,25 +193,12 @@ private:
 
     bool onCombineIfPossible(GrOp* t, const GrCaps& caps) override;
 
-    // TODO just use class params
-    sk_sp<GrGeometryProcessor> setupDfProcessor(const SkMatrix& viewMatrix, SkColor luminanceColor,
-                                                GrColor color, sk_sp<GrTextureProxy> proxy) const;
+    static constexpr auto kMaxTextures = 4;
 
-
-    // The minimum number of Geometry we will try to allocate.
-    enum { kMinGeometryAllocated = 4 };
-
-    enum MaskType {
-        kGrayscaleCoverageMask_MaskType,
-        kLCDCoverageMask_MaskType,
-        kColorBitmapMask_MaskType,
-        kAliasedDistanceField_MaskType,
-        kGrayscaleDistanceField_MaskType,
-        kLCDDistanceField_MaskType,
-        kLCDBGRDistanceField_MaskType,
-    };
+    sk_sp<GrGeometryProcessor> setupDfProcessor() const;
 
     SkAutoSTMalloc<kMinGeometryAllocated, Geometry> fGeoData;
+    int fGeoDataAllocSize;
     GrColor fColor;
     uint32_t fSRGBFlags;
     GrProcessorSet fProcessors;
@@ -192,29 +213,7 @@ private:
     SkColor fLuminanceColor;
     bool fUseGammaCorrectDistanceTable;
 
-    friend class GrBlobRegenHelper;  // Needs to trigger flushes
-
     typedef GrMeshDrawOp INHERITED;
-};
-
-/*
- * A simple helper class to abstract the interface GrAtlasTextBlob needs to regenerate itself.
- * It'd be nicer if this was nested, but we need to forward declare it in GrAtlasTextBlob.h
- */
-class GrBlobRegenHelper {
-public:
-    GrBlobRegenHelper(const GrAtlasTextOp* op, GrMeshDrawOp::Target* target,
-                      GrAtlasTextOp::FlushInfo* flushInfo)
-            : fOp(op), fTarget(target), fFlushInfo(flushInfo) {}
-
-    void flush();
-
-    void incGlyphCount(int glyphCount = 1) { fFlushInfo->fGlyphsToFlush += glyphCount; }
-
-private:
-    const GrAtlasTextOp* fOp;
-    GrMeshDrawOp::Target* fTarget;
-    GrAtlasTextOp::FlushInfo* fFlushInfo;
 };
 
 #endif

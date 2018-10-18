@@ -219,7 +219,7 @@ public:
 
     SkAlphaType alphaType() const override { return fBitmap.alphaType(); }
 
-    size_t getSize() const override { return fBitmap.getSize(); }
+    size_t getSize() const override { return fBitmap.computeByteSize(); }
 
     void onDraw(SkCanvas* canvas, SkScalar x, SkScalar y, const SkPaint* paint) const override {
         SkRect dst = SkRect::MakeXYWH(x, y,
@@ -464,7 +464,8 @@ public:
             }
 
             sk_sp<GrTextureProxy> subsetProxy(GrSurfaceProxy::Copy(fContext, fTextureProxy.get(),
-                                                                   *subset, SkBudgeted::kYes));
+                                                                   GrMipMapped::kNo, *subset,
+                                                                   SkBudgeted::kYes));
             if (!subsetProxy) {
                 return nullptr;
             }

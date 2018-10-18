@@ -11,11 +11,14 @@
 
 #include "common/bitset_utils.h"
 #include "libANGLE/Constants.h"
+#include "libANGLE/Error.h"
+#include "libANGLE/PackedGLEnums.h"
 #include "libANGLE/RefCountObject.h"
 
 #include <stdint.h>
 
 #include <bitset>
+#include <map>
 #include <unordered_map>
 
 namespace gl
@@ -42,6 +45,15 @@ enum SamplerType
     SAMPLER_PIXEL,
     SAMPLER_VERTEX,
     SAMPLER_COMPUTE
+};
+
+enum ShaderType
+{
+    SHADER_VERTEX,
+    SHADER_FRAGMENT,
+    SHADER_GEOMETRY,
+    SHADER_COMPUTE,
+    SHADER_TYPE_MAX
 };
 
 struct Rectangle
@@ -121,7 +133,7 @@ struct RasterizerState final
     RasterizerState();
 
     bool cullFace;
-    GLenum cullMode;
+    CullFaceMode cullMode;
     GLenum frontFace;
 
     bool polygonOffsetFill;
@@ -141,6 +153,7 @@ struct BlendState final
 {
     // This will zero-initialize the struct, including padding.
     BlendState();
+    BlendState(const BlendState &other);
 
     bool blend;
     GLenum sourceBlendRGB;
@@ -167,6 +180,7 @@ struct DepthStencilState final
 {
     // This will zero-initialize the struct, including padding.
     DepthStencilState();
+    DepthStencilState(const DepthStencilState &other);
 
     bool depthTest;
     GLenum depthFunc;
@@ -195,6 +209,7 @@ struct SamplerState final
 {
     // This will zero-initialize the struct, including padding.
     SamplerState();
+    SamplerState(const SamplerState &other);
 
     static SamplerState CreateDefaultForTarget(GLenum target);
 
@@ -243,10 +258,9 @@ static_assert(sizeof(DrawElementsIndirectCommand) == 20,
 
 struct ImageUnit
 {
-    ImageUnit()
-        : texture(), level(0), layered(false), layer(0), access(GL_READ_ONLY), format(GL_R32UI)
-    {
-    }
+    ImageUnit();
+    ImageUnit(const ImageUnit &other);
+    ~ImageUnit();
 
     BindingPointer<Texture> texture;
     GLint level;
@@ -256,61 +270,22 @@ struct ImageUnit
     GLenum format;
 };
 
-struct PixelStoreStateBase : private angle::NonCopyable
+struct PixelStoreStateBase
 {
-    BindingPointer<Buffer> pixelBuffer;
     GLint alignment   = 4;
     GLint rowLength   = 0;
     GLint skipRows    = 0;
     GLint skipPixels  = 0;
     GLint imageHeight = 0;
     GLint skipImages  = 0;
-
-  protected:
-    void copyFrom(const Context *context, const PixelStoreStateBase &other)
-    {
-        pixelBuffer.set(context, other.pixelBuffer.get());
-        alignment   = other.alignment;
-        rowLength   = other.rowLength;
-        skipRows    = other.skipRows;
-        skipPixels  = other.skipPixels;
-        imageHeight = other.imageHeight;
-        skipImages  = other.skipImages;
-    }
 };
 
 struct PixelUnpackState : PixelStoreStateBase
 {
-    PixelUnpackState() {}
-
-    PixelUnpackState(GLint alignmentIn, GLint rowLengthIn)
-    {
-        alignment = alignmentIn;
-        rowLength = rowLengthIn;
-    }
-
-    void copyFrom(const Context *context, const PixelUnpackState &other)
-    {
-        PixelStoreStateBase::copyFrom(context, other);
-    }
 };
 
 struct PixelPackState : PixelStoreStateBase
 {
-    PixelPackState() {}
-
-    PixelPackState(GLint alignmentIn, bool reverseRowOrderIn)
-        : reverseRowOrder(reverseRowOrderIn)
-    {
-        alignment = alignmentIn;
-    }
-
-    void copyFrom(const Context *context, const PixelPackState &other)
-    {
-        PixelStoreStateBase::copyFrom(context, other);
-        reverseRowOrder = other.reverseRowOrder;
-    }
-
     bool reverseRowOrder = false;
 };
 
@@ -324,7 +299,21 @@ using UniformBlockBindingMask = angle::BitSet<IMPLEMENTATION_MAX_COMBINED_SHADER
 using DrawBufferMask = angle::BitSet<IMPLEMENTATION_MAX_DRAW_BUFFERS>;
 
 using ContextID = uintptr_t;
-}
+
+constexpr size_t CUBE_FACE_COUNT = 6;
+
+using TextureMap = std::map<GLenum, BindingPointer<Texture>>;
+
+template <typename T>
+using AttachmentArray = std::array<T, IMPLEMENTATION_MAX_FRAMEBUFFER_ATTACHMENTS>;
+
+template <typename T>
+using DrawBuffersArray = std::array<T, IMPLEMENTATION_MAX_DRAW_BUFFERS>;
+
+template <typename T>
+using AttribArray = std::array<T, MAX_VERTEX_ATTRIBS>;
+
+}  // namespace gl
 
 namespace rx
 {
@@ -422,11 +411,80 @@ inline GLenum FramebufferBindingToEnum(FramebufferBinding binding)
             return GL_NONE;
     }
 }
+
+template <typename ObjT, typename ContextT>
+class DestroyThenDelete
+{
+  public:
+    DestroyThenDelete(const ContextT *context) : mContext(context) {}
+
+    void operator()(ObjT *obj)
+    {
+        ANGLE_SWALLOW_ERR(obj->onDestroy(mContext));
+        delete obj;
+    }
+
+  private:
+    const ContextT *mContext;
+};
+
+// Helper class for wrapping an onDestroy function.
+template <typename ObjT, typename DeleterT>
+class UniqueObjectPointerBase : angle::NonCopyable
+{
+  public:
+    template <typename ContextT>
+    UniqueObjectPointerBase(const ContextT *context) : mObject(nullptr), mDeleter(context)
+    {
+    }
+
+    template <typename ContextT>
+    UniqueObjectPointerBase(ObjT *obj, const ContextT *context) : mObject(obj), mDeleter(context)
+    {
+    }
+
+    ~UniqueObjectPointerBase()
+    {
+        if (mObject)
+        {
+            mDeleter(mObject);
+        }
+    }
+
+    ObjT *operator->() const { return mObject; }
+
+    ObjT *release()
+    {
+        auto obj = mObject;
+        mObject  = nullptr;
+        return obj;
+    }
+
+    ObjT *get() const { return mObject; }
+
+    void reset(ObjT *obj)
+    {
+        if (mObject)
+        {
+            mDeleter(mObject);
+        }
+        mObject = obj;
+    }
+
+  private:
+    ObjT *mObject;
+    DeleterT mDeleter;
+};
+
+template <typename ObjT, typename ContextT>
+using UniqueObjectPointer = UniqueObjectPointerBase<ObjT, DestroyThenDelete<ObjT, ContextT>>;
+
 }  // namespace angle
 
 namespace gl
 {
 class ContextState;
+
 }  // namespace gl
 
 #endif // LIBANGLE_ANGLETYPES_H_

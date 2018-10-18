@@ -268,6 +268,14 @@ void ANGLESetDefaultDisplayPlatform(angle::EGLDisplayType display)
 
 }  // anonymous namespace
 
+DisplayState::DisplayState()
+{
+}
+
+DisplayState::~DisplayState()
+{
+}
+
 // static
 Display *Display::GetDisplayFromNativeDisplay(EGLNativeDisplayType nativeDisplay,
                                               const AttributeMap &attribMap)
@@ -493,7 +501,7 @@ Error Display::initialize()
 
     mProxyContext.reset(nullptr);
     gl::Context *proxyContext = new gl::Context(mImplementation, nullptr, nullptr, nullptr, nullptr,
-                                                egl::AttributeMap(), mDisplayExtensions, false);
+                                                egl::AttributeMap(), mDisplayExtensions);
     mProxyContext.reset(proxyContext);
 
     mInitialized = true;
@@ -757,7 +765,7 @@ Error Display::createContext(const Config *configuration,
 
     gl::Context *context =
         new gl::Context(mImplementation, configuration, shareContext, shareTextures, cachePointer,
-                        attribs, mDisplayExtensions, isRobustResourceInitEnabled());
+                        attribs, mDisplayExtensions);
 
     ASSERT(context != nullptr);
     mContextSet.insert(context);
@@ -980,9 +988,6 @@ static ClientExtensions GenerateClientExtensions()
 
     extensions.clientGetAllProcAddresses = true;
 
-    // TODO(jmadill): Not fully implemented yet, but exposed everywhere.
-    extensions.displayRobustResourceInitialization = true;
-
     return extensions;
 }
 
@@ -1117,12 +1122,6 @@ Device *Display::getDevice() const
 gl::Version Display::getMaxSupportedESVersion() const
 {
     return mImplementation->getMaxSupportedESVersion();
-}
-
-bool Display::isRobustResourceInitEnabled() const
-{
-    return (mAttributeMap.get(EGL_DISPLAY_ROBUST_RESOURCE_INITIALIZATION_ANGLE, EGL_FALSE) ==
-            EGL_TRUE);
 }
 
 EGLint Display::programCacheGetAttrib(EGLenum attrib) const

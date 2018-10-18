@@ -44,7 +44,7 @@ class FunctionsGLWindows : public FunctionsGL
     ~FunctionsGLWindows() override {}
 
   private:
-    void *loadProcAddress(const std::string &function) override
+    void *loadProcAddress(const std::string &function) const override
     {
         void *proc = reinterpret_cast<void*>(mGetProcAddressWGL(function.c_str()));
         if (!proc)
@@ -277,7 +277,7 @@ egl::Error DisplayWGL::initialize(egl::Display *display)
     mCurrentDC = mDeviceContext;
 
     mFunctionsGL = new FunctionsGLWindows(mOpenGLModule, mFunctionsWGL->getProcAddress);
-    mFunctionsGL->initialize();
+    mFunctionsGL->initialize(displayAttributes);
 
     mHasRobustness = mFunctionsGL->getGraphicsResetStatus != nullptr;
     if (mHasWGLCreateContextRobustness != mHasRobustness)
@@ -625,6 +625,8 @@ void DisplayWGL::generateExtensions(egl::DisplayExtensions *outExtensions) const
     outExtensions->displayTextureShareGroup = true;
 
     outExtensions->surfacelessContext = true;
+
+    DisplayGL::generateExtensions(outExtensions);
 }
 
 void DisplayWGL::generateCaps(egl::Caps *outCaps) const
@@ -773,6 +775,8 @@ HGLRC DisplayWGL::createContextAttribs(const gl::Version &version, int profileMa
 
     if (mHasWGLCreateContextRobustness)
     {
+        attribs.push_back(WGL_CONTEXT_FLAGS_ARB);
+        attribs.push_back(WGL_CONTEXT_ROBUST_ACCESS_BIT_ARB);
         attribs.push_back(WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB);
         attribs.push_back(WGL_LOSE_CONTEXT_ON_RESET_ARB);
     }

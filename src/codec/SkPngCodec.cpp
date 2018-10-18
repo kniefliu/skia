@@ -7,7 +7,7 @@
 
 #include "SkBitmap.h"
 #include "SkCodecPriv.h"
-#include "SkColorPriv.h"
+#include "SkColorData.h"
 #include "SkColorSpace.h"
 #include "SkColorSpacePriv.h"
 #include "SkColorTable.h"
@@ -189,15 +189,15 @@ bool AutoCleanPng::decodeBounds() {
     return false;
 }
 
-void SkPngCodec::processData() {
+bool SkPngCodec::processData() {
     switch (setjmp(PNG_JMPBUF(fPng_ptr))) {
         case kPngError:
             // There was an error. Stop processing data.
             // FIXME: Do we need to discard png_ptr?
-            return;
+            return false;;
         case kStopDecoding:
             // We decoded all the lines we want.
-            return;
+            return true;
         case kSetJmpOkay:
             // Everything is okay.
             break;
@@ -240,9 +240,11 @@ void SkPngCodec::processData() {
             break;
         }
     }
+
+    return true;
 }
 
-static const SkColorType kXformSrcColorType = kRGBA_8888_SkColorType;
+static constexpr SkColorType kXformSrcColorType = kRGBA_8888_SkColorType;
 
 // Note: SkColorTable claims to store SkPMColors, which is not necessarily the case here.
 bool SkPngCodec::createColorTable(const SkImageInfo& dstInfo) {
@@ -341,8 +343,7 @@ static float png_inverted_fixed_point_to_float(png_fixed_point x) {
 // Returns a colorSpace object that represents any color space information in
 // the encoded data.  If the encoded data contains an invalid/unsupported color space,
 // this will return NULL. If there is no color space information, it will guess sRGB
-sk_sp<SkColorSpace> read_color_space(png_structp png_ptr, png_infop info_ptr,
-                                     SkColorSpace_Base::ICCTypeFlag iccType) {
+sk_sp<SkColorSpace> read_color_space(png_structp png_ptr, png_infop info_ptr) {
 
 #if (PNG_LIBPNG_VER_MAJOR > 1) || (PNG_LIBPNG_VER_MAJOR == 1 && PNG_LIBPNG_VER_MINOR >= 6)
 
@@ -359,7 +360,7 @@ sk_sp<SkColorSpace> read_color_space(png_structp png_ptr, png_infop info_ptr,
     int compression;
     if (PNG_INFO_iCCP == png_get_iCCP(png_ptr, info_ptr, &name, &compression, &profile,
             &length)) {
-        return SkColorSpace_Base::MakeICC(profile, length, iccType);
+        return SkColorSpace::MakeICC(profile, length);
     }
 
     // Second, check for sRGB.
@@ -526,7 +527,9 @@ private:
         fFirstRow = 0;
         fLastRow = height - 1;
 
-        this->processData();
+        if (!this->processData()) {
+            return kErrorInInput;
+        }
 
         if (fRowsWrittenToOutput == height) {
             return SkCodec::kSuccess;
@@ -561,7 +564,10 @@ private:
             const int sampleY = this->swizzler()->sampleY();
             fRowsNeeded = get_scaled_dimension(fLastRow - fFirstRow + 1, sampleY);
         }
-        this->processData();
+
+        if (!this->processData()) {
+            return kErrorInInput;
+        }
 
         if (fRowsWrittenToOutput == fRowsNeeded) {
             return SkCodec::kSuccess;
@@ -673,7 +679,9 @@ private:
         fLastRow = height - 1;
         fLinesDecoded = 0;
 
-        this->processData();
+        if (!this->processData()) {
+            return kErrorInInput;
+        }
 
         png_bytep srcRow = fInterlaceBuffer.get();
         // FIXME: When resuming, this may rewrite rows that did not change.
@@ -705,7 +713,9 @@ private:
     }
 
     SkCodec::Result decode(int* rowsDecoded) override {
-        this->processData();
+        if (this->processData() == false) {
+            return kErrorInInput;
+        }
 
         // Now apply Xforms on all the rows that were decoded.
         if (!fLinesDecoded) {
@@ -900,11 +910,23 @@ void AutoCleanPng::infoCallback(size_t idatLength) {
 
     if (fOutCodec) {
         SkASSERT(nullptr == *fOutCodec);
-        SkColorSpace_Base::ICCTypeFlag iccType = SkColorSpace_Base::kRGB_ICCTypeFlag;
-        if (SkEncodedInfo::kGray_Color == color || SkEncodedInfo::kGrayAlpha_Color == color) {
-            iccType |= SkColorSpace_Base::kGray_ICCTypeFlag;
+        sk_sp<SkColorSpace> colorSpace = read_color_space(fPng_ptr, fInfo_ptr);
+        if (colorSpace) {
+            switch (colorSpace->type()) {
+                case SkColorSpace::kCMYK_Type:
+                    colorSpace = nullptr;
+                    break;
+                case SkColorSpace::kGray_Type:
+                    if (SkEncodedInfo::kGray_Color != color &&
+                        SkEncodedInfo::kGrayAlpha_Color != color)
+                    {
+                        colorSpace = nullptr;
+                    }
+                    break;
+                case SkColorSpace::kRGB_Type:
+                    break;
+            }
         }
-        sk_sp<SkColorSpace> colorSpace = read_color_space(fPng_ptr, fInfo_ptr, iccType);
         if (!colorSpace) {
             // Treat unsupported/invalid color spaces as sRGB.
             colorSpace = SkColorSpace::MakeSRGB();

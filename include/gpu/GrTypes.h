@@ -208,12 +208,20 @@ typedef intptr_t GrBackendContext;
 /**
  * Used to control antialiasing in draw calls.
  */
-enum class GrAA {
-    kYes,
-    kNo
+enum class GrAA : bool {
+    kNo = false,
+    kYes = true
 };
 
-static inline GrAA GrBoolToAA(bool aa) { return aa ? GrAA::kYes : GrAA::kNo; }
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Used to say whether a texture has mip levels allocated or not.
+ */
+enum class GrMipMapped : bool {
+    kNo = false,
+    kYes = true
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -329,7 +337,11 @@ enum GrPixelConfig {
     */
     kRGBA_half_GrPixelConfig,
 
-    kLast_GrPixelConfig = kRGBA_half_GrPixelConfig
+    kPrivateConfig1_GrPixelConfig,
+    kPrivateConfig2_GrPixelConfig,
+    kPrivateConfig3_GrPixelConfig,
+
+    kLast_GrPixelConfig = kPrivateConfig3_GrPixelConfig
 };
 static const int kGrPixelConfigCnt = kLast_GrPixelConfig + 1;
 
@@ -344,207 +356,6 @@ static const int kGrPixelConfigCnt = kLast_GrPixelConfig + 1;
 #else
     #error "SK_*32_SHIFT values must correspond to GL_BGRA or GL_RGBA format."
 #endif
-
-// Returns true if the pixel config is 32 bits per pixel
-static inline bool GrPixelConfigIs8888Unorm(GrPixelConfig config) {
-    switch (config) {
-        case kRGBA_8888_GrPixelConfig:
-        case kBGRA_8888_GrPixelConfig:
-        case kSRGBA_8888_GrPixelConfig:
-        case kSBGRA_8888_GrPixelConfig:
-            return true;
-        case kUnknown_GrPixelConfig:
-        case kAlpha_8_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-        case kRGB_565_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-        case kRGBA_float_GrPixelConfig:
-        case kRG_float_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-        case kRGBA_half_GrPixelConfig:
-            return false;
-    }
-    SK_ABORT("Invalid pixel config");
-    return false;
-}
-
-// Returns true if the color (non-alpha) components represent sRGB values. It does NOT indicate that
-// all three color components are present in the config or anything about their order.
-static inline bool GrPixelConfigIsSRGB(GrPixelConfig config) {
-    switch (config) {
-        case kSRGBA_8888_GrPixelConfig:
-        case kSBGRA_8888_GrPixelConfig:
-            return true;
-        case kUnknown_GrPixelConfig:
-        case kAlpha_8_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-        case kRGB_565_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kRGBA_8888_GrPixelConfig:
-        case kBGRA_8888_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-        case kRGBA_float_GrPixelConfig:
-        case kRG_float_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-        case kRGBA_half_GrPixelConfig:
-            return false;
-    }
-    SK_ABORT("Invalid pixel config");
-    return false;
-}
-
-// Takes a config and returns the equivalent config with the R and B order
-// swapped if such a config exists. Otherwise, kUnknown_GrPixelConfig
-static inline GrPixelConfig GrPixelConfigSwapRAndB(GrPixelConfig config) {
-    switch (config) {
-        case kBGRA_8888_GrPixelConfig:
-            return kRGBA_8888_GrPixelConfig;
-        case kRGBA_8888_GrPixelConfig:
-            return kBGRA_8888_GrPixelConfig;
-        case kSBGRA_8888_GrPixelConfig:
-            return kSRGBA_8888_GrPixelConfig;
-        case kSRGBA_8888_GrPixelConfig:
-            return kSBGRA_8888_GrPixelConfig;
-        case kUnknown_GrPixelConfig:
-        case kAlpha_8_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-        case kRGB_565_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-        case kRGBA_float_GrPixelConfig:
-        case kRG_float_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-        case kRGBA_half_GrPixelConfig:
-            return kUnknown_GrPixelConfig;
-    }
-    SK_ABORT("Invalid pixel config");
-    return kUnknown_GrPixelConfig;
-}
-
-static inline size_t GrBytesPerPixel(GrPixelConfig config) {
-    switch (config) {
-        case kAlpha_8_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-            return 1;
-        case kRGB_565_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-            return 2;
-        case kRGBA_8888_GrPixelConfig:
-        case kBGRA_8888_GrPixelConfig:
-        case kSRGBA_8888_GrPixelConfig:
-        case kSBGRA_8888_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-            return 4;
-        case kRGBA_half_GrPixelConfig:
-            return 8;
-        case kRGBA_float_GrPixelConfig:
-            return 16;
-        case kRG_float_GrPixelConfig:
-            return 8;
-        case kUnknown_GrPixelConfig:
-            return 0;
-    }
-    SK_ABORT("Invalid pixel config");
-    return 0;
-}
-
-static inline bool GrPixelConfigIsOpaque(GrPixelConfig config) {
-    switch (config) {
-        case kRGB_565_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-        case kRG_float_GrPixelConfig:
-            return true;
-        case kAlpha_8_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-        case kRGBA_8888_GrPixelConfig:
-        case kBGRA_8888_GrPixelConfig:
-        case kSRGBA_8888_GrPixelConfig:
-        case kSBGRA_8888_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-        case kRGBA_half_GrPixelConfig:
-        case kRGBA_float_GrPixelConfig:
-        case kUnknown_GrPixelConfig:
-            return false;
-    }
-    SK_ABORT("Invalid pixel config");
-    return false;
-}
-
-static inline bool GrPixelConfigIsAlphaOnly(GrPixelConfig config) {
-    switch (config) {
-        case kAlpha_8_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-            return true;
-        case kUnknown_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-        case kRGB_565_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kRGBA_8888_GrPixelConfig:
-        case kBGRA_8888_GrPixelConfig:
-        case kSRGBA_8888_GrPixelConfig:
-        case kSBGRA_8888_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-        case kRGBA_float_GrPixelConfig:
-        case kRG_float_GrPixelConfig:
-        case kRGBA_half_GrPixelConfig:
-            return false;
-    }
-    SK_ABORT("Invalid pixel config.");
-    return false;
-}
-
-static inline bool GrPixelConfigIsFloatingPoint(GrPixelConfig config) {
-    switch (config) {
-        case kRGBA_float_GrPixelConfig:
-        case kRG_float_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-        case kRGBA_half_GrPixelConfig:
-            return true;
-        case kUnknown_GrPixelConfig:
-        case kAlpha_8_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-        case kRGB_565_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kRGBA_8888_GrPixelConfig:
-        case kBGRA_8888_GrPixelConfig:
-        case kSRGBA_8888_GrPixelConfig:
-        case kSBGRA_8888_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-            return false;
-    }
-    SK_ABORT("Invalid pixel config");
-    return false;
-}
-
-static inline bool GrPixelConfigIsSint(GrPixelConfig config) {
-    return config == kRGBA_8888_sint_GrPixelConfig;
-}
-
-static inline bool GrPixelConfigIsUnorm(GrPixelConfig config) {
-    switch (config) {
-        case kAlpha_8_GrPixelConfig:
-        case kGray_8_GrPixelConfig:
-        case kRGB_565_GrPixelConfig:
-        case kRGBA_4444_GrPixelConfig:
-        case kRGBA_8888_GrPixelConfig:
-        case kBGRA_8888_GrPixelConfig:
-        case kSRGBA_8888_GrPixelConfig:
-        case kSBGRA_8888_GrPixelConfig:
-            return true;
-        case kUnknown_GrPixelConfig:
-        case kAlpha_half_GrPixelConfig:
-        case kRGBA_8888_sint_GrPixelConfig:
-        case kRGBA_float_GrPixelConfig:
-        case kRG_float_GrPixelConfig:
-        case kRGBA_half_GrPixelConfig:
-            return false;
-    }
-    SK_ABORT("Invalid pixel config.");
-    return false;
-}
 
 /**
  * Optional bitfield flags that can be set on GrSurfaceDesc (below).
@@ -571,12 +382,10 @@ typedef intptr_t GrBackendObject;
 /**
  * Some textures will be stored such that the upper and left edges of the content meet at the
  * the origin (in texture coord space) and for other textures the lower and left edges meet at
- * the origin. kDefault_GrSurfaceOrigin sets textures to TopLeft, and render targets
- * to BottomLeft.
+ * the origin.
  */
 
 enum GrSurfaceOrigin {
-    kDefault_GrSurfaceOrigin,         // DEPRECATED; to be removed
     kTopLeft_GrSurfaceOrigin,
     kBottomLeft_GrSurfaceOrigin,
 };
@@ -592,12 +401,11 @@ struct GrMipLevel {
 struct GrSurfaceDesc {
     GrSurfaceDesc()
         : fFlags(kNone_GrSurfaceFlags)
-        , fOrigin(kDefault_GrSurfaceOrigin)
+        , fOrigin(kTopLeft_GrSurfaceOrigin)
         , fWidth(0)
         , fHeight(0)
         , fConfig(kUnknown_GrPixelConfig)
-        , fSampleCnt(0)
-        , fIsMipMapped(false) {
+        , fSampleCnt(0) {
     }
 
     GrSurfaceFlags         fFlags;  //!< bitfield of TextureFlags
@@ -619,11 +427,7 @@ struct GrSurfaceDesc {
      * max supported count.
      */
     int                    fSampleCnt;
-    bool                   fIsMipMapped; //!< Indicates if the texture has mipmaps
 };
-
-// Legacy alias
-typedef GrSurfaceDesc GrTextureDesc;
 
 /**
  * Clips are composed from these objects.
@@ -645,39 +449,6 @@ enum GrWrapOwnership {
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-
-/**
- * Gr can wrap an existing render target created by the client in the 3D API
- * with a GrRenderTarget object. The client is responsible for ensuring that the
- * underlying 3D API object lives at least as long as the GrRenderTarget object
- * wrapping it. We require the client to explicitly provide information about
- * the target, such as width, height, and pixel config rather than querying the
- * 3D API for these values. We expect these properties to be immutable even if
- * the 3D API doesn't require this (OpenGL).
- */
-
-struct GrBackendRenderTargetDesc {
-    GrBackendRenderTargetDesc() { memset(this, 0, sizeof(*this)); }
-    int                             fWidth;         //<! width in pixels
-    int                             fHeight;        //<! height in pixels
-    GrPixelConfig                   fConfig;        //<! color format
-    GrSurfaceOrigin                 fOrigin;        //<! pixel origin
-    /**
-     * The number of samples per pixel. Gr uses this to influence decisions
-     * about applying other forms of anti-aliasing.
-     */
-    int                             fSampleCnt;
-    /**
-     * Number of bits of stencil per-pixel.
-     */
-    int                             fStencilBits;
-    /**
-     * Handle to the 3D API object.
-     * OpenGL: FBO ID
-     * Vulkan: GrVkImageInfo*
-     */
-    GrBackendObject                 fRenderTargetHandle;
-};
 
 /**
  * The GrContext's cache of backend context state can be partially invalidated.
@@ -707,9 +478,9 @@ static const uint32_t kAll_GrBackendState = 0xffffffff;
 
 // Enum used as return value when flush with semaphores so the client knows whether the
 // semaphores were submitted to GPU or not.
-enum class GrSemaphoresSubmitted : int {
-    kNo,
-    kYes,
+enum class GrSemaphoresSubmitted : bool {
+    kNo = false,
+    kYes = true
 };
 
 #endif

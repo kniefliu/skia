@@ -10,7 +10,8 @@
 #include "SkOnce.h"
 #include "SkPath.h"
 #include "SkPathRef.h"
-#include <limits>
+#include "SkPathPriv.h"
+#include "SkSafeMath.h"
 
 //////////////////////////////////////////////////////////////////////////////
 SkPathRef::Editor::Editor(sk_sp<SkPathRef>* pathRef,
@@ -197,28 +198,32 @@ static bool deduce_pts_conics(const uint8_t verbs[], int vCount, int* ptCountPtr
         return false;
     }
 
+    SkSafeMath safe;
     int ptCount = 0;
     int conicCount = 0;
     for (int i = 0; i < vCount; ++i) {
         switch (verbs[i]) {
             case SkPath::kMove_Verb:
             case SkPath::kLine_Verb:
-                ptCount += 1;
+                ptCount = safe.addInt(ptCount, 1);
                 break;
             case SkPath::kConic_Verb:
                 conicCount += 1;
                 // fall-through
             case SkPath::kQuad_Verb:
-                ptCount += 2;
+                ptCount = safe.addInt(ptCount, 2);
                 break;
             case SkPath::kCubic_Verb:
-                ptCount += 3;
+                ptCount = safe.addInt(ptCount, 3);
                 break;
             case SkPath::kClose_Verb:
                 break;
             default:
                 return false;
         }
+    }
+    if (!safe) {
+        return false;
     }
     *ptCountPtr = ptCount;
     *conicCountPtr = conicCount;
@@ -235,14 +240,6 @@ SkPathRef* SkPathRef::CreateFromBuffer(SkRBuffer* buffer) {
 
     ref->fIsFinite = (packed >> kIsFinite_SerializationShift) & 1;
     uint8_t segmentMask = (packed >> kSegmentMask_SerializationShift) & 0xF;
-    bool isOval  = (packed >> kIsOval_SerializationShift) & 1;
-    bool isRRect  = (packed >> kIsRRect_SerializationShift) & 1;
-    if (isOval && isRRect) {
-        // Fuzzing generates data with both oval and rrect flags set; abort early in this case/
-        return nullptr;
-    }
-    bool rrectOrOvalIsCCW = (packed >> kRRectOrOvalIsCCW_SerializationShift) & 1;
-    unsigned rrectOrOvalStartIdx = (packed >> kRRectOrOvalStartIdx_SerializationShift) & 0x7;
 
     int32_t verbCount, pointCount, conicCount;
     if (!buffer->readU32(&(ref->fGenerationID)) ||
@@ -298,15 +295,11 @@ SkPathRef* SkPathRef::CreateFromBuffer(SkRBuffer* buffer) {
             return nullptr;
         }
     }
-    
+
     ref->fBoundsIsDirty = false;
 
     // resetToSize clears fSegmentMask and fIsOval
     ref->fSegmentMask = segmentMask;
-    ref->fIsOval = isOval;
-    ref->fIsRRect = isRRect;
-    ref->fRRectOrOvalIsCCW = rrectOrOvalIsCCW;
-    ref->fRRectOrOvalStartIdx = rrectOrOvalStartIdx;
     return ref.release();
 }
 
@@ -387,11 +380,7 @@ void SkPathRef::writeToBuffer(SkWBuffer* buffer) const {
     // and fIsFinite are computed.
     const SkRect& bounds = this->getBounds();
 
-    int32_t packed = ((fRRectOrOvalStartIdx & 7) << kRRectOrOvalStartIdx_SerializationShift) |
-                     ((fRRectOrOvalIsCCW & 1) << kRRectOrOvalIsCCW_SerializationShift) |
-                     ((fIsFinite & 1) << kIsFinite_SerializationShift) |
-                     ((fIsOval & 1) << kIsOval_SerializationShift) |
-                     ((fIsRRect & 1) << kIsRRect_SerializationShift) |
+    int32_t packed = ((fIsFinite & 1) << kIsFinite_SerializationShift) |
                      (fSegmentMask << kSegmentMask_SerializationShift);
     buffer->write32(packed);
 
@@ -569,12 +558,18 @@ SkPoint* SkPathRef::growForVerb(int /* SkPath::Verb*/ verb, SkScalar weight) {
             dirtyAfterEdit = false;
             pCnt = 0;
     }
+    SkSafeMath safe;
+    int newPointCnt = safe.addInt(fPointCnt, pCnt);
+    int newVerbCnt  = safe.addInt(fVerbCnt, 1);
+    if (!safe) {
+        SK_ABORT("cannot grow path");
+    }
     size_t space = sizeof(uint8_t) + pCnt * sizeof (SkPoint);
     this->makeSpace(space);
     this->fVerbs[~fVerbCnt] = verb;
     SkPoint* ret = fPoints + fPointCnt;
-    fVerbCnt += 1;
-    fPointCnt += pCnt;
+    fVerbCnt = newVerbCnt;
+    fPointCnt = newPointCnt;
     fFreeSpace -= space;
     fBoundsIsDirty = true;  // this also invalidates fIsFinite
     if (dirtyAfterEdit) {
@@ -592,7 +587,7 @@ SkPoint* SkPathRef::growForVerb(int /* SkPath::Verb*/ verb, SkScalar weight) {
 
 uint32_t SkPathRef::genID() const {
     SkASSERT(!fEditorsAttached);
-    static const uint32_t kMask = (static_cast<int64_t>(1) << SkPath::kPathRefGenIDBitCnt) - 1;
+    static const uint32_t kMask = (static_cast<int64_t>(1) << SkPathPriv::kPathRefGenIDBitCnt) - 1;
     if (!fGenerationID) {
         if (0 == fPointCnt && 0 == fVerbCnt) {
             fGenerationID = kEmptyGenID;
@@ -690,6 +685,11 @@ void SkPathRef::Iter::setPathRef(const SkPathRef& path) {
     fConicWeights = path.conicWeights();
     if (fConicWeights) {
       fConicWeights -= 1;  // begin one behind
+    }
+
+    // Don't allow iteration through non-finite points.
+    if (!path.isFinite()) {
+        fVerbStop = fVerbs;
     }
 }
 

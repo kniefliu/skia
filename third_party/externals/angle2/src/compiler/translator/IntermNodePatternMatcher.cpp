@@ -15,6 +15,33 @@
 namespace sh
 {
 
+namespace
+{
+
+bool ContainsMatrixNode(const TIntermSequence &sequence)
+{
+    for (size_t ii = 0; ii < sequence.size(); ++ii)
+    {
+        TIntermTyped *node = sequence[ii]->getAsTyped();
+        if (node && node->isMatrix())
+            return true;
+    }
+    return false;
+}
+
+bool ContainsVectorNode(const TIntermSequence &sequence)
+{
+    for (size_t ii = 0; ii < sequence.size(); ++ii)
+    {
+        TIntermTyped *node = sequence[ii]->getAsTyped();
+        if (node && node->isVector())
+            return true;
+    }
+    return false;
+}
+
+}  // anonymous namespace
+
 IntermNodePatternMatcher::IntermNodePatternMatcher(const unsigned int mask) : mMask(mask)
 {
 }
@@ -41,6 +68,18 @@ bool IntermNodePatternMatcher::matchInternal(TIntermBinary *node, TIntermNode *p
     {
         if (node->getRight()->hasSideEffects() &&
             (node->getOp() == EOpLogicalOr || node->getOp() == EOpLogicalAnd))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool IntermNodePatternMatcher::match(TIntermUnary *node)
+{
+    if ((mMask & kArrayLengthMethod) != 0)
+    {
+        if (node->getOp() == EOpArrayLength)
         {
             return true;
         }
@@ -88,6 +127,20 @@ bool IntermNodePatternMatcher::match(TIntermAggregate *node, TIntermNode *parent
 
             if (node->getType().isArray() && !parentIsAssignment &&
                 (node->isConstructor() || node->isFunctionCall()) && !parentNode->getAsBlock())
+            {
+                return true;
+            }
+        }
+    }
+    if ((mMask & kScalarizedVecOrMatConstructor) != 0)
+    {
+        if (node->getOp() == EOpConstruct)
+        {
+            if (node->getType().isVector() && ContainsMatrixNode(*(node->getSequence())))
+            {
+                return true;
+            }
+            else if (node->getType().isMatrix() && ContainsVectorNode(*(node->getSequence())))
             {
                 return true;
             }

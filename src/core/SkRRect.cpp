@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include "SkRRect.h"
+#include "SkBuffer.h"
 #include "SkMatrix.h"
 #include "SkScaleToSides.h"
 
@@ -425,6 +426,10 @@ bool SkRRect::transform(const SkMatrix& matrix, SkRRect* dst) const {
         SkTSwap(dst->fRadii[kUpperRight_Corner], dst->fRadii[kLowerRight_Corner]);
     }
 
+    if (!AreRectAndRadiiValid(dst->fRect, dst->fRadii)) {
+        return false;
+    }
+
     dst->scaleRadii();
 
     return true;
@@ -461,16 +466,40 @@ size_t SkRRect::writeToMemory(void* buffer) const {
     return kSizeInMemory;
 }
 
+void SkRRect::writeToBuffer(SkWBuffer* buffer) const {
+    // Serialize only the rect and corners, but not the derived type tag.
+    buffer->write(this, kSizeInMemory);
+}
+
 size_t SkRRect::readFromMemory(const void* buffer, size_t length) {
     if (length < kSizeInMemory) {
         return 0;
     }
-
+    // Note that the buffer may be smaller than SkRRect. It is important not to access
+    // bufferAsRRect->fType.
+    const SkRRect* bufferAsRRect = reinterpret_cast<const SkRRect*>(buffer);
+    if (!AreRectAndRadiiValid(bufferAsRRect->fRect, bufferAsRRect->fRadii)) {
+        return 0;
+    }
     // Deserialize rect and corners, then rederive the type tag.
     memcpy(this, buffer, kSizeInMemory);
     this->computeType();
 
     return kSizeInMemory;
+}
+
+bool SkRRect::readFromBuffer(SkRBuffer* buffer) {
+    if (buffer->available() < kSizeInMemory) {
+        return false;
+    }
+    SkRRect readData;
+    buffer->read(&readData, kSizeInMemory);
+    if (!AreRectAndRadiiValid(readData.fRect, readData.fRadii)) {
+        return false;
+    }
+    memcpy(this, &readData, kSizeInMemory);
+    this->computeType();
+    return true;
 }
 
 #include "SkString.h"
@@ -501,10 +530,15 @@ void SkRRect::dump(bool asHex) const {
  *  We need all combinations of predicates to be true to have a "safe" radius value.
  */
 static bool are_radius_check_predicates_valid(SkScalar rad, SkScalar min, SkScalar max) {
-    return (min <= max) && (rad <= max - min) && (min + rad <= max) && (max - rad >= min);
+    return (min <= max) && (rad <= max - min) && (min + rad <= max) && (max - rad >= min) &&
+           rad >= 0;
 }
 
 bool SkRRect::isValid() const {
+    if (!AreRectAndRadiiValid(fRect, fRadii)) {
+        return false;
+    }
+
     bool allRadiiZero = (0 == fRadii[0].fX && 0 == fRadii[0].fY);
     bool allCornersSquare = (0 == fRadii[0].fX || 0 == fRadii[0].fY);
     bool allRadiiSame = true;
@@ -524,7 +558,7 @@ bool SkRRect::isValid() const {
     }
     bool patchesOfNine = radii_are_nine_patch(fRadii);
 
-    if (fType > kLastType) {
+    if (fType < 0 || fType > kLastType) {
         return false;
     }
 
@@ -570,14 +604,19 @@ bool SkRRect::isValid() const {
             break;
     }
 
-    for (int i = 0; i < 4; ++i) {
-        if (!are_radius_check_predicates_valid(fRadii[i].fX, fRect.fLeft, fRect.fRight) ||
-            !are_radius_check_predicates_valid(fRadii[i].fY, fRect.fTop, fRect.fBottom)) {
-            return false;
-        }
-    }
-
     return true;
 }
 
+bool SkRRect::AreRectAndRadiiValid(const SkRect& rect, const SkVector radii[4]) {
+    if (!rect.isFinite()) {
+        return false;
+    }
+    for (int i = 0; i < 4; ++i) {
+        if (!are_radius_check_predicates_valid(radii[i].fX, rect.fLeft, rect.fRight) ||
+            !are_radius_check_predicates_valid(radii[i].fY, rect.fTop, rect.fBottom)) {
+            return false;
+        }
+    }
+    return true;
+}
 ///////////////////////////////////////////////////////////////////////////////

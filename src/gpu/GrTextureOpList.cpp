@@ -9,6 +9,7 @@
 
 #include "GrAuditTrail.h"
 #include "GrGpu.h"
+#include "GrResourceAllocator.h"
 #include "GrTextureProxy.h"
 #include "SkStringUtils.h"
 #include "ops/GrCopySurfaceOp.h"
@@ -51,8 +52,15 @@ void GrTextureOpList::onPrepare(GrOpFlushState* flushState) {
     // Loop over the ops that haven't yet generated their geometry
     for (int i = 0; i < fRecordedOps.count(); ++i) {
         if (fRecordedOps[i]) {
-            // We do not call flushState->setDrawOpArgs as this op list does not support GrDrawOps.
+            GrOpFlushState::OpArgs opArgs = {
+                fRecordedOps[i].get(),
+                nullptr,
+                nullptr,
+                GrXferProcessor::DstProxy()
+            };
+            flushState->setOpArgs(&opArgs);
             fRecordedOps[i]->prepare(flushState);
+            flushState->setOpArgs(nullptr);
         }
     }
 }
@@ -68,8 +76,15 @@ bool GrTextureOpList::onExecute(GrOpFlushState* flushState) {
     flushState->setCommandBuffer(commandBuffer.get());
 
     for (int i = 0; i < fRecordedOps.count(); ++i) {
-        // We do not call flushState->setDrawOpArgs as this op list does not support GrDrawOps.
+        GrOpFlushState::OpArgs opArgs = {
+            fRecordedOps[i].get(),
+            nullptr,
+            nullptr,
+            GrXferProcessor::DstProxy()
+        };
+        flushState->setOpArgs(&opArgs);
         fRecordedOps[i]->execute(flushState);
+        flushState->setOpArgs(nullptr);
     }
 
     commandBuffer->submit();
@@ -78,9 +93,9 @@ bool GrTextureOpList::onExecute(GrOpFlushState* flushState) {
     return true;
 }
 
-void GrTextureOpList::reset() {
+void GrTextureOpList::endFlush() {
     fRecordedOps.reset();
-    INHERITED::reset();
+    INHERITED::endFlush();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,12 +113,43 @@ bool GrTextureOpList::copySurface(const GrCaps& caps,
     if (!op) {
         return false;
     }
-#ifdef ENABLE_MDB
-    this->addDependency(src);
-#endif
+
+    auto addDependency = [ &caps, this ] (GrSurfaceProxy* p) {
+        this->addDependency(p, caps);
+    };
+    op->visitProxies(addDependency);
 
     this->recordOp(std::move(op));
     return true;
+}
+
+void GrTextureOpList::gatherProxyIntervals(GrResourceAllocator* alloc) const {
+    unsigned int cur = alloc->numOps();
+
+    // Add the interval for all the writes to this opList's target
+    if (fRecordedOps.count()) {
+        alloc->addInterval(fTarget.get(), cur, cur+fRecordedOps.count()-1);
+    } else {
+        // This can happen if there is a loadOp (e.g., a clear) but no other draws. In this case we
+        // still need to add an interval for the destination so we create a fake op# for
+        // the missing clear op.
+        alloc->addInterval(fTarget.get());
+        alloc->incOps();
+    }
+
+    auto gather = [ alloc ] (GrSurfaceProxy* p) {
+        alloc->addInterval(p);
+    };
+    for (int i = 0; i < fRecordedOps.count(); ++i) {
+        const GrOp* op = fRecordedOps[i].get(); // only diff from the GrRenderTargetOpList version
+        if (op) {
+            op->visitProxies(gather);
+        }
+
+        // Even though the op may have been moved we still need to increment the op count to
+        // keep all the math consistent.
+        alloc->incOps();
+    }
 }
 
 void GrTextureOpList::recordOp(std::unique_ptr<GrOp> op) {

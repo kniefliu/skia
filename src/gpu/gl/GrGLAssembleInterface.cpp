@@ -535,6 +535,12 @@ const GrGLInterface* GrGLAssembleGLInterface(void* ctx, GrGLGetProc get) {
         GET_PROC(GetInternalformativ);
     }
 
+    if (glVer >= GR_GL_VER(4, 1)) {
+        GET_PROC(GetProgramBinary);
+        GET_PROC(ProgramBinary);
+        GET_PROC(ProgramParameteri);
+    }
+
     interface->fStandard = kGL_GrGLStandard;
     interface->fExtensions.swap(&extensions);
 
@@ -801,8 +807,22 @@ const GrGLInterface* GrGLAssembleGLESInterface(void* ctx, GrGLGetProc get) {
     GET_PROC(GetRenderbufferParameteriv);
     GET_PROC(RenderbufferStorage);
 
+    // There are several APIs for buffer mapping:
+    // ES2 + GL_OES_mapbuffer: MapBufferOES and UnmapBufferOES
+    // ES2 + GL_EXT_map_buffer_range: Adds MapBufferRangeEXT and FlushMappedBufferRangeEXT
+    // ES3: MapBufferRange, FlushMappedBufferRange, and UnmapBuffer are core (so no suffix).
+    //
+    // MapBuffer is not part of ES3, but implementations may still report the OES versions of
+    // MapBuffer and UnmapBuffer, per the older GL_OES_mapbuffer extension. Some implementations
+    // let us mix the newer MapBufferRange with the older UnmapBufferOES, but we've hit others that
+    // don't permit it. Note that in GrGLBuffer, we choose which API to use based on version and
+    // extensions. This code is written so that we never mix OES and non-OES functions.
     GET_PROC_SUFFIX(MapBuffer, OES);
-    GET_PROC_SUFFIX(UnmapBuffer, OES);
+    if (version >= GR_GL_VER(3, 0)) {
+        GET_PROC(UnmapBuffer);
+    } else {
+        GET_PROC_SUFFIX(UnmapBuffer, OES);
+    }
 
     if (version >= GR_GL_VER(3,0)) {
         GET_PROC(MapBufferRange);
@@ -961,6 +981,12 @@ const GrGLInterface* GrGLAssembleGLESInterface(void* ctx, GrGLGetProc get) {
 
     if (version >= GR_GL_VER(3,0)) {
         GET_PROC(GetInternalformativ);
+    }
+
+    if (version >= GR_GL_VER(3, 0)) {
+        GET_PROC(GetProgramBinary);
+        GET_PROC(ProgramBinary);
+        GET_PROC(ProgramParameteri);
     }
 
     interface->fStandard = kGLES_GrGLStandard;
