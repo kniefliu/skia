@@ -76,6 +76,9 @@
     <Filter Include="third_party">
       <UniqueIdentifier>{363093B2-8BE6-B8D4-ADFC-148BB4039B6A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\android">
+      <UniqueIdentifier>{89c94e8c-d04e-4821-81ac-a1ec14040359}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../src/c/sk_paint.cpp">
@@ -1902,11 +1905,27 @@
     <ClCompile Include="../../../src/ports/SkFontMgr_win_dw_factory.cpp">
       <Filter>src\ports</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\android\SkAndroidFrameworkUtils.cpp">
+      <Filter>src\android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\android\SkBitmapRegionCodec.cpp">
+      <Filter>src\android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\android\SkBitmapRegionDecoder.cpp">
+      <Filter>src\android</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="..\..\..\src\android\SkBitmapRegionCodec.h">
+      <Filter>src\android</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\android\SkBitmapRegionDecoderPriv.h">
+      <Filter>src\android</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
