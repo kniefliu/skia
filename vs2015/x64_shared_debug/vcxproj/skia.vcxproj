@@ -320,7 +320,6 @@
     <ClInclude Include="../../../include/utils/SkShadowUtils.h" />
     <ClInclude Include="../../../include/utils/SkTextBox.h" />
     <ClInclude Include="../../../src/utils/SkBase64.h" />
-    <ClInclude Include="../../../src/utils/SkBitmapSourceDeserializer.h" />
     <ClInclude Include="../../../src/utils/SkBitSet.h" />
     <ClInclude Include="../../../src/utils/SkCanvasStack.h" />
     <ClInclude Include="../../../src/utils/SkCurveMeasure.h" />
@@ -332,9 +331,6 @@
     <ClInclude Include="../../../src/utils/SkOSPath.h" />
     <ClInclude Include="../../../src/utils/SkPatchUtils.h" />
     <ClInclude Include="../../../src/utils/SkShadowTessellator.h" />
-    <ClInclude Include="../../../src/utils/SkThreadUtils.h" />
-    <ClInclude Include="../../../src/utils/SkThreadUtils_pthread.h" />
-    <ClInclude Include="../../../src/utils/SkThreadUtils_win.h" />
     <ClInclude Include="../../../include/utils/mac/SkCGUtils.h" />
     <ClInclude Include="../../../src/utils/win/SkAutoCoInitialize.h" />
     <ClInclude Include="../../../src/utils/win/SkDWrite.h" />
@@ -344,8 +340,7 @@
     <ClInclude Include="../../../src/utils/win/SkIStream.h" />
     <ClInclude Include="../../../src/utils/win/SkTScopedComPtr.h" />
     <ClInclude Include="../../../src/utils/win/SkWGL.h" />
-    <ClInclude Include="../../../src/fonts/SkRandomScalerContext.h" />
-    <ClInclude Include="../../../src/fonts/SkTestScalerContext.h" />
+    <ClInclude Include="..\..\..\src\core\SkGaussFilter.h" />
     <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h" />
   </ItemGroup>
   <ItemGroup>
@@ -423,7 +418,6 @@
     <ClCompile Include="../../../src/core/SkFont.cpp" />
     <ClCompile Include="../../../src/core/SkFontLCDConfig.cpp" />
     <ClCompile Include="../../../src/core/SkFontMgr.cpp" />
-    <ClCompile Include="../../../src/core/SkFontStyle.cpp" />
     <ClCompile Include="../../../src/core/SkFontDescriptor.cpp" />
     <ClCompile Include="../../../src/core/SkFontStream.cpp" />
     <ClCompile Include="../../../src/core/SkGeometry.cpp" />
@@ -590,6 +584,10 @@
     <ClCompile Include="../../../src/pathops/SkReduceOrder.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper_stages.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkBlitter_RGB565.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkGaussFilter.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkSpriteBlitter_RGB565.cpp" />
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp" />
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
       <FileType>Document</FileType>
@@ -598,14 +596,12 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(fileName)_x64_shared_debug.obj</Outputs>
     </CustomBuild>
     <ClCompile Include="../../../src/utils/SkBase64.cpp" />
-    <ClCompile Include="../../../src/utils/SkBitmapSourceDeserializer.cpp" />
     <ClCompile Include="../../../src/utils/SkFrontBufferedStream.cpp" />
     <ClCompile Include="../../../src/utils/SkCamera.cpp" />
     <ClCompile Include="../../../src/utils/SkCanvasStack.cpp" />
     <ClCompile Include="../../../src/utils/SkCanvasStateUtils.cpp" />
     <ClCompile Include="../../../src/utils/SkCurveMeasure.cpp" />
     <ClCompile Include="../../../src/utils/SkDashPath.cpp" />
-    <ClCompile Include="../../../src/utils/SkDeferredCanvas.cpp" />
     <ClCompile Include="../../../src/utils/SkDumpCanvas.cpp" />
     <ClCompile Include="../../../src/utils/SkEventTracer.cpp" />
     <ClCompile Include="../../../src/utils/SkInsetConvexPolygon.cpp" />
@@ -633,8 +629,6 @@
     <ClCompile Include="../../../src/utils/win/SkHRESULT.cpp" />
     <ClCompile Include="../../../src/utils/win/SkIStream.cpp" />
     <ClCompile Include="../../../src/utils/win/SkWGL_win.cpp" />
-    <ClCompile Include="../../../src/fonts/SkRandomScalerContext.cpp" />
-    <ClCompile Include="../../../src/fonts/SkTestScalerContext.cpp" />
     <ClCompile Include="../../../src/android/SkAndroidFrameworkUtils.cpp" />
     <ClCompile Include="../../../src/android/SkBitmapRegionCodec.cpp" />
     <ClCompile Include="../../../src/android/SkBitmapRegionDecoder.cpp" />

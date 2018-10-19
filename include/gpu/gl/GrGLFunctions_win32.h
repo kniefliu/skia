@@ -91,6 +91,7 @@ typedef GrGLenum (GR_GL_FUNCTION_TYPE* GrGLGetErrorProc)();
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLGetFramebufferAttachmentParameterivProc)(GrGLenum target, GrGLenum attachment, GrGLenum pname, GrGLint* params);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLGetIntegervProc)(GrGLenum pname, GrGLint* params);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLGetMultisamplefvProc)(GrGLenum pname, GrGLuint index, GrGLfloat* val);
+typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLGetProgramBinaryProc)(GrGLuint program, GrGLsizei bufsize, GrGLsizei* length, GrGLenum *binaryFormat, void *binary);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLGetProgramInfoLogProc)(GrGLuint program, GrGLsizei bufsize, GrGLsizei* length, char* infolog);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLGetProgramivProc)(GrGLuint program, GrGLenum pname, GrGLint* params);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLGetQueryivProc)(GrGLenum GLtarget, GrGLenum pname, GrGLint *params);
@@ -125,6 +126,8 @@ typedef GrGLvoid* (GR_GL_FUNCTION_TYPE* GrGLMemoryBarrierByRegionProc)(GrGLbitfi
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLPixelStoreiProc)(GrGLenum pname, GrGLint param);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLPolygonModeProc)(GrGLenum face, GrGLenum mode);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLPopGroupMarkerProc)();
+typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLProgramBinaryProc)(GrGLuint program, GrGLenum binaryFormat, void *binary, GrGLsizei length);
+typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLProgramParameteriProc)(GrGLuint program, GrGLenum pname, GrGLint value);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLPushGroupMarkerProc)(GrGLsizei length, const char* marker);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLQueryCounterProc)(GrGLuint id, GrGLenum target);
 typedef GrGLvoid (GR_GL_FUNCTION_TYPE* GrGLRasterSamplesProc)(GrGLuint samples, GrGLboolean fixedsamplelocations);

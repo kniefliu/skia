@@ -64,11 +64,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;../../../../../win10/Include/10.0.17763.0/shared;../../../../../win10/Include/10.0.17763.0/um;../../../../../win10/Include/10.0.17763.0/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
       <CompileAsWinRT>false</CompileAsWinRT>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <MinimalRebuild>false</MinimalRebuild>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>LIBANGLE_IMPLEMENTATION;LIBGLESV2_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;ANGLE_ENABLE_ESSL;ANGLE_ENABLE_GLSL;ANGLE_ENABLE_HLSL;ANGLE_ENABLE_OPENGL;EGL_EGLEXT_PROTOTYPES;GL_GLEXT_PROTOTYPES;ANGLE_ENABLE_D3D11;ANGLE_ENABLE_D3D9;GL_APICALL=;EGLAPI=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -83,11 +83,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;../../../../../win10/Include/10.0.17763.0/shared;../../../../../win10/Include/10.0.17763.0/um;../../../../../win10/Include/10.0.17763.0/winrt;C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
       <CompileAsWinRT>false</CompileAsWinRT>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <MinimalRebuild>false</MinimalRebuild>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>LIBANGLE_IMPLEMENTATION;LIBGLESV2_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;ANGLE_ENABLE_ESSL;ANGLE_ENABLE_GLSL;ANGLE_ENABLE_HLSL;ANGLE_ENABLE_OPENGL;EGL_EGLEXT_PROTOTYPES;GL_GLEXT_PROTOTYPES;ANGLE_ENABLE_D3D11;ANGLE_ENABLE_D3D9;GL_APICALL=;EGLAPI=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -102,11 +102,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;../../../../../win10/Include/10.0.17763.0/shared;../../../../../win10/Include/10.0.17763.0/um;../../../../../win10/Include/10.0.17763.0/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
       <CompileAsWinRT>false</CompileAsWinRT>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <MinimalRebuild>false</MinimalRebuild>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>NDEBUG;LIBANGLE_IMPLEMENTATION;LIBGLESV2_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;ANGLE_ENABLE_ESSL;ANGLE_ENABLE_GLSL;ANGLE_ENABLE_HLSL;ANGLE_ENABLE_OPENGL;EGL_EGLEXT_PROTOTYPES;GL_GLEXT_PROTOTYPES;ANGLE_ENABLE_D3D11;ANGLE_ENABLE_D3D9;GL_APICALL=;EGLAPI=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -120,11 +120,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/angle2/include;../../../../../third_party/externals/angle2/src;../../../../../third_party/externals/angle2/src/common/third_party/base;../../../../../third_party/externals/angle2/src/third_party/khronos;../../../../../win10/Include/10.0.17763.0/shared;../../../../../win10/Include/10.0.17763.0/um;../../../../../win10/Include/10.0.17763.0/winrt;C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
       <CompileAsWinRT>false</CompileAsWinRT>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <MinimalRebuild>false</MinimalRebuild>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>NDEBUG;LIBANGLE_IMPLEMENTATION;LIBGLESV2_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;ANGLE_ENABLE_ESSL;ANGLE_ENABLE_GLSL;ANGLE_ENABLE_HLSL;ANGLE_ENABLE_OPENGL;EGL_EGLEXT_PROTOTYPES;GL_GLEXT_PROTOTYPES;ANGLE_ENABLE_D3D11;ANGLE_ENABLE_D3D9;GL_APICALL=;EGLAPI=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -206,8 +206,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ParseContext.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/PoolAlloc.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Pragma.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/PruneEmptyDeclarations.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/PrunePureLiteralStatements.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/QualifierTypes.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RecordConstantPrecision.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RegenerateStructNames.h" />
@@ -230,7 +228,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateGlobalInitializer.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateLimitations.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMaxParameters.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMultiviewWebGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateOutputs.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateSwitch.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/VariablePacker.h" />
@@ -310,7 +307,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Thread.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/TransformFeedback.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Uniform.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/UniformLinker.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/VaryingPacking.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Version.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Version.inl" />
@@ -335,7 +331,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/DisplayImpl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/EGLImplFactory.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceNVImpl.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceSyncImpl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format_ID_autogen.inl" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FramebufferAttachmentObjectImpl.h" />
@@ -382,7 +377,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/numerics/safe_math_impl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/sha1.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/sys_byteorder.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/murmurhash/MurmurHash3.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/tls.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/utilities.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/vector_utils.h" />
@@ -400,10 +394,30 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl_ext.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_autogen.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/global_state.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.def" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\common\third_party\smhasher\src\PMurHash.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ImageFunctionHLSL.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\PruneNoOps.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveArrayLengthMethod.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveEmptySwitchStatements.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveNoOpCasesFromEndOfSwitchStatements.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveUnreferencedVariables.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\SymbolUniqueId.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ValidateVaryingLocations.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\VectorizeVectorScalarArithmetic.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\WrapSwitchStatementsInBlocks.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\PackedGLEnums_autogen.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\ProgramLinkedResources.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\ProgramPipeline.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\ProgramPipeline11.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\DispatchTableGL_autogen.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\ProgramPipelineGL.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\ProgramPipelineImpl.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_1_autogen.h" />
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\proc_table.h" />
     <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/resource.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/BlitGL.h" />
@@ -413,7 +427,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ContextGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/DisplayGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FunctionsGL.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/PathGL.h" />
@@ -671,8 +684,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputTree.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ParseContext.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/PoolAlloc.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/PruneEmptyDeclarations.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/PrunePureLiteralStatements.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/QualifierTypes.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RecordConstantPrecision.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RegenerateStructNames.cpp" />
@@ -696,7 +707,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateGlobalInitializer.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateLimitations.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMaxParameters.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMultiviewWebGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateOutputs.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateSwitch.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/VariablePacker.cpp" />
@@ -769,7 +779,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Thread.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/TransformFeedback.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Uniform.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/UniformLinker.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/VaryingPacking.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/VertexArray.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/VertexAttribute.cpp" />
@@ -807,7 +816,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/mathutil.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/string_utils.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/sha1.cc" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/third_party/murmurhash/MurmurHash3.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/tls.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/common/utilities.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/image_util/copyimage.cpp" />
@@ -818,8 +826,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl_ext.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_autogen.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/global_state.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/BlitGL.cpp" />
@@ -829,7 +835,6 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ContextGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/DisplayGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.cpp" />
-    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FunctionsGL.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/PathGL.cpp" />
@@ -929,6 +934,29 @@
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/VertexBuffer11.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/win32/NativeWindow11Win32.cpp" />
     <ClCompile Include="../../../../../third_party/externals/angle2/src/third_party/systeminfo/SystemInfo.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\common\third_party\smhasher\src\PMurHash.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\common\uniform_type_info_autogen.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ExtensionBehavior.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ImageFunctionHLSL.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\PruneNoOps.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveArrayLengthMethod.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveEmptySwitchStatements.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveNoOpCasesFromEndOfSwitchStatements.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\RemoveUnreferencedVariables.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\SymbolUniqueId.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\ValidateVaryingLocations.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\VectorizeVectorScalarArithmetic.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\compiler\translator\WrapSwitchStatementsInBlocks.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\PackedGLEnums_autogen.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\ProgramLinkedResources.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\ProgramPipeline.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\ProgramPipeline11.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\DispatchTableGL_autogen.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\ProgramPipelineGL.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\SyncGL.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_0_autogen.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_gles_3_1_autogen.cpp" />
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\proc_table_autogen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />

@@ -468,9 +468,6 @@
     <ClCompile Include="../../../src/core/SkFontMgr.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="../../../src/core/SkFontStyle.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
     <ClCompile Include="../../../src/core/SkFontDescriptor.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
@@ -1602,12 +1599,6 @@
     <ClInclude Include="../../../src/utils/SkBase64.h">
       <Filter>src\utils</Filter>
     </ClInclude>
-    <ClCompile Include="../../../src/utils/SkBitmapSourceDeserializer.cpp">
-      <Filter>src\utils</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/utils/SkBitmapSourceDeserializer.h">
-      <Filter>src\utils</Filter>
-    </ClInclude>
     <ClInclude Include="../../../src/utils/SkBitSet.h">
       <Filter>src\utils</Filter>
     </ClInclude>
@@ -1638,9 +1629,6 @@
     <ClInclude Include="../../../src/utils/SkDashPathPriv.h">
       <Filter>src\utils</Filter>
     </ClInclude>
-    <ClCompile Include="../../../src/utils/SkDeferredCanvas.cpp">
-      <Filter>src\utils</Filter>
-    </ClCompile>
     <ClCompile Include="../../../src/utils/SkDumpCanvas.cpp">
       <Filter>src\utils</Filter>
     </ClCompile>
@@ -1713,18 +1701,9 @@
     <ClCompile Include="../../../src/utils/SkTextBox.cpp">
       <Filter>src\utils</Filter>
     </ClCompile>
-    <ClInclude Include="../../../src/utils/SkThreadUtils.h">
-      <Filter>src\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="../../../src/utils/SkThreadUtils_pthread.h">
-      <Filter>src\utils</Filter>
-    </ClInclude>
     <ClCompile Include="../../../src/utils/SkThreadUtils_win.cpp">
       <Filter>src\utils</Filter>
     </ClCompile>
-    <ClInclude Include="../../../src/utils/SkThreadUtils_win.h">
-      <Filter>src\utils</Filter>
-    </ClInclude>
     <ClCompile Include="../../../src/utils/SkWhitelistTypefaces.cpp">
       <Filter>src\utils</Filter>
     </ClCompile>
@@ -1779,18 +1758,6 @@
     <ClCompile Include="../../../src/utils/win/SkWGL_win.cpp">
       <Filter>src\utils\win</Filter>
     </ClCompile>
-    <ClCompile Include="../../../src/fonts/SkRandomScalerContext.cpp">
-      <Filter>src\fonts</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/fonts/SkRandomScalerContext.h">
-      <Filter>src\fonts</Filter>
-    </ClInclude>
-    <ClCompile Include="../../../src/fonts/SkTestScalerContext.cpp">
-      <Filter>src\fonts</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/fonts/SkTestScalerContext.h">
-      <Filter>src\fonts</Filter>
-    </ClInclude>
     <ClCompile Include="../../../src/android/SkAndroidFrameworkUtils.cpp">
       <Filter>src\android</Filter>
     </ClCompile>
@@ -1914,6 +1881,18 @@
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp">
       <Filter>src\extension_dll\win</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkBlitter_RGB565.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkSpriteBlitter_RGB565.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\SkGaussFilter.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
@@ -1921,6 +1900,10 @@
       <Filter>src\extension_dll\win</Filter>
     </ClInclude>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="..\..\..\src\core\SkGaussFilter.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">

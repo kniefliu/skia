@@ -410,7 +410,6 @@
     <ClInclude Include="../../../include/utils/SkShadowUtils.h" />
     <ClInclude Include="../../../include/utils/SkTextBox.h" />
     <ClInclude Include="../../../src/utils/SkBase64.h" />
-    <ClInclude Include="../../../src/utils/SkBitmapSourceDeserializer.h" />
     <ClInclude Include="../../../src/utils/SkBitSet.h" />
     <ClInclude Include="../../../src/utils/SkCanvasStack.h" />
     <ClInclude Include="../../../src/utils/SkCurveMeasure.h" />
@@ -422,9 +421,6 @@
     <ClInclude Include="../../../src/utils/SkOSPath.h" />
     <ClInclude Include="../../../src/utils/SkPatchUtils.h" />
     <ClInclude Include="../../../src/utils/SkShadowTessellator.h" />
-    <ClInclude Include="../../../src/utils/SkThreadUtils.h" />
-    <ClInclude Include="../../../src/utils/SkThreadUtils_pthread.h" />
-    <ClInclude Include="../../../src/utils/SkThreadUtils_win.h" />
     <ClInclude Include="../../../include/utils/mac/SkCGUtils.h" />
     <ClInclude Include="../../../src/utils/win/SkAutoCoInitialize.h" />
     <ClInclude Include="../../../src/utils/win/SkDWrite.h" />
@@ -434,8 +430,7 @@
     <ClInclude Include="../../../src/utils/win/SkIStream.h" />
     <ClInclude Include="../../../src/utils/win/SkTScopedComPtr.h" />
     <ClInclude Include="../../../src/utils/win/SkWGL.h" />
-    <ClInclude Include="../../../src/fonts/SkRandomScalerContext.h" />
-    <ClInclude Include="../../../src/fonts/SkTestScalerContext.h" />
+    <ClInclude Include="..\..\..\src\core\SkGaussFilter.h" />
     <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h" />
   </ItemGroup>
   <ItemGroup>
@@ -513,7 +508,6 @@
     <ClCompile Include="../../../src/core/SkFont.cpp" />
     <ClCompile Include="../../../src/core/SkFontLCDConfig.cpp" />
     <ClCompile Include="../../../src/core/SkFontMgr.cpp" />
-    <ClCompile Include="../../../src/core/SkFontStyle.cpp" />
     <ClCompile Include="../../../src/core/SkFontDescriptor.cpp" />
     <ClCompile Include="../../../src/core/SkFontStream.cpp" />
     <ClCompile Include="../../../src/core/SkGeometry.cpp" />
@@ -680,8 +674,11 @@
     <ClCompile Include="../../../src/pathops/SkReduceOrder.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper.cpp" />
     <ClCompile Include="../../../src/jumper/SkJumper_stages.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkBlitter_RGB565.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkDeferredDisplayListRecorder.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkGaussFilter.cpp" />
+    <ClCompile Include="..\..\..\src\core\SkSpriteBlitter_RGB565.cpp" />
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp" />
-    <ClCompile Include="..\..\..\src\ports\SkFontMgr_win_gdi_factory.cpp" />
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ml64 /Fo "%(Filename)_x64_shared_debug.obj" /c "..\..\..\src\jumper\SkJumper_generated_win.S"</Command>
@@ -698,14 +695,12 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(fileName)_win32_shared_release.obj</Outputs>
     </CustomBuild>
     <ClCompile Include="../../../src/utils/SkBase64.cpp" />
-    <ClCompile Include="../../../src/utils/SkBitmapSourceDeserializer.cpp" />
     <ClCompile Include="../../../src/utils/SkFrontBufferedStream.cpp" />
     <ClCompile Include="../../../src/utils/SkCamera.cpp" />
     <ClCompile Include="../../../src/utils/SkCanvasStack.cpp" />
     <ClCompile Include="../../../src/utils/SkCanvasStateUtils.cpp" />
     <ClCompile Include="../../../src/utils/SkCurveMeasure.cpp" />
     <ClCompile Include="../../../src/utils/SkDashPath.cpp" />
-    <ClCompile Include="../../../src/utils/SkDeferredCanvas.cpp" />
     <ClCompile Include="../../../src/utils/SkDumpCanvas.cpp" />
     <ClCompile Include="../../../src/utils/SkEventTracer.cpp" />
     <ClCompile Include="../../../src/utils/SkInsetConvexPolygon.cpp" />
@@ -733,8 +728,6 @@
     <ClCompile Include="../../../src/utils/win/SkHRESULT.cpp" />
     <ClCompile Include="../../../src/utils/win/SkIStream.cpp" />
     <ClCompile Include="../../../src/utils/win/SkWGL_win.cpp" />
-    <ClCompile Include="../../../src/fonts/SkRandomScalerContext.cpp" />
-    <ClCompile Include="../../../src/fonts/SkTestScalerContext.cpp" />
     <ClCompile Include="../../../src/android/SkAndroidFrameworkUtils.cpp" />
     <ClCompile Include="../../../src/android/SkBitmapRegionCodec.cpp" />
     <ClCompile Include="../../../src/android/SkBitmapRegionDecoder.cpp" />
@@ -769,10 +762,6 @@
     <ClCompile Include="../../../src/ports/SkFontMgr_win_dw.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="../../../src/ports/SkImageEncoder_WIC.cpp" />
     <ClCompile Include="../../../src/ports/SkImageGeneratorWIC.cpp">
@@ -784,26 +773,13 @@
     <ClCompile Include="../../../src/ports/SkScalerContext_win_dw.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="../../../src/ports/SkTLS_win.cpp" />
     <ClCompile Include="../../../src/ports/SkTypeface_win_dw.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Program Files (x86)/Windows Kits/8.1/Include/shared;C:/Program Files (x86)/Windows Kits/8.1/Include/um;C:/Program Files (x86)/Windows Kits/8.1/Include/winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="../../../src/ports/SkFontMgr_win_dw_factory.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="../../../src/ports/SkFontMgr_win_dw_factory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />

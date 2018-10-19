@@ -499,7 +499,7 @@ void SkOSWindow::setUpBackend() {
 	{
 		SkASSERT(nullptr == fCurContext);
 		GrContextOptions fGrContextOptions;
-		fGrContextOptions.fGpuPathRenderers = GrContextOptions::GpuPathRenderers::kAll;
+		fGrContextOptions.fGpuPathRenderers = GpuPathRenderers::kAll;
 
 		fCurContext = GrContext::MakeGL(fCurIntf, fGrContextOptions).release();
 
@@ -754,33 +754,33 @@ static const GrGLInterface* get_angle_gl_interface() {
 	return GrGLAssembleGLESInterface(&context, angle_get_gl_proc);
 }
 
-static void SkOSWindowWin_LogError(angle::PlatformMethods *platform, const char *errorMessage)
-{
-	LogMessage(errorMessage);
-	LogNewLine();
-}
+//static void SkOSWindowWin_LogError(angle::PlatformMethods *platform, const char *errorMessage)
+//{
+//	LogMessage(errorMessage);
+//	LogNewLine();
+//}
+//
+//static void SkOSWindowWin_LogWarning(angle::PlatformMethods *platform, const char *warningMessage)
+//{
+//	LogMessage(warningMessage);
+//	LogNewLine();
+//}
 
-static void SkOSWindowWin_LogWarning(angle::PlatformMethods *platform, const char *warningMessage)
-{
-	LogMessage(warningMessage);
-	LogNewLine();
-}
-
-#define EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX 0x9999
-
-static angle::PlatformMethods* platformMethods()
-{
-	static struct angle::PlatformMethods methods;
-
-	if (methods.logError != &SkOSWindowWin_LogError) {
-		methods.logError = &SkOSWindowWin_LogError;
-	}
-	if (methods.logWarning != &SkOSWindowWin_LogWarning) {
-		methods.logWarning = &SkOSWindowWin_LogWarning;
-	}
-
-	return &methods;
-}
+//#define EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX 0x9999
+//
+//static angle::PlatformMethods* platformMethods()
+//{
+//	static struct angle::PlatformMethods methods;
+//
+//	if (methods.logError != &SkOSWindowWin_LogError) {
+//		methods.logError = &SkOSWindowWin_LogError;
+//	}
+//	if (methods.logWarning != &SkOSWindowWin_LogWarning) {
+//		methods.logWarning = &SkOSWindowWin_LogWarning;
+//	}
+//
+//	return &methods;
+//}
 
 bool create_ANGLE(EGLNativeWindowType hWnd,
                   int msaaSampleCount,
@@ -815,16 +815,20 @@ bool create_ANGLE(EGLNativeWindowType hWnd,
 		{
 			EGL_PLATFORM_ANGLE_TYPE_ANGLE,
 			EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE,
+#if 0
 #ifndef _WIN64
 			EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX, reinterpret_cast<EGLAttrib>(platformMethods()),
+#endif
 #endif
 			EGL_NONE
 		},
 		{
 			EGL_PLATFORM_ANGLE_TYPE_ANGLE,
 			EGL_PLATFORM_ANGLE_TYPE_D3D9_ANGLE,
+#if 0
 #ifndef _WIN64
 			EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX, reinterpret_cast<EGLAttrib>(platformMethods()),
+#endif
 #endif
 			EGL_NONE
 		},

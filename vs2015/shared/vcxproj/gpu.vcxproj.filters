@@ -102,9 +102,6 @@
     <ClInclude Include="../../../include/gpu/GrTexture.h">
       <Filter>include\gpu</Filter>
     </ClInclude>
-    <ClInclude Include="../../../include/gpu/GrSamplerParams.h">
-      <Filter>include\gpu</Filter>
-    </ClInclude>
     <ClInclude Include="../../../include/gpu/GrTypes.h">
       <Filter>include\gpu</Filter>
     </ClInclude>
@@ -753,9 +750,6 @@
     <ClInclude Include="../../../src/gpu/ops/GrDefaultPathRenderer.h">
       <Filter>src\gpu\ops</Filter>
     </ClInclude>
-    <ClInclude Include="../../../src/gpu/ops/GrDiscardOp.h">
-      <Filter>src\gpu\ops</Filter>
-    </ClInclude>
     <ClInclude Include="../../../src/gpu/ops/GrDebugMarkerOp.h">
       <Filter>src\gpu\ops</Filter>
     </ClInclude>
@@ -873,40 +867,16 @@
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRAtlas.h">
       <Filter>src\gpu\ccpr</Filter>
     </ClInclude>
-    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.cpp">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCoverageOpsBuilder.h">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClInclude>
     <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCoverageProcessor.cpp">
       <Filter>src\gpu\ccpr</Filter>
     </ClCompile>
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCoverageProcessor.h">
       <Filter>src\gpu\ccpr</Filter>
     </ClInclude>
-    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRCubicProcessor.cpp">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRCubicProcessor.h">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClInclude>
     <ClCompile Include="../../../src/gpu/ccpr/GrCCPRPathProcessor.cpp">
       <Filter>src\gpu\ccpr</Filter>
     </ClCompile>
     <ClInclude Include="../../../src/gpu/ccpr/GrCCPRPathProcessor.h">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClInclude>
-    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRQuadraticProcessor.cpp">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRQuadraticProcessor.h">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClInclude>
-    <ClCompile Include="../../../src/gpu/ccpr/GrCCPRTriangleProcessor.cpp">
-      <Filter>src\gpu\ccpr</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/gpu/ccpr/GrCCPRTriangleProcessor.h">
       <Filter>src\gpu\ccpr</Filter>
     </ClInclude>
     <ClCompile Include="../../../src/gpu/ccpr/GrCoverageCountingPathRenderer.cpp">
@@ -1108,9 +1078,6 @@
       <Filter>src\gpu\text</Filter>
     </ClInclude>
     <ClCompile Include="../../../src/gpu/text/GrAtlasTextBlob.cpp">
-      <Filter>src\gpu\text</Filter>
-    </ClCompile>
-    <ClCompile Include="../../../src/gpu/text/GrAtlasTextBlob_regenInOp.cpp">
       <Filter>src\gpu\text</Filter>
     </ClCompile>
     <ClInclude Include="../../../src/gpu/text/GrAtlasTextBlob.h">
@@ -1332,12 +1299,6 @@
     <ClInclude Include="../../../src/gpu/glsl/GrGLSLGeometryProcessor.h">
       <Filter>src\gpu\glsl</Filter>
     </ClInclude>
-    <ClCompile Include="../../../src/gpu/glsl/GrGLSLGeometryShaderBuilder.cpp">
-      <Filter>src\gpu\glsl</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/gpu/glsl/GrGLSLGeometryShaderBuilder.h">
-      <Filter>src\gpu\glsl</Filter>
-    </ClInclude>
     <ClCompile Include="../../../src/gpu/glsl/GrGLSLPrimitiveProcessor.cpp">
       <Filter>src\gpu\glsl</Filter>
     </ClCompile>
@@ -1375,12 +1336,6 @@
       <Filter>src\gpu\glsl</Filter>
     </ClCompile>
     <ClInclude Include="../../../src/gpu/glsl/GrGLSLVarying.h">
-      <Filter>src\gpu\glsl</Filter>
-    </ClInclude>
-    <ClCompile Include="../../../src/gpu/glsl/GrGLSLVertexShaderBuilder.cpp">
-      <Filter>src\gpu\glsl</Filter>
-    </ClCompile>
-    <ClInclude Include="../../../src/gpu/glsl/GrGLSLVertexShaderBuilder.h">
       <Filter>src\gpu\glsl</Filter>
     </ClInclude>
     <ClCompile Include="../../../src/gpu/glsl/GrGLSLXferProcessor.cpp">
@@ -1467,9 +1422,6 @@
     <ClCompile Include="../../../src/sksl/SkSLUtil.cpp">
       <Filter>src\sksl</Filter>
     </ClCompile>
-    <ClCompile Include="../../../src/sksl/lex.layout.cpp">
-      <Filter>src\sksl</Filter>
-    </ClCompile>
     <ClCompile Include="../../../src/sksl/ir/SkSLSymbolTable.cpp">
       <Filter>src\sksl\ir</Filter>
     </ClCompile>
@@ -1482,10 +1434,127 @@
     <ClCompile Include="../../../src/gpu/gl/GrGLDefaultInterface_native.cpp">
       <Filter>src\gpu\gl</Filter>
     </ClCompile>
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRCoverageOp.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRCubicShader.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRQuadraticShader.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\ccpr\GrCCPRTriangleShader.h">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrAARectEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrArithmeticFP.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrLumaColorFilterEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrOverdrawFragmentProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrPremulInputFragmentProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrRectBlurEffect.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\effects\GrUnpremulInputFragmentProcessor.h">
+      <Filter>src\gpu\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\glsl\GrGLSLVertexGeoBuilder.h">
+      <Filter>src\gpu\glsl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\GrColorSpaceInfo.h">
+      <Filter>src\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\gpu\ops\GrTextureOp.h">
+      <Filter>src\gpu\ops</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\sksl\SkSLLayoutLexer.h">
+      <Filter>src\sksl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\sksl\SkSLLexer.h">
+      <Filter>src\sksl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\sksl\SkSLMetalCodeGenerator.h">
+      <Filter>src\sksl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp">
       <Filter>src\gpu\gl\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRCoverageOp.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRCoverageProcessor_GSImpl.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRCubicShader.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRGeometry.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRQuadraticShader.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ccpr\GrCCPRTriangleShader.cpp">
+      <Filter>src\gpu\ccpr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrAARectEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrArithmeticFP.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrLumaColorFilterEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrOverdrawFragmentProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrPremulInputFragmentProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrRectBlurEffect.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\effects\GrUnpremulInputFragmentProcessor.cpp">
+      <Filter>src\gpu\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\glsl\GrGLSLVertexGeoBuilder.cpp">
+      <Filter>src\gpu\glsl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\GrColorSpaceInfo.cpp">
+      <Filter>src\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\ops\GrTextureOp.cpp">
+      <Filter>src\gpu\ops</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sksl\SkSLLayoutLexer.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sksl\SkSLLexer.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sksl\SkSLMetalCodeGenerator.cpp">
+      <Filter>src\sksl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\text\GrAtlasTextBlobVertexRegenerator.cpp">
+      <Filter>src\gpu\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\gl\GrGLGpuCommandBuffer.cpp">
+      <Filter>src\gpu\gl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
