@@ -64,17 +64,4 @@
       <Filter>..\..\third_party\externals\zlib</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\tmp\skia.vcxproj" />
-    <None Include="..\..\tmp\sse2.vcxproj" />
-    <None Include="..\..\tmp\sse41.vcxproj" />
-    <None Include="..\..\tmp\sse42.vcxproj" />
-    <None Include="..\..\tmp\ssse3.vcxproj" />
-    <None Include="..\..\tmp\webp.vcxproj" />
-    <None Include="..\..\tmp\avx.vcxproj" />
-    <None Include="..\..\tmp\effects.vcxproj" />
-    <None Include="..\..\tmp\gpu.vcxproj" />
-    <None Include="..\..\tmp\jpeg.vcxproj" />
-    <None Include="..\..\tmp\png.vcxproj" />
-  </ItemGroup>
 </Project>
