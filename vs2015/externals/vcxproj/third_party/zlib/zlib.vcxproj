@@ -137,19 +137,6 @@
     <ClCompile Include="../../../../../third_party/externals/zlib/uncompr.c" />
     <ClCompile Include="../../../../../third_party/externals/zlib/zutil.c" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\tmp\avx.vcxproj" />
-    <None Include="..\..\tmp\effects.vcxproj" />
-    <None Include="..\..\tmp\gpu.vcxproj" />
-    <None Include="..\..\tmp\jpeg.vcxproj" />
-    <None Include="..\..\tmp\png.vcxproj" />
-    <None Include="..\..\tmp\skia.vcxproj" />
-    <None Include="..\..\tmp\sse2.vcxproj" />
-    <None Include="..\..\tmp\sse41.vcxproj" />
-    <None Include="..\..\tmp\sse42.vcxproj" />
-    <None Include="..\..\tmp\ssse3.vcxproj" />
-    <None Include="..\..\tmp\webp.vcxproj" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   <ImportGroup Label="ExtensionTargets" />
