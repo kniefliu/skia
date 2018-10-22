@@ -48,9 +48,11 @@ private:
 #if SK_SUPPORT_GPU
 	sk_sp<SkSurface> makeGPUSurface();
 
+#ifndef NOT_SUPPORT_OPENGL
     bool attachGL();
     void detachGL();
     void presentGL();
+#endif
 
 #if SK_ANGLE
     bool attachANGLE();
@@ -68,7 +70,9 @@ private:
 	int fMSAASampleCount;
 	bool fDeepColor;
 	int fActualColorBits;
+#ifndef NOT_SUPPORT_OPENGL
 	void*               fHGLRC;
+#endif
 
 	GrSurfaceOrigin origin_;
 

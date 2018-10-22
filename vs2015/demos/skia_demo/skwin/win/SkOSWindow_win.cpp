@@ -162,7 +162,10 @@ SkOSWindow::SkOSWindow(void* hWnd)
 	fMSAASampleCount = 0;
 	fDeepColor = false;
 	fActualColorBits = 0;
+
+#ifndef NOT_SUPPORT_OPENGL
 	fHGLRC = NULL;
+#endif
 
 #if SK_ANGLE
     fDisplay = EGL_NO_DISPLAY;
@@ -190,9 +193,11 @@ SkOSWindow::~SkOSWindow()
 	SkSafeUnref(fCurContext);
 	SkSafeUnref(fCurIntf);
 
+#ifndef NOT_SUPPORT_OPENGL
     if (NULL != fHGLRC) {
         wglDeleteContext((HGLRC)fHGLRC);
     }
+#endif
 
 #if SK_ANGLE
     if (EGL_NO_CONTEXT != fContext) {
@@ -394,7 +399,10 @@ bool SkOSWindow::attach()
 		break;
 #if SK_SUPPORT_GPU
 	case kGPU_DeviceType:
+#ifndef NOT_SUPPORT_OPENGL
 		result = attachGL();
+#endif
+		result = false;
 		break;
 #if SK_ANGLE
 	case kANGLE_DeviceTypeD3D11:
@@ -422,7 +430,9 @@ void SkOSWindow::detach() {
 		break;
 #if SK_SUPPORT_GPU
 	case kGPU_DeviceType:
+#ifndef NOT_SUPPORT_OPENGL
 		detachGL();
+#endif
 		break;
 #if SK_ANGLE
 	case kANGLE_DeviceTypeD3D11:
@@ -446,7 +456,9 @@ void SkOSWindow::present() {
 			return;
 #if SK_SUPPORT_GPU
 		case kGPU_DeviceType:
+#ifndef NOT_SUPPORT_OPENGL
 			presentGL();
+#endif
 			break;
 #if SK_ANGLE
 		case kANGLE_DeviceTypeD3D11:
@@ -481,7 +493,10 @@ void SkOSWindow::setUpBackend() {
 	case kRaster_DeviceType:
 		break;
 	case kGPU_DeviceType:
+#ifndef NOT_SUPPORT_OPENGL
 		fCurIntf = GrGLCreateNativeInterface();
+#endif
+		fCurIntf = nullptr;
 		break;
 #if SK_ANGLE
 	case kANGLE_DeviceTypeD3D11:
@@ -633,6 +648,7 @@ sk_sp<SkSurface> SkOSWindow::makeGPUSurface() {
 	return nullptr;
 }
 
+#ifndef NOT_SUPPORT_OPENGL
 bool SkOSWindow::attachGL() 
 {
     HDC dc = GetDC((HWND)fHWND);
@@ -688,6 +704,7 @@ void SkOSWindow::presentGL() {
     SwapBuffers(dc);
     ReleaseDC((HWND)fHWND, dc);
 }
+#endif
 
 #if SK_ANGLE
 

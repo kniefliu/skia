@@ -1487,5 +1487,8 @@
     <ClCompile Include="..\..\..\src\gpu\gl\win\GrGLCreateNativeInterface_win.cpp">
       <Filter>src\gpu\gl\win</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\gpu\gl\GrGLDefaultInterface_none.cpp">
+      <Filter>src\gpu\gl</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

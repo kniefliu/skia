@@ -79,7 +79,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;OpenGL32.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -100,7 +100,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;OpenGL32.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -121,7 +121,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;OpenGL32.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -141,7 +141,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;OpenGL32.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>avx.lib;effects.lib;gpu.lib;jpeg.lib;png.lib;sse2.lib;sse41.lib;sse42.lib;ssse3.lib;webp.lib;libEGL.lib;libjpeg.lib;libpng.lib;libwebp.lib;libwebp_avx2.lib;libwebp_sse41.lib;zlib.lib;zlib_x86.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -433,7 +433,12 @@
     <ClInclude Include="../../../src/utils/win/SkHRESULT.h" />
     <ClInclude Include="../../../src/utils/win/SkIStream.h" />
     <ClInclude Include="../../../src/utils/win/SkTScopedComPtr.h" />
-    <ClInclude Include="../../../src/utils/win/SkWGL.h" />
+    <ClInclude Include="../../../src/utils/win/SkWGL.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="../../../src/fonts/SkRandomScalerContext.h" />
     <ClInclude Include="../../../src/fonts/SkTestScalerContext.h" />
     <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h" />
@@ -732,7 +737,12 @@
     <ClCompile Include="../../../src/utils/win/SkDWriteGeometrySink.cpp" />
     <ClCompile Include="../../../src/utils/win/SkHRESULT.cpp" />
     <ClCompile Include="../../../src/utils/win/SkIStream.cpp" />
-    <ClCompile Include="../../../src/utils/win/SkWGL_win.cpp" />
+    <ClCompile Include="../../../src/utils/win/SkWGL_win.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="../../../src/fonts/SkRandomScalerContext.cpp" />
     <ClCompile Include="../../../src/fonts/SkTestScalerContext.cpp" />
     <ClCompile Include="../../../src/android/SkAndroidFrameworkUtils.cpp" />
