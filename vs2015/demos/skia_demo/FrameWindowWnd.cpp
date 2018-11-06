@@ -117,7 +117,12 @@ LRESULT CFrameWindowWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 }
 
+#define TEST_DRAW_FLOW 1
 void CFrameWindowWnd::drawContent(SkCanvas * canvas) {
+#if TEST_DRAW_FLOW
+	SkColor bkcolor = SkColorSetARGB(0xe0, 0xee, 0xee, 0xee);
+	canvas->clear(bkcolor);
+#else
 	SkColor bkcolor = SkColorSetARGB(0xe0, 0xee, 0xee, 0xee);
 	canvas->clear(bkcolor);
 
@@ -131,6 +136,7 @@ void CFrameWindowWnd::drawContent(SkCanvas * canvas) {
 	SkBitmap image;
 	decode_file("website.jpg", &image);
 	canvas->drawBitmap(image, 100, 120);
+#endif
 }
 
 

@@ -22,6 +22,12 @@
     <Filter Include="..">
       <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include">
+      <UniqueIdentifier>{242545eb-8fef-41c9-ae0b-bd0f064a24d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include\EGL">
+      <UniqueIdentifier>{72142ada-df8f-4dd4-84d2-50dca55772bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../../../third_party/externals/angle2/src/libEGL/libEGL.cpp">
@@ -33,10 +39,18 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libEGL/resource.h">
       <Filter>..\..\third_party\externals\angle2\src\libEGL</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libEGL\eglext_angleext.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libEGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libEGL/libEGL.rc">
       <Filter>..\..\third_party\externals\angle2\src\libEGL</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\include\EGL\eglext_angleext.h">
+      <Filter>..\..\third_party\externals\angle2\include\EGL</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

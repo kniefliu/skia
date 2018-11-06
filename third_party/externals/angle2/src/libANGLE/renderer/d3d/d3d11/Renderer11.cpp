@@ -644,6 +644,8 @@ egl::Error Renderer11::initialize()
         memset(mDescription, 0, sizeof(mDescription));
         wcstombs(mDescription, mAdapterDescription.Description, sizeof(mDescription) - 1);
 
+		ANGLE_LOG(WARN) << mDescription;
+
         result = mDxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&mDxgiFactory);
 
         if (!mDxgiFactory || FAILED(result))

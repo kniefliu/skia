@@ -36,7 +36,7 @@ class GrContext;
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
-#include "platform/platform.h"
+#include <EGL/eglext_angleext.h>
 
 #define GL_CALL(IFACE, X)                                 \
     SkASSERT(IFACE);                                      \
@@ -766,7 +766,11 @@ static void SkOSWindowWin_LogWarning(angle::PlatformMethods *platform, const cha
 	LogNewLine();
 }
 
-#define EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX 0x9999
+static void SkOSWindowWin_LogInfo(angle::PlatformMethods *platform, const char *infoMessage)
+{
+	LogMessage(infoMessage);
+	LogNewLine();
+}
 
 static angle::PlatformMethods* platformMethods()
 {
@@ -815,17 +819,11 @@ bool create_ANGLE(EGLNativeWindowType hWnd,
 		{
 			EGL_PLATFORM_ANGLE_TYPE_ANGLE,
 			EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE,
-#ifndef _WIN64
-			EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX, reinterpret_cast<EGLAttrib>(platformMethods()),
-#endif
 			EGL_NONE
 		},
 		{
 			EGL_PLATFORM_ANGLE_TYPE_ANGLE,
 			EGL_PLATFORM_ANGLE_TYPE_D3D9_ANGLE,
-#ifndef _WIN64
-			EGL_PLATFORM_ANGLE_PLATFORM_METHODS_ANGLEX, reinterpret_cast<EGLAttrib>(platformMethods()),
-#endif
 			EGL_NONE
 		},
 	};
@@ -848,6 +846,8 @@ bool create_ANGLE(EGLNativeWindowType hWnd,
     if (display == EGL_NO_DISPLAY ) {
        return false;
     }
+
+	registerPlatformMethods(display, platformMethods());
 
 	// Initialize EGL
 	{

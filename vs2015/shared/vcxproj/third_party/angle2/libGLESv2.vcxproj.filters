@@ -2466,10 +2466,18 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/third_party/systeminfo/SystemInfo.h">
       <Filter>..\..\third_party\externals\angle2\src\third_party\systeminfo</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_egl_ext_ext.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-	<ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">
+    <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">
       <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\third_party\externals\angle2\src\libGLESv2\entry_points_egl_ext_ext.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
