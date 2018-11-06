@@ -1,0 +1,2475 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Filter Include="..\..\third_party\externals\angle2\src\compiler\preprocessor">
+      <UniqueIdentifier>{366CFB66-A869-1C23-9273-5736A9293FC0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\compiler">
+      <UniqueIdentifier>{619AB7D9-9B38-0230-D2D9-1EBD223795B3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src">
+      <UniqueIdentifier>{13C461FC-90C0-807A-FA3F-D31128D96F00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2">
+      <UniqueIdentifier>{FB4B3125-E8DC-54C8-B36E-A3172023B81C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals">
+      <UniqueIdentifier>{AA2D7338-93F3-927B-CA6F-5DA0C10A5E77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party">
+      <UniqueIdentifier>{F88318E6-F850-6A80-FDF6-B1A366449460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{A8A4AA46-5437-4AB8-6540-F14ED994B38E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{78245A82-158D-7D20-54A6-7C428D0A7B36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include\EGL">
+      <UniqueIdentifier>{7EC0ECFD-4CD4-A06E-A852-60C88D95E416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include">
+      <UniqueIdentifier>{21F27181-BB33-3DDF-F8D0-EC338E02A260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include\GLES2">
+      <UniqueIdentifier>{9DF95387-1E51-6D29-23A0-67EF822BAC6A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include\GLES3">
+      <UniqueIdentifier>{BB306157-00B9-D0A6-E096-8AE46752A384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include\GLSLANG">
+      <UniqueIdentifier>{A79F7788-B9C7-491D-1B73-992E149CADA4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\include\KHR">
+      <UniqueIdentifier>{EFC44BA7-0042-5020-995B-EEFD13933CA9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\compiler\translator">
+      <UniqueIdentifier>{C7BB6BA8-851F-2E09-F75F-6764437F98F4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\third_party\compiler">
+      <UniqueIdentifier>{0689AB69-751C-2EE2-63D6-82114B8FA229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\third_party">
+      <UniqueIdentifier>{C2875AF8-2696-1FD1-B185-FF7B57A37756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common">
+      <UniqueIdentifier>{4BC6A14B-8ACB-CF4B-FA13-72F0131F4A22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE">
+      <UniqueIdentifier>{935307AF-7432-676A-501D-61EDC0691459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer">
+      <UniqueIdentifier>{8FB033EA-661F-3ECE-CB61-9C234DF46DAE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\third_party\trace_event">
+      <UniqueIdentifier>{F3A9F148-2EBB-DF5B-03FD-B56FCD95AF1B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\base\anglebase">
+      <UniqueIdentifier>{E90E5A44-71F0-6BFF-F868-34994FEFC0B7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\base">
+      <UniqueIdentifier>{01676433-41C7-8177-30A4-8466311A1025}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party">
+      <UniqueIdentifier>{79D0F4AE-5C73-0D5D-EB74-2592BBC0E87C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\containers">
+      <UniqueIdentifier>{AEC6A9B1-4D17-DF0D-4F98-0403A3C7E20A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\numerics">
+      <UniqueIdentifier>{8296EAB6-BE53-E660-6525-F240633B04C4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\common\third_party\murmurhash">
+      <UniqueIdentifier>{CF6BA4D1-A421-25FA-9449-BD8D0388D372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\image_util">
+      <UniqueIdentifier>{E640CE33-F896-55C7-F1B1-2026BC834875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libGLESv2">
+      <UniqueIdentifier>{64694506-47BC-3EFB-6855-7FFA6E200D00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\gl">
+      <UniqueIdentifier>{D184345F-998F-183E-98B5-4424620E9524}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl">
+      <UniqueIdentifier>{999FDF5C-7D5E-5F5A-8D1F-0FB1B13B3F6F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\third_party\khronos\GL">
+      <UniqueIdentifier>{3AB22123-D48A-1276-A792-5C374D5DA842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\third_party\khronos">
+      <UniqueIdentifier>{8EDC264A-191B-1F10-8705-4763392A8BDE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d">
+      <UniqueIdentifier>{2F5E6E46-47AB-C4C7-4F9C-836DDCF4BE78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9">
+      <UniqueIdentifier>{41EE787C-D28F-6BA3-9AC5-5C7A1633668B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled">
+      <UniqueIdentifier>{372A6E74-E862-5540-2F3F-36395D11F1C6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders">
+      <UniqueIdentifier>{97422FAF-AA26-17D3-FC44-E4FD01D32BAE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11">
+      <UniqueIdentifier>{BFA70172-61B9-CB34-B08F-6B621FC20E7D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled">
+      <UniqueIdentifier>{3F497B84-6204-89C7-2D3E-82E94A7FE15B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders">
+      <UniqueIdentifier>{61ED5B19-F2DD-BDD7-6E9C-C9162EC9A897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\win32">
+      <UniqueIdentifier>{0F96843E-7116-C574-F037-09A89E7FBC15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\third_party\externals\angle2\src\third_party\systeminfo">
+      <UniqueIdentifier>{3B6DA84F-2F27-1D59-375A-ADB894FA9209}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/DiagnosticsBase.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/DiagnosticsBase.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/DirectiveHandlerBase.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/DirectiveHandlerBase.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/DirectiveParser.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/DirectiveParser.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/ExpressionParser.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/ExpressionParser.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/ExpressionParser.y">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Input.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Input.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Lexer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Lexer.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Macro.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Macro.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/MacroExpander.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/MacroExpander.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Preprocessor.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Preprocessor.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/SourceLocation.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Token.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Token.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Tokenizer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Tokenizer.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/Tokenizer.l">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/preprocessor/numeric_lex.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\preprocessor</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/EGL/egl.h">
+      <Filter>..\..\third_party\externals\angle2\include\EGL</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/EGL/eglext.h">
+      <Filter>..\..\third_party\externals\angle2\include\EGL</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/EGL/eglplatform.h">
+      <Filter>..\..\third_party\externals\angle2\include\EGL</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLES2/gl2.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLES2</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLES2/gl2ext.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLES2</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLES2/gl2platform.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLES2</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLES3/gl3.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLES3</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLES3/gl3platform.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLES3</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLES3/gl31.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLES3</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLES3/gl32.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLES3</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLSLANG/ShaderLang.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLSLANG</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/GLSLANG/ShaderVars.h">
+      <Filter>..\..\third_party\externals\angle2\include\GLSLANG</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/KHR/khrplatform.h">
+      <Filter>..\..\third_party\externals\angle2\include\KHR</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/include/angle_gl.h">
+      <Filter>..\..\third_party\externals\angle2\include</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/AddAndTrueToLoopCondition.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/AddAndTrueToLoopCondition.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/BaseTypes.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/BuiltInFunctionEmulator.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/BuiltInFunctionEmulator.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/BreakVariableAliasingInInnerLoops.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/BreakVariableAliasingInInnerLoops.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/Cache.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Cache.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/CallDAG.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/CallDAG.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ClampPointSize.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ClampPointSize.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/CodeGen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/CollectVariables.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/CollectVariables.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Common.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/Compiler.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Compiler.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ConstantUnion.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ConstantUnion.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/DeclareAndInitBuiltinsForInstancedMultiview.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/DeclareAndInitBuiltinsForInstancedMultiview.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/DeferGlobalInitializers.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/DeferGlobalInitializers.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/Diagnostics.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Diagnostics.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/DirectiveHandler.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/DirectiveHandler.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/EmulateGLFragColorBroadcast.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/EmulateGLFragColorBroadcast.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/EmulatePrecision.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/EmulatePrecision.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ExpandIntegerPowExpressions.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ExpandIntegerPowExpressions.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ExtensionBehavior.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/FindMain.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/FindMain.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/FindSymbolNode.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/FindSymbolNode.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/FlagStd140Structs.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/FlagStd140Structs.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/HashNames.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/HashNames.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/InfoSink.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/InfoSink.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/Initialize.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Initialize.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/InitializeDll.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/InitializeDll.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/InitializeGlobals.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/InitializeVariables.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/InitializeVariables.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermNode.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermNode.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermNodePatternMatcher.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermNodePatternMatcher.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermNode_util.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermNode_util.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermTraverse.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/IntermTraverse.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/IsASTDepthBelowLimit.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/IsASTDepthBelowLimit.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/NodeSearch.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/Operator.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Operator.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputTree.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputTree.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ParamType.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ParseContext.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ParseContext.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/PoolAlloc.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/PoolAlloc.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Pragma.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/PruneEmptyDeclarations.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/PruneEmptyDeclarations.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/PrunePureLiteralStatements.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/PrunePureLiteralStatements.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/QualifierTypes.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/QualifierTypes.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RecordConstantPrecision.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RecordConstantPrecision.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RegenerateStructNames.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RegenerateStructNames.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemoveInvariantDeclaration.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemoveInvariantDeclaration.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemovePow.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemovePow.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteDoWhile.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteDoWhile.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteTexelFetchOffset.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteTexelFetchOffset.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteUnaryMinusOperatorFloat.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteUnaryMinusOperatorFloat.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteUnaryMinusOperatorInt.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteUnaryMinusOperatorInt.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RunAtTheEndOfShader.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RunAtTheEndOfShader.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ScalarizeVecAndMatConstructorArgs.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ScalarizeVecAndMatConstructorArgs.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/SearchSymbol.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/SearchSymbol.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/SeparateDeclarations.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/SeparateDeclarations.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Severity.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ShaderLang.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ShaderVars.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/SimplifyLoopConditions.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/SimplifyLoopConditions.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/SymbolTable.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/SymbolTable.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/Types.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/Types.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/UnfoldShortCircuitAST.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/UnfoldShortCircuitAST.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/UseInterfaceBlockFields.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/UseInterfaceBlockFields.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateGlobalInitializer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateGlobalInitializer.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateLimitations.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateLimitations.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMaxParameters.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMaxParameters.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMultiviewWebGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateMultiviewWebGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateOutputs.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateOutputs.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateSwitch.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ValidateSwitch.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/VariablePacker.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/VariablePacker.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/blocklayout.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/blocklayout.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/glslang.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/glslang.l">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/glslang.y">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/glslang_lex.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/glslang_tab.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/glslang_tab.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/length_limits.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/util.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/util.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/third_party/compiler/ArrayBoundsClamper.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\third_party\compiler</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/third_party/compiler/ArrayBoundsClamper.h">
+      <Filter>..\..\third_party\externals\angle2\src\third_party\compiler</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputESSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputESSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/TranslatorESSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/TranslatorESSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/BuiltInFunctionEmulatorGLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/BuiltInFunctionEmulatorGLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ExtensionGLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ExtensionGLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputGLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputGLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputGLSLBase.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputGLSLBase.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/TranslatorGLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/TranslatorGLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/VersionGLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/VersionGLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/AddDefaultReturnStatements.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/AddDefaultReturnStatements.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ArrayReturnValueToOutParameter.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ArrayReturnValueToOutParameter.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/ASTMetadataHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/ASTMetadataHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/blocklayoutHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/blocklayoutHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/BuiltInFunctionEmulatorHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/BuiltInFunctionEmulatorHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/OutputHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemoveDynamicIndexing.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemoveDynamicIndexing.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemoveSwitchFallThrough.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RemoveSwitchFallThrough.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteElseBlocks.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/RewriteElseBlocks.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/SeparateArrayInitialization.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/SeparateArrayInitialization.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/SeparateExpressionsReturningArrays.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/SeparateExpressionsReturningArrays.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/SplitSequenceOperator.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/SplitSequenceOperator.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/StructureHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/StructureHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/TextureFunctionHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/TextureFunctionHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/TranslatorHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/TranslatorHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/UnfoldShortCircuitToIf.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/UnfoldShortCircuitToIf.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/UniformHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/UniformHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/UtilsHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/compiler/translator/UtilsHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/compiler/translator/emulated_builtin_functions_hlsl_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\compiler\translator</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/event_tracer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/event_tracer.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/AttributeMap.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/AttributeMap.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/BinaryStream.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Buffer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Buffer.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Caps.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Caps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Compiler.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Compiler.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Config.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Config.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Constants.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Context.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Context.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/ContextState.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/ContextState.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Debug.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Debug.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Device.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Device.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Display.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Display.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Error.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Error.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Error.inl">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Fence.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Fence.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Framebuffer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Framebuffer.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/FramebufferAttachment.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/FramebufferAttachment.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/HandleAllocator.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/HandleAllocator.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/HandleRangeAllocator.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/HandleRangeAllocator.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Image.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Image.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/ImageIndex.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/ImageIndex.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/IndexRangeCache.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/IndexRangeCache.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/LoggingAnnotator.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/LoggingAnnotator.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/MemoryProgramCache.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/MemoryProgramCache.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Path.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Path.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Platform.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Program.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Program.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Query.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Query.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/RefCountObject.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Renderbuffer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Renderbuffer.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/ResourceManager.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/ResourceManager.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/ResourceMap.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Sampler.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Sampler.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Shader.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Shader.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/SizedMRUCache.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/State.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/State.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Stream.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Stream.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Surface.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Surface.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Texture.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Texture.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Thread.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Thread.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/TransformFeedback.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/TransformFeedback.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/Uniform.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Uniform.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/UniformLinker.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/UniformLinker.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/VaryingPacking.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/VaryingPacking.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Version.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/Version.inl">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/VertexArray.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/VertexArray.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/VertexAttribute.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/VertexAttribute.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/VertexAttribute.inl">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/WorkerThread.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/WorkerThread.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/angletypes.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/angletypes.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/angletypes.inl">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/entry_points_enum_autogen.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/es3_copy_conversion_table_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/features.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/format_map_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/formatutils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/formatutils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/histogram_macros.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/params.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/params.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/queryconversions.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/queryconversions.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/queryutils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/queryutils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/BufferImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/CompilerImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/ContextImpl.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/ContextImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/driver_utils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/driver_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/DeviceImpl.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/DeviceImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/DisplayImpl.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/DisplayImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/EGLImplFactory.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceNVImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FenceSyncImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format_ID_autogen.inl">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format_table_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/Format.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FramebufferAttachmentObjectImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/FramebufferImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/GLImplFactory.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/ImageImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/ProgramImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/QueryImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/RenderbufferImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/SamplerImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/ShaderImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/StreamProducerImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/SurfaceImpl.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/SurfaceImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/TextureImpl.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/TextureImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/TransformFeedbackImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/VertexArrayImpl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/load_functions_table.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/load_functions_table_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/renderer_utils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/renderer_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/signal_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/validationEGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/validationEGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES2.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES2.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES3.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES3.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES31.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/validationES31.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/third_party/trace_event/trace_event.h">
+      <Filter>..\..\third_party\externals\angle2\src\third_party\trace_event</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/Color.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/Color.inl">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/Float16ToFloat32.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/MemoryBuffer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/MemoryBuffer.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/Optional.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/angleutils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/bitset_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/debug.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/mathutil.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/mathutil.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/matrix_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/platform.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/string_utils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/string_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/base_export.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/containers/mru_cache.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/logging.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/macros.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/numerics/safe_conversions.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/numerics/safe_conversions_impl.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/numerics/safe_math.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/numerics/safe_math_impl.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase\numerics</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/sha1.cc">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/sha1.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/base/anglebase/sys_byteorder.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\base\anglebase</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/third_party/murmurhash/MurmurHash3.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\murmurhash</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/third_party/murmurhash/MurmurHash3.h">
+      <Filter>..\..\third_party\externals\angle2\src\common\third_party\murmurhash</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/tls.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/tls.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/common/utilities.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/utilities.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/vector_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/version.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/image_util/copyimage.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/copyimage.h">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/copyimage.inl">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/generatemip.h">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/generatemip.inl">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/image_util/imageformats.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/imageformats.h">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/image_util/loadimage.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/loadimage.h">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/loadimage.inl">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/image_util/loadimage_etc.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\image_util</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h">
+      <Filter>..\..\third_party\externals\angle2\src\common</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl_ext.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl_ext.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_autogen.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_2_0_ext.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_0.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_gles_3_1.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/global_state.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/global_state.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.def">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/resource.h">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/BlitGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/BlitGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/BufferGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/BufferGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ClearMultiviewGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ClearMultiviewGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/CompilerGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/CompilerGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ContextGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ContextGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/DisplayGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/DisplayGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceNVGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FenceSyncGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FramebufferGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FunctionsGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/FunctionsGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/PathGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/PathGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ProgramGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ProgramGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/QueryGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/QueryGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/RenderbufferGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/RenderbufferGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/RendererGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/RendererGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/SamplerGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/SamplerGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ShaderGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/ShaderGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/StateManagerGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/StateManagerGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/SurfaceGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/SurfaceGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/TextureGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/TextureGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/TransformFeedbackGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/TransformFeedbackGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/VertexArrayGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/VertexArrayGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/WorkaroundsGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/formatutilsgl.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/formatutilsgl.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/functionsgl_enums.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/functionsgl_typedefs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/renderergl_utils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/renderergl_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/D3DTextureSurfaceWGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/D3DTextureSurfaceWGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/DisplayWGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/DisplayWGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/DXGISwapChainWindowSurfaceWGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/DXGISwapChainWindowSurfaceWGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/FunctionsWGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/FunctionsWGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/PbufferSurfaceWGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/PbufferSurfaceWGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/SurfaceWGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/WindowSurfaceWGL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/WindowSurfaceWGL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/functionswgl_typedefs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/wgl_utils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/gl/wgl/wgl_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\gl\wgl</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/third_party/khronos/GL/wglext.h">
+      <Filter>..\..\third_party\externals\angle2\src\third_party\khronos\GL</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/BufferD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/BufferD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/CompilerD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/CompilerD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/DeviceD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/DeviceD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/DisplayD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/DisplayD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/DynamicHLSL.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/DynamicHLSL.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/EGLImageD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/EGLImageD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/formatutilsD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/FramebufferD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/FramebufferD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/HLSLCompiler.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/HLSLCompiler.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ImageD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ImageD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/IndexBuffer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/IndexBuffer.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/IndexDataManager.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/IndexDataManager.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/NativeWindowD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/NativeWindowD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ProgramD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ProgramD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/RenderbufferD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/RenderbufferD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/RendererD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/RendererD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/RenderTargetD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/RenderTargetD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/SamplerD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ShaderD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ShaderD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ShaderExecutableD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/ShaderExecutableD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/SurfaceD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/SurfaceD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/SwapChainD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/SwapChainD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/TextureD3D.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/TextureD3D.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/TextureStorage.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/VertexBuffer.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/VertexBuffer.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/VertexDataManager.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/VertexDataManager.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Blit9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Blit9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Buffer9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Buffer9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Context9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Context9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/DebugAnnotator9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/DebugAnnotator9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Fence9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Fence9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/formatutils9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/formatutils9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Framebuffer9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Framebuffer9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Image9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Image9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/IndexBuffer9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/IndexBuffer9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/NativeWindow9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/NativeWindow9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Query9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Query9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Renderer9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/Renderer9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/renderer9_utils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/renderer9_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/RenderTarget9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/RenderTarget9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/ShaderCache.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/ShaderExecutable9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/ShaderExecutable9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/componentmaskps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/componentmaskpremultps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/componentmaskunmultps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/luminanceps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/luminancepremultps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/luminanceunmultps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/passthroughps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/shaders/compiled/standardvs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9\shaders\compiled</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/StateManager9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/StateManager9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/SwapChain9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/SwapChain9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/TextureStorage9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/TextureStorage9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/VertexArray9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/VertexBuffer9.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/VertexBuffer9.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/vertexconversion.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/VertexDeclarationCache.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d9/VertexDeclarationCache.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d9</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Blit11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Blit11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Buffer11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Buffer11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Clear11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Clear11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Context11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Context11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/copyvertex.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/copyvertex.inl">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/DebugAnnotator11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/DebugAnnotator11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/dxgi_format_map_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/dxgi_support_table.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/dxgi_support_table.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Fence11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Fence11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/formatutils11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/formatutils11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Framebuffer11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Framebuffer11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Image11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Image11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/IndexBuffer11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/IndexBuffer11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/InputLayoutCache.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/InputLayoutCache.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/NativeWindow11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/PixelTransfer11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/PixelTransfer11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Query11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Query11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Renderer11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Renderer11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/ResourceManager11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/ResourceManager11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/renderer11_utils.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/renderer11_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/RenderStateCache.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/RenderStateCache.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/RenderTarget11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/RenderTarget11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/ShaderExecutable11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/ShaderExecutable11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/buffertotexture11_gs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/buffertotexture11_ps_4f.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/buffertotexture11_ps_4i.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/buffertotexture11_ps_4ui.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/buffertotexture11_vs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clear11_fl9vs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clear11vs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/cleardepth11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11_fl9ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps1.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps2.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps3.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps4.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps5.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps6.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps7.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearfloat11ps8.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps1.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps2.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps3.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps4.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps5.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps6.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps7.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearsint11ps8.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps1.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps2.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps3.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps4.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps5.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps6.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps7.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/clearuint11ps8.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftof_pm_rgba_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftof_um_rgba_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftof_pm_rgb_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftof_um_rgb_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftou_pm_rgba_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftou_pt_rgba_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftou_um_rgba_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftou_pm_rgb_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftou_pt_rgb_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/multiplyalpha_ftou_um_rgb_ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthrough2d11vs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthrough3d11gs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthrough3d11vs.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughdepth2d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughlum2d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughlum3d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughlumalpha2d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughlumalpha3d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughr2d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughr2di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughr2dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughr3d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughr3di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughr3dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrg2d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrg2di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrg2dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrg3d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrg3di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrg3dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgb2d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgb2di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgb2dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgb3d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgb3di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgb3dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgba2d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgba2di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgba2dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgba3d11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgba3di11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/passthroughrgba3dui11ps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzlef2darrayps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzlef2dps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzlef3dps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzlei2darrayps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzlei2dps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzlei3dps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzleui2darrayps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzleui2dps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/shaders/compiled/swizzleui3dps.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\shaders\compiled</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/StateManager11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/StateManager11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/StreamProducerNV12.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/StreamProducerNV12.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/SwapChain11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/SwapChain11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/TextureStorage11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/TextureStorage11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/TransformFeedback11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/TransformFeedback11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Trim11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/Trim11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/texture_format_table_autogen.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/texture_format_table_utils.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/texture_format_table.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/texture_format_table.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/VertexArray11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/VertexArray11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/VertexBuffer11.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/VertexBuffer11.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/win32/NativeWindow11Win32.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\win32</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/libANGLE/renderer/d3d/d3d11/win32/NativeWindow11Win32.h">
+      <Filter>..\..\third_party\externals\angle2\src\libANGLE\renderer\d3d\d3d11\win32</Filter>
+    </ClInclude>
+    <ClCompile Include="../../../../../third_party/externals/angle2/src/third_party/systeminfo/SystemInfo.cpp">
+      <Filter>..\..\third_party\externals\angle2\src\third_party\systeminfo</Filter>
+    </ClCompile>
+    <ClInclude Include="../../../../../third_party/externals/angle2/src/third_party/systeminfo/SystemInfo.h">
+      <Filter>..\..\third_party\externals\angle2\src\third_party\systeminfo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+	<ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">
+      <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

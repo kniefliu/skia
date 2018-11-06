@@ -58,32 +58,32 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sse42", "vcxproj\sse42.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ssse3", "vcxproj\ssse3.vcxproj", "{20BFBB19-5143-C026-A8A1-98184C94A807}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libEGL", "..\externals\vcxproj\third_party\angle2\libEGL.vcxproj", "{B5AB9C4A-5ED2-4B83-903E-8FCC376594D3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libEGL", "vcxproj\third_party\angle2\libEGL.vcxproj", "{B5AB9C4A-5ED2-4B83-903E-8FCC376594D3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5D3C0AEC-F2EF-BDB7-768B-FA04853FF2ED} = {5D3C0AEC-F2EF-BDB7-768B-FA04853FF2ED}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libGLESv2", "..\externals\vcxproj\third_party\angle2\libGLESv2.vcxproj", "{5D3C0AEC-F2EF-BDB7-768B-FA04853FF2ED}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libGLESv2", "vcxproj\third_party\angle2\libGLESv2.vcxproj", "{5D3C0AEC-F2EF-BDB7-768B-FA04853FF2ED}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjpeg", "..\externals\vcxproj\third_party\libjpeg-turbo\libjpeg.vcxproj", "{83B885A4-F890-2C5B-348D-7CDA0D61CF26}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjpeg", "vcxproj\third_party\libjpeg-turbo\libjpeg.vcxproj", "{83B885A4-F890-2C5B-348D-7CDA0D61CF26}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "..\externals\vcxproj\third_party\libpng\libpng.vcxproj", "{2272013B-E9DA-591B-B995-F7B03DC4BE76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "vcxproj\third_party\libpng\libpng.vcxproj", "{2272013B-E9DA-591B-B995-F7B03DC4BE76}"
 	ProjectSection(ProjectDependencies) = postProject
 		{944FA229-A827-EFD3-45B8-0ACCA83E2CC9} = {944FA229-A827-EFD3-45B8-0ACCA83E2CC9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwebp", "..\externals\vcxproj\third_party\libwebp\libwebp.vcxproj", "{13FF0792-A196-EA8E-E4F7-38B090F35AD3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwebp", "vcxproj\third_party\libwebp\libwebp.vcxproj", "{13FF0792-A196-EA8E-E4F7-38B090F35AD3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwebp_avx2", "..\externals\vcxproj\third_party\libwebp\libwebp_avx2.vcxproj", "{E52DE0CD-1DFA-433E-C110-BA833CCF5A6B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwebp_avx2", "vcxproj\third_party\libwebp\libwebp_avx2.vcxproj", "{E52DE0CD-1DFA-433E-C110-BA833CCF5A6B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwebp_sse41", "..\externals\vcxproj\third_party\libwebp\libwebp_sse41.vcxproj", "{D91108B0-7D5C-DB5E-3500-FDC7946D1DFA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwebp_sse41", "vcxproj\third_party\libwebp\libwebp_sse41.vcxproj", "{D91108B0-7D5C-DB5E-3500-FDC7946D1DFA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "..\externals\vcxproj\third_party\zlib\zlib.vcxproj", "{944FA229-A827-EFD3-45B8-0ACCA83E2CC9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "vcxproj\third_party\zlib\zlib.vcxproj", "{944FA229-A827-EFD3-45B8-0ACCA83E2CC9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{515DF972-90F4-0D05-6C62-FB6627BDA1BD} = {515DF972-90F4-0D05-6C62-FB6627BDA1BD}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib_x86", "..\externals\vcxproj\third_party\zlib\zlib_x86.vcxproj", "{515DF972-90F4-0D05-6C62-FB6627BDA1BD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib_x86", "vcxproj\third_party\zlib\zlib_x86.vcxproj", "{515DF972-90F4-0D05-6C62-FB6627BDA1BD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "webp", "vcxproj\webp.vcxproj", "{8A0C6C9E-97AD-3090-23B9-59761877A7CE}"
 	ProjectSection(ProjectDependencies) = postProject

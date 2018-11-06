@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{13FF0792-A196-EA8E-E4F7-38B090F35AD3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>libwebp</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libwebp/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;WEBP_SWAP_16BIT_CSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libwebp/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;WEBP_SWAP_16BIT_CSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libwebp/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>NDEBUG;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;WEBP_SWAP_16BIT_CSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libwebp/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>NDEBUG;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;WEBP_SWAP_16BIT_CSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/alpha_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/buffer_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/frame_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/idec_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/io_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/quant_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/tree_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/vp8_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/vp8l_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dec/webp_dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/demux/demux.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/alpha_processing.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/alpha_processing_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/alpha_processing_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/alpha_processing_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/argb.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/argb_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/argb_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/cost.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/cost_mips32.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/cost_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/cost_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/cpu.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/dec.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/dec_clip_tables.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/dec_mips32.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/dec_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/dec_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/dec_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/enc_mips32.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/enc_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/enc_msa.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/enc_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/enc_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/filters.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/filters_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/filters_msa.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/filters_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/filters_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_enc_mips32.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_enc_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_enc_msa.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_enc_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_enc_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_msa.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/lossless_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/rescaler.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/rescaler_mips32.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/rescaler_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/rescaler_msa.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/rescaler_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/rescaler_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/upsampling.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/upsampling_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/upsampling_msa.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/upsampling_neon.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/upsampling_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/yuv.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/yuv_mips32.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/yuv_mips_dsp_r2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/dsp/yuv_sse2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/alpha_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/analysis_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/backward_references_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/config_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/cost_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/filter_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/frame_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/histogram_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/iterator_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/near_lossless_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/picture_csp_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/picture_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/picture_psnr_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/picture_rescale_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/picture_tools_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/predictor_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/quant_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/syntax_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/token_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/tree_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/vp8l_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/enc/webp_enc.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/mux/anim_encode.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/mux/muxedit.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/mux/muxinternal.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/mux/muxread.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/bit_reader_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/bit_writer_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/color_cache_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/filters_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/huffman_encode_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/huffman_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/quant_levels_dec_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/quant_levels_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/random_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/rescaler_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/thread_utils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libwebp/src/utils/utils.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

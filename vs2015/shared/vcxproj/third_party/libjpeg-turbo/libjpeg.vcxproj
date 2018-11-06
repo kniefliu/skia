@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="14.0">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{83B885A4-F890-2C5B-348D-7CDA0D61CF26}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>libjpeg</RootNamespace>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetPath>$(OutDir)\$(ProjectName)$(TargetExt)</TargetPath>
+    <IntDir>$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libjpeg-turbo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>TURBO_FOR_WINDOWS;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libjpeg-turbo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>TURBO_FOR_WINDOWS;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libjpeg-turbo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>NDEBUG;TURBO_FOR_WINDOWS;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../../third_party/externals/libjpeg-turbo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>NDEBUG;TURBO_FOR_WINDOWS;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jaricom.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcapimin.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcapistd.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcarith.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jccoefct.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jccolor.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcdctmgr.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jchuff.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcinit.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcmainct.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcmarker.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcmaster.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcomapi.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcparam.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcphuff.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcprepct.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jcsample.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdapimin.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdapistd.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdarith.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdcoefct.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdcolor.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jddctmgr.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdhuff.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdinput.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmainct.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmarker.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmaster.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdmerge.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdphuff.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdpostct.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jdsample.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jerror.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jfdctflt.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jfdctfst.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jfdctint.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctflt.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctfst.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctint.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jidctred.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jmemmgr.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jmemnobs.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jquant1.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jquant2.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jutils.c" />
+    <ClCompile Include="../../../../../third_party/externals/libjpeg-turbo/jsimd_none.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
