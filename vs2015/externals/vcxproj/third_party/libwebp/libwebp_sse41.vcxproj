@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{935D806F-ADA7-B76E-CDC1-44221E4FEE33}</ProjectGuid>
+    <ProjectGuid>{D91108B0-7D5C-DB5E-3500-FDC7946D1DFA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libwebp_sse41</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>

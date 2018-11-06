@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{744E5B70-1876-D95E-18D1-CA8378359530}</ProjectGuid>
+    <ProjectGuid>{5D3C0AEC-F2EF-BDB7-768B-FA04853FF2ED}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libGLESv2</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>

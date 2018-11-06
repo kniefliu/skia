@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{234ADB4C-E59D-4B97-2E81-085BBEB977E8}</ProjectGuid>
+    <ProjectGuid>{83B885A4-F890-2C5B-348D-7CDA0D61CF26}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libjpeg</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>

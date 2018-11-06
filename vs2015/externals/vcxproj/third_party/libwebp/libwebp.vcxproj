@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0E1DFDF0-83B5-6D68-38CB-164D4EAA2B8C}</ProjectGuid>
+    <ProjectGuid>{13FF0792-A196-EA8E-E4F7-38B090F35AD3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libwebp</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>

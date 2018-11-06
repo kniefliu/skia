@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CE43D86E-B130-CDDB-F2C8-B8735B8747FD}</ProjectGuid>
+    <ProjectGuid>{2272013B-E9DA-591B-B995-F7B03DC4BE76}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libpng</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>

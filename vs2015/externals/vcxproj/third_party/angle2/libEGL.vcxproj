@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E320E74D-5C59-AF60-81CB-8E46A0F8AD77}</ProjectGuid>
+    <ProjectGuid>{B5AB9C4A-5ED2-4B83-903E-8FCC376594D3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libEGL</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>

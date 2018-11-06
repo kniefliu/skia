@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D02FA32C-51FD-2A5C-7983-211759CFD98A}</ProjectGuid>
+    <ProjectGuid>{E52DE0CD-1DFA-433E-C110-BA833CCF5A6B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libwebp_avx2</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
