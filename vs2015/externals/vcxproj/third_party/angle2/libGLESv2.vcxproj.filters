@@ -2467,7 +2467,8 @@
       <Filter>..\..\third_party\externals\angle2\src\third_party\systeminfo</Filter>
     </ClInclude>
   </ItemGroup>
-  <ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">
+  <ItemGroup>
+	<ResourceCompile Include="../../../../../third_party/externals/angle2/src/libGLESv2/libGLESv2.rc">
       <Filter>..\..\third_party\externals\angle2\src\libGLESv2</Filter>
     </ResourceCompile>
   </ItemGroup>
