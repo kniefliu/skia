@@ -76,6 +76,7 @@ protected:
 	bool anti_alias_;
 	bool lcd_text_;
 	int bitmap_alpha_type_;
+    bool first_size_changed_;
 };
 
 #endif//__FRAMEWINDOWWND_H__
