@@ -367,7 +367,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/Optional.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/bitset_utils.h" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/mathutil.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/matrix_utils.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/platform.h" />
@@ -394,7 +393,6 @@
     <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/imageformats.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/loadimage.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/image_util/loadimage.inl" />
-    <ClInclude Include="../../../../../third_party/externals/angle2/src/common/angleutils.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/common/debug.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl.h" />
     <ClInclude Include="../../../../../third_party/externals/angle2/src/libGLESv2/entry_points_egl_ext.h" />

@@ -256,7 +256,6 @@
     <ClInclude Include="../../../src/core/SkStrokerPriv.h" />
     <ClInclude Include="../../../src/core/SkSurfacePriv.h" />
     <ClInclude Include="../../../src/core/SkTaskGroup.h" />
-    <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="../../../src/core/SkTDynamicHash.h" />
     <ClInclude Include="../../../src/core/SkTInternalLList.h" />
     <ClInclude Include="../../../src/core/SkTextFormatParams.h" />
