@@ -1,3 +1,7 @@
+20191011
+    // Force git to always ask for a password
+    git config --local credential.helper ''
+
 20180929
 	the original dependent tool gn.exe
 
