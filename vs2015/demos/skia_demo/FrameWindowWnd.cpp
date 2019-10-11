@@ -133,12 +133,186 @@ LRESULT CFrameWindowWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) 
     if (bHandled) return lRes;
     return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 }
-
+static SkColor global_text_color = SkColorSetARGB(0xff, 0x99, 0x99, 0x99);
 #define TEST_DRAW_FLOW 1
 void CFrameWindowWnd::drawContent(SkCanvas* canvas) {
 #if TEST_DRAW_FLOW
     SkColor bkcolor = SkColorSetARGB(0xe0, 0xee, 0xee, 0xee);
     canvas->clear(bkcolor);
+    SkScalar text_pos_x = 20;
+    SkScalar text_size = 12;
+    std::wstring num_font_name = TEXT("等线");
+    //std::wstring num_font_name = TEXT("宋体");
+    if (true) {
+        canvas->save();
+        canvas->scale(4, 4);
+        // draw font 
+        SkScalar text_pos_y = 100;
+        SkScalar origin_text_pos_x = text_pos_x;
+        std::wstring text = L"1515151515";
+        SkRect rect = SkRect::MakeXYWH(text_pos_x, text_pos_y, 0, 40);
+        SkScalar text_width = 0;
+        if (false)
+        {
+            SkPaint font_paint;
+            char utf8FontName[64] = { 0 };
+            std::wstring font_name = TEXT("微软雅黑");
+            WideCharToMultiByte(CP_UTF8, 0, font_name.c_str(), font_name.length(), utf8FontName, 64, NULL, 0);
+            sk_sp<SkTypeface> fTypeface = SkTypeface::MakeFromName(utf8FontName, SkFontStyle());
+            font_paint.setTypeface(fTypeface);
+            SkColor colorText = global_text_color;
+            font_paint.setColor(colorText);
+            font_paint.setTextSize(text_size);
+            font_paint.setLCDRenderText(lcd_text_);
+            font_paint.setAntiAlias(anti_alias_);
+            font_paint.setFilterQuality(kHigh_SkFilterQuality);
+            font_paint.setTextEncoding(SkPaint::TextEncoding::kUTF16_TextEncoding);
+            canvas->drawText(text.c_str(), text.length() * sizeof(wchar_t), text_pos_x, text_pos_y, font_paint);
+            text_width = font_paint.measureText(text.c_str(), text.length() * sizeof(wchar_t));
+            text_pos_y += 20;
+        }
+        if (true)
+        {
+            SkPaint font_paint;
+            char utf8FontName[64] = { 0 };
+            std::wstring font_name = num_font_name;
+            WideCharToMultiByte(CP_UTF8, 0, font_name.c_str(), font_name.length(), utf8FontName, 64, NULL, 0);
+            sk_sp<SkTypeface> fTypeface = SkTypeface::MakeFromName(utf8FontName, SkFontStyle());
+            font_paint.setTypeface(fTypeface);
+            SkColor colorText = global_text_color;
+            font_paint.setColor(colorText);
+            font_paint.setTextSize(text_size);
+            font_paint.setLCDRenderText(lcd_text_);
+            font_paint.setDevKernText(false);
+            font_paint.setAntiAlias(anti_alias_);
+            font_paint.setFilterQuality(kHigh_SkFilterQuality);
+            font_paint.setTextEncoding(SkPaint::TextEncoding::kUTF16_TextEncoding);
+#if 1
+            for (int i = 0; i < text.length(); i++) {
+                std::wstring single_text; 
+                single_text.append(text.substr(i, 1));
+                canvas->drawText(single_text.c_str(), single_text.length() * sizeof(wchar_t), text_pos_x, text_pos_y, font_paint);
+                SkScalar text_width = font_paint.measureText(single_text.c_str(), single_text.length() * sizeof(wchar_t));
+                text_pos_x += text_width;
+            }
+#else
+            std::wstring single_text;
+            single_text.append(text.substr(0));
+            canvas->drawText(single_text.c_str(), single_text.length() * sizeof(wchar_t), origin_text_pos_x, text_pos_y, font_paint);
+            SkScalar text_width = font_paint.measureText(single_text.c_str(), single_text.length() * sizeof(wchar_t));
+            text_pos_x += text_width;
+            origin_text_pos_x += text_width;            
+#endif
+        }
+        if (true)
+        {
+            SkPaint font_paint;
+            char utf8FontName[64] = { 0 };
+            std::wstring font_name = num_font_name;
+            WideCharToMultiByte(CP_UTF8, 0, font_name.c_str(), font_name.length(), utf8FontName, 64, NULL, 0);
+            sk_sp<SkTypeface> fTypeface = SkTypeface::MakeFromName(utf8FontName, SkFontStyle());
+            font_paint.setTypeface(fTypeface);
+            SkColor colorText = global_text_color;
+            font_paint.setColor(colorText);
+            font_paint.setTextSize(text_size);
+            font_paint.setLCDRenderText(lcd_text_);
+            font_paint.setDevKernText(false);
+            font_paint.setAntiAlias(anti_alias_);
+            font_paint.setFilterQuality(kHigh_SkFilterQuality);
+            font_paint.setTextEncoding(SkPaint::TextEncoding::kUTF16_TextEncoding);
+#if 0
+            for (int i = 0; i < text.length(); i++) {
+                std::wstring single_text;
+                single_text.append(text.substr(i, 1));
+                canvas->drawText(single_text.c_str(), single_text.length() * sizeof(wchar_t), origin_text_pos_x, text_pos_y, font_paint);
+                SkScalar text_width = font_paint.measureText(single_text.c_str(), single_text.length() * sizeof(wchar_t));
+                text_pos_x += text_width;
+                origin_text_pos_x += text_width;
+            }
+#else
+            std::wstring single_text;
+            text_pos_y += 12;
+            single_text.append(text.substr(0));
+            canvas->drawText(single_text.c_str(), single_text.length() * sizeof(wchar_t), origin_text_pos_x, text_pos_y, font_paint);
+            //font_paint.setTextSize(text_size * 4);
+            font_paint.setTextScaleX(4);
+            text_width = font_paint.measureText(single_text.c_str(), single_text.length() * sizeof(wchar_t));
+            text_width = text_width / 4;
+            
+#endif
+        }
+        {
+            rect.fTop -= 14;
+            rect.fRight = origin_text_pos_x + text_width;
+            SkPaint paint;
+            paint.setColor(SK_ColorRED);
+            paint.setStyle(SkPaint::kStroke_Style);
+            paint.setStrokeWidth(1);
+            canvas->drawRect(rect, paint);
+        }
+
+        canvas->restore();
+    }
+    if (false) {
+        canvas->save();
+        //canvas->scale(1.5, 1.5);
+        // draw font 
+        SkScalar text_pos_y = 100;
+        SkRect rect = SkRect::MakeXYWH(text_pos_x, text_pos_y, 0, 40);
+        if (false)
+        {
+            std::wstring text = L"热度";
+            SkPaint font_paint;
+            char utf8FontName[64] = { 0 };
+            std::wstring font_name = TEXT("宋体");
+            WideCharToMultiByte(CP_UTF8, 0, font_name.c_str(), font_name.length(), utf8FontName, 64, NULL, 0);
+            sk_sp<SkTypeface> fTypeface = SkTypeface::MakeFromName(utf8FontName, SkFontStyle());
+            font_paint.setTypeface(fTypeface);
+            SkColor colorText = global_text_color;
+            font_paint.setColor(colorText);
+            font_paint.setTextSize(text_size);
+            font_paint.setLCDRenderText(lcd_text_);
+            font_paint.setAntiAlias(anti_alias_);
+            font_paint.setFilterQuality(kHigh_SkFilterQuality);
+            font_paint.setTextEncoding(SkPaint::TextEncoding::kUTF16_TextEncoding);
+            canvas->drawText(text.c_str(), text.length() * sizeof(wchar_t), text_pos_x, text_pos_y, font_paint);
+            SkScalar text_width = font_paint.measureText(text.c_str(), text.length() * sizeof(wchar_t));
+            text_pos_x += text_width;
+        }
+        if (true)
+        {
+            std::wstring text = L"1533";
+            SkPaint font_paint;
+            char utf8FontName[64] = { 0 };
+            std::wstring font_name = num_font_name;
+            WideCharToMultiByte(CP_UTF8, 0, font_name.c_str(), font_name.length(), utf8FontName, 64, NULL, 0);
+            sk_sp<SkTypeface> fTypeface = SkTypeface::MakeFromName(utf8FontName, SkFontStyle());
+            font_paint.setTypeface(fTypeface);
+            SkColor colorText = global_text_color;
+            font_paint.setColor(colorText);
+            font_paint.setTextSize(text_size);
+            font_paint.setLCDRenderText(lcd_text_);
+            font_paint.setAntiAlias(anti_alias_);
+            font_paint.setFilterQuality(kHigh_SkFilterQuality);
+            font_paint.setTextEncoding(SkPaint::TextEncoding::kUTF16_TextEncoding);
+            canvas->drawText(text.c_str(), text.length() * sizeof(wchar_t), text_pos_x, text_pos_y, font_paint);
+            SkScalar text_width = font_paint.measureText(text.c_str(), text.length() * sizeof(wchar_t));
+            text_pos_x += text_width;
+        }
+        {
+            rect.fTop -= 14;
+            rect.fRight = text_pos_x;
+            SkPaint paint;
+            paint.setColor(SK_ColorRED);
+            paint.setStyle(SkPaint::kStroke_Style);
+            paint.setStrokeWidth(1);
+            canvas->drawRect(rect, paint);
+        }
+
+        canvas->restore();
+
+        return;
+    }
 #else
     SkColor bkcolor = SkColorSetARGB(0xe0, 0xee, 0xee, 0xee);
     canvas->clear(bkcolor);
@@ -173,6 +347,7 @@ LRESULT CFrameWindowWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
         paint_window_->setLayered(layered_);
         paint_window_->init();
     }
+    this->setDeviceType(0);
     ::SetTimer(m_hWnd, TIMER_ID, 1000, 0);
     bHandled = FALSE;
     return 0;
