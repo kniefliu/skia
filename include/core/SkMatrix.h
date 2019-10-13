@@ -577,10 +577,7 @@ public:
     typedef void (*MapXYProc)(const SkMatrix& mat, SkScalar x, SkScalar y,
                                  SkPoint* result);
 
-    static MapXYProc GetMapXYProc(TypeMask mask) {
-        SkASSERT((mask & ~kAllMasks) == 0);
-        return gMapXYProcs[mask & kAllMasks];
-    }
+    static MapXYProc GetMapXYProc(TypeMask mask);
 
     MapXYProc getMapXYProc() const {
         return GetMapXYProc(this->getType());

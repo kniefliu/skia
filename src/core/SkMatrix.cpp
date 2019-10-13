@@ -1154,6 +1154,11 @@ SkScalar SkMatrix::mapRadius(SkScalar radius) const {
     return SkScalarSqrt(d0 * d1);
 }
 
+SkMatrix::MapXYProc SkMatrix::GetMapXYProc(TypeMask mask) {
+    SkASSERT((mask & ~kAllMasks) == 0);
+    return gMapXYProcs[mask & kAllMasks];
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 void SkMatrix::Persp_xy(const SkMatrix& m, SkScalar sx, SkScalar sy,

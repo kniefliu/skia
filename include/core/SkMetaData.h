@@ -129,7 +129,7 @@ public:
     class Iter;
     friend class Iter;
 
-    class Iter {
+    class SK_API Iter {
     public:
         Iter() : fRec(NULL) {}
         Iter(const SkMetaData&);

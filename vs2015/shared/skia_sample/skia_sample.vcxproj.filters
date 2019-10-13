@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{5e96a463-fc55-404d-967a-c81b82fd55ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{b7165f8b-f05e-4d3c-a000-49679d104240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..">
+      <UniqueIdentifier>{08cbf859-9cab-49d4-accb-3dca3ddfb0a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\include">
+      <UniqueIdentifier>{e270e6e1-4590-46d1-899a-2c76deac92f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\src">
+      <UniqueIdentifier>{1c10adf2-a742-44c0-bb1d-c9c9962dfe9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\include\views">
+      <UniqueIdentifier>{f1318ccb-4816-4010-91ad-05b2b3fecb30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\src\views">
+      <UniqueIdentifier>{50608864-4d6b-4fa4-a04d-afead526057f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\src\views\win">
+      <UniqueIdentifier>{40693677-ccb8-457a-bc5a-378a62920341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\src\xml">
+      <UniqueIdentifier>{9a34dad4-7bda-491e-b55b-9b345d590ac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="skia">
+      <UniqueIdentifier>{3b91ea1f-a761-484c-9646-f3a9f730e100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="skia\src">
+      <UniqueIdentifier>{1e91acc9-e7b8-442c-bf80-d7e996273fdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="skia\src\core">
+      <UniqueIdentifier>{4b9717e4-18d9-4b94-9dae-aa9ded7f1601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples">
+      <UniqueIdentifier>{1e409942-068c-4d09-a184-fef0c5f391be}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="skia_sample.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkApplication.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkEvent.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkEventSink.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkKey.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkOSMenu.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkOSWindow_Win.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkSystemEventTypes.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkView.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkWindow.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\views\SkTagList.h">
+      <Filter>..\..\..\src\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\views\SkViewPriv.h">
+      <Filter>..\..\..\src\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\xml\SkDOM.h">
+      <Filter>..\..\..\src\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\xml\SkXMLParser.h">
+      <Filter>..\..\..\src\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\xml\SkXMLWriter.h">
+      <Filter>..\..\..\src\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="skia\src\core\SkArenaAlloc.h">
+      <Filter>skia\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="skia\src\core\SkUtils.h">
+      <Filter>skia\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="samples\OverView.h">
+      <Filter>samples</Filter>
+    </ClInclude>
+    <ClInclude Include="samples\SampleCode.h">
+      <Filter>samples</Filter>
+    </ClInclude>
+    <ClInclude Include="samples\GMSampleView.h">
+      <Filter>samples</Filter>
+    </ClInclude>
+    <ClInclude Include="samples\gm.h">
+      <Filter>samples</Filter>
+    </ClInclude>
+    <ClInclude Include="samples\Registry.h">
+      <Filter>samples</Filter>
+    </ClInclude>
+    <ClInclude Include="skia\src\core\SkClipOpPriv.h">
+      <Filter>skia\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="samples\SkAnimTimer.h">
+      <Filter>samples</Filter>
+    </ClInclude>
+    <ClInclude Include="samples\GLTestContext_angle.h">
+      <Filter>samples</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\views\SkTouchGesture.h">
+      <Filter>..\..\..\include\views</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="skia_sample.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkEvent.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkEventSink.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkOSMenu.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkTagList.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkView.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkViewPriv.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkWindow.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\win\SkOSWindow_win.cpp">
+      <Filter>..\..\..\src\views\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\xml\SkDOM.cpp">
+      <Filter>..\..\..\src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\xml\SkXMLParser.cpp">
+      <Filter>..\..\..\src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\xml\SkXMLWriter.cpp">
+      <Filter>..\..\..\src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="skia\src\core\SkArenaAlloc.cpp">
+      <Filter>skia\src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="skia\src\core\SkUtils.cpp">
+      <Filter>skia\src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="samples\OverView.cpp">
+      <Filter>samples</Filter>
+    </ClCompile>
+    <ClCompile Include="samples\SampleCode.cpp">
+      <Filter>samples</Filter>
+    </ClCompile>
+    <ClCompile Include="samples\GMSampleView.cpp">
+      <Filter>samples</Filter>
+    </ClCompile>
+    <ClCompile Include="samples\gm.cpp">
+      <Filter>samples</Filter>
+    </ClCompile>
+    <ClCompile Include="samples\GLTestContext_angle.cpp">
+      <Filter>samples</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\SkTouchGesture.cpp">
+      <Filter>..\..\..\src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\views\win\skia_win.cpp">
+      <Filter>..\..\..\src\views\win</Filter>
+    </ClCompile>
+    <ClCompile Include="samples\sample_image_filters.cpp">
+      <Filter>samples</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="skia_sample.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="skia_sample.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

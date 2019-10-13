@@ -319,8 +319,12 @@ bool SkWindow::onDispatchClick(int x, int y, Click::State state,
 #include "GrBackendSurface.h"
 #include "GrContext.h"
 #include "gl/GrGLInterface.h"
+#ifndef SKIA_USE_VIEW
 #include "gl/GrGLUtil.h"
 #include "SkGr.h"
+#else
+
+#endif
 
 sk_sp<SkSurface> SkWindow::makeGpuBackedSurface(const AttachmentInfo& attachmentInfo,
                                                 const GrGLInterface* interface,
@@ -346,7 +350,11 @@ sk_sp<SkSurface> SkWindow::makeGpuBackedSurface(const AttachmentInfo& attachment
                            ? kSRGBA_8888_GrPixelConfig : kRGBA_8888_GrPixelConfig;
     GrGLFramebufferInfo fbInfo;
     GrGLint buffer;
+#ifndef SKIA_USE_VIEW
     GR_GL_GetIntegerv(interface, GR_GL_FRAMEBUFFER_BINDING, &buffer);
+#else
+    buffer = 0;
+#endif
     fbInfo.fFBOID = buffer;
 
     GrBackendRenderTarget backendRT(width,

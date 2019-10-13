@@ -12,7 +12,7 @@
 #include "SkTypes.h"
 #include <atomic>
 
-class SkBaseSemaphore {
+class SK_API SkBaseSemaphore {
 public:
     constexpr SkBaseSemaphore(int count = 0)
         : fCount(count), fOSSemaphore(nullptr) {}
