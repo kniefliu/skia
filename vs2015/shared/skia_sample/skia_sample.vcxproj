@@ -92,10 +92,11 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>DEFAULT_TO_ANGLE;DEFAULT_TO_GPU;SK_ANGLE;XML_STATIC;_CRT_SECURE_NO_WARNINGS;SKIA_USE_VIEW;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEFAULT_TO_ANGLE;DEFAULT_TO_GPU;SK_ANGLE;XML_STATIC;_CRT_SECURE_NO_WARNINGS;SKIA_USE_VIEW;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\codec;..\..\..\include\config;..\..\..\include\core;..\..\..\include\effects;..\..\..\include\encode;..\..\..\include\gpu;..\..\..\include\pathops;..\..\..\include\ports;..\..\..\include\private;..\..\..\include\svg;..\..\..\include\utils;..\..\..\include\views;..\..\..\include\extention_dll;..\..\..\src\xml;.\skia\src\core;..\..\..\third_party\externals\expat\lib;..\..\..\third_party\externals\angle2\include;.\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,6 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\codec;..\..\..\include\config;..\..\..\include\core;..\..\..\include\effects;..\..\..\include\encode;..\..\..\include\gpu;..\..\..\include\pathops;..\..\..\include\ports;..\..\..\include\private;..\..\..\include\svg;..\..\..\include\utils;..\..\..\include\views;..\..\..\include\extention_dll;..\..\..\src\xml;.\skia\src\core;..\..\..\third_party\externals\expat\lib;..\..\..\third_party\externals\angle2\include;.\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS /bigobj /utf-8 /GR- /Zi %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -164,9 +166,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\..\include\views\SkApplication.h" />
     <ClInclude Include="..\..\..\include\views\SkEvent.h" />
     <ClInclude Include="..\..\..\include\views\SkEventSink.h" />
@@ -216,7 +215,10 @@
     <ClCompile Include="samples\GMSampleView.cpp" />
     <ClCompile Include="samples\OverView.cpp" />
     <ClCompile Include="samples\SampleCode.cpp" />
-    <ClCompile Include="samples\sample_image_filters.cpp" />
+    <ClCompile Include="samples\sample_dropshadow_filter.cpp" />
+    <ClCompile Include="samples\sample_image_filters.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="skia\src\core\SkArenaAlloc.cpp" />
     <ClCompile Include="skia\src\core\SkUtils.cpp" />
     <ClCompile Include="skia_sample.cpp" />
