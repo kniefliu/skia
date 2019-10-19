@@ -35,6 +35,8 @@
 #include "SkStream.h"
 
 #include "trace/SkEventTracing.h"
+#include "SkEventTracer.h"
+#include "EGL/eglext_angleext.h"
 
 #if defined(SK_BUILD_FOR_MAC) || defined(SK_BUILD_FOR_IOS)
 #include "SkCGUtils.h"
@@ -2549,11 +2551,54 @@ IOS_launch_type set_cmd_line_args(int, char *[], const char* resourceDir) {
 }
 #endif
 
+static const unsigned char * SkiaSample_GetTraceCategoryEnabledFlag(angle::PlatformMethods *platform, const char *categoryName)
+{
+    static unsigned char enabled = 1;
+    return &enabled;
+}
+static double SkiaSample_MonotonicallyIncreasingTime(angle::PlatformMethods *platform)
+{
+    return 1.0;
+}
+static angle::TraceEventHandle SkiaSample_AddTraceEvent(angle::PlatformMethods *platform,
+    char phase,
+    const unsigned char *categoryEnabledFlag,
+    const char *name,
+    unsigned long long id,
+    double timestamp,
+    int numArgs,
+    const char **argNames,
+    const unsigned char *argTypes,
+    const unsigned long long *argValues,
+    unsigned char flags)
+{
+
+    return SkEventTracer::GetInstance()->addTraceEvent(phase, categoryEnabledFlag,
+        name, id, numArgs, argNames, argTypes, argValues, flags);
+}
+static angle::PlatformMethods* platformMethods()
+{
+    static struct angle::PlatformMethods methods;
+
+    if (methods.getTraceCategoryEnabledFlag != &SkiaSample_GetTraceCategoryEnabledFlag) {
+        methods.getTraceCategoryEnabledFlag = &SkiaSample_GetTraceCategoryEnabledFlag;
+    }
+    if (methods.monotonicallyIncreasingTime != &SkiaSample_MonotonicallyIncreasingTime) {
+        methods.monotonicallyIncreasingTime = &SkiaSample_MonotonicallyIncreasingTime;
+    }
+    if (methods.addTraceEvent != &SkiaSample_AddTraceEvent) {
+        methods.addTraceEvent = &SkiaSample_AddTraceEvent;
+    }
+
+    return &methods;
+}
+
 void application_init() {
     //    setenv("ANDROID_ROOT", "../../../data", 0);
 #ifdef SK_BUILD_FOR_MAC
     setenv("ANDROID_ROOT", "/android/device/data", 0);
 #endif
+    registerPlatformMethods(0, platformMethods());
     SkEventTracing::initializeEventTracingForTools("skia_sample.json");
 
     SkGraphics::Init();
