@@ -435,7 +435,11 @@
     <ClInclude Include="../../../src/utils/win/SkWGL.h" />
     <ClInclude Include="../../../src/fonts/SkRandomScalerContext.h" />
     <ClInclude Include="../../../src/fonts/SkTestScalerContext.h" />
+    <ClInclude Include="..\..\..\include\trace\SkEventTracing.h" />
     <ClInclude Include="..\..\..\src\extention_dll\win\GLContext_angle.h" />
+    <ClInclude Include="..\..\..\tools\trace\SkChromeTracingTracer.h" />
+    <ClInclude Include="..\..\..\tools\trace\SkDebugfTracer.h" />
+    <ClInclude Include="..\..\..\tools\trace\SkEventTracingPriv.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../src/c/sk_paint.cpp" />
@@ -681,6 +685,9 @@
     <ClCompile Include="../../../src/jumper/SkJumper_stages.cpp" />
     <ClCompile Include="..\..\..\src\extention_dll\win\GLContext_angle.cpp" />
     <ClCompile Include="..\..\..\src\ports\SkFontMgr_win_gdi_factory.cpp" />
+    <ClCompile Include="..\..\..\tools\trace\SkChromeTracingTracer.cpp" />
+    <ClCompile Include="..\..\..\tools\trace\SkDebugfTracer.cpp" />
+    <ClCompile Include="..\..\..\tools\trace\SkEventTracingPriv.cpp" />
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ml64 /Fo "%(Filename)_x64_shared_debug.obj" /c "..\..\..\src\jumper\SkJumper_generated_win.S"</Command>

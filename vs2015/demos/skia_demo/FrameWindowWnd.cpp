@@ -18,7 +18,8 @@
 #include <strsafe.h>
 #include <tchar.h>
 #include <windows.h>
-
+#include "SkColorFilterImageFilter.h"
+#include "SkDropShadowImageFilter.h"
 // timer id
 #define TIMER_ID 100
 
@@ -136,6 +137,43 @@ LRESULT CFrameWindowWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) 
 static SkColor global_text_color = SkColorSetARGB(0xff, 0x99, 0x99, 0x99);
 #define TEST_DRAW_FLOW 1
 void CFrameWindowWnd::drawContent(SkCanvas* canvas) {
+    canvas->save();
+    SkRect left_layout_rect{ 10,10, 690,590 };
+    SkRect left_layout_filter_rect{ 0,0,700,600 };
+
+    canvas->clipRect(left_layout_filter_rect, SkClipOp::kIntersect);
+
+    sk_sp<SkImageFilter> left_layout_filter = SkDropShadowImageFilter::Make(20.0f, 20.0f, 5.0f, 5.0f, SK_ColorGREEN, SkDropShadowImageFilter::kDrawShadowAndForeground_ShadowMode, nullptr);
+
+    SkPaint left_paint;
+    left_paint.setImageFilter(left_layout_filter);
+    canvas->saveLayer(left_layout_filter_rect, &left_paint);
+
+    SkPaint left_layout_color;
+    left_layout_color.setStyle(SkPaint::kFill_Style);
+    left_layout_color.setAntiAlias(true);
+    SkColor parent_color = SkColorSetARGB(0xef, 0xff, 0x00, 0x00);
+    left_layout_color.setColor(0x88F20000);
+    //left_layout_color.setColor(parent_color);
+    canvas->drawRect(left_layout_rect, left_layout_color);
+
+    {
+        canvas->save();
+        SkBitmap left_image;
+        decode_file(R"(E:\code\osknief\skia_master\resources\mandrill_256.png)", &left_image);
+        canvas->drawBitmap(left_image, 100, 100);
+        //SkPaint child_paint;
+        //SkColor child_color = SkColorSetARGB(0xff, 0x00, 0x00, 0xff);
+        //child_paint.setColor(child_color);
+        //child_paint.setStyle(SkPaint::kFill_Style);
+        //SkRect child_rect = left_layout_rect;
+        //child_rect.inset(200, 200);
+        //canvas->drawRect(child_rect, child_paint);
+        canvas->restore();
+    }
+    canvas->restore();
+    canvas->restore();
+    return;
 #if TEST_DRAW_FLOW
     SkColor bkcolor = SkColorSetARGB(0xe0, 0xee, 0xee, 0xee);
     canvas->clear(bkcolor);

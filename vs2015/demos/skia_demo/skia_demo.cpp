@@ -5,6 +5,7 @@
 #include "skia_demo.h"
 
 #include "FrameWindowWnd.h"
+#include "trace/SkEventTracing.h"
 
 void globalInit();
 void globalUnInit();
@@ -18,6 +19,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	CWindowWnd::SetResourceInstance(hInstance);
+
+    SkEventTracing::initializeEventTracingForTools("skia_demo.json");
 
 	globalInit();
 	

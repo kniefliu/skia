@@ -34,6 +34,8 @@
 //#include "SkReadBuffer.h"
 #include "SkStream.h"
 
+#include "trace/SkEventTracing.h"
+
 #if defined(SK_BUILD_FOR_MAC) || defined(SK_BUILD_FOR_IOS)
 #include "SkCGUtils.h"
 #endif
@@ -2552,6 +2554,8 @@ void application_init() {
 #ifdef SK_BUILD_FOR_MAC
     setenv("ANDROID_ROOT", "/android/device/data", 0);
 #endif
+    SkEventTracing::initializeEventTracingForTools("skia_sample.json");
+
     SkGraphics::Init();
     SkEvent::Init();
 }

@@ -9,11 +9,16 @@
 
 #include "SkATrace.h"
 #include "SkChromeTracingTracer.h"
+#ifndef SKIA_DLL
 #include "SkCommandLineFlags.h"
+#else
+#include "../../include/trace/SkEventTracing.h"
+#endif
 #include "SkDebugfTracer.h"
 #include "SkEventTracer.h"
 #include "SkTraceEvent.h"
 
+#ifndef SKIA_DLL
 DEFINE_string(trace, "",
               "Log trace events in one of several modes:\n"
               "  debugf     : Show events using SkDebugf\n"
@@ -25,8 +30,10 @@ DEFINE_string(trace, "",
 DEFINE_string(traceMatch, "",
               "Filter which categories are traced.\n"
               "Uses same format as --match\n");
+#endif
 
 void initializeEventTracingForTools(const char* traceFlag) {
+#ifndef SKIA_DLL
     if (!traceFlag) {
         if (FLAGS_trace.isEmpty()) {
             return;
@@ -42,9 +49,19 @@ void initializeEventTracingForTools(const char* traceFlag) {
     } else {
         eventTracer = new SkChromeTracingTracer(traceFlag);
     }
-
+#else
+    SkEventTracer* eventTracer = nullptr;
+    eventTracer = new SkChromeTracingTracer(traceFlag);
+#endif
     SkAssertResult(SkEventTracer::SetInstance(eventTracer));
 }
+
+#ifdef SKIA_DLL
+void SkEventTracing::initializeEventTracingForTools(const char* traceFileName)
+{
+    ::initializeEventTracingForTools(traceFileName);
+}
+#endif
 
 uint8_t* SkEventTracingCategories::getCategoryGroupEnabled(const char* name) {
     static_assert(0 == offsetof(CategoryState, fEnabled), "CategoryState");
@@ -68,9 +85,12 @@ uint8_t* SkEventTracingCategories::getCategoryGroupEnabled(const char* name) {
         SkDEBUGFAIL("Exhausted event tracing categories. Increase kMaxCategories.");
         return reinterpret_cast<uint8_t*>(&fCategories[0]);
     }
-
+#ifndef SKIA_DLL
     fCategories[fNumCategories].fEnabled = SkCommandLineFlags::ShouldSkip(FLAGS_traceMatch, name)
             ? 0 : SkEventTracer::kEnabledForRecording_CategoryGroupEnabledFlags;
+#else
+    fCategories[fNumCategories].fEnabled = true;
+#endif
 
     fCategories[fNumCategories].fName = name;
     return reinterpret_cast<uint8_t*>(&fCategories[fNumCategories++]);

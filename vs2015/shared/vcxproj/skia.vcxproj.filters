@@ -85,6 +85,15 @@
     <Filter Include="src\extension_dll\win">
       <UniqueIdentifier>{3f3dd3da-2f07-4594-a330-5dd0d812201d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{fcde9dea-3940-4f48-9a5d-e4110d740dfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\trace">
+      <UniqueIdentifier>{f579080e-d327-4467-b5a3-fbbff03e8ce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\trace">
+      <UniqueIdentifier>{a18ff4d6-c496-463e-aa20-90854307e497}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../src/c/sk_paint.cpp">
@@ -1917,6 +1926,15 @@
     <ClCompile Include="..\..\..\src\ports\SkFontMgr_win_gdi_factory.cpp">
       <Filter>src\ports</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\tools\trace\SkChromeTracingTracer.cpp">
+      <Filter>tools\trace</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\trace\SkDebugfTracer.cpp">
+      <Filter>tools\trace</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tools\trace\SkEventTracingPriv.cpp">
+      <Filter>tools\trace</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
@@ -1926,6 +1944,18 @@
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
     <ClInclude Include="../../../src/core/SkTDPQueue.h" />
+    <ClInclude Include="..\..\..\tools\trace\SkChromeTracingTracer.h">
+      <Filter>tools\trace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\tools\trace\SkDebugfTracer.h">
+      <Filter>tools\trace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\trace\SkEventTracing.h">
+      <Filter>include\trace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\tools\trace\SkEventTracingPriv.h">
+      <Filter>tools\trace</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="../../../src/jumper/SkJumper_generated_win.S">
