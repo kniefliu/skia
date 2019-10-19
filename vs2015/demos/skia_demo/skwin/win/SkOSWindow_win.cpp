@@ -3,6 +3,8 @@
 #include <WindowsX.h>
 #include <Windows.h>
 
+#include "SkEventTracer.h"
+
 // start : ignore skia dll warnings
 #pragma warning( push )  
 #pragma warning( disable : 4251 )  
@@ -772,6 +774,32 @@ static void SkOSWindowWin_LogInfo(angle::PlatformMethods *platform, const char *
 	LogNewLine();
 }
 
+static const unsigned char * SkOSWindowWin_GetTraceCategoryEnabledFlag(angle::PlatformMethods *platform, const char *categoryName)
+{
+    static unsigned char enabled = 1;
+    return &enabled;
+}
+static double SkOSWindowWin_MonotonicallyIncreasingTime(angle::PlatformMethods *platform)
+{
+    return 1.0;
+}
+static angle::TraceEventHandle SkOSWindowWin_AddTraceEvent(angle::PlatformMethods *platform,
+    char phase,
+    const unsigned char *categoryEnabledFlag,
+    const char *name,
+    unsigned long long id,
+    double timestamp,
+    int numArgs,
+    const char **argNames,
+    const unsigned char *argTypes,
+    const unsigned long long *argValues,
+    unsigned char flags)
+{
+
+    return SkEventTracer::GetInstance()->addTraceEvent(phase, categoryEnabledFlag,
+        name, id, numArgs, argNames, argTypes, argValues, flags);
+}
+
 static angle::PlatformMethods* platformMethods()
 {
 	static struct angle::PlatformMethods methods;
@@ -782,6 +810,15 @@ static angle::PlatformMethods* platformMethods()
 	if (methods.logWarning != &SkOSWindowWin_LogWarning) {
 		methods.logWarning = &SkOSWindowWin_LogWarning;
 	}
+    if (methods.getTraceCategoryEnabledFlag != &SkOSWindowWin_GetTraceCategoryEnabledFlag) {
+        methods.getTraceCategoryEnabledFlag = &SkOSWindowWin_GetTraceCategoryEnabledFlag;
+    }
+    if (methods.monotonicallyIncreasingTime != &SkOSWindowWin_MonotonicallyIncreasingTime) {
+        methods.monotonicallyIncreasingTime = &SkOSWindowWin_MonotonicallyIncreasingTime;
+    }
+    if (methods.addTraceEvent != &SkOSWindowWin_AddTraceEvent) {
+        methods.addTraceEvent = &SkOSWindowWin_AddTraceEvent;
+    }
 
 	return &methods;
 }
