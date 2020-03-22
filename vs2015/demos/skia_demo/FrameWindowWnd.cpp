@@ -20,6 +20,7 @@
 #include <windows.h>
 #include "SkColorFilterImageFilter.h"
 #include "SkDropShadowImageFilter.h"
+#include "core/SkPictureRecorder.h"
 // timer id
 #define TIMER_ID 100
 
@@ -44,6 +45,220 @@ static inline bool decode_file(const char* filename, SkBitmap* bitmap, double sc
     bitmap->allocPixels(info);
 
     return SkCodec::kSuccess == codec->getPixels(info, bitmap->getPixels(), bitmap->rowBytes());
+}
+
+class PictureSufaceCallback {
+public:
+    virtual void onPaint(SkCanvas *) = 0;
+};
+
+class PictureSurfaceBase {
+public:
+    void layout(int x, int y, int w, int h) {
+        x_ = x;
+        y_ = y;
+        width_ = w;
+        height_ = h;
+
+        if (children_.size() > 0) {
+
+            int item_count = children_.size();
+            int item_index = 0;
+            int padding = 4;
+            int item_w = (w - (item_count + 1) * padding) / item_count;
+            int item_h = (h - 2 * padding);
+            int item_x = 0;
+            int item_y = padding;
+            for (auto iter : children_) {
+                item_x = item_index * item_w + (item_index + 1) * padding;
+                iter->layout(item_x, item_y, item_w, item_h);
+                item_index++;
+            }
+        }
+    }
+    void prepareSurface(SkCanvas* root, int w, int h) {
+        if (!surface_ || surface_->width() != w || surface_->height() != h) {
+            SkImageInfo image_info_ = SkImageInfo::MakeN32Premul(w, h);
+            if (root->getGrContext()) {
+                SkSurface::MakeRenderTarget(root->getGrContext(), SkBudgeted::kNo, image_info_);
+            }
+            else {
+                surface_ = SkSurface::MakeRaster(image_info_);
+            }
+        }
+    }
+    void paint() {
+        SkCanvas* canvas = recorder_.beginRecording(width_, height_);
+        if (callback_) {
+            callback_->onPaint(canvas);
+        }
+        else {
+            onPaint(canvas);
+        }
+        picture_ = recorder_.finishRecordingAsPicture();
+
+        for (auto iter : children_) {
+            iter->paint();
+        }
+    }
+    void flush(SkCanvas* root) {
+        SkMatrix matrix;
+        matrix.setIdentity();
+        if (type_ == 0) {
+            prepareSurface(root, width_, height_);
+            surface_->getCanvas()->drawPicture(picture_, &matrix, nullptr);
+            surface_->draw(root, x_, y_, nullptr);
+        }
+        else {
+            root->drawPicture(picture_);
+        }
+
+        for (auto iter : children_) {
+            iter->flush(root);
+        }
+    }
+
+    void setType(int t) { type_ = t; }
+    void addChild(PictureSurfaceBase* child) {
+        children_.push_back(child);
+    }
+
+protected:
+    virtual void onPaint(SkCanvas *) { }
+
+private:
+    int type_ = 0;
+    std::vector<PictureSurfaceBase*> children_;
+    sk_sp<SkSurface> surface_;
+    int x_;
+    int y_;
+    int width_;
+    int height_;
+    SkPictureRecorder recorder_;
+    sk_sp<SkPicture> picture_;
+    PictureSufaceCallback * callback_;
+};
+
+class PictureSurfaceChildRoot : public PictureSurfaceBase {
+public:
+    PictureSurfaceChildRoot() 
+    {
+        setType(1);
+    }
+    void onPaint(SkCanvas *canvas) 
+    {
+        canvas->clear(SK_ColorWHITE);
+    }
+};
+
+class PictureSurfaceChildNotRoot : public PictureSurfaceBase {
+public:
+    PictureSurfaceChildNotRoot()
+    {
+        backgroud_color_ = SK_ColorWHITE;
+        text_color_ = SK_ColorRED;
+    }
+    void onPaint(SkCanvas *canvas)
+    {
+        canvas->clear(backgroud_color_);
+        drawText(canvas);
+    }
+
+    void setText(std::wstring text)
+    {
+        text_ = text;
+    }
+    void setFont(const std::wstring& font_name, int font_size)
+    {
+        font_size_ = font_size;
+        if (font_name == font_name_) {
+            return;
+        }
+        font_name_ = font_name;
+
+        const int kFontNameLen = 256;
+        char utf8FontName[kFontNameLen];
+        WideCharToMultiByte(CP_UTF8, 0, font_name.c_str(), font_name.length(), utf8FontName, kFontNameLen - 1, NULL, 0);
+        typeface_ = SkTypeface::MakeFromName(utf8FontName, SkFontStyle());
+    }
+
+protected:
+    void drawText(SkCanvas *canvas) 
+    {
+        if (text_.length() == 0)
+            return;
+
+        SkPaint paint;
+        paint.setTextEncoding(SkPaint::TextEncoding::kUTF16_TextEncoding);
+        paint.setColor(text_color_);
+        paint.setTextSize(font_size_);
+        paint.setTypeface(typeface_);
+        canvas->drawText(text_.c_str(), text_.length() * 2, 10, font_size_, paint);
+    }
+
+private:
+    SkColor backgroud_color_;
+    SkColor text_color_;
+    std::wstring text_;
+    std::wstring font_name_;
+    int font_size_;
+    sk_sp<SkTypeface> typeface_;
+};
+
+class FakePictureSurface {
+public:
+    void layout(int w, int h)
+    {
+        width_ = w;
+        height_ = h;
+
+        child_->layout(0, 0, w, h);
+    }
+    void paint() 
+    {
+        child_->paint();
+    }
+    sk_sp<SkPicture> flush() {
+        SkCanvas* canvas = recorder_.beginRecording(width_, height_);
+        child_->flush(canvas);
+        return recorder_.finishRecordingAsPicture();
+    }
+    void setChild(PictureSurfaceBase * c) { child_ = c; }
+
+private:
+    PictureSurfaceBase * child_;
+    int width_;
+    int height_;
+    SkPictureRecorder recorder_;
+};
+
+FakePictureSurface fake_surface_;
+PictureSurfaceChildRoot root_surface_;
+PictureSurfaceChildNotRoot child1_;
+PictureSurfaceChildNotRoot child2_;
+PictureSurfaceChildNotRoot child3_;
+
+void InitPictureSurface()
+{
+    fake_surface_.setChild(&root_surface_);
+    root_surface_.addChild(&child1_);
+    root_surface_.addChild(&child2_);
+    root_surface_.addChild(&child3_);
+    child1_.setText(L"Child 1");
+    child2_.setText(L"Child 2");
+    child3_.setText(L"Child 3");
+    child1_.setFont(L"Î¢ÈíÑÅºÚ", 30);
+    child2_.setFont(L"ËÎÌå", 35);
+    child3_.setFont(L"Ó×Ô²", 40);
+}
+void LayoutPictureSurface(int w, int h)
+{
+    fake_surface_.layout(w, h);
+}
+void DrawPictureSurface(SkCanvas* win_canvas)
+{
+    fake_surface_.paint();
+    win_canvas->drawPicture(fake_surface_.flush(), 0, 0);
 }
 
 CFrameWindowWnd::CFrameWindowWnd(void)
@@ -137,6 +352,13 @@ LRESULT CFrameWindowWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) 
 static SkColor global_text_color = SkColorSetARGB(0xff, 0x99, 0x99, 0x99);
 #define TEST_DRAW_FLOW 1
 void CFrameWindowWnd::drawContent(SkCanvas* canvas) {
+    
+    if (false) {
+        // test SkPictureRecorder
+        DrawPictureSurface(canvas);
+        return;
+    }
+
     canvas->save();
     SkRect left_layout_rect{ 10,10, 690,590 };
     SkRect left_layout_filter_rect{ 0,0,700,600 };
@@ -160,7 +382,7 @@ void CFrameWindowWnd::drawContent(SkCanvas* canvas) {
     {
         canvas->save();
         SkBitmap left_image;
-        decode_file(R"(E:\code\osknief\skia_master\resources\mandrill_256.png)", &left_image);
+        decode_file(R"(..\..\..\resources\mandrill_256.png)", &left_image);
         canvas->drawBitmap(left_image, 100, 100);
         //SkPaint child_paint;
         //SkColor child_color = SkColorSetARGB(0xff, 0x00, 0x00, 0xff);
@@ -384,6 +606,7 @@ LRESULT CFrameWindowWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
         paint_window_->setDraw(this);
         paint_window_->setLayered(layered_);
         paint_window_->init();
+        InitPictureSurface();
     }
     this->setDeviceType(0);
     ::SetTimer(m_hWnd, TIMER_ID, 1000, 0);
@@ -482,8 +705,10 @@ LRESULT CFrameWindowWnd::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
         int w = rcWnd.right - rcWnd.left;
         int h = rcWnd.bottom - rcWnd.top;
 
-        if (paint_window_) paint_window_->resize(w, h);
-
+        if (paint_window_) {
+            paint_window_->resize(w, h);
+            LayoutPictureSurface(w, h);
+        }
         if (layered_) {
             InvalidateRect(m_hWnd, NULL, TRUE);
 
